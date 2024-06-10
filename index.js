@@ -5,23 +5,19 @@ import movieRoute from "./routes/movies.js"
 
 const app = express()
 
-const connection = mysql.createConnection({
+const pool = mysql.createPool({
   host: 'localhost',  
   user: 'root', 
   password: 'Arnold@1234', 
   database: 'booking', 
-  port: 3306  
+  port: 3306,
+  waitForConnections: true,
+  connectionLimit: 10, 
+  queueLimit: 0,
+  Promise: global.Promise 
 });
 
-
-connection.connect(err => {
-  if (err) {
-      return console.error('error connecting: ' + err.stack);
-  }
-  console.log('connected to server ');
-
-});
-
+export const connection = pool.promise();
 app.listen(3000,()=>{
     console.log("Server is running on port 3000")
 })
