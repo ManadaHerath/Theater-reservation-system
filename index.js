@@ -2,6 +2,7 @@ import express from "express"
 import mysql from "mysql2"
 import authRoute from "./routes/auth.js"
 import movieRoute from "./routes/movies.js"
+import theatreRoute from "./routes/theatres.js"
 
 const app = express()
 
@@ -26,6 +27,7 @@ app.listen(3000,()=>{
 
 app.use("/auth",authRoute)
 app.use("/movies",movieRoute)
+app.use("/theatres",theatreRoute)
 
 
 
