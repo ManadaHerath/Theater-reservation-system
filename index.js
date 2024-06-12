@@ -3,6 +3,7 @@ import mysql from "mysql2"
 import authRoute from "./routes/auth.js"
 import movieRoute from "./routes/movies.js"
 import theatreRoute from "./routes/theatres.js"
+import theatre_Show_TimesRoute from "./routes/theatre_Show_Times.js"
 import 'dotenv/config'
 
 
@@ -33,6 +34,8 @@ app.listen(5001,()=>{
 app.use("/auth",authRoute)
 app.use("/movies",movieRoute)
 app.use("/theatres",theatreRoute)
+app.use("/theatre_Show_Times",theatre_Show_TimesRoute)
+
 
 
 
