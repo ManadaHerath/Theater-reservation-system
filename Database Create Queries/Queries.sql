@@ -243,6 +243,22 @@ VALUES
 ('seatCat2', 'theatre2', 'B', 'Executive'),
 ('seatCat3', 'theatre3', 'C', 'Balcony');
 
+--Trigger for new user insert--
+DELIMITER //
+
+CREATE TRIGGER user_insert
+BEFORE INSERT ON users
+FOR EACH ROW
+BEGIN
+    DECLARE max_ID INT;
+    SELECT MAX(CAST(SUBSTRING(id, 5) AS UNSIGNED)) INTO max_ID FROM users;
+    IF max_ID IS NULL THEN 
+        SET max_ID = 0;
+    END IF;
+    SET NEW.id = CONCAT('user', max_ID + 1);
+END //
+
+DELIMITER ;
 
 
 
