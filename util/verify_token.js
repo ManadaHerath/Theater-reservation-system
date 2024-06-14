@@ -28,7 +28,7 @@ export const verifyUser = async (req,res,next)=>{
 
     export const verifyAdmin = async (req,res,next)=>{
         verifyToken(req,res,()=>{
-            if(req.user.role){
+            if(req.user.isAdmin){
                 next()
             }
             else{

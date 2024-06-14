@@ -260,6 +260,43 @@ END //
 
 DELIMITER ;
 
+--Trigger for new movie insert --
+
+DELIMITER //
+
+CREATE TRIGGER movie_insert
+BEFORE INSERT ON movies
+FOR EACH ROW
+BEGIN
+    DECLARE max_ID INT;
+    SELECT MAX(CAST(SUBSTRING(id, 6) AS UNSIGNED)) INTO max_ID FROM movies;
+    IF max_ID IS NULL THEN 
+        SET max_ID = 0;
+    END IF;
+    SET NEW.id = CONCAT('movie', max_ID + 1);
+END;
+//
+
+DELIMITER ;
+
+--Trigger for new theatre insert --
+
+DELIMITER //
+
+CREATE TRIGGER theatre_insert
+BEFORE INSERT ON theatres
+FOR EACH ROW
+BEGIN
+    DECLARE max_ID INT;
+    SELECT MAX(CAST(SUBSTRING(id, 8) AS UNSIGNED)) INTO max_ID FROM theatres;
+    IF max_ID IS NULL THEN 
+        SET max_ID = 0;
+    END IF;
+    SET NEW.id = CONCAT('theatre', max_ID + 1);
+END;
+//
+
+DELIMITER ;
 
 
 
