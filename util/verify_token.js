@@ -25,3 +25,13 @@ export const verifyUser = async (req,res,next)=>{
             return res.status(403).json("You are not allowed to do this")
         }
     })};
+
+    export const verifyAdmin = async (req,res,next)=>{
+        verifyToken(req,res,()=>{
+            if(req.user.role){
+                next()
+            }
+            else{
+                return res.status(403).json("You do not have admin access")
+            }
+        })};
