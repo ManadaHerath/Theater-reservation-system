@@ -3,8 +3,12 @@ import mysql from "mysql2"
 import authRoute from "./routes/auth.js"
 import movieRoute from "./routes/movies.js"
 import theatreRoute from "./routes/theatres.js"
-import theatre_Show_TimesRoute from "./routes/theatre_Show_Times.js"
+import theatre_show_timesRoute from "./routes/theatre_show_times.js"
+import usersRoute from "./routes/users.js"
 import 'dotenv/config'
+import jwt from 'jsonwebtoken';
+import cookieParser from "cookie-parser"
+import { verifyToken } from "./util/verify_token.js"
 
 
 const app = express()
@@ -30,14 +34,20 @@ app.listen(5001,()=>{
 })
 
 // middlewares
+app.use(express.json());
+app.use(cookieParser());
 
 app.use("/auth",authRoute)
 app.use("/movies",movieRoute)
 app.use("/theatres",theatreRoute)
-app.use("/theatre_Show_Times",theatre_Show_TimesRoute)
+app.use("/theatre_show_times",theatre_show_timesRoute)
+app.use("/users",usersRoute)
+
+// error
+app.use((err,req,res,next)=>{
+  return res.status(500).json(err.message)
+})
 
 
 
 
-
-  
