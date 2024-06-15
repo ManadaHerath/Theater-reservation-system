@@ -16,6 +16,7 @@ CREATE TABLE `users` (
   `is_completed` tinyint(1),
   `is_active` tinyint(1),
   `stripe_customer_id` varchar(128),
+  `password` varchar(128), -- Added password column temporarily
   PRIMARY KEY (`id`)
 );
 
@@ -59,16 +60,36 @@ CREATE TABLE `show_times` (
   FOREIGN KEY (`theatre_id`) REFERENCES `theatres`(`id`)
 );
 
+-- CREATE TABLE purchases (
+--   id varchar(24) NOT NULL,
+--   theatre_id varchar(24) NOT NULL,
+--   show_time_id varchar(24) NOT NULL,
+--   seats varchar(255),
+--   status varchar(24),
+--   PRIMARY KEY (id),
+--   FOREIGN KEY (theatre_id) REFERENCES theatres(id),
+--   FOREIGN KEY (show_time_id) REFERENCES show_times(id)
+-- );
+
+CREATE TABLE temp_purchases (
+  id varchar(24) NOT NULL,
+  theatre_id varchar(24) NOT NULL,
+  show_time_id varchar(24) NOT NULL,
+  seats varchar(255),
+  PRIMARY KEY (id),
+  FOREIGN KEY (theatre_id) REFERENCES theatres(id),
+  FOREIGN KEY (show_time_id) REFERENCES show_times(id)
+);
 CREATE TABLE purchases (
   id varchar(24) NOT NULL,
   theatre_id varchar(24) NOT NULL,
   show_time_id varchar(24) NOT NULL,
   seats varchar(255),
-  status varchar(24),
   PRIMARY KEY (id),
   FOREIGN KEY (theatre_id) REFERENCES theatres(id),
   FOREIGN KEY (show_time_id) REFERENCES show_times(id)
 );
+-- TEMPORARY TABLE TO STORE PURCHASES INTO TWO TABLES
 
 CREATE TABLE `reservation` (
   `id` varchar(24) NOT NULL,
