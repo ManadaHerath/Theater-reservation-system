@@ -183,9 +183,9 @@ VALUES
 -- Insert sample data for movies
 INSERT INTO `movies` (id, title, trailer_video_url, poster_url, overview, released_date, duration, original_language, age_type, is_active)
 VALUES 
-('movie1', 'Inception', 'trailer1.mp4', 'poster1.jpg', 'A mind-bending thriller.', '2010-07-16', 148, 'English', 'PG-13', 1),
-('movie2', 'The Matrix', 'trailer2.mp4', 'poster2.jpg', 'A hacker discovers reality is an illusion.', '1999-03-31', 136, 'English', 'R', 1),
-('movie3', 'Toy Story', 'trailer3.mp4', 'poster3.jpg', 'Toys come to life.', '1995-11-22', 81, 'English', 'G', 1);
+('movie1', 'Inception', 'trailer1.mp4', 'https://m.media-amazon.com/images/I/71thFiIUSpL._AC_UF1000,1000_QL80_.jpg', 'A mind-bending thriller.', '2010-07-16', 148, 'English', 'PG-13', 1),
+('movie2', 'The Matrix', 'trailer2.mp4', 'https://cdna.artstation.com/p/assets/images/images/034/061/748/large/andrew-sebastian-kwan-the-matrix-poster-web.jpg?1611285175', 'A hacker discovers reality is an illusion.', '1999-03-31', 136, 'English', 'R', 1),
+('movie3', 'Toy Story', 'trailer3.mp4', 'https://m.media-amazon.com/images/I/71iSIVGZQUL.__AC_SX342_SY445_QL70_FMwebp_.jpg', 'Toys come to life.', '1995-11-22', 81, 'English', 'G', 1);
 
 -- Insert sample data for theatres
 INSERT INTO `theatres` (id, name, address, location, mobile_number, email, details, is_active, no_of_seates, no_of_rows, no_of_columns)
@@ -202,11 +202,16 @@ VALUES
 ('show3', 'movie3', 'theatre3', '2024-06-17 18:00:00', '2024-06-17 19:21:00');
 
 -- Insert sample data for purchases
-INSERT INTO purchases (id, theatre_id, show_time_id, seats, status)
+INSERT INTO purchases (id, theatre_id, show_time_id, seats)
 VALUES 
-('purchase1', 'theatre1', 'show1', 'A1,A2', 'confirmed'),
-('purchase2', 'theatre2', 'show2', 'B1,B2', 'pending'),
-('purchase3', 'theatre3', 'show3', 'C1,C2', 'canceled');
+('purchase1', 'theatre1', 'show1', 'A1,A2'),
+('purchase2', 'theatre2', 'show2', 'B1,B2');
+
+
+-- Insert sample data for temparory purchases
+INSERT INTO temp_purchases (id, theatre_id, show_time_id, seats)
+VALUES 
+('purchase3', 'theatre3', 'show3', 'C1,C2');
 
 -- Insert sample data for reservation
 INSERT INTO `reservation` (id, user_id, show_time_id, mobile_number, email, original_price, coupon_code, total_price, is_active)
