@@ -9,6 +9,7 @@ import "dotenv/config";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
 import { verifyToken } from "./util/verify_token.js";
+import cors from "cors";
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.listen(5001, () => {
 });
 
 // middlewares
+app.use(cors())
 app.use(express.json());
 app.use(cookieParser());
 
