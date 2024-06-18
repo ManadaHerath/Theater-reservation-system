@@ -4,6 +4,7 @@ import authRoute from "./routes/auth.js";
 import movieRoute from "./routes/movies.js";
 import theatreRoute from "./routes/theatres.js";
 import theatre_show_timesRoute from "./routes/theatre_Show_Times.js";
+import show_timesRoute from "./routes/show_times.js";
 import usersRoute from "./routes/users.js";
 import "dotenv/config";
 import jwt from "jsonwebtoken";
@@ -39,6 +40,7 @@ app.use(cookieParser());
 app.use("/auth", authRoute);
 app.use("/movies", movieRoute);
 app.use("/theatres", theatreRoute);
+app.use("/show_times",show_timesRoute)
 app.use("/theatre_show_times", theatre_show_timesRoute);
 app.use("/users", usersRoute);
 

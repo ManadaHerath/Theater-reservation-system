@@ -258,7 +258,12 @@ INSERT INTO `show_times` (id, movie_id, theatre_id, start_time, end_time)
 VALUES 
 ('show1', 'movie1', 'theatre1', '2024-06-15 19:00:00', '2024-06-15 21:28:00'),
 ('show2', 'movie2', 'theatre2', '2024-06-16 20:00:00', '2024-06-16 22:16:00'),
-('show3', 'movie3', 'theatre3', '2024-06-17 18:00:00', '2024-06-17 19:21:00');
+('show3', 'movie3', 'theatre3', '2024-06-17 18:00:00', '2024-06-17 19:21:00'),
+('show4', 'movie2', 'theatre1', '2024-06-18 17:30:00', '2024-06-18 19:45:00'),
+('show5', 'movie2', 'theatre2', '2024-06-19 16:00:00', '2024-06-19 18:12:00'),
+('show6', 'movie1', 'theatre3', '2024-06-20 19:45:00', '2024-06-20 22:00:00'),
+('show7', 'movie3', 'theatre1', '2024-06-21 21:00:00', '2024-06-21 23:15:00'),
+('show8', 'movie2', 'theatre2', '2024-06-22 18:30:00', '2024-06-22 20:42:00');
 
 -- Insert sample data for purchases
 INSERT INTO purchases (id, theatre_id, show_time_id, seats)

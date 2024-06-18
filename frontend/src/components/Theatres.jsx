@@ -1,52 +1,61 @@
 import React from "react";
 import useFetch from "../hooks/useFetch";
 
-const TheatreCard = (theatre ) => {
+const TheatreCard = ({ theatre }) => {
     const handleClick = () => {
         window.location.href = theatre.image_url;
-    }
+    };
 
     return (
-        <div className={`theatre-card ${theatre.is_active ? "" : "inactive"}`} onClick={handleClick}>
-            <img 
-                src={theatre.image_url} 
-                alt={theatre.name} 
-                onError={(e) => e.target.src = "https://blog.bbt4vw.com/wp-content/uploads/2021/05/sorry-we-are-closed-sign-on-door-store-business-vector-27127112-1.jpg"} 
+        <div 
+          className={`theatre-card w-72 relative overflow-hidden transition-transform duration-300 hover:scale-105 ${
+            theatre.is_active ? "" : "inactive"
+          }`} 
+          onClick={handleClick}
+        >
+          {/* Image Container with hover effect */}
+          <div className="relative transition-opacity duration-300 hover:opacity-75">
+            <img
+              src={theatre.image_url}
+              alt={theatre.name}
+              className="object-cover w-full h-64" 
+              onError={(e) =>
+                (e.target.src =
+                  'https://blog.bbt4vw.com/wp-content/uploads/2021/05/sorry-we-are-closed-sign-on-door-store-business-vector-27127112-1.jpg')
+              }
             />
-            <div className="theatre-details">
-                <h3>{theatre.name}</h3>
-                <p>{theatre.details}</p>
-            </div>
+          </div>
+    
+          {/* Details Container */}
+          <div className="theatre-details p-4">
+            <h3 className="text-xl font-bold mb-2">{theatre.name}</h3>
+            <p className="text-gray-700">{theatre.details}</p>
+          </div>
         </div>
-    );
-}
+      );
+};
 
 const TheatreList = () => {
     const { data, loading, error } = useFetch("http://127.0.0.1:5001/theatres");
 
     if (loading) {
-        return <p>Loading...</p>
+        return <p>Loading...</p>;
     }
 
-    // if (error) {
-    //     console.error(error);
-    //     return <p>Error loading theatres.</p>
-    // }
+    if (error.length >0) {
+        console.log(error);
+    }
 
     return (
-        <div className="theatre-list">
+        <div className="flex flex-col sm:flex-row justify-center sm:space-x-4">
             {data.map(theatre => (
                 <TheatreCard
                     key={theatre.id}
-                    name={theatre.name}
-                    details={theatre.details}
-                    image_url={theatre.image_url}
-                    is_active={theatre.is_active}
-
+                    theatre={theatre} // Pass theatre object as prop
                 />
             ))}
         </div>
     );
-}
+};
 
 export default TheatreList;
