@@ -43,9 +43,10 @@ CREATE TABLE `theatres` (
   `email` varchar(90),
   `details` varchar(1024),
   `is_active` tinyint(1),
-  `no_of_seates` int,
+  `no_of_seats` int,
   `no_of_rows` int,
   `no_of_columns` int,
+  `image_url` varchar(512),
   PRIMARY KEY (`id`)
 );
 
@@ -173,6 +174,65 @@ type Enum("Economy","Executive","Balcony","Luxury"),
 );
 
 
+--Trigger for new user insert--
+DELIMITER //
+
+CREATE TRIGGER user_insert
+BEFORE INSERT ON users
+FOR EACH ROW
+BEGIN
+    DECLARE max_ID INT;
+    SELECT MAX(CAST(SUBSTRING(id, 5) AS UNSIGNED)) INTO max_ID FROM users;
+    IF max_ID IS NULL THEN 
+        SET max_ID = 0;
+    END IF;
+    SET NEW.id = CONCAT('user', max_ID + 1);
+END //
+
+DELIMITER ;
+
+--Trigger for new movie insert --
+
+DELIMITER //
+
+CREATE TRIGGER movie_insert
+BEFORE INSERT ON movies
+FOR EACH ROW
+BEGIN
+    DECLARE max_ID INT;
+    SELECT MAX(CAST(SUBSTRING(id, 6) AS UNSIGNED)) INTO max_ID FROM movies;
+    IF max_ID IS NULL THEN 
+        SET max_ID = 0;
+    END IF;
+    SET NEW.id = CONCAT('movie', max_ID + 1);
+END;
+//
+
+DELIMITER ;
+
+--Trigger for new theatre insert --
+
+DELIMITER //
+
+CREATE TRIGGER theatre_insert
+BEFORE INSERT ON theatres
+FOR EACH ROW
+BEGIN
+    DECLARE max_ID INT;
+    SELECT MAX(CAST(SUBSTRING(id, 8) AS UNSIGNED)) INTO max_ID FROM theatres;
+    IF max_ID IS NULL THEN 
+        SET max_ID = 0;
+    END IF;
+    SET NEW.id = CONCAT('theatre', max_ID + 1);
+END;
+//
+
+DELIMITER ;
+
+
+
+
+
 -- Insert sample data for users
 INSERT INTO `users` (id, email, phone_number, full_name, gender, avatar, address, birthday, location, role, is_completed, is_active, stripe_customer_id)
 VALUES 
@@ -188,11 +248,10 @@ VALUES
 ('movie3', 'Toy Story', 'trailer3.mp4', 'https://m.media-amazon.com/images/I/71iSIVGZQUL.__AC_SX342_SY445_QL70_FMwebp_.jpg', 'Toys come to life.', '1995-11-22', 81, 'English', 'G', 1);
 
 -- Insert sample data for theatres
-INSERT INTO `theatres` (id, name, address, location, mobile_number, email, details, is_active, no_of_seates, no_of_rows, no_of_columns)
-VALUES 
-('theatre1', 'Central Cinema', '123 Main St, City, Country', ST_GeomFromText('POINT(1 1)'), '123-456-7890', 'contact@centralcinema.com', 'The best cinema in town.', 1, 200, 10, 20),
-('theatre2', 'Grand Theatre', '456 Elm St, City, Country', ST_GeomFromText('POINT(2 2)'), '987-654-3210', 'info@grandtheatre.com', 'Luxury movie experience.', 1, 300, 15, 20),
-('theatre3', 'Movie Palace', '789 Oak St, City, Country', ST_GeomFromText('POINT(3 3)'), '555-555-5555', 'support@moviepalace.com', 'Your favorite movie palace.', 1, 250, 12, 20);
+INSERT INTO `theatres` (`name`, `address`, `location`, `mobile_number`, `email`, `details`, `is_active`, `no_of_seats`, `no_of_rows`, `no_of_columns`, `image_url`) VALUES 
+('Grand Theatre', '123 Main St, Springfield, IL', POINT(39.7817, -89.6501), '555-1234', 'grand@example.com', 'A historic theatre with a grand interior.', 1, 300, 15, 20, 'https://archives1.dailynews.lk/sites/default/files/styles/node-detail/public/news/2020/12/27/theatres_1.jpeg?itok=CLRwXoz1'),
+('Capitol Cinema', '456 Elm St, Springfield, IL', POINT(39.8017, -89.6401), '555-5678', 'capitol@example.com', 'Modern cinema with the latest technology.', 1, 250, 12, 20, 'https://media.timeout.com/images/101889423/image.jpg'),
+('Riviera Theatre', '789 Maple St, Springfield, IL', POINT(39.7917, -89.6301), '555-9012', 'riviera@example.com', 'Art-deco style theatre with luxurious seating.', 1, 200, 10, 20, 'https://media.timeout.com/images/101889429/750/422/image.jpg');
 
 -- Insert sample data for show_times
 INSERT INTO `show_times` (id, movie_id, theatre_id, start_time, end_time)
@@ -268,61 +327,5 @@ VALUES
 ('seatCat1', 'theatre1', 'A', 'Economy'),
 ('seatCat2', 'theatre2', 'B', 'Executive'),
 ('seatCat3', 'theatre3', 'C', 'Balcony');
-
---Trigger for new user insert--
-DELIMITER //
-
-CREATE TRIGGER user_insert
-BEFORE INSERT ON users
-FOR EACH ROW
-BEGIN
-    DECLARE max_ID INT;
-    SELECT MAX(CAST(SUBSTRING(id, 5) AS UNSIGNED)) INTO max_ID FROM users;
-    IF max_ID IS NULL THEN 
-        SET max_ID = 0;
-    END IF;
-    SET NEW.id = CONCAT('user', max_ID + 1);
-END //
-
-DELIMITER ;
-
---Trigger for new movie insert --
-
-DELIMITER //
-
-CREATE TRIGGER movie_insert
-BEFORE INSERT ON movies
-FOR EACH ROW
-BEGIN
-    DECLARE max_ID INT;
-    SELECT MAX(CAST(SUBSTRING(id, 6) AS UNSIGNED)) INTO max_ID FROM movies;
-    IF max_ID IS NULL THEN 
-        SET max_ID = 0;
-    END IF;
-    SET NEW.id = CONCAT('movie', max_ID + 1);
-END;
-//
-
-DELIMITER ;
-
---Trigger for new theatre insert --
-
-DELIMITER //
-
-CREATE TRIGGER theatre_insert
-BEFORE INSERT ON theatres
-FOR EACH ROW
-BEGIN
-    DECLARE max_ID INT;
-    SELECT MAX(CAST(SUBSTRING(id, 8) AS UNSIGNED)) INTO max_ID FROM theatres;
-    IF max_ID IS NULL THEN 
-        SET max_ID = 0;
-    END IF;
-    SET NEW.id = CONCAT('theatre', max_ID + 1);
-END;
-//
-
-DELIMITER ;
-
 
 
