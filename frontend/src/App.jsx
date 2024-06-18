@@ -4,6 +4,7 @@ import Heading from "./components/Heading";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import TheatreList from "./components/Theatres";
+import MovieShedule from "./components/Shedule";
 
 const App = () => {
   
@@ -13,7 +14,9 @@ const App = () => {
       <NavBar />
       <MovieList />
       <TheatreList/>
+      <MovieShedule/>
       <Footer />
+
     </div>
   )
 
