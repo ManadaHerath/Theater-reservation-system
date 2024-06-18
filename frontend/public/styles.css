@@ -66,3 +66,62 @@ body{
       flex: 0 0 calc(100% - 24px); 
     }
   } */
+
+/* Theatre Cards */
+
+
+  .theatre-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px; /* Increase spacing between cards */
+    padding: 16px; /* Optional: add some padding around the container */
+  }
+  
+  .theatre-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s;
+    cursor: pointer;
+    flex: 0 0 calc(33.333% - 24px); /* 3 cards per row, adjust as needed */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .theatre-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .theatre-card img {
+    width: 100%;
+    height: 300px; /* Set a fixed height for theatre images */
+    object-fit: cover; /* Ensure images cover the area uniformly */
+  }
+  
+  .theatre-card.inactive {
+    filter: grayscale(100%);
+  }
+  
+  .theatre-details {
+    padding: 16px; /* Add some padding inside the card */
+    text-align: center;
+  }
+  
+  .theatre-details h3 {
+    margin: 10px 0;
+    font-size: 1.25em;
+  }
+  
+  .theatre-details p {
+    margin: 4px 0;
+    font-size: 1em;
+    color: #555; /* Optional: add some color to the text */
+  }
+  
+  .theatre-details .address,
+  .theatre-details .contact {
+    margin: 4px 0;
+    font-size: 0.9em;
+    color: #777; /* Lighter color for secondary information */
+  }
+  
