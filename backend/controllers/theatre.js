@@ -36,3 +36,19 @@ export const addTheatre = async (req, res, next) => {
       next(error);
     }
   };
+
+  export const getTheatreById = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+  
+      const [theatres] = await connection.query('SELECT * FROM theatres WHERE id = ?', [id]);
+  
+      if (theatres.length) {
+        res.json(theatres[0]);
+      } else {
+        res.status(404).json({ message: 'Theatre not found' });
+      }
+    } catch (error) {
+      next(error);
+    }
+  };
