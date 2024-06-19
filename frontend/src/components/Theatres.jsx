@@ -1,10 +1,12 @@
 import React from "react";
 import useFetch from "../hooks/useFetch";
+import { useNavigate } from "react-router-dom";
 
 const TheatreCard = ({ theatre }) => {
-    const handleClick = () => {
-        window.location.href = theatre.image_url;
-    };
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate(`/schedule/${theatre.id}`);
+  };
 
     return (
         <div 

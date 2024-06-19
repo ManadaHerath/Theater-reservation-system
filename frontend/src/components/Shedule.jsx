@@ -1,26 +1,45 @@
 import React, { useState, useEffect } from 'react';
 import { format, addDays, subDays } from 'date-fns'; // Date manipulation functions
 import useFetch from '../hooks/useFetch'; // Your custom useFetch hook
+import { useParams } from 'react-router-dom';
 
 const MovieScheduleGrid = () => {
+
+    const {paramId} = useParams();
+    console.log(paramId)
     const { data: showTimes, loading, error } = useFetch('http://localhost:5001/show_times'); // Update with your API endpoint
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [moviesToShow, setMoviesToShow] = useState({});
+
+    
   
     useEffect(() => {
       // Filter showtimes for the selected date
       if (showTimes) {
         const filteredMovies = {};
-  
-        showTimes.forEach(show => {
-          const showDate = new Date(show.start_time);
-          if (format(showDate, 'yyyy-MM-dd') === format(selectedDate, 'yyyy-MM-dd')) {
-            if (!filteredMovies[show.movie_id]) {
-              filteredMovies[show.movie_id] = [];
+        if (paramId ===undefined){
+          showTimes.forEach(show => {
+            const showDate = new Date(show.start_time);
+            if (format(showDate, 'yyyy-MM-dd') === format(selectedDate, 'yyyy-MM-dd')) {
+              if (!filteredMovies[show.movie_id]) {
+                filteredMovies[show.movie_id] = [];
+              }
+              filteredMovies[show.movie_id].push(show);
             }
-            filteredMovies[show.movie_id].push(show);
-          }
-        });
+          });
+        }else{
+          showTimes.forEach(show => {
+            const showDate = new Date(show.start_time);
+            
+            if (format(showDate, 'yyyy-MM-dd') === format(selectedDate, 'yyyy-MM-dd') && ((paramId.startsWith("t") && paramId === show.theatre_id)||(paramId.startsWith("m") && paramId === show.movie_id))) {
+              if (!filteredMovies[show.movie_id]) {
+                filteredMovies[show.movie_id] = [];
+              }
+              filteredMovies[show.movie_id].push(show);
+            }
+          });
+        }
+        
   
         setMoviesToShow(filteredMovies);
       }
