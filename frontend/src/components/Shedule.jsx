@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { format, addDays, subDays } from 'date-fns'; // Date manipulation functions
 import useFetch from '../hooks/useFetch'; // Your custom useFetch hook
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const MovieScheduleGrid = () => {
 
+    const navigate = useNavigate();
     const {paramId} = useParams();
     console.log(paramId)
     const { data: showTimes, loading, error } = useFetch('http://localhost:5001/show_times'); // Update with your API endpoint
@@ -61,9 +63,10 @@ const MovieScheduleGrid = () => {
         console.log(error);
     }
 
-    const handleShowtimeClick = (showId) => {
-        console.log(`Showtime with ID ${showId} clicked`);
-    }
+    const handleShowtimeClick = (showId, theatreId) => {
+      
+      navigate(`/seat-selection/${showId}/${theatreId}`);
+  }
   
     return (
       <div className="container mx-auto p-6">
@@ -93,7 +96,7 @@ const MovieScheduleGrid = () => {
                 <div 
                   key={show.id} 
                   className="border p-3 rounded-md shadow-lg mb-3 bg-white cursor-pointer transform transition-transform duration-200 hover:scale-105 hover:shadow-xl"
-                  onClick={() => handleShowtimeClick(show.id)}
+                  onClick={() => handleShowtimeClick(show.id, show.theatre_id)}
                 >
                   <p className="text-gray-800">{format(new Date(show.start_time), 'hh:mm a')} - {format(new Date(show.end_time), 'hh:mm a')}</p>
                   <p className="text-gray-600">Theatre: {show.theatre_id}</p>

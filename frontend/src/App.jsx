@@ -14,6 +14,7 @@ import Footer from "./components/Footer";
 import TheatreList from "./components/Theatres";
 import MovieShedule from "./components/Shedule";
 import MoviePage from "./pages/MoviePage";
+import SeatSelection from "./components/SeatSelection";
 
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
           <Route path="/theatres" element={<Theatres />} />
           <Route path="/schedule" element={<Schedule />} />
           <Route path="/schedule/:paramId" element={<Schedule/>} />
+          <Route path="/seat-selection/:showId/:theatreId" element={<SeatSelection/>} />
           </Routes>
         <Footer />
       </Router>
