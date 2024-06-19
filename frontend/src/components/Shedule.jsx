@@ -47,32 +47,37 @@ const MovieScheduleGrid = () => {
     }
   
     return (
-      <div className="container mx-auto p-4">
-        <h2 className="text-2xl font-bold mb-4">Movie Schedule Grid</h2>
-        <div className="flex items-center justify-between mb-4">
+      <div className="container mx-auto p-6">
+        <h2 className="text-3xl font-extrabold mb-6 text-indigo-600">Movie Schedule Grid</h2>
+        <div className="flex items-center justify-between mb-6">
           <button
-            className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md mr-2"
+            className="px-4 py-2 bg-indigo-500 text-white rounded-md mr-2 hover:bg-indigo-600 transition-colors duration-200"
             onClick={goToPreviousDay}
           >
             Previous Day
           </button>
-          <div className="text-lg font-bold">{format(selectedDate, 'eeee, MMMM d, yyyy')}</div>
+          <div className="text-xl font-bold text-gray-700">
+            {format(selectedDate, 'eeee, MMMM d, yyyy')}
+          </div>
           <button
-            className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md ml-2"
+            className="px-4 py-2 bg-indigo-500 text-white rounded-md ml-2 hover:bg-indigo-600 transition-colors duration-200"
             onClick={goToNextDay}
           >
             Next Day
           </button>
         </div>
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-4 gap-6">
           {Object.keys(moviesToShow).map(movieId => (
             <div key={movieId} className="col-span-1">
-              <h3 className="text-lg font-semibold mb-2">{`Movie ${movieId}`}</h3>
+              <h3 className="text-xl font-semibold mb-3 text-black-700">{movieId}</h3>
               {moviesToShow[movieId].map(show => (
-                <div key={show.id} className="border p-2 rounded-md shadow-sm mb-2 cursor-pointer" onClick={() => handleShowtimeClick(show.id)}>
-                  <p>{format(new Date(show.start_time), 'hh:mm a')} - {format(new Date(show.end_time), 'hh:mm a')}</p>
-                  <p>Theatre: {show.theatre_id}</p>
-                  {/* Add onClick handler for booking */}
+                <div 
+                  key={show.id} 
+                  className="border p-3 rounded-md shadow-lg mb-3 bg-white cursor-pointer transform transition-transform duration-200 hover:scale-105 hover:shadow-xl"
+                  onClick={() => handleShowtimeClick(show.id)}
+                >
+                  <p className="text-gray-800">{format(new Date(show.start_time), 'hh:mm a')} - {format(new Date(show.end_time), 'hh:mm a')}</p>
+                  <p className="text-gray-600">Theatre: {show.theatre_id}</p>
                 </div>
               ))}
             </div>
@@ -80,6 +85,7 @@ const MovieScheduleGrid = () => {
         </div>
       </div>
     );
+    
   };
 
 export default MovieScheduleGrid;
