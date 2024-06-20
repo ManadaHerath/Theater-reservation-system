@@ -5,6 +5,7 @@ import movieRoute from "./routes/movies.js";
 import theatreRoute from "./routes/theatres.js";
 import theatre_show_timesRoute from "./routes/theatre_Show_Times.js";
 import show_timesRoute from "./routes/show_times.js";
+import temp_purchaseRoute from "./routes/temp_purchase.js";
 import usersRoute from "./routes/users.js";
 import "dotenv/config";
 import jwt from "jsonwebtoken";
@@ -42,6 +43,7 @@ app.use("/movies", movieRoute);
 app.use("/theatres", theatreRoute);
 app.use("/show_times",show_timesRoute)
 app.use("/theatre_show_times", theatre_show_timesRoute);
+app.use("/temp_purchase", temp_purchaseRoute);
 app.use("/users", usersRoute);
 
 // error
