@@ -52,3 +52,4 @@ export const addTheatre = async (req, res, next) => {
       next(error);
     }
   };
+

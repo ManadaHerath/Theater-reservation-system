@@ -1,0 +1,104 @@
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import useFetch from '../hooks/useFetch';
+
+const SeatSelection = () => {
+  const { showId, theatreId } = useParams();
+  const { data: theatreData, loading: theatreLoading, error: theatreError } = useFetch(`http://localhost:5001/theatres/${theatreId}`);
+  const { data: rowsData, loading: rowsLoading, error: rowsError } = useFetch(`http://localhost:5001/rows/getrows/${theatreId}`);
+  const [seatsData, setSeatsData] = useState({});
+  const [selectedSeats, setSelectedSeats] = useState([]);
+  const [seatsLoading, setSeatsLoading] = useState(true);
+  const [seatsError, setSeatsError] = useState(null);
+  console.log(rowsData);
+  console.log(theatreData)
+
+  useEffect(() => {
+    const fetchSeatsData = async () => {
+      if (rowsData) {
+        try {
+          const seatsPromises = rowsData.map(row => axios.get(`http://localhost:5001/rows/getseats/${row.id}`));
+          const seatsResults = await Promise.all(seatsPromises);
+          const seats = seatsResults.reduce((acc, result, index) => {
+            acc[rowsData[index].id] = result.data;
+            return acc;
+          }, {});
+          setSeatsData(seats);
+        } catch (err) {
+          setSeatsError(err);
+        } finally {
+          setSeatsLoading(false);
+        }
+      }
+    };
+
+    fetchSeatsData();
+  }, [rowsData]);
+
+  const handleSeatClick = (seat) => {
+    if (selectedSeats.includes(seat)) {
+      setSelectedSeats(selectedSeats.filter((s) => s !== seat));
+    } else {
+      setSelectedSeats([...selectedSeats, seat]);
+    }
+  };
+
+  const handleBuyClick = async () => {
+    try {
+      await axios.post('http://localhost:5001/temp_purchase', {
+        theatre_id: theatreId,
+        show_time_id: showId,
+        seats: selectedSeats.join(',')
+      });
+      alert('Seats selected successfully. Proceeding to payment...');
+    } catch (err) {
+      console.error('Error purchasing seats:', err);
+    }
+  };
+
+  if (theatreLoading || rowsLoading || seatsLoading) return <p>Loading...</p>;
+  // if (theatreError) return <p>Error loading theatre data: {theatreError.message}</p>;
+  // if (rowsError) return <p>Error loading rows data: {rowsError.message}</p>;
+  // if (seatsError) return <p>Error loading seats data: {seatsError.message}</p>;
+
+  return (
+    <div className="container mx-auto p-6">
+      <h2 className="text-3xl font-extrabold mb-6 text-indigo-600">Select Your Seats</h2>
+      <div className="flex flex-col items-center mb-6">
+        <div className="grid grid-cols-1 gap-2">
+          {rowsData.map(row => (
+            <div key={row.id} className="flex flex-row justify-center space-x-2">
+              {(seatsData[row.id] || []).map(seat => {
+                const seatLabel = `${row.row_label}${seat.seat_number}`;
+                const isSelected = selectedSeats.includes(seatLabel);
+
+                return (
+                  <div
+                    key={seat.id}
+                    className={`border p-3 rounded-md shadow-lg cursor-pointer transform transition-transform duration-200 ${
+                      isSelected ? 'bg-green-500' : 'bg-white'
+                    }`}
+                    style={{ width: '3rem', height: '3rem', minWidth: '3rem', minHeight: '3rem' }} // Fixed size for all seat boxes
+                    onClick={() => handleSeatClick(seatLabel)}
+                  >
+                    {seatLabel}
+                  </div>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+        <div className="mt-4 w-full h-px bg-gray-400"></div> {/* Screen line */}
+      </div>
+      <button
+        className="bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 transition-colors duration-200"
+        onClick={handleBuyClick}
+      >
+        Buy Selected Seats
+      </button>
+    </div>
+  );
+};
+
+export default SeatSelection;

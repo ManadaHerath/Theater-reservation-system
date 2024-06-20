@@ -173,6 +173,37 @@ type Enum("Economy","Executive","Balcony","Luxury"),
 
 );
 
+-- Price Categories Table
+CREATE TABLE price_categories (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  category_name VARCHAR(255) NOT NULL,
+  price DECIMAL(10, 2) NOT NULL
+);
+
+-- Seat Types Table
+CREATE TABLE seat_types (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  type_name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE rows (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  theatre_id varchar(24) NOT NULL,
+  row_label CHAR(1) NOT NULL,
+  price_category_id INT NOT NULL,
+  FOREIGN KEY (theatre_id) REFERENCES theatres(id),
+  FOREIGN KEY (price_category_id) REFERENCES price_categories(id)
+);
+
+-- Seats Table
+CREATE TABLE seats (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  row_id INT NOT NULL,
+  seat_number INT NOT NULL,
+  seat_type_id INT NOT NULL,
+  FOREIGN KEY (row_id) REFERENCES rows(id),
+  FOREIGN KEY (seat_type_id) REFERENCES seat_types(id)
+);
 
 --Trigger for new user insert--
 DELIMITER //
@@ -380,3 +411,62 @@ VALUES
 ('seatCat3', 'theatre3', 'C', 'Balcony');
 
 
+INSERT INTO price_categories (id, category_name, price) VALUES 
+(1, 'Standard', 10.00), 
+(2, 'VIP', 20.00), 
+(3, 'Couples', 30.00);
+
+-- Seat Types Table
+INSERT INTO seat_types (id, type_name) VALUES 
+(1, 'Standard'), 
+(2, 'VIP'), 
+(3, 'Couples');
+
+-- Rovs Table
+INSERT INTO rovs (id, theatre_id, row_label, price_category_id) VALUES 
+(1, 'theatre1', 'A', 1), 
+(2, 'theatre1', 'B', 1), 
+(3, 'theatre1', 'C', 1), 
+(4, 'theatre1', 'D', 2), 
+(5, 'theatre1', 'E', 3);
+
+-- Seats Table
+-- For row A
+INSERT INTO seats (id, row_id, seat_number, seat_type_id) VALUES 
+(1, 1, 1, 1), (2, 1, 2, 1), (3, 1, 3, 1), (4, 1, 4, 1), 
+(5, 1, 5, 1), (6, 1, 6, 1), (7, 1, 7, 1), (8, 1, 8, 1), 
+(9, 1, 9, 1), (10, 1, 10, 1), (11, 1, 11, 1), (12, 1, 12, 1), 
+(13, 1, 13, 1), (14, 1, 14, 1), (15, 1, 15, 1), (16, 1, 16, 1), 
+(17, 1, 17, 1), (18, 1, 18, 1), (19, 1, 19, 1), (20, 1, 20, 1);
+
+-- For row B
+INSERT INTO seats (id, row_id, seat_number, seat_type_id) VALUES 
+(21, 2, 1, 1), (22, 2, 2, 1), (23, 2, 3, 1), (24, 2, 4, 1), 
+(25, 2, 5, 1), (26, 2, 6, 1), (27, 2, 7, 1), (28, 2, 8, 1), 
+(29, 2, 9, 1), (30, 2, 10, 1), (31, 2, 11, 1), (32, 2, 12, 1), 
+(33, 2, 13, 1), (34, 2, 14, 1), (35, 2, 15, 1), (36, 2, 16, 1), 
+(37, 2, 17, 1), (38, 2, 18, 1), (39, 2, 19, 1), (40, 2, 20, 1);
+
+-- For row C
+INSERT INTO seats (id, row_id, seat_number, seat_type_id) VALUES 
+(41, 3, 1, 1), (42, 3, 2, 1), (43, 3, 3, 1), (44, 3, 4, 1), 
+(45, 3, 5, 1), (46, 3, 6, 1), (47, 3, 7, 1), (48, 3, 8, 1), 
+(49, 3, 9, 1), (50, 3, 10, 1), (51, 3, 11, 1), (52, 3, 12, 1), 
+(53, 3, 13, 1), (54, 3, 14, 1), (55, 3, 15, 1), (56, 3, 16, 1), 
+(57, 3, 17, 1), (58, 3, 18, 1), (59, 3, 19, 1), (60, 3, 20, 1);
+
+-- For row D (VIP)
+INSERT INTO seats (id, row_id, seat_number, seat_type_id) VALUES 
+(61, 4, 1, 2), (62, 4, 2, 2), (63, 4, 3, 2), (64, 4, 4, 2), 
+(65, 4, 5, 2), (66, 4, 6, 2), (67, 4, 7, 2), (68, 4, 8, 2), 
+(69, 4, 9, 2), (70, 4, 10, 2), (71, 4, 11, 2), (72, 4, 12, 2), 
+(73, 4, 13, 2), (74, 4, 14, 2), (75, 4, 15, 2), (76, 4, 16, 2), 
+(77, 4, 17, 2), (78, 4, 18, 2), (79, 4, 19, 2), (80, 4, 20, 2);
+
+-- For row E (Couples)
+INSERT INTO seats (id, row_id, seat_number, seat_type_id) VALUES 
+(81, 5, 1, 3), (82, 5, 2, 3), (83, 5, 3, 3), (84, 5, 4, 3), 
+(85, 5, 5, 3), (86, 5, 6, 3), (87, 5, 7, 3), (88, 5, 8, 3), 
+(89, 5, 9, 3), (90, 5, 10, 3), (91, 5, 11, 3), (92, 5, 12, 3), 
+(93, 5, 13, 3), (94, 5, 14, 3), (95, 5, 15, 3), (96, 5, 16, 3), 
+(97, 5, 17, 3), (98, 5, 18, 3), (99, 5, 19, 3), (100, 5, 20, 3);

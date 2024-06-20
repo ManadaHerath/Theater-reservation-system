@@ -5,7 +5,6 @@ import search_logo from '../assets/search-w.png'
 const NavBar = () => {
   return (
     <div className="flex items-center justify-between h-16 p-4 text-white bg-gray-800">
-      <img src="" alt="logo" className="w-40 cursor-pointer" />
       <ul className="flex space-x-4 text-lg">
         <li>
           <Link to="/home" className="hover:text-gray-400">Home</Link>
