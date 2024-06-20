@@ -14,3 +14,13 @@ export const getPurchasedSeats = async (req, res, next) => {
         next(error)
       }
 }
+
+export const createPurchase = async (req, res, next) => {
+    try{
+        const {theatre_id, show_time_id, seats} = req.body;
+        const [purchase] = await connection.query('INSERT INTO purchases (theatre_id, show_time_id, seats) VALUES (?, ?, ?)', [theatre_id, show_time_id, seats]);
+        res.json(purchase)
+    }catch(error){
+        next(error)
+    }
+}

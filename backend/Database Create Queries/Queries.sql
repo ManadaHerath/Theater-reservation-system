@@ -277,6 +277,22 @@ END;
 
 DELIMITER ;
 
+DELIMITER //
+
+CREATE TRIGGER purchases_insert
+BEFORE INSERT ON purchases
+FOR EACH ROW
+BEGIN
+    DECLARE max_ID INT;
+    SELECT MAX(CAST(SUBSTRING(id, 9) AS UNSIGNED)) INTO max_ID FROM purchases;
+    IF max_ID IS NULL THEN 
+        SET max_ID = 0;
+    END IF;
+    SET NEW.id = CONCAT('purchase', max_ID + 1);
+END;
+//
+
+DELIMITER ;
 
 
 

@@ -2,6 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import useFetch from '../hooks/useFetch';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import StripeCheckoutForm from './StripeCheckoutForm';
+
+
+const stripePromise = loadStripe('pk_test_51PTpvf09I3fN7mCT7vXxyWe679a3SVfurihlsN1HlkS3WPffQW9uKyvmRnXv5xyyikN9TFMkFsYUyUjDYKOAzclw003rvNg99T');
+
 
 const SeatSelection = () => {
   const { showId, theatreId } = useParams();
@@ -13,6 +20,7 @@ const SeatSelection = () => {
   const [seatsLoading, setSeatsLoading] = useState(true);
   const [seatsError, setSeatsError] = useState(null);
   const [purchasedSeats, setPurchasedSeats] = useState([]);
+  const [isPaymentModalOpen, setPaymentModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchSeatsData = async () => {
@@ -65,6 +73,8 @@ const SeatSelection = () => {
     }
   };
 
+
+
   const handleBuyClick = async () => {
     try {
       await axios.post('http://localhost:5001/temp_purchase', {
@@ -72,9 +82,26 @@ const SeatSelection = () => {
         show_time_id: showId,
         seats: selectedSeats.join(',')
       });
-      alert('Seats selected successfully. Proceeding to payment...');
+      setPaymentModalOpen(true);
     } catch (err) {
       console.error('Error purchasing seats:', err);
+    }
+  };
+
+  const handlePaymentSuccess = async () => {
+    try {
+      const bookingResponse = await axios.post('http://localhost:5001/purchased_seats', {
+        theatre_id: theatreId,
+        show_time_id: showId,
+        seats: selectedSeats.join(','),
+      });
+
+      if (bookingResponse.data.success) {
+        alert('Payment successful and seats booked!');
+        // Additional logic after successful booking
+      }
+    } catch (err) {
+      console.error('Error finalizing booking:', err);
     }
   };
 
@@ -135,7 +162,7 @@ const SeatSelection = () => {
           Buy Selected Seats
         </button>
       </div>
-    </div>
+      </div>
   );
 };
 
