@@ -3,6 +3,12 @@ import Home from "./pages/Home";
 import Movies from "./pages/MoviePage";
 import Theatres from "./pages/TheatrePage";
 import Schedule from "./pages/SchedulePage";
+
+import Help from "./pages/HelpPage";
+import Terms from "./pages/TermsPage";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+
+
 import React from "react";
 import ReactDOM from "react-dom";
 import MovieList from "./components/Movies";
@@ -29,6 +35,12 @@ const App = () => {
           <Route path="/movies" element={<Movies />} />
           <Route path="/theatres" element={<Theatres />} />
           <Route path="/schedule" element={<Schedule />} />
+
+          
+          <Route path="/help" element={<Help />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
+
           <Route path="/schedule/:paramId" element={<Schedule/>} />
           <Route path="/seat-selection/:showId/:theatreId" element={<SeatSelection/>} />
           <Route path="/register" element={<RegisterPage />} /> 
