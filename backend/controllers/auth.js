@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { connection } from "../index.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -82,7 +83,7 @@ export const login = async (req, res, next) => {
     );
 
     if (users.length === 0) {
-      return res.status(201).json({message:"No user with this email found"});
+      return res.status(201).json({ message: "No user with this email found" });
     }
 
     const user = users[0];
@@ -94,7 +95,10 @@ export const login = async (req, res, next) => {
       return res.status(201).json({ message: "Invalid password" });
     }
     const role = user.role === "admin";
-    const token = jwt.sign({ id: user.id, isAdmin: role }, 'secretkey');
+    const token = jwt.sign(
+      { id: user.id, isAdmin: role },
+      process.env.JWT_SECRET_KEY
+    );
     // Return the user
     res.cookie("access_token", token, { httpOnly: true }).json({
       id: user.id,
