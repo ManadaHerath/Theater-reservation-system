@@ -12,6 +12,7 @@ const SeatSelection = () => {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [seatsLoading, setSeatsLoading] = useState(true);
   const [seatsError, setSeatsError] = useState(null);
+  const [purchasedSeats, setPurchasedSeats] = useState([]);
 
   useEffect(() => {
     const fetchSeatsData = async () => {
@@ -35,7 +36,28 @@ const SeatSelection = () => {
     fetchSeatsData();
   }, [rowsData]);
 
+  useEffect(() => {
+    const fetchPurchasedSeats = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5001/purchased_seats/${theatreId}/${showId}`);
+        const purchasedSeats = response.data.map(purchase => purchase.seats.split(',')).flat();
+        setPurchasedSeats(purchasedSeats);
+      } catch (err) {
+        console.error('Error fetching purchased seats:', err);
+      }
+    };
+
+  console.log(purchasedSeats)  
+
+    fetchPurchasedSeats();
+  }, [theatreId, showId]);
+
   const handleSeatClick = (seat) => {
+    if (purchasedSeats.includes(seat)) {
+      alert('This seat is already purchased. Please select another seat.');
+      return;
+    }
+
     if (selectedSeats.includes(seat)) {
       setSelectedSeats(selectedSeats.filter((s) => s !== seat));
     } else {
@@ -78,6 +100,7 @@ const SeatSelection = () => {
                       {(seatsData[row.id] || []).map((seat, index) => {
                         const seatLabel = `${row.row_label}${seat.seat_number}`;
                         const isSelected = selectedSeats.includes(seatLabel);
+                        const isPurchased = purchasedSeats.includes(seatLabel);
 
                         return (
                           <React.Fragment key={seat.id}>
@@ -86,10 +109,10 @@ const SeatSelection = () => {
                             )}
                             <div
                               className={`border p-3 rounded-md shadow-lg cursor-pointer transform transition-transform duration-200 ${
-                                isSelected ? 'bg-green-500' : 'bg-white'
+                                isPurchased ? 'bg-gray-300 cursor-not-allowed' : isSelected ? 'bg-green-500' : 'bg-white'
                               }`}
                               style={{ width: '3rem', height: '3rem', minWidth: '3rem', minHeight: '3rem' }} // Fixed size for all seat boxes
-                              onClick={() => handleSeatClick(seatLabel)}
+                              onClick={() => !isPurchased && handleSeatClick(seatLabel)} // Disable click if purchased
                             >
                               {seatLabel}
                             </div>
@@ -103,7 +126,8 @@ const SeatSelection = () => {
             ))}
           </div>
         </div>
-        <div className="p-6 bg-gray-100">
+      </div>
+      <div className="p-6 bg-gray-100">
         <button
           className="bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 transition-colors duration-200"
           onClick={handleBuyClick}
@@ -111,8 +135,6 @@ const SeatSelection = () => {
           Buy Selected Seats
         </button>
       </div>
-      </div>
-      
     </div>
   );
 };

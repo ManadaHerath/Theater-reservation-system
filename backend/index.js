@@ -9,6 +9,7 @@ import temp_purchaseRoute from "./routes/temp_purchase.js";
 import usersRoute from "./routes/users.js";
 import useRowsRoute from "./routes/rows.js";
 import seatTypesRoute from "./routes/seat_types.js";
+import purchasedSeatsRoute from "./routes/purchase.js";
 import "dotenv/config";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
@@ -49,6 +50,7 @@ app.use("/temp_purchase", temp_purchaseRoute);
 app.use("/users", usersRoute);
 app.use("/rows",useRowsRoute)
 app.use("/seat_types",seatTypesRoute)
+app.use("/purchased_seats",purchasedSeatsRoute);
 
 // error
 app.use((err, req, res, next) => {
