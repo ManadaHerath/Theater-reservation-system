@@ -10,6 +10,7 @@ import usersRoute from "./routes/users.js";
 import useRowsRoute from "./routes/rows.js";
 import seatTypesRoute from "./routes/seat_types.js";
 import purchasedSeatsRoute from "./routes/purchase.js";
+import createCheckoutRoute from "./routes/payment.js";
 import "dotenv/config";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
@@ -51,6 +52,7 @@ app.use("/users", usersRoute);
 app.use("/rows",useRowsRoute)
 app.use("/seat_types",seatTypesRoute)
 app.use("/purchased_seats",purchasedSeatsRoute);
+app.use("/stripe", createCheckoutRoute);
 
 // error
 app.use((err, req, res, next) => {
