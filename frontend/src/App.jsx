@@ -27,8 +27,8 @@ const App = () => {
   return (
     <div>
       <Router>
-        {/* <Heading />
-        <NavBar /> */}
+        <Heading />
+        <NavBar />
         <Routes>
           <Route index element ={<Home/>}/>
           <Route path="/home" element={<Home />} />
@@ -36,7 +36,6 @@ const App = () => {
           <Route path="/theatres" element={<Theatres />} />
           <Route path="/schedule" element={<Schedule />} />
 
-          
           <Route path="/help" element={<Help />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/privacyPolicy" element={<PrivacyPolicy />} />

@@ -8,5 +8,4 @@ const router = expresss.Router();
 router.get("/", getTheatres);
 router.post("/",verifyAdmin , addTheatre)
 router.get("/:id", getTheatreById);
-
 export default router;
