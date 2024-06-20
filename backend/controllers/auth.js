@@ -82,7 +82,7 @@ export const login = async (req, res, next) => {
     );
 
     if (users.length === 0) {
-      return res.status(401).json("No user with this email found");
+      return res.status(201).json({message:"No user with this email found"});
     }
 
     const user = users[0];
@@ -91,10 +91,10 @@ export const login = async (req, res, next) => {
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
     if (!isPasswordCorrect) {
-      return res.status(401).json("Invalid password");
+      return res.status(201).json({ message: "Invalid password" });
     }
     const role = user.role === "admin";
-    const token = jwt.sign({ id: user.id, isAdmin: role }, process.env.JWT);
+    const token = jwt.sign({ id: user.id, isAdmin: role }, 'secretkey');
     // Return the user
     res.cookie("access_token", token, { httpOnly: true }).json({
       id: user.id,

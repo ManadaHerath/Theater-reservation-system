@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import validator from "validator";
 import axios from "axios";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function Register_Form() {
   const inputStyles =
@@ -24,6 +25,17 @@ export default function Register_Form() {
   const [errorMessage, setErrorMessage] = useState("");
   const [errorcolour, setErrorcolour] = useState("");
   const [alert, setAlert] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [alertStyle, setAlertStyle] = useState("");
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const toggleShowConfirmPassword = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
@@ -93,12 +105,19 @@ export default function Register_Form() {
       });
       if (response.status === 400) {
         setAlert("Email already registered");
+        setAlertStyle("text-red-600 text-s mt-1 flex justify-center");
       } else {
         setAlert("User added successfully");
+        setAlertStyle("text-green-600 text-s mt-1 flex justify-center");
+        setTimeout(() => {
+          setAlert("");
+          window.location.href = "/login";
+        }, 3000);
       }
     } catch (err) {
       if (err.response && err.response.status === 400) {
         setAlert("Email already registered");
+        setAlertStyle("text-red-600 text-s mt-1 flex justify-center");
       } else {
         console.error("Error registering user:", err);
       }
@@ -245,29 +264,61 @@ export default function Register_Form() {
                   />
                 </svg>
               </div>
-              <input
-                name="password"
-                className={inputStyles}
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={handlePasswordChange}
-                required
-              />
+              <div style={{ position: "relative", display: "inline-block" }}>
+                <input
+                  name="password"
+                  className={inputStyles}
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                  value={password}
+                  onChange={handlePasswordChange}
+                  required
+                  style={{ paddingRight: "40px" }} // Make room for the icon
+                />
+                <span
+                  onClick={toggleShowPassword}
+                  style={{
+                    position: "absolute",
+                    right: "10px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    cursor: "pointer",
+                    color: "grey",
+                  }}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
+              </div>
               {errorMessage && (
                 <p className={`${getAlertStyles(errorcolour)}`}>
                   {errorMessage}
                 </p>
               )}
-              <input
-                name="Confirm password"
-                className={inputStyles}
-                type="password"
-                placeholder="Confirm Password"
-                value={confirmPassword}
-                onChange={handleConfirmPasswordChange}
-                required
-              />
+              <div style={{ position: "relative", display: "inline-block" }}>
+                <input
+                  name="Confirm password"
+                  className={inputStyles}
+                  type={showConfirmPassword ? "text" : "password"}
+                  placeholder="Confirm Password"
+                  value={confirmPassword}
+                  onChange={handleConfirmPasswordChange}
+                  style={{ paddingRight: "40px" }}
+                  required
+                />
+                <span
+                  onClick={toggleShowConfirmPassword}
+                  style={{
+                    position: "absolute",
+                    right: "10px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    cursor: "pointer",
+                    color: "grey",
+                  }}
+                >
+                  {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
+              </div>
               {passwordError && (
                 <p className="text-red-500 text-xs mt-1">{passwordError}</p>
               )}
@@ -290,14 +341,10 @@ export default function Register_Form() {
                 </svg>
                 <span className="ml-3">Register</span>
               </button>
-              {alert && (
-                <p className="text-green-600 text-s mt-1 flex justify-center">
-                  {alert}
-                </p>
-              )}
+              {alert && <p className={alertStyle}>{alert}</p>}
               <p className="mt-6 text-xs text-gray-600 text-center">
                 Already have an account?{" "}
-                <Link>
+                <Link to={"/login"}>
                   <span className="text-[#E9522C] font-semibold">Login</span>
                 </Link>
               </p>
