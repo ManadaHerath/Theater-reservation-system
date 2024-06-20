@@ -10,18 +10,19 @@ import Heading from "./components/Heading";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import TheatreList from "./components/Theatres";
-import RegisterForm from "./components/User Registration/Register";
 import MovieShedule from "./components/Shedule";
 import MoviePage from "./pages/MoviePage";
 import SeatSelection from "./components/SeatSelection";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 
 
 const App = () => {
   return (
     <div>
       <Router>
-        <Heading />
-        <NavBar />
+        {/* <Heading />
+        <NavBar /> */}
         <Routes>
           <Route index element ={<Home/>}/>
           <Route path="/home" element={<Home />} />
@@ -30,7 +31,8 @@ const App = () => {
           <Route path="/schedule" element={<Schedule />} />
           <Route path="/schedule/:paramId" element={<Schedule/>} />
           <Route path="/seat-selection/:showId/:theatreId" element={<SeatSelection/>} />
-          <Route path="/register" element={<RegisterForm />} /> 
+          <Route path="/register" element={<RegisterPage />} /> 
+          <Route path="/login" element={<LoginPage />} />
           </Routes>
         <Footer />
       </Router>
