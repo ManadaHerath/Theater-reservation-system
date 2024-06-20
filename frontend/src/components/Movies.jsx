@@ -1,15 +1,26 @@
 import React from 'react';
 import useFetch from '../hooks/useFetch';
+import { useNavigate } from 'react-router-dom';
+const MovieCard = ({movie}) => {
 
-const MovieCard = (movie) => {
+  const navigate = useNavigate(); // Hook for navigation
+
   const handleClick = () => {
-    window.location.href = movie.trailer_video_url;
+    navigate(`/schedule/${movie.id}`); // Navigate to the schedule page
   };
+  const handlePosterClick  = () =>{
+    
+  }
+
+  const handleUrlClick = () => {
+    window.open(movie.trailer_video_url, '_blank');
+  }
+
 
   return (
     <div
       className="group relative w-72 h-96 bg-gray-900 rounded-lg overflow-hidden shadow-xl transition-transform duration-300 hover:scale-105"
-      onClick={handleClick}
+      onClick={handlePosterClick}
     >
       <div className="absolute inset-0">
         <img
@@ -20,6 +31,7 @@ const MovieCard = (movie) => {
             e.target.src = 'https://blog.bbt4vw.com/wp-content/uploads/2021/05/sorry-we-are-closed-sign-on-door-store-business-vector-27127112-1.jpg';
           }}
         />
+        
         <div className="absolute inset-0 bg-gradient-to-t from-black opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
       </div>
 
@@ -33,12 +45,21 @@ const MovieCard = (movie) => {
           <p>Language: {movie.original_language}</p>
           <p>Rating: {movie.age_type}</p>
         </div>
-        <button
-          className="mt-2 bg-red-600 hover:bg-red-700 text-white py-1.5 px-3 rounded-full text-sm focus:outline-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-          onClick={handleClick}
-        >
-          Watch Trailer
-        </button>
+        <div className="flex justify-between mt-2">
+          <button
+            className="bg-violet-500 hover:bg-violet-700 text-white py-1.5 px-3 rounded-full text-sm focus:outline-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            onClick={handleUrlClick}
+          >
+            Watch Trailer
+          </button>
+          <button
+            className="bg-violet-500 hover:bg-violet-700 text-white py-1.5 px-3 rounded-full text-sm focus:outline-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            onClick={handleClick}
+          >
+            Book
+          </button>
+        </div>
+        
       </div>
     </div>
   );
@@ -60,15 +81,7 @@ const MovieList = () => {
       {data.map((movie) => ( 
         <MovieCard 
           key={movie.id} 
-          title={movie.title}
-          trailer_video_url={movie.trailer_video_url}
-          poster_url={movie.poster_url}
-          overview={movie.overview}
-          released_date={movie.released_date}
-          duration={movie.duration}
-          original_language={movie.original_language}
-          age_type={movie.age_type}
-          is_active={movie.is_active}
+          movie = {movie}
         />    
       ))}
     </div>

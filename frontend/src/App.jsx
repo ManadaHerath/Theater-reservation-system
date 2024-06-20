@@ -1,3 +1,11 @@
+import {BrowserRouter as Router,Routes,Route} from "react-router-dom";
+
+import Home from "./pages/Home";
+import Movies from "./pages/MoviePage";
+import Theatres from "./pages/TheatrePage";
+import Schedule from "./pages/SchedulePage";
+
+
 import React from "react";
 import ReactDOM from "react-dom";
 
@@ -12,10 +20,7 @@ import RegisterForm from "./components/User Registration/Register";
 import MovieShedule from "./components/Shedule";
 import MoviePage from "./pages/MoviePage";
 import SeatSelection from "./components/SeatSelection";
-import Home from "./pages/Home";
-import Movies from "./pages/MoviePage";
-import Theatres from "./pages/TheatrePage";
-import Schedule from "./pages/SchedulePage";
+
 
 const App = () => {
   return (
