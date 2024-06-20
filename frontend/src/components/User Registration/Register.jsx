@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import validator from "validator";
 import axios from "axios";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import GoogleSignInButton from "../User Login/SignInButton";
 
 export default function Register_Form() {
   const inputStyles =
@@ -348,6 +349,9 @@ export default function Register_Form() {
                   <span className="text-[#E9522C] font-semibold">Login</span>
                 </Link>
               </p>
+              <div className="mt-3 text-center">
+                <GoogleSignInButton />
+              </div>
             </div>
           </div>
         </form>

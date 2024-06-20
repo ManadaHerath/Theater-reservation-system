@@ -12,8 +12,16 @@ import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
 import { verifyToken } from "./util/verify_token.js";
 import cors from "cors";
+import session from "express-session";
+import passport from "./controllers/passport.js";
 
 const app = express();
+
+app.use(
+  session({ secret: "secretkey", resave: false, saveUninitialized: false })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
 const pool = mysql.createPool({
   host: process.env.MYSQL_HOST,
@@ -34,14 +42,14 @@ app.listen(5001, () => {
 });
 
 // middlewares
-app.use(cors())
+app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
 app.use("/auth", authRoute);
 app.use("/movies", movieRoute);
 app.use("/theatres", theatreRoute);
-app.use("/show_times",show_timesRoute)
+app.use("/show_times", show_timesRoute);
 app.use("/theatre_show_times", theatre_show_timesRoute);
 app.use("/temp_purchase", temp_purchaseRoute);
 app.use("/users", usersRoute);

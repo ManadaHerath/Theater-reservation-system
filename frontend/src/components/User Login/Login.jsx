@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-
+import GoogleSignInButton from "./SignInButton";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -120,6 +120,9 @@ export default function Login() {
                   <span className="text-[#E9522C] font-semibold">Register</span>
                 </Link>
               </p>
+              <div className="mt-5 text-center">
+                <GoogleSignInButton />
+              </div>
             </div>
           </div>
         </form>
