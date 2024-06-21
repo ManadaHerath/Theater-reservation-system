@@ -10,7 +10,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import MovieList from "./components/Movies";
 import Heading from "./components/Heading";
 import NavBar from "./components/NavBar";

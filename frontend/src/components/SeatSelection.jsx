@@ -3,24 +3,25 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import useFetch from '../hooks/useFetch';
 import { loadStripe } from '@stripe/stripe-js';
-import { Elements } from '@stripe/react-stripe-js';
-import StripeCheckoutForm from './StripeCheckoutForm';
 
 
-const stripePromise = loadStripe('pk_test_51PTpvf09I3fN7mCT7vXxyWe679a3SVfurihlsN1HlkS3WPffQW9uKyvmRnXv5xyyikN9TFMkFsYUyUjDYKOAzclw003rvNg99T');
+
+
 
 
 const SeatSelection = () => {
   const { showId, theatreId } = useParams();
   const { data: theatreData, loading: theatreLoading, error: theatreError } = useFetch(`http://localhost:5001/theatres/${theatreId}`);
   const { data: rowsData, loading: rowsLoading, error: rowsError } = useFetch(`http://localhost:5001/rows/getrows/${theatreId}`);
-  const { data: seatTypesData, loading: seatTypesLoading, error: seatTypesError } = useFetch(`http://localhost:5001/seat_types`);
+  const { data: seatTypesData, loading: seatTypesLoading, error: seatTypesError } = useFetch(`http://localhost:5001/seat_types/types`);
+  const { data: priceCategoriesData, loading: priceCategoriesLoading, error: priceCategoriesError } = useFetch('http://localhost:5001/seat_types/prices');
+
+
   const [seatsData, setSeatsData] = useState({});
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [seatsLoading, setSeatsLoading] = useState(true);
   const [seatsError, setSeatsError] = useState(null);
   const [purchasedSeats, setPurchasedSeats] = useState([]);
-  const [isPaymentModalOpen, setPaymentModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchSeatsData = async () => {
@@ -54,8 +55,7 @@ const SeatSelection = () => {
         console.error('Error fetching purchased seats:', err);
       }
     };
-
-  console.log(purchasedSeats)  
+ 
 
     fetchPurchasedSeats();
   }, [theatreId, showId]);
@@ -77,33 +77,108 @@ const SeatSelection = () => {
 
   const handleBuyClick = async () => {
     try {
-      await axios.post('http://localhost:5001/temp_purchase', {
+      await axios.post('http://localhost:5001/purchased_seats', {
         theatre_id: theatreId,
         show_time_id: showId,
         seats: selectedSeats.join(',')
       });
-      setPaymentModalOpen(true);
+      const seatTypeCounts = selectedSeats.reduce((acc, seatLabel) => {
+        const row = rowsData.find((row) => seatLabel.startsWith(row.row_label));
+        if (!row) {
+          console.error(`Row not found for seat label: ${seatLabel}`);
+          return acc;
+        }
+        const seat = seatsData[row.id].find((s) => `${row.row_label}${s.seat_number}` === seatLabel);
+        if (!seat) {
+          console.error(`Seat not found for seat label: ${seatLabel}`);
+          return acc;
+        }
+        const seatType = seatTypesData.find((type) => type.id === seat.seat_type_id);
+        if (!seatType) {
+          console.error(`Seat type not found for seat: ${seat}`);
+          return acc;
+        }
+  
+        acc[seatType.type_name] = (acc[seatType.type_name] || 0) + 1;
+        return acc;
+      }, {});
+  
+      const seatTypePrices = priceCategoriesData.reduce((acc, category) => {
+        acc[category.category_name] = parseFloat(category.price); // Ensure price is a number
+        return acc;
+      }, {});
+  
+      const totalPrice = selectedSeats.reduce((total, seatLabel) => {
+        const row = rowsData.find((row) => seatLabel.startsWith(row.row_label));
+        if (!row) {
+          console.error(`Row not found for seat label: ${seatLabel}`);
+          return total;
+        }
+        const seat = seatsData[row.id].find((s) => `${row.row_label}${s.seat_number}` === seatLabel);
+        if (!seat) {
+          console.error(`Seat not found for seat label: ${seatLabel}`);
+          return total;
+        }
+        const seatType = seatTypesData.find((type) => type.id === seat.seat_type_id);
+        if (!seatType) {
+          console.error(`Seat type not found for seat: ${seat}`);
+          return total;
+        }
+        const category = priceCategoriesData.find(pc => pc.id === seatType.id); 
+        if (!category) {
+          console.error(`Price category not found for seat type: ${seatType.type_name}`);
+          return total;
+        }
+        return total + (seatTypePrices[category.category_name] || 0);
+      }, 0);
+  
+      if (isNaN(totalPrice)) {
+        throw new Error('Total price calculation resulted in NaN');
+      }
+  
+      const purchaseDetails = {
+        selectedSeats: selectedSeats.map(seatLabel => {
+          const row = rowsData.find((row) => seatLabel.startsWith(row.row_label));
+          const seat = seatsData[row.id].find((s) => `${row.row_label}${s.seat_number}` === seatLabel);
+          const seatType = seatTypesData.find((type) => type.id === seat.seat_type_id);
+          const category = priceCategoriesData.find(pc => pc.id === seatType.id);
+          
+          return {
+            seat_label: seatLabel,
+            seat_type: seatType.type_name,
+            price: seatTypePrices[category.category_name]
+          };
+        }),
+        seatTypeCounts,
+        totalPrice: totalPrice.toFixed(2), // Format totalPrice to two decimal places
+      };
+  
+      console.log('Selected seats:', selectedSeats);
+      console.log('Seat counts by type:', seatTypeCounts);
+      console.log('Total price:', totalPrice);
+      console.log('Purchase details (JSON):', JSON.stringify(purchaseDetails, null, 2));
+  
+      const stripe = await loadStripe('pk_test_51PTpvf09I3fN7mCT7vXxyWe679a3SVfurihlsN1HlkS3WPffQW9uKyvmRnXv5xyyikN9TFMkFsYUyUjDYKOAzclw003rvNg99T');
+  
+      const response = await axios.post('http://localhost:5001/stripe/create-checkout-session', purchaseDetails);
+  
+      const { id: sessionId } = response.data;
+  
+      const result = await stripe.redirectToCheckout({
+        sessionId,
+      });
+  
+      if (result.error) {
+        console.error('Error redirecting to checkout:', result.error);
+      }
+      
+      alert(`Seats purchased successfully! Total price: ${totalPrice.toFixed(2)}`);
     } catch (err) {
       console.error('Error purchasing seats:', err);
     }
   };
 
-  const handlePaymentSuccess = async () => {
-    try {
-      const bookingResponse = await axios.post('http://localhost:5001/purchased_seats', {
-        theatre_id: theatreId,
-        show_time_id: showId,
-        seats: selectedSeats.join(','),
-      });
 
-      if (bookingResponse.data.success) {
-        alert('Payment successful and seats booked!');
-        // Additional logic after successful booking
-      }
-    } catch (err) {
-      console.error('Error finalizing booking:', err);
-    }
-  };
 
   if (theatreLoading || rowsLoading || seatsLoading || seatTypesLoading) return <p>Loading...</p>;
   // if (theatreError) return <p>Error loading theatre data: {theatreError.message}</p>;
