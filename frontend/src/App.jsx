@@ -22,6 +22,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import Forgotpassword from "./components/User Login/Forgotpassword";
 import OTPInput from "./components/User Login/OTPInput";
+import Reset from "./components/User Login/Reset";
 
 const App = () => {
   return (
@@ -41,6 +42,7 @@ const App = () => {
           <Route path="/terms" element={<Terms />} />
           <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
           <Route path="/schedule/:paramId" element={<Schedule />} />
+          <Route path="/reset" element={<Reset />}></Route>
           <Route
             path="/seat-selection/:showId/:theatreId"
             element={<SeatSelection />}
