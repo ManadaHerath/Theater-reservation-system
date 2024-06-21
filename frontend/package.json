@@ -11,7 +11,7 @@
 
     "@babel/plugin-proposal-private-property-in-object": "^7.16.7",
     "@stripe/react-stripe-js": "^2.7.1",
-    "@stripe/stripe-js": "^4.0.0",
+"@stripe/stripe-js": "^3.0.0",
 
     "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "^16.0.0",

@@ -349,7 +349,7 @@ export default function Register_Form() {
                   <span className="text-[#E9522C] font-semibold">Login</span>
                 </Link>
               </p>
-              <div className="mt-3 text-center">
+              <div className="my-3 text-center">
                 <GoogleSignInButton />
               </div>
             </div>
