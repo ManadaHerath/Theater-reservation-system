@@ -92,9 +92,12 @@ export default function Login() {
                   {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </span>
               </div>
+              <Link to={"/forgot-password"}>
+                <p className="text-xs text-gray-600 text-right mr-3">Forgot Password?</p>
+              </Link>
               <button
                 type="submit"
-                className="mt-5 tracking-wide font-semibold bg-[#E9522C] text-gray-100 w-full py-4 rounded-lg hover:bg-[#E9522C]/90 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                className="mt-3 tracking-wide font-semibold bg-[#E9522C] text-gray-100 w-full py-3 md:py-4 rounded-lg hover:bg-[#E9522C]/90 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
               >
                 <svg
                   className="w-6 h-6"

@@ -21,6 +21,7 @@ import MoviePage from "./pages/MoviePage";
 import SeatSelection from "./components/SeatSelection";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import Forgotpassword from "./components/User Login/Forgotpassword";
 
 
 const App = () => {
@@ -35,6 +36,7 @@ const App = () => {
           <Route path="/movies" element={<Movies />} />
           <Route path="/theatres" element={<Theatres />} />
           <Route path="/schedule" element={<Schedule />} />
+          <Route path="forgot-password" element={<Forgotpassword />} />
 
           <Route path="/help" element={<Help />} />
           <Route path="/terms" element={<Terms />} />

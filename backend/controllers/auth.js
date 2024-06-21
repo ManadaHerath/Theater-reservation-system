@@ -3,6 +3,7 @@ import { connection } from "../index.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
+import e from "express";
 
 export const register = async (req, res, next) => {
   try {
@@ -87,6 +88,10 @@ export const login = async (req, res, next) => {
     }
 
     const user = users[0];
+   
+    if (!user.password) {
+      return res.status(201).json({ message: "Please sign in with Google" });
+    }
 
     // Check if the password is correct
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
@@ -107,6 +112,30 @@ export const login = async (req, res, next) => {
     });
   } catch (error) {
     console.error("Error logging in user:", error);
+    next(error);
+  }
+};
+
+export const forgotPassword = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+
+    // Find the user with the given email
+    const [users] = await connection.query(
+      "SELECT * FROM users WHERE email = ?",
+      [email]
+    );
+
+    if (users.length === 0) {
+      return res.status(201).json({ message: "No user with this email found" });
+    }
+
+    const user = users[0];
+
+    // Return the user
+    res.json({ message: "The password reset link has been sent to your email" });
+  } catch (error) {
+    console.error("Error sending password reset link:", error);
     next(error);
   }
 };
