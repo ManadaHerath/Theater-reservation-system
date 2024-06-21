@@ -1,11 +1,13 @@
 "use client";
 import React, { useState } from "react";
+import axios from "axios";
 
 export default function () {
   const [email, setEmail] = useState("");
   const [alert, setAlert] = useState("");
   const [password, setPassword] = useState("");
   const [alertStyle, setAlertStyle] = useState("");
+  const [OTP, setOTP] = useState("");
 
   const onsubmit = async (e) => {
     e.preventDefault();
@@ -31,6 +33,10 @@ export default function () {
         setAlertStyle(
           "text-green-600 text-s mt-1 flex justify-center mt-3 font-semibold"
         );
+        setTimeout(() => {
+          setAlert("");
+          navigateToOtp();
+        }, 3000);
       }
     } catch (error) {
       console.error(error);
@@ -39,6 +45,22 @@ export default function () {
       setAlert("");
     }, 5000);
   };
+
+  function navigateToOtp() {
+    setOTP(Math.floor(Math.random() * 9000 + 1000));
+    console.log(OTP);
+
+    axios
+      .post("http://localhost:5001/recovery/send_recovery_email", {
+        OTP,
+        email,
+      })
+      .then(() => {
+        window.location.replace(`/otp?email=${encodeURIComponent(email)}`);
+      })
+      .catch(console.log);
+    return;
+  }
 
   return (
     <div className="flex justify-center items-center h-screen flex-col">
