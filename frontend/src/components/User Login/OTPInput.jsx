@@ -75,8 +75,8 @@ export default function OTPInput() {
   }, [disable]);
 
   return (
-    <div className="flex justify-center items-center w-screen h-screen bg-[#282D2D]">
-      <div className="bg-black px-6 pt-10 pb-9 shadow-xl mx-auto lg:w-full max-w-lg rounded-2xl">
+    <div className="flex justify-center items-center w-screen h-screen bg-gray-900">
+      <div className="bg-gray-800 border-gray-700 px-6 pt-10 pb-9 shadow-xl mx-auto lg:w-full max-w-lg rounded-2xl">
         <div className="mx-auto flex w-full max-w-md flex-col space-y-16">
           <div className="flex flex-col items-center justify-center text-center space-y-2">
             <div className="font-semibold text-3xl text-white">
@@ -165,7 +165,7 @@ export default function OTPInput() {
                   <div>
                     <button
                       onClick={() => verfiyOTP()}
-                      className="flex flex-row cursor-pointer items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-blue-700 border-none text-white text-sm shadow-sm"
+                      className="flex flex-row cursor-pointer items-center justify-center text-center w-full border rounded-xl outline-none py-4 font-semibold bg-[#E9522C] border-none text-white text-md shadow-sm"
                     >
                       Verify Account
                     </button>
@@ -176,7 +176,7 @@ export default function OTPInput() {
                     <a
                       className="flex flex-row items-center"
                       style={{
-                        color: disable ? "gray" : "blue",
+                        color: disable ? "gray" : "orange",
                         cursor: disable ? "none" : "pointer",
                         textDecorationLine: disable ? "none" : "underline",
                       }}

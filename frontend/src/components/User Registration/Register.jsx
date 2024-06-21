@@ -8,7 +8,7 @@ import GoogleSignInButton from "../User Login/SignInButton";
 
 export default function Register_Form() {
   const inputStyles =
-    "w-full px-5 py-3 rounded-lg font-medium border-2 border-transparent placeholder-gray-500 text-sm focus:outline-none focus:border-2 bg-[#302E30] text-white focus:border-white";
+    "sm:text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500";
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
@@ -138,10 +138,10 @@ export default function Register_Form() {
     }, 5000);
   };
   return (
-    <div className="flex flex-col justify-center items-center w-full h-full bg-[#282D2D] px-5">
+    <div className="flex flex-col justify-center items-center w-full h-full bg-gray-900 px-5">
       <div
-        className="xl:max-w-3xl bg-black
-      }  w-full p-5 sm:p-10 rounded-md"
+        className="xl:max-w-3xl bg-gray-800 border-gray-700
+      }  w-full p-5 sm:p-10 rounded-md sm:max-w-md"
       >
         <h1
           className="flex justify-center text-xl sm:text-3xl font-semibold 
@@ -343,13 +343,13 @@ export default function Register_Form() {
                 <span className="ml-3">Register</span>
               </button>
               {alert && <p className={alertStyle}>{alert}</p>}
-              <p className="mt-6 text-xs text-gray-600 text-center">
+              <p className="mt-2 text-xs text-gray-200 text-center">
                 Already have an account?{" "}
                 <Link to={"/login"}>
                   <span className="text-[#E9522C] font-semibold">Login</span>
                 </Link>
               </p>
-              <div className="my-3 text-center">
+              <div className="mb-3 text-center">
                 <GoogleSignInButton />
               </div>
             </div>

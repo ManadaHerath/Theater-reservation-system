@@ -63,11 +63,16 @@ export default function () {
   }
 
   return (
-    <div className="flex justify-center items-center h-screen flex-col">
-      <div className="flex justify-center items-center flex-col w-1/2 md:w-1/4 h-1/4 bg-gray-400  rounded-md ">
-        <h1 className="text-md py-3 lg:text-lg">Enter Your Email Address</h1>
+    <div className="flex justify-center items-center h-screen bg-gray-900 flex-col">
+      <div className="flex justify-center items-center flex-col w-1/2 md:w-1/4 h-1/4 bg-gray-800 border-gray-700  rounded-md ">
+        <h1
+          className="text-md py-3 lg:text-lg text-xl sm:text-3xl font-semibold 
+          text-white"
+        >
+          Enter Your Email Address
+        </h1>
         <form
-          className="flex flex-col justify-center items-center"
+          className="flex flex-col justify-center items-center "
           onSubmit={onsubmit}
         >
           <input
@@ -77,9 +82,9 @@ export default function () {
             onChange={(e) => setEmail(e.target.value)}
             required
             placeholder="Email"
-            className="px-2 h-9 rounded-sm w-36 md:w-42 lg:w-72 border-2 border-blue-500"
+            className="px-2 h-9 rounded-lg bg-gray-700 border-gray-600 placeholder-gray-400 w-36 md:w-42 lg:w-72 border-2 py-2.5 text-white  "
           />
-          <button className="bg-blue-500 rounded-md p-2 my-3 font-semibold hover:bg-blue-300 text-sm lg:text-md">
+          <button className="font-semibold bg-[#E9522C] text-gray-100 w-full rounded-md p-2 my-3 text-sm lg:text-md">
             Send Email
           </button>
         </form>

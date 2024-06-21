@@ -70,9 +70,9 @@ const handlePasswordChange = (e) => {
       <section className=" w-screen bg-gray-900">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
           <div className="w-full p-6  rounded-lg shadow dark:border md:mt-0 sm:max-w-md bg-gray-800 border-gray-700 sm:p-8">
-            <h2 className="mb-1 text-xl font-bold leading-tight tracking-tight  md:text-2xl text-white">
+            <h1 className="mb-1 font-bold leading-tight tracking-tight flex justify-center md:text-2xl text-white text-2xl sm:text-3xl ">
               Change Password
-            </h2>
+            </h1>
             <form className="mt-4 space-y-4 lg:mt-5 md:space-y-5">
               <div>
                 <label
@@ -149,7 +149,7 @@ const handlePasswordChange = (e) => {
             <button
               onClick={() => changePassword()}
               disabled={password !== confirmPassword}
-              className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-3 text-center mt-3"
+              className="w-full text-white bg-[#E9522C] hover:bg-[#E9522C]/90 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-3 text-center mt-3"
             >
               Reset passwod
             </button>

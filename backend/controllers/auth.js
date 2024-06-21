@@ -88,7 +88,7 @@ export const login = async (req, res, next) => {
     }
 
     const user = users[0];
-   
+
     if (!user.password) {
       return res.status(201).json({ message: "Please sign in with Google" });
     }
@@ -133,10 +133,11 @@ export const forgotPassword = async (req, res, next) => {
     const user = users[0];
 
     // Return the user
-    res.json({ message: "The password reset link has been sent to your email" });
+    res.json({
+      message: "The password reset link has been sent to your email",
+    });
   } catch (error) {
     console.error("Error sending password reset link:", error);
     next(error);
   }
 };
-
