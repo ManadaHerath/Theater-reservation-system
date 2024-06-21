@@ -1,10 +1,9 @@
 import expresss from "express";
 const router = expresss.Router();
 import { register, login } from "../controllers/auth.js";
-import passport from "../controllers/passport.js";
+import passport from "../controllers/GoogleSignIn.js";
 
 const app = expresss();
-
 
 router.post("/register", register);
 router.post("/login", login);

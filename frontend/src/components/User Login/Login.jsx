@@ -45,9 +45,9 @@ export default function Login() {
 
   return (
     <div className="flex flex-col justify-center items-center w-full h-screen bg-[#282D2D] px-5">
-      <div className="xl:max-w-3xl bg-black w-full p-5 sm:p-10 rounded-md">
+      <div className="xl:max-w-3xl bg-black w-full md:w-1/2 p-5 sm:p-10 rounded-md">
         <h1
-          className="flex justify-center text-xl sm:text-3xl font-semibold 
+          className="flex justify-center text-2xl sm:text-3xl font-semibold 
           text-white
         "
         >

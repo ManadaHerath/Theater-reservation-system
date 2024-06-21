@@ -13,12 +13,16 @@ import cookieParser from "cookie-parser";
 import { verifyToken } from "./util/verify_token.js";
 import cors from "cors";
 import session from "express-session";
-import passport from "./controllers/passport.js";
+import passport from "./controllers/GoogleSignIn.js";
 
 const app = express();
-
+//for usage of google sign in
 app.use(
-  session({ secret: "secretkey", resave: false, saveUninitialized: false })
+  session({
+    secret: process.env.JWT_SECRET_KEY,
+    resave: false,
+    saveUninitialized: false,
+  })
 );
 app.use(passport.initialize());
 app.use(passport.session());

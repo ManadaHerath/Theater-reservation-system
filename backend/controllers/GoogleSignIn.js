@@ -17,7 +17,7 @@ passport.use(
       try {
         const email = profile.emails[0].value;
         const fullName = profile.displayName;
-        console.log("Google Profile:", profile);
+        const photo = profile.photos[0].value;
 
         // Check if the user already exists
         const [existingUsers] = await connection.query(
@@ -38,8 +38,8 @@ passport.use(
 
         // If the user does not exist, create a new user
         const [result] = await connection.query(
-          "INSERT INTO users (email, full_name, role, is_completed, is_active) VALUES (?, ?, ?, ?, ?)",
-          [email, fullName, "customer", 0, 1]
+          "INSERT INTO users (email, full_name, role,avatar, is_completed, is_active) VALUES (?, ?, ?,?, ?, ?)",
+          [email, fullName, "customer", photo, 0, 1]
         );
 
         const token = jwt.sign(
