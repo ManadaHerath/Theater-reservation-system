@@ -7,6 +7,10 @@ import theatre_show_timesRoute from "./routes/theatre_Show_Times.js";
 import show_timesRoute from "./routes/show_times.js";
 import temp_purchaseRoute from "./routes/temp_purchase.js";
 import usersRoute from "./routes/users.js";
+import useRowsRoute from "./routes/rows.js";
+import seatTypesRoute from "./routes/seat_types.js";
+import purchasedSeatsRoute from "./routes/purchase.js";
+import createCheckoutRoute from "./routes/payment.js";
 import "dotenv/config";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
@@ -57,6 +61,10 @@ app.use("/show_times", show_timesRoute);
 app.use("/theatre_show_times", theatre_show_timesRoute);
 app.use("/temp_purchase", temp_purchaseRoute);
 app.use("/users", usersRoute);
+app.use("/rows",useRowsRoute)
+app.use("/seat_types",seatTypesRoute)
+app.use("/purchased_seats",purchasedSeatsRoute);
+app.use("/stripe", createCheckoutRoute);
 
 // error
 app.use((err, req, res, next) => {
