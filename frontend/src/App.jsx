@@ -22,6 +22,9 @@ import SeatSelection from "./components/SeatSelection";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 
+import PaymentFailure from "./pages/PaymentFailure";
+import PaymentSuccess from "./pages/PaymentSuccess";
+
 
 const App = () => {
   return (
@@ -42,6 +45,8 @@ const App = () => {
 
           <Route path="/schedule/:paramId" element={<Schedule/>} />
           <Route path="/seat-selection/:showId/:theatreId" element={<SeatSelection/>} />
+          <Route path="/payment-failure/:showId/:theatreId" element={<PaymentFailure />} />
+          <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/register" element={<RegisterPage />} /> 
           <Route path="/login" element={<LoginPage />} />
           </Routes>

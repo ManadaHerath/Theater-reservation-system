@@ -6,7 +6,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const router = express.Router();
 
 router.post('/create-checkout-session', async (req, res) => {
-  const { selectedSeats, seatTypeCounts, totalPrice } = req.body;
+  const { selectedSeats, seatTypeCounts, totalPrice, theatreId , showId } = req.body;
 
   const line_items = selectedSeats.map(seat => ({
     price_data: {
@@ -19,13 +19,15 @@ router.post('/create-checkout-session', async (req, res) => {
     quantity: 1,
   }));
 
+  console.log(theatreId,showId)
+
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items,
       mode: 'payment',
-      success_url: `http://localhost:3000/`,
-      cancel_url: `http://localhost:3000/theatres`,
+      success_url: `http://localhost:3000/payment-success`,
+      cancel_url: `http://localhost:3000/payment-failure/${showId}/${theatreId}`,
     });
 
     res.json({ id: session.id });
