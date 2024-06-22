@@ -1,12 +1,16 @@
 import express from 'express';
 import Stripe from 'stripe';
 import 'dotenv/config';
-
+import { createPurchase } from '../controllers/purchase.js';
+import bodyParser from 'body-parser';
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
 const router = express.Router();
 
 router.post('/create-checkout-session', async (req, res) => {
   const { selectedSeats, seatTypeCounts, totalPrice, theatreId , showId } = req.body;
+
+
 
   const line_items = selectedSeats.map(seat => ({
     price_data: {
@@ -19,7 +23,7 @@ router.post('/create-checkout-session', async (req, res) => {
     quantity: 1,
   }));
 
-  console.log(theatreId,showId)
+
 
   try {
     const session = await stripe.checkout.sessions.create({
@@ -28,6 +32,11 @@ router.post('/create-checkout-session', async (req, res) => {
       mode: 'payment',
       success_url: `http://localhost:3000/payment-success`,
       cancel_url: `http://localhost:3000/payment-failure/${showId}/${theatreId}`,
+      metadata: {
+        theatreId,
+        showId,
+        selectedSeats: JSON.stringify(selectedSeats),
+      },
     });
 
     res.json({ id: session.id });
@@ -36,5 +45,10 @@ router.post('/create-checkout-session', async (req, res) => {
     res.status(500).json({ error: 'Failed to create Stripe checkout session' });
   }
 });
+
+
+
+
+
 
 export default router;

@@ -81,11 +81,7 @@ const SeatSelection = () => {
 
   const handleBuyClick = async () => {
     try {
-      await axios.post('http://localhost:5001/purchased_seats', {
-        theatre_id: theatreId,
-        show_time_id: showId,
-        seats: selectedSeats.join(',')
-      });
+      
       const seatTypeCounts = selectedSeats.reduce((acc, seatLabel) => {
         const row = rowsData.find((row) => seatLabel.startsWith(row.row_label));
         if (!row) {
@@ -173,10 +169,25 @@ const SeatSelection = () => {
       const result = await stripe.redirectToCheckout({
         sessionId,
       });
-  
-      if (result.error) {
+      console.log('Result:', result.error);
+      if (!result.error) {
+        // Payment Successful
+        try {
+          await axios.post('http://localhost:5001/purchased_seats', {
+            theatre_id: theatreId,
+            show_time_id: showId,
+            seats: selectedSeats.join(',')
+          });
+          alert(`Seats purchased successfully! Total price: ${totalPrice.toFixed(2)}`);
+          // Optionally: redirect to a success page or update local state
+        } catch (postError) {
+          console.error('Error saving purchase:', postError);
+          // Handle the error (e.g., offer a retry, notify the user)
+        }
+      } else {
         console.error('Error redirecting to checkout:', result.error);
       }
+
       
       alert(`Seats purchased successfully! Total price: ${totalPrice.toFixed(2)}`);
     } catch (err) {
@@ -235,8 +246,7 @@ const SeatSelection = () => {
             ))}
           </div>
         </div>
-      </div>
-      <div className="p-6 bg-gray-100">
+        <div className="p-6 bg-gray-100">
         <button
           className="bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 transition-colors duration-200"
           onClick={handleBuyClick}
@@ -244,6 +254,8 @@ const SeatSelection = () => {
           Buy Selected Seats
         </button>
       </div>
+      </div>
+      
       </div>
   );
 };

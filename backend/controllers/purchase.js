@@ -24,3 +24,13 @@ export const createPurchase = async (req, res, next) => {
         next(error)
     }
 }
+
+export const createPurchaseFromSession = async (purchaseData,res) => {
+  try{
+      const {theatre_id, show_time_id, seats} = purchaseData.body;
+      const [purchase] = await connection.query('INSERT INTO purchases (theatre_id, show_time_id, seats) VALUES (?, ?, ?)', [theatre_id, show_time_id, seats]);
+      console.log('purchase:', purchase);
+  }catch(error){
+    console.error('Error creating purchase:', error);
+  }
+}
