@@ -8,6 +8,8 @@ const PaymentSuccess = () => {
     navigate('/');
   };
 
+  
+
   return (
     <div style={{ textAlign: 'center', padding: '20px' }}>
       <h1>Payment Successful!</h1>

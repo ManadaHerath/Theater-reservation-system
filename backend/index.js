@@ -11,6 +11,7 @@ import useRowsRoute from "./routes/rows.js";
 import seatTypesRoute from "./routes/seat_types.js";
 import purchasedSeatsRoute from "./routes/purchase.js";
 import createCheckoutRoute from "./routes/payment.js";
+import webHookRoute from "./routes/webhook.js";
 import "dotenv/config";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
@@ -39,6 +40,7 @@ app.listen(5001, () => {
 
 // middlewares
 app.use(cors())
+app.use("/webhook", webHookRoute);
 app.use(express.json());
 app.use(cookieParser());
 
@@ -58,3 +60,4 @@ app.use("/stripe", createCheckoutRoute);
 app.use((err, req, res, next) => {
   return res.status(500).json(err.message);
 });
+
