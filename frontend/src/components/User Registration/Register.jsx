@@ -141,7 +141,7 @@ export default function Register_Form() {
     <div className="flex flex-col justify-center items-center w-full h-full bg-gray-900 px-5">
       <div
         className="xl:max-w-3xl bg-gray-800 border-gray-700
-      }  w-full p-5 sm:p-10 rounded-md sm:max-w-md"
+      }  w-full py-3 sm:p-10 rounded-md sm:max-w-md my-6"
       >
         <h1
           className="flex justify-center text-xl sm:text-3xl font-semibold 
@@ -230,9 +230,8 @@ export default function Register_Form() {
                   />
                   <label
                     htmlFor="date"
-                    id="date"
                     className={`absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none transition-all duration-300 ${
-                      dateValue ? "opacity-0" : "opacity-100"
+                      dateValue ? "opacity-0 -translate-y-full" : "opacity-100"
                     }`}
                   >
                     Date of Birth
@@ -249,8 +248,8 @@ export default function Register_Form() {
                     Gender
                   </option>
 
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
+                  <option value="Male" className="py-2">Male</option>
+                  <option value="Female"  className="py-2">Female</option>
                 </select>
                 <svg
                   className="w-4 h-4 absolute left-5 top-1/2 transform -translate-y-1/2 pointer-events-none"

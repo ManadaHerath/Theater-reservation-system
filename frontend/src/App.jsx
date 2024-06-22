@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import Home from "./pages/Home";
 import Movies from "./pages/MoviePage";
 import Theatres from "./pages/TheatrePage";
@@ -29,7 +34,7 @@ const App = () => {
     <div>
       <Router>
         <Heading />
-        <NavBar />
+        <ConditionalNavBar />
         <Routes>
           <Route index element={<Home />} />
           <Route path="/home" element={<Home />} />
@@ -54,6 +59,22 @@ const App = () => {
       </Router>
     </div>
   );
+};
+
+const ConditionalNavBar = () => {
+  const location = useLocation();
+  const hideNavBarRoutes = [
+    "/register",
+    "/login",
+    "/otp",
+    "/forgot-password",
+    "/reset",
+    "/terms",
+    "/privacyPolicy",
+    "/help",
+  ];
+
+  return !hideNavBarRoutes.includes(location.pathname) ? <NavBar /> : null;
 };
 
 export default App;

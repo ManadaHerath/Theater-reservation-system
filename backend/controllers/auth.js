@@ -3,7 +3,6 @@ import { connection } from "../index.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
-import e from "express";
 
 export const register = async (req, res, next) => {
   try {
@@ -68,7 +67,6 @@ export const register = async (req, res, next) => {
       stripe_customer_id,
     });
   } catch (error) {
-    console.error("Error registering user:", error);
     next(error);
   }
 };
