@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams ,useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import useFetch from '../hooks/useFetch';
 import { loadStripe } from '@stripe/stripe-js';
@@ -9,7 +9,11 @@ import { loadStripe } from '@stripe/stripe-js';
 
 
 
+
 const SeatSelection = () => {
+  const navigate =  useNavigate();
+
+
   const { showId, theatreId } = useParams();
   const { data: theatreData, loading: theatreLoading, error: theatreError } = useFetch(`http://localhost:5001/theatres/${theatreId}`);
   const { data: rowsData, loading: rowsLoading, error: rowsError } = useFetch(`http://localhost:5001/rows/getrows/${theatreId}`);
@@ -150,7 +154,9 @@ const SeatSelection = () => {
           };
         }),
         seatTypeCounts,
-        totalPrice: totalPrice.toFixed(2), // Format totalPrice to two decimal places
+        totalPrice: totalPrice.toFixed(2),
+        theatreId, // Add theatreId
+        showId // Format totalPrice to two decimal places
       };
   
       console.log('Selected seats:', selectedSeats);
@@ -175,6 +181,7 @@ const SeatSelection = () => {
       alert(`Seats purchased successfully! Total price: ${totalPrice.toFixed(2)}`);
     } catch (err) {
       console.error('Error purchasing seats:', err);
+      navigate(`/payment-failure/${theatreId}/${showId}`);
     }
   };
 
