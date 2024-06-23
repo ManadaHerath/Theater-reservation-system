@@ -1,8 +1,12 @@
 import express from 'express';
 import Stripe from 'stripe';
 import 'dotenv/config';
-import { createPurchase } from '../controllers/purchase.js';
-import bodyParser from 'body-parser';
+import { createPDF } from './payment-recipt/create_pdf.js';
+import path from 'path';
+
+
+
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const router = express.Router();
