@@ -1,37 +1,58 @@
 import express from 'express';
 import Stripe from 'stripe';
+import 'dotenv/config';
+import { createPDF } from './payment-recipt/create_pdf.js';
+import path from 'path';
+
+
+
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-const router = express.Router(); // Use 'router' instead of 'route'
+
+const router = express.Router();
 
 router.post('/create-checkout-session', async (req, res) => {
-    try {
-        const { amount, selectedSeats } = req.body; // Include selectedSeats
+  const { selectedSeats, seatTypeCounts, totalPrice, theatreId , showId } = req.body;
 
-        const session = await stripe.checkout.sessions.create({
-            payment_method_types: ['card'],
-            line_items: [
-                {
-                    price_data: {
-                        currency: 'usd',
-                        unit_amount: amount,
-                        product_data: {
-                            name: 'Seat Booking',
-                            description: `Seats: ${selectedSeats.join(', ')}`,
-                        },
-                    },
-                    quantity: 1,
-                },
-            ],
-            mode: 'payment',
-            success_url: `${process.env.FRONTEND_URL}/success`, // Replace with your success page
-            cancel_url: `${process.env.FRONTEND_URL}/cancel`, // Replace with your cancel page
-        });
 
-        res.status(200).send({ sessionId: session.id }); 
-    } catch (error) {
-        res.status(500).send({ error: error.message });
-    }
+
+  const line_items = selectedSeats.map(seat => ({
+    price_data: {
+      currency: 'usd',
+      product_data: {
+        name: seat.seat_type,
+      },
+      unit_amount: Math.round(seat.price * 100),
+    },
+    quantity: 1,
+  }));
+
+
+
+  try {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items,
+      mode: 'payment',
+      success_url: `http://localhost:3000/payment-success`,
+      cancel_url: `http://localhost:3000/payment-failure/${showId}/${theatreId}`,
+      metadata: {
+        theatreId,
+        showId,
+        selectedSeats: JSON.stringify(selectedSeats),
+      },
+    });
+
+    res.json({ id: session.id });
+  } catch (error) {
+    console.error('Error creating Stripe checkout session:', error);
+    res.status(500).json({ error: 'Failed to create Stripe checkout session' });
+  }
 });
+
+
+
+
+
 
 export default router;

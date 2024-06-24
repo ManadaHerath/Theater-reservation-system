@@ -14,7 +14,7 @@ import Terms from "./pages/TermsPage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import MovieList from "./components/Movies";
 import Heading from "./components/Heading";
 import NavBar from "./components/NavBar";
@@ -25,9 +25,16 @@ import MoviePage from "./pages/MoviePage";
 import SeatSelection from "./components/SeatSelection";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+
 import Forgotpassword from "./components/User Login/Forgotpassword";
 import OTPInput from "./components/User Login/OTPInput";
 import Reset from "./components/User Login/Reset";
+
+
+import PaymentFailure from "./pages/PaymentFailure";
+import PaymentSuccess from "./pages/PaymentSuccess";
+
+
 
 const App = () => {
   return (
@@ -46,6 +53,7 @@ const App = () => {
           <Route path="/help" element={<Help />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
+
           <Route path="/schedule/:paramId" element={<Schedule />} />
           <Route path="/reset" element={<Reset />}></Route>
           <Route
@@ -53,6 +61,11 @@ const App = () => {
             element={<SeatSelection />}
           />
           <Route path="/register" element={<RegisterPage />} />
+
+
+          <Route path="/payment-failure/:showId/:theatreId" element={<PaymentFailure />} />
+          <Route path="/payment-success" element={<PaymentSuccess />} />
+
           <Route path="/login" element={<LoginPage />} />
         </Routes>
         <Footer />
