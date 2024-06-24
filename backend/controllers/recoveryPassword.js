@@ -20,12 +20,12 @@ export const send_recovery_email = async (req, res) => {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "methminguruge@gmail.com",
-        pass: "hzptxutncghugziq",
+        user: process.env.EMAIL,
+        pass: process.env.APP_PASSWORD,
       },
     });
     const mailOptions = {
-      from: "methminguruge@gmail.com",
+      from: process.env.EMAIL,
       to: email,
       subject: "Password Recovery",
       text: `Your OTP is ${OTP}`,
