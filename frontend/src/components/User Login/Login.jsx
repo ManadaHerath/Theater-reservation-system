@@ -15,7 +15,7 @@ export default function Login() {
   };
 
   const inputStyles =
-    "w-full px-5 py-3 rounded-lg font-medium border-2 border-transparent placeholder-gray-500 text-sm focus:outline-none focus:border-2 bg-[#302E30] text-white focus:border-white";
+    "sm:text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500";
 
   const onsubmit = async (e) => {
     e.preventDefault();
@@ -44,10 +44,10 @@ export default function Login() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center w-full h-screen bg-[#282D2D] px-5">
-      <div className="xl:max-w-3xl bg-black w-full md:w-1/2 p-5 sm:p-10 rounded-md">
+    <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 w-screen bg-gray-900">
+      <div className="w-full p-6  rounded-lg shadow border md:mt-0 sm:max-w-md bg-gray-800 border-gray-700 sm:p-8">
         <h1
-          className="flex justify-center text-2xl sm:text-3xl font-semibold 
+          className="flex leading-tight tracking-tight justify-center text-2xl sm:text-3xl font-semibold 
           text-white
         "
         >
@@ -56,6 +56,7 @@ export default function Login() {
         <form onSubmit={onsubmit}>
           <div className="w-full mt-8">
             <div className="mx-auto max-w-xs sm:max-w-md md:max-w-lg flex flex-col gap-4">
+            
               <input
                 className={inputStyles}
                 name="email"
@@ -92,9 +93,12 @@ export default function Login() {
                   {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </span>
               </div>
+              <Link to={"/forgot-password"}>
+                <p className="text-xs text-gray-200 text-right mr-3">Forgot Password?</p>
+              </Link>
               <button
                 type="submit"
-                className="mt-5 tracking-wide font-semibold bg-[#E9522C] text-gray-100 w-full py-4 rounded-lg hover:bg-[#E9522C]/90 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+                className="mt-1 tracking-wide font-semibold bg-[#E9522C] text-gray-100 w-full py-3 md:py-4 rounded-lg hover:bg-[#E9522C]/90 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
               >
                 <svg
                   className="w-6 h-6"
@@ -114,14 +118,14 @@ export default function Login() {
                 <span className="ml-3">Login</span>
               </button>
               {alert && <p className={alertStyle}>{alert}</p>}
-              <p className="mt-6 text-xs text-gray-600 text-center">
+              <p className="mt-2 text-xs text-gray-200 text-center">
                 Haven't Registered Yet?{" "}
                 <Link to={"/register"}>
                   <span className="text-[#E9522C] font-semibold">Register</span>
                 </Link>
               </p>
               <div className="mt-5 text-center">
-                <GoogleSignInButton />
+                <GoogleSignInButton word="in" />
               </div>
             </div>
           </div>

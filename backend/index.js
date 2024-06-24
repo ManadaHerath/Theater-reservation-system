@@ -19,6 +19,7 @@ import { verifyToken } from "./util/verify_token.js";
 import cors from "cors";
 import session from "express-session";
 import passport from "./controllers/GoogleSignIn.js";
+import recoveryRoute from "./routes/recoveryPassword.js";
 
 const app = express();
 //for usage of google sign in
@@ -65,10 +66,11 @@ app.use("/show_times", show_timesRoute);
 app.use("/theatre_show_times", theatre_show_timesRoute);
 app.use("/temp_purchase", temp_purchaseRoute);
 app.use("/users", usersRoute);
-app.use("/rows",useRowsRoute)
-app.use("/seat_types",seatTypesRoute)
-app.use("/purchased_seats",purchasedSeatsRoute);
+app.use("/rows", useRowsRoute);
+app.use("/seat_types", seatTypesRoute);
+app.use("/purchased_seats", purchasedSeatsRoute);
 app.use("/stripe", createCheckoutRoute);
+app.use("/recovery", recoveryRoute);
 
 // error
 app.use((err, req, res, next) => {
