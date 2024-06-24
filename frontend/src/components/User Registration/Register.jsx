@@ -349,7 +349,7 @@ export default function Register_Form() {
                 </Link>
               </p>
               <div className="mb-3 text-center">
-                <GoogleSignInButton />
+              <GoogleSignInButton word="up" />
               </div>
             </div>
           </div>

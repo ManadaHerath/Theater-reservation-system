@@ -1,18 +1,23 @@
 "use client";
+import { set } from "date-fns";
 import React, { useState } from "react";
-import axios from "axios";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function () {
   const [email, setEmail] = useState("");
   const [alert, setAlert] = useState("");
   const [alertStyle, setAlertStyle] = useState("");
-  const [OTP, setOTP] = useState("");
-
+  const [disable, setDisable] = useState(false);
+  const[loading, setLoading] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
   const onsubmit = async (e) => {
+    setDisable(true);
+    setLoading("Loading...");
     e.preventDefault();
     try {
       const response = await fetch(
-        "http://localhost:5001/auth/forgot-password",
+        "http://localhost:5001/recovery/send_recovery_email",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -20,50 +25,30 @@ export default function () {
         }
       );
       const data = await response.json();
-      if (data.message === "No user with this email found") {
-        setAlert(data.message);
-        setAlertStyle(
-          "text-red-600 text-s mt-1 flex justify-center mt-3 font-semibold"
-        );
-      } else if (
-        data.message === "The password reset link has been sent to your email"
-      ) {
-        setAlert(data.message);
-        setAlertStyle(
-          "text-green-600 text-s mt-1 flex justify-center mt-3 font-semibold"
-        );
+      setAlert(data);
+      if (response.status === 200) {
+        setAlertStyle("text-green-600 text-s my-1 flex justify-center");
+        setLoading("");
         setTimeout(() => {
           setAlert("");
-          navigateToOtp();
+          navigate(`/otp?email=${encodeURIComponent(email)}`);
         }, 3000);
+      } else {
+        setAlertStyle("text-red-600 text-s my-1 flex justify-center");
       }
+      setTimeout(() => {
+        setAlert("");
+        setDisable(false);
+        setLoading("");
+      }, 5000);
     } catch (error) {
       console.error(error);
     }
-    setTimeout(() => {
-      setAlert("");
-    }, 5000);
   };
-
-  function navigateToOtp() {
-    setOTP(Math.floor(Math.random() * 9000 + 1000));
-    console.log(OTP);
-
-    axios
-      .post("http://localhost:5001/recovery/send_recovery_email", {
-        OTP,
-        email,
-      })
-      .then(() => {
-        window.location.replace(`/otp?email=${encodeURIComponent(email)}`);
-      })
-      .catch(console.log);
-    return;
-  }
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-900 flex-col">
-      <div className="flex justify-center items-center flex-col w-1/2 md:w-1/4 h-1/4 bg-gray-800 border-gray-700 rounded-md ">
+      <div className="flex justify-center items-center flex-col w-1/2 lg:w-1/4 h-1/4 bg-gray-800 border-gray-700 rounded-md pb-3">
         <h1
           className="text-md py-3 md:text-xl sm:text-lg lg:text-2xl font-semibold 
           text-white px-2"
@@ -83,12 +68,16 @@ export default function () {
             placeholder="Email"
             className="px-2 h-9 rounded-lg bg-gray-700 border-gray-600 placeholder-gray-400 border-2 py-2.5 text-white w-full text-sm sm:text-md md:text-lg"
           />
-          <button className="font-semibold bg-[#E9522C] text-gray-100 w-full rounded-md p-2 my-3 text-md lg:text-lg">
+          <button
+            className="font-semibold bg-[#E9522C] text-gray-100 w-full rounded-md p-2 my-3 text-md lg:text-lg"
+            disabled={disable}
+          >
             Send Email
           </button>
+          {alert && <p className={alertStyle}>{alert}</p>}
+          {loading && <p className="text-white text-s my-1 flex justify-center">{loading}</p>}
         </form>
       </div>
-      {alert && <p className={alertStyle}>{alert}</p>}
     </div>
   );
 }

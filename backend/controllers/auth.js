@@ -82,7 +82,7 @@ export const login = async (req, res, next) => {
     );
 
     if (users.length === 0) {
-      return res.status(201).json({ message: "No user with this email found" });
+      return res.status(201).json({ message: "Invalid credentials" });
     }
 
     const user = users[0];
@@ -95,7 +95,7 @@ export const login = async (req, res, next) => {
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
     if (!isPasswordCorrect) {
-      return res.status(201).json({ message: "Invalid password" });
+      return res.status(201).json({ message: "Invalid credentials" });
     }
     const role = user.role === "admin";
     const token = jwt.sign(

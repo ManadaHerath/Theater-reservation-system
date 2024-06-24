@@ -62,9 +62,9 @@ app.use("/show_times", show_timesRoute);
 app.use("/theatre_show_times", theatre_show_timesRoute);
 app.use("/temp_purchase", temp_purchaseRoute);
 app.use("/users", usersRoute);
-app.use("/rows",useRowsRoute)
-app.use("/seat_types",seatTypesRoute)
-app.use("/purchased_seats",purchasedSeatsRoute);
+app.use("/rows", useRowsRoute);
+app.use("/seat_types", seatTypesRoute);
+app.use("/purchased_seats", purchasedSeatsRoute);
 app.use("/stripe", createCheckoutRoute);
 app.use("/recovery", recoveryRoute);
 

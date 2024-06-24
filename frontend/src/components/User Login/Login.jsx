@@ -125,7 +125,7 @@ export default function Login() {
                 </Link>
               </p>
               <div className="mt-5 text-center">
-                <GoogleSignInButton />
+                <GoogleSignInButton word="in" />
               </div>
             </div>
           </div>
