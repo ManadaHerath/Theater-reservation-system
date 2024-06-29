@@ -19,7 +19,7 @@ export const verifyToken = async (req, res, next) => {
 export const verifyUser = async (req,res,next)=>{
     verifyToken(req,res,next,()=>{
 
-        if(req.user.id === req.params.id || req.user.role){
+        if(req.user.id === req.params.id || req.user.role ==="admin"){
             next()
         }
         else{
@@ -29,10 +29,21 @@ export const verifyUser = async (req,res,next)=>{
 
     export const verifyAdmin = async (req,res,next)=>{
         verifyToken(req,res,()=>{
-            if(req.user.isAdmin){
+            if(req.user.role ==="admin"){
                 next()
             }
             else{
                 return res.status(403).json("You do not have admin access")
             }
         })};
+    
+
+    export const verifyTheatreAdmin = async (req,res,next)=>{
+        verifyToken(req,res,()=>{
+            if(req.user.role ==="theatre_admin"){
+                next()
+            }
+            else{
+                return res.status(403).json("You do not have admin access")
+            }
+        })} 
