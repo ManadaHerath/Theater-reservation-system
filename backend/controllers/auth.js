@@ -101,13 +101,15 @@ export const login = async (req, res, next) => {
     const token = jwt.sign(
       { id: user.id, isAdmin: role },
       process.env.JWT_SECRET_KEY
-    );
-    // Return the user
-    res.cookie("access_token", token, { httpOnly: true }).json({
+  );
+
+
+  // Return the user
+  res.cookie("access_token", token, { httpOnly: true }).json({
       id: user.id,
       email: user.email,
       phone_number: user.phone_number,
-    });
+  });
   } catch (error) {
     console.error("Error logging in user:", error);
     next(error);

@@ -6,7 +6,7 @@ export const verifyToken = async (req, res, next) => {
     if (!token) {
         return next(createError(401, 'Not Authenticated'));
     }
-    jwt.verify(token,process.env.JWT,(err,user)=>{
+    jwt.verify(token,process.env.JWT_SECRET_KEY,(err,user)=>{
         if (err) {
             return next(createError(403, 'Invalid Token'));
         }
@@ -17,7 +17,8 @@ export const verifyToken = async (req, res, next) => {
 
 
 export const verifyUser = async (req,res,next)=>{
-    verifyToken(req,res,()=>{
+    verifyToken(req,res,next,()=>{
+
         if(req.user.id === req.params.id || req.user.role){
             next()
         }
