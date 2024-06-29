@@ -97,18 +97,19 @@ export const login = async (req, res, next) => {
     if (!isPasswordCorrect) {
       return res.status(201).json({ message: "Invalid credentials" });
     }
-    const role = user.role === "admin";
+    const role = user.role;
     const token = jwt.sign(
-      { id: user.id, isAdmin: role },
+      { id: user.id, role: role },
       process.env.JWT_SECRET_KEY
   );
 
 
+
+
   // Return the user
-  res.cookie("access_token", token, { httpOnly: true }).json({
-      id: user.id,
-      email: user.email,
-      phone_number: user.phone_number,
+  res.cookie("access_token", token, { httpOnly: true }).status(200).json({
+      role: user.role,
+      token
   });
   } catch (error) {
     console.error("Error logging in user:", error);

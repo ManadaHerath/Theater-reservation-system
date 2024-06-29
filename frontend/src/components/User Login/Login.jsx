@@ -9,9 +9,9 @@ import useAuth from "../../hooks/useAuth";
 export default function Login() {
 
   const { setUser } = useAuth();
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from || "/";
+  const from = location.state?.from?.pathname || "/";
  
 
 
@@ -40,10 +40,18 @@ export default function Login() {
       const data = await response.json();
       if (response.status === 200) {
         setAlert("Successfullly Logged In");
+        
+        setAlertStyle("text-green-600 text-s mt-1 flex justify-center");
+        
+
+        const accessToken = data?.token;
+        const role = data?.role;
+        setUser({email, password, accessToken, role})
         setEmail("");
         setPassword("");
-        Navigate(from, { replace: true });
-        setAlertStyle("text-green-600 text-s mt-1 flex justify-center");
+        navigate(from, { replace: true });
+
+
       } else {
         setAlert(data.message);
         setAlertStyle("text-red-600 text-s mt-1 flex justify-center");
