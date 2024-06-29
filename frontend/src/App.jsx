@@ -13,6 +13,7 @@ import Help from "./pages/HelpPage";
 import Terms from "./pages/TermsPage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 
+
 import React from "react";
 import ReactDOM from "react-dom/client";
 import MovieList from "./components/Movies";
@@ -33,7 +34,8 @@ import Reset from "./components/User Login/Reset";
 
 import PaymentFailure from "./pages/PaymentFailure";
 import PaymentSuccess from "./pages/PaymentSuccess";
-
+import Layout from "./layout/layout";
+import RequireAuth from "./components/RequireAuth";
 
 
 const App = () => {
@@ -43,30 +45,38 @@ const App = () => {
         <Heading />
         <ConditionalNavBar />
         <Routes>
-          <Route index element={<Home />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/movies" element={<Movies />} />
-          <Route path="/theatres" element={<Theatres />} />
-          <Route path="/schedule" element={<Schedule />} />
-          <Route path="forgot-password" element={<Forgotpassword />} />
-          <Route path="/otp" element={<OTPInput />} />
-          <Route path="/help" element={<Help />} />
-          <Route path="/terms" element={<Terms />} />
-          <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
+        <Route path = "/" element ={<Layout/>}>
+            <Route index element={<Home />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/movies" element={<Movies />} />
+            
+            <Route path="/schedule" element={<Schedule />} />
+            <Route path="forgot-password" element={<Forgotpassword />} />
+            <Route path="/otp" element={<OTPInput />} />
+            <Route path="/help" element={<Help />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
 
-          <Route path="/schedule/:paramId" element={<Schedule />} />
-          <Route path="/reset" element={<Reset />}></Route>
-          <Route
-            path="/seat-selection/:showId/:theatreId"
-            element={<SeatSelection />}
-          />
-          <Route path="/register" element={<RegisterPage />} />
+            <Route path="/schedule/:paramId" element={<Schedule />} />
+            <Route path="/reset" element={<Reset />}></Route>
+            <Route
+              path="/seat-selection/:showId/:theatreId"
+              element={<SeatSelection />}
+            />
+            <Route path="/register" element={<RegisterPage />} />
+
+            <Route element = {<RequireAuth/>}>
+              <Route path="/theatres" element={<Theatres />} />
+            </Route>
 
 
-          <Route path="/payment-failure/:showId/:theatreId" element={<PaymentFailure />} />
-          <Route path="/payment-success" element={<PaymentSuccess />} />
+            <Route path="/payment-failure/:showId/:theatreId" element={<PaymentFailure />} />
+            <Route path="/payment-success" element={<PaymentSuccess />} />
 
-          <Route path="/login" element={<LoginPage />} />
+            <Route path="/login" element={<LoginPage />} />
+
+
+          </Route>
         </Routes>
         <Footer />
       </Router>
@@ -92,5 +102,3 @@ const ConditionalNavBar = () => {
 
 export default App;
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<App />);

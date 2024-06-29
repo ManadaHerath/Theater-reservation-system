@@ -1,9 +1,21 @@
 "use client";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import GoogleSignInButton from "./SignInButton";
+import useAuth from "../../hooks/useAuth";
+
+
 export default function Login() {
+
+  const { setUser } = useAuth();
+  const Navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from || "/";
+ 
+
+
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [alert, setAlert] = useState("");
@@ -30,6 +42,7 @@ export default function Login() {
         setAlert("Successfullly Logged In");
         setEmail("");
         setPassword("");
+        Navigate(from, { replace: true });
         setAlertStyle("text-green-600 text-s mt-1 flex justify-center");
       } else {
         setAlert(data.message);
