@@ -65,7 +65,7 @@ const App = () => {
             />
             <Route path="/register" element={<RegisterPage />} />
 
-            <Route element = {<RequireAuth/>}>
+            <Route element = {<RequireAuth allowedRoles={["customer"]}/>}>
               <Route path="/theatres" element={<Theatres />} />
             </Route>
 

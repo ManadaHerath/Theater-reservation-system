@@ -205,6 +205,13 @@ CREATE TABLE seats (
   FOREIGN KEY (seat_type_id) REFERENCES seat_types(id)
 );
 
+-- Add a column for a refresh token in the users table
+
+ALTER TABLE users
+ADD COLUMN refresh_token VARCHAR(255) NULL;
+
+
+
 --Trigger for new user insert--
 DELIMITER //
 

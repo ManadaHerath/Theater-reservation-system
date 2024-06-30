@@ -1,6 +1,24 @@
 import jwt from 'jsonwebtoken';
 import { createError } from './error.js';
 
+
+
+export const verifyJWT = (req, res, next) => {
+    const authHeader = req.headers.authorization || req.headers.Authorization;
+    if (!authHeader?.startsWith('Bearer ')) return res.sendStatus(401);
+    const token = authHeader.split(' ')[1];
+    jwt.verify(
+        token,
+        process.env.JWT_SECRET_KEY,
+        (err, decoded) => {
+            if (err) return res.sendStatus(403); //invalid token
+            req.user = decoded.id;
+            req.roles = decoded.role;
+            next();
+        }
+    );
+}
+
 export const verifyToken = async (req, res, next) => {
     const token = req.cookies.access_token;
     if (!token) {
