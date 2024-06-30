@@ -20,6 +20,8 @@ import cors from "cors";
 import session from "express-session";
 import passport from "./controllers/GoogleSignIn.js";
 import recoveryRoute from "./routes/recoveryPassword.js";
+import refreshRoute from "./routes/refresh.js";
+import logoutRoute from "./routes/logout.js";
 
 const app = express();
 //for usage of google sign in
@@ -58,7 +60,8 @@ app.use("/webhook", webHookRoute);
 app.use(express.json());
 app.use(cookieParser());
 
-
+app.use("/refresh",refreshRoute);
+app.use("/logout",logoutRoute);
 app.use("/auth", authRoute);
 app.use("/movies", movieRoute);
 app.use("/theatres", theatreRoute);

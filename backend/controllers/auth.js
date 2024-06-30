@@ -100,14 +100,33 @@ export const login = async (req, res, next) => {
     const role = user.role;
     const token = jwt.sign(
       { id: user.id, role: role },
-      process.env.JWT_SECRET_KEY
+      process.env.JWT_SECRET_KEY,
+      { expiresIn: "30s" }
   );
 
+    const refreshToken = jwt.sign(
+      {id:user.id, userName:user.email},
+      process.env.REFRESH_SECRET_KEY,
+      {expiresIn: "1d"}
+    )
+
+    // save the freshToken to the database with the user id
+    try{
+      const [result] = await connection.query(
+        'UPDATE users SET refresh_token = ? WHERE id = ?',
+        [refreshToken, user.id]
+    );
+    }catch(error){
+      console.error("Error saving refresh token to the database:", error);
+      next(error);
+    }
+
+    console.log(refreshToken)
 
 
 
   // Return the user
-  res.cookie("access_token", token, { httpOnly: true }).status(200).json({
+  res.cookie("access_token", refreshToken, { httpOnly: true , maxAge :24*60*60*1000 }).status(200).json({
       role: user.role,
       token
   });
