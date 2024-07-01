@@ -4,6 +4,8 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import GoogleSignInButton from "./SignInButton";
 import useAuth from "../../hooks/useAuth";
+import axios from "../../api/axios";
+
 
 
 export default function Login() {
@@ -32,12 +34,11 @@ export default function Login() {
   const onsubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5001/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await response.json();
+      const response = await axios.post("/auth/login", JSON.stringify({ email, password }),{
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true
+    });
+      const data = response.data;
       if (response.status === 200) {
         setAlert("Successfullly Logged In");
         

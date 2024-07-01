@@ -13,7 +13,7 @@ const RequireAuth= ({allowedRoles}) =>{
         user?.role && allowedRoles.includes(user.role)
         ? <Outlet />
         : user?.email
-        ? <Navigate to="/movies" state={{ from: location }} replace/>
+        ? <Navigate to="/unauthorized" state={{ from: location }} replace/>
           :<Navigate to="/login" state={{ from: location }} replace/>
     );
 

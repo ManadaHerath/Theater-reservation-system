@@ -11,6 +11,7 @@ export const handleRefreshToken = async (req, res) => {
 
 
 
+
     if (!cookies?.access_token) return res.sendStatus(401);
 
     const refreshToken = cookies.access_token;
@@ -40,11 +41,16 @@ export const handleRefreshToken = async (req, res) => {
                     console.log("error yo")
                     return res.sendStatus(403)}; //invalid token
                 const token = jwt.sign(
-                  {id: user.id, role: role},
+                  {UserInfo:{id: user.id, role: role}},
                     process.env.JWT_SECRET_KEY,
                     {expiresIn: "60s"}  
                 );
+
+                console.log("token", token);
+
                 res.json({role, token});
+
+
             }
         );
     } catch (error) {

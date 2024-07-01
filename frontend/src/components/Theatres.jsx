@@ -1,6 +1,10 @@
-import React from "react";
+import {React, useEffect , useState} from "react";
 import useFetch from "../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+
+
 
 const TheatreCard = ({ theatre }) => {
   const navigate = useNavigate();
@@ -38,7 +42,24 @@ const TheatreCard = ({ theatre }) => {
 };
 
 const TheatreList = () => {
-    const { data, loading, error } = useFetch("http://127.0.0.1:5001/theatres");
+  const axiosPrivate = useAxiosPrivate();
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+      const fetchData = async () => {
+          try {
+              const response = await axiosPrivate.get("/theatres");
+              setData(response.data);
+          } catch (error) {
+              setError(error.message);
+          }
+          setLoading(false);
+      };
+
+      fetchData();
+  }, []);
 
     if (loading) {
         return <p>Loading...</p>;
