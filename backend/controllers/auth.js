@@ -99,9 +99,9 @@ export const login = async (req, res, next) => {
     }
     const role = user.role;
     const token = jwt.sign(
-      { id: user.id, role: role },
+      { UserInfo:{id: user.id, role: role} },
       process.env.JWT_SECRET_KEY,
-      { expiresIn: "30s" }
+      { expiresIn: "1d" }
   );
 
     const refreshToken = jwt.sign(
@@ -121,12 +121,11 @@ export const login = async (req, res, next) => {
       next(error);
     }
 
-    console.log(refreshToken)
 
 
 
   // Return the user
-  res.cookie("access_token", refreshToken, { httpOnly: true , maxAge :24*60*60*1000 }).status(200).json({
+  res.cookie("access_token", refreshToken, { httpOnly: true, sameSite: 'Strict', secure: true , maxAge :24*60*60*1000 }).status(200).json({
       role: user.role,
       token
   });

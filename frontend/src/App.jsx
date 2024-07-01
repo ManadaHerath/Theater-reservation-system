@@ -8,7 +8,7 @@ import Home from "./pages/Home";
 import Movies from "./pages/MoviePage";
 import Theatres from "./pages/TheatrePage";
 import Schedule from "./pages/SchedulePage";
-
+import Unauthorized from "./components/Unauthorized";
 import Help from "./pages/HelpPage";
 import Terms from "./pages/TermsPage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
@@ -38,6 +38,8 @@ import Layout from "./layout/layout";
 import RequireAuth from "./components/RequireAuth";
 
 
+
+
 const App = () => {
   return (
     <div>
@@ -49,7 +51,7 @@ const App = () => {
             <Route index element={<Home />} />
             <Route path="/home" element={<Home />} />
             <Route path="/movies" element={<Movies />} />
-            
+            <Route path = "/unauthorized" element = {<Unauthorized/>}></Route>
             <Route path="/schedule" element={<Schedule />} />
             <Route path="forgot-password" element={<Forgotpassword />} />
             <Route path="/otp" element={<OTPInput />} />
@@ -65,7 +67,7 @@ const App = () => {
             />
             <Route path="/register" element={<RegisterPage />} />
 
-            <Route element = {<RequireAuth allowedRoles={["customer"]}/>}>
+            <Route element = {<RequireAuth allowedRoles={["admin"]}/>}>
               <Route path="/theatres" element={<Theatres />} />
             </Route>
 
