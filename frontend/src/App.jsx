@@ -33,6 +33,7 @@ import Reset from "./components/User Login/Reset";
 
 import PaymentFailure from "./pages/PaymentFailure";
 import PaymentSuccess from "./pages/PaymentSuccess";
+import TheatreDetails from "./pages/TheatreDetailsPage";
 
 
 
@@ -53,7 +54,7 @@ const App = () => {
           <Route path="/help" element={<Help />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
-
+          <Route path ="/theatre/:id" element = {<TheatreDetails/>} />   
           <Route path="/schedule/:paramId" element={<Schedule />} />
           <Route path="/reset" element={<Reset />}></Route>
           <Route
