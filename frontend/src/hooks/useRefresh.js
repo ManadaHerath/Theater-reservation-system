@@ -13,6 +13,7 @@ const useRefresh = () => {
 
                 return {
                     ...prev,
+                    role: res.data.role,
                     token: res.data.token
                 }
             }        

@@ -47,7 +47,7 @@ export default function Login() {
 
         const accessToken = data?.token;
         const role = data?.role;
-        setUser({email, password, accessToken, role})
+        setUser({email,accessToken, role})
         setEmail("");
         setPassword("");
         navigate(from, { replace: true });

@@ -38,7 +38,7 @@ export const handleRefreshToken = async (req, res) => {
             process.env.REFRESH_SECRET_KEY,
             (err, decoded) => {
                 if (err || user.id !== decoded.id) {
-                    console.log("error yo")
+                    console.log("Token expired or invalid bro.")
                     return res.sendStatus(403)}; //invalid token
                 const token = jwt.sign(
                   {UserInfo:{id: user.id, role: role}},
