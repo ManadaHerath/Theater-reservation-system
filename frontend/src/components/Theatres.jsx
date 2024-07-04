@@ -1,6 +1,6 @@
 import {React, useEffect , useState} from "react";
 import useFetch from "../hooks/useFetch";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation  } from "react-router-dom";
 import axios from "axios";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
@@ -43,6 +43,8 @@ const TheatreCard = ({ theatre }) => {
 
 const TheatreList = () => {
   const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -54,6 +56,7 @@ const TheatreList = () => {
               setData(response.data);
           } catch (error) {
               setError(error.message);
+              navigate("/login",{state: {from: location}, replace: true})
           }
           setLoading(false);
       };

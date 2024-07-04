@@ -1,8 +1,24 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import search_logo from '../assets/search-w.png'
+import { useNavigate } from "react-router-dom";
+import useLogout from "../hooks/useLogout";
+import useAuth from "../hooks/useAuth";
 
 const NavBar = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const logout = useLogout();
+  console.log("user", user)
+
+  const signOut = async () => {
+    await logout();
+    navigate("/");
+  }
+
+
+
+
   return (
     <div className="flex items-center justify-between h-16 p-4 text-white bg-gray-800">
       <div className="flex items-center p-2 space-x-2 bg-gray-700 rounded-full">
@@ -26,12 +42,18 @@ const NavBar = () => {
         <li>
           <Link to="/theatres" className="hover:text-gray-400">Theatres</Link>
         </li>
-        <li className="text-sm"> {/* Smaller text for Register and Login */}
-          <Link to="/register" className="hover:text-gray-400">Register</Link>
-        </li>
-        <li className="text-sm"> {/* Smaller text for Register and Login */}
-          <Link to="/login" className="hover:text-gray-400">Login</Link>
-        </li>
+        {user.token? (
+          <li onClick={signOut} className="hover:text-gray-400 cursor-pointer">Logout</li>
+        ) : (
+          <>
+            <li className="text-sm">
+              <Link to="/register" className="hover:text-gray-400">Register</Link>
+            </li>
+            <li className="text-sm">
+              <Link to="/login" className="hover:text-gray-400">Login</Link>
+            </li>
+          </>
+        )}
       </ul>
       
     </div>

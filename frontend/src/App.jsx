@@ -36,6 +36,7 @@ import PaymentFailure from "./pages/PaymentFailure";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import Layout from "./layout/layout";
 import RequireAuth from "./components/RequireAuth";
+import PersistLogin from "./components/Persist Login/PersistLogin";
 
 
 
@@ -45,12 +46,10 @@ const App = () => {
     <div>
       <Router>
         <Heading />
-        <ConditionalNavBar />
         <Routes>
         <Route path = "/" element ={<Layout/>}>
-            <Route index element={<Home />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/movies" element={<Movies />} />
+            
+            
             <Route path = "/unauthorized" element = {<Unauthorized/>}></Route>
             <Route path="/schedule" element={<Schedule />} />
             <Route path="forgot-password" element={<Forgotpassword />} />
@@ -67,10 +66,15 @@ const App = () => {
             />
             <Route path="/register" element={<RegisterPage />} />
 
+
+            <Route element={<PersistLogin/>}>
+            <Route index element={<Home />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/movies" element={<Movies />} />
             <Route element = {<RequireAuth allowedRoles={["admin"]}/>}>
               <Route path="/theatres" element={<Theatres />} />
             </Route>
-
+            </Route>
 
             <Route path="/payment-failure/:showId/:theatreId" element={<PaymentFailure />} />
             <Route path="/payment-success" element={<PaymentSuccess />} />
@@ -86,21 +90,21 @@ const App = () => {
   );
 };
 
-const ConditionalNavBar = () => {
-  const location = useLocation();
-  const hideNavBarRoutes = [
-    "/register",
-    "/login",
-    "/otp",
-    "/forgot-password",
-    "/reset",
-    "/terms",
-    "/privacyPolicy",
-    "/help",
-  ];
+// const ConditionalNavBar = () => {
+//   const location = useLocation();
+//   const hideNavBarRoutes = [
+//     "/register",
+//     "/login",
+//     "/otp",
+//     "/forgot-password",
+//     "/reset",
+//     "/terms",
+//     "/privacyPolicy",
+//     "/help",
+//   ];
 
-  return !hideNavBarRoutes.includes(location.pathname) ? <NavBar /> : null;
-};
+//   return !hideNavBarRoutes.includes(location.pathname) ? <NavBar /> : null;
+// };
 
 export default App;
 

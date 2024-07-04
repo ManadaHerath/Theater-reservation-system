@@ -33,7 +33,7 @@ export const handleLogout = async (req, res) => {
             [userId]
         );
 
-        res.clearCookie("access_token", {httpOnly: true, sameSite: 'Strickt', secure: true}).sendStatus(204);
+        res.clearCookie("access_token", {httpOnly: true, sameSite: 'Strict', secure: true }).sendStatus(204);
 
         
     
