@@ -8,6 +8,7 @@ const PersistLogin = () =>{
     const [loading, setLoading] = useState(true);
     const refresh = useRefresh();
     const {user} = useAuth();
+    console.log(user)
 
 
 

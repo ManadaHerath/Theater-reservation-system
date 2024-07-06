@@ -6,7 +6,7 @@ import { verifyRoles } from '../util/verify_roles.js';
 
 const router = expresss.Router();
 
-router.get("/",verifyJWT,verifyRoles(['admin']) , getTheatres);   
+router.get("/" , getTheatres);    //,verifyJWT,verifyRoles(['admin'])
 router.post("/" , addTheatre)
 router.get("/:id", getTheatreById);
 export default router;
