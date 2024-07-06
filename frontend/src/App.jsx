@@ -39,6 +39,11 @@ import RequireAuth from "./components/RequireAuth";
 import PersistLogin from "./components/Persist Login/PersistLogin";
 
 
+// Admin Panel
+
+import AdminPanel from "./components/Admin/AdminPanel";
+
+
 
 
 const App = () => {
@@ -71,8 +76,10 @@ const App = () => {
             <Route index element={<Home />} />
             <Route path="/home" element={<Home />} />
             <Route path="/movies" element={<Movies />} />
+            <Route path="/theatres" element={<Theatres />} />
             <Route element = {<RequireAuth allowedRoles={["admin"]}/>}>
-              <Route path="/theatres" element={<Theatres />} />
+              
+              <Route path="/admin" element={<AdminPanel />} />
             </Route>
             </Route>
 
@@ -84,7 +91,6 @@ const App = () => {
 
           </Route>
         </Routes>
-        <Footer />
       </Router>
     </div>
   );
