@@ -23,10 +23,11 @@ export const addTheatre = async (req, res, next) => {
       no_of_seates,
       no_of_rows,
       no_of_columns,
+      image_url
     } = req.body;
 
     const [result] = await connection.query(
-      "INSERT INTO theatres (name, address, location, mobile_number, email, details, is_active, no_of_seates, no_of_rows, no_of_columns) VALUES (?, ?, ST_GeomFromText(?), ?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO theatres (name, address, location, mobile_number, email, details, is_active, no_of_seates, no_of_rows, no_of_columns, image_url) VALUES (?, ?, ST_GeomFromText(?), ?, ?, ?, ?, ?, ?, ?, ?)",
       [
         name,
         address,
@@ -38,20 +39,17 @@ export const addTheatre = async (req, res, next) => {
         no_of_seates,
         no_of_rows,
         no_of_columns,
-
         image_url
-      } = req.body;
-  
-      const [result] = await connection.query(
-        'INSERT INTO theatres (name, address, location, mobile_number, email, details, is_active, no_of_seats, no_of_rows, no_of_columns,image_url) VALUES (?, ?, ST_GeomFromText(?), ?, ?, ?, ?, ?, ?, ?,?)',
-        [name, address, `POINT(${location.lat} ${location.lng})`, mobile_number, email, details, is_active, no_of_seates, no_of_rows, no_of_columns,image_url]
-      );
-      res.json({id: result.insertId, ...req.body}).status(200)
-    } catch (error) {
-      console.error('Error adding theatre:', error);
-      next(error);
-    }
-  };
+      ]
+    );
+
+    res.status(200).json({ id: result.insertId, ...req.body });
+  } catch (error) {
+    console.error('Error adding theatre:', error);
+    next(error);
+  }
+};
+
 
 export const getTheatreById = async (req, res, next) => {
   try {
