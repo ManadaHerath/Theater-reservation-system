@@ -1,9 +1,23 @@
 "use client";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import GoogleSignInButton from "./SignInButton";
+import useAuth from "../../hooks/useAuth";
+import axios from "../../api/axios";
+
+
+
 export default function Login() {
+
+  const { setUser } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+ 
+
+
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [alert, setAlert] = useState("");
@@ -20,17 +34,25 @@ export default function Login() {
   const onsubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5001/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await response.json();
+      const response = await axios.post("/auth/login", JSON.stringify({ email, password }),{
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true
+    });
+      const data = response.data;
       if (response.status === 200) {
         setAlert("Successfullly Logged In");
+        
+        setAlertStyle("text-green-600 text-s mt-1 flex justify-center");
+        
+
+        const accessToken = data?.token;
+        const role = data?.role;
+        setUser({email,accessToken, role})
         setEmail("");
         setPassword("");
-        setAlertStyle("text-green-600 text-s mt-1 flex justify-center");
+        navigate(from, { replace: true });
+
+
       } else {
         setAlert(data.message);
         setAlertStyle("text-red-600 text-s mt-1 flex justify-center");

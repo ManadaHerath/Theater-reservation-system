@@ -1,14 +1,21 @@
-import React from 'react';
-import useFetch from '../hooks/useFetch';
-import { useNavigate } from 'react-router-dom';
+import {React, useEffect , useState} from "react";
+import useFetch from "../hooks/useFetch";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+
+
 const MovieCard = ({movie}) => {
 
+
+  const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate(); // Hook for navigation
 
   const handleClick = () => {
     navigate(`/schedule/${movie.id}`); // Navigate to the schedule page
   };
   const handlePosterClick  = () =>{
+    
     
   }
 
@@ -66,15 +73,32 @@ const MovieCard = ({movie}) => {
 };
 
 const MovieList = () => {
-  const { data, loading, error } = useFetch('http://localhost:5001/movies');
+  const axiosPrivate = useAxiosPrivate();
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
+  useEffect(() => {
+      const fetchData = async () => {
+          try {
+              const response = await axiosPrivate.get("/movies");
+              setData(response.data);
+          } catch (error) {
+              setError(error.message);
+          }
+          setLoading(false);
+      };
 
-  if (error.length >0) {
-    console.log(error);
-}
+      fetchData();
+  }, []);
+
+    if (loading) {
+        return <p>Loading...</p>;
+    }
+
+    if (error.length >0) {
+        console.log(error);
+    }
 
   return (
     <div className='flex flex-col sm:flex-row justify-center sm:space-x-4 py-4'>

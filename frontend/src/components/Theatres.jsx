@@ -1,6 +1,13 @@
-import React from "react";
+import {React, useEffect , useState} from "react";
 import useFetch from "../hooks/useFetch";
-import { Link, useNavigate } from "react-router-dom";
+
+
+import {Link, useNavigate, useLocation  } from "react-router-dom";
+import axios from "axios";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+
+
+
 
 const TheatreCard = ({ theatre }) => {
   const navigate = useNavigate();
@@ -46,26 +53,47 @@ const TheatreCard = ({ theatre }) => {
 };
 
 const TheatreList = () => {
-  const { data, loading, error } = useFetch("http://127.0.0.1:5001/theatres");
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
+  const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  if (error.length > 0) {
-    console.log(error);
-  }
+  useEffect(() => {
+      const fetchData = async () => {
+          try {
+              const response = await axiosPrivate.get("/theatres");
+              setData(response.data);
+          } catch (error) {
+              setError(error.message);
+              navigate("/login",{state: {from: location}, replace: true})
+          }
+          setLoading(false);
+      };
 
-  return (
-    <div className="flex flex-col sm:flex-row justify-center sm:space-x-4">
-      {data.map((theatre) => (
-        <TheatreCard
-          key={theatre.id}
-          theatre={theatre} // Pass theatre object as prop
-        />
-      ))}
-    </div>
-  );
+      fetchData();
+  }, []);
+
+    if (loading) {
+        return <p>Loading...</p>;
+    }
+
+    if (error.length >0) {
+        console.log(error);
+    }
+
+    return (
+        <div className="flex flex-col sm:flex-row justify-center sm:space-x-4">
+            {data.map(theatre => (
+                <TheatreCard
+                    key={theatre.id}
+                    theatre={theatre} // Pass theatre object as prop
+                />
+            ))}
+        </div>
+    );
 };
 
 export default TheatreList;

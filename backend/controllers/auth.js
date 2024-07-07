@@ -97,17 +97,38 @@ export const login = async (req, res, next) => {
     if (!isPasswordCorrect) {
       return res.status(201).json({ message: "Invalid credentials" });
     }
-    const role = user.role === "admin";
+    const role = user.role;
     const token = jwt.sign(
-      { id: user.id, isAdmin: role },
-      process.env.JWT_SECRET_KEY
+      { UserInfo:{id: user.id, role: role} },
+      process.env.JWT_SECRET_KEY,
+      { expiresIn: "10s" }
+  );
+
+    const refreshToken = jwt.sign(
+      {id:user.id, userName:user.email},
+      process.env.REFRESH_SECRET_KEY,
+      {expiresIn: "1d"}
+    )
+
+    // save the freshToken to the database with the user id
+    try{
+      const [result] = await connection.query(
+        'UPDATE users SET refresh_token = ? WHERE id = ?',
+        [refreshToken, user.id]
     );
-    // Return the user
-    res.cookie("access_token", token, { httpOnly: true }).json({
-      id: user.id,
-      email: user.email,
-      phone_number: user.phone_number,
-    });
+    }catch(error){
+      console.error("Error saving refresh token to the database:", error);
+      next(error);
+    }
+
+
+
+
+  // Return the user
+  res.cookie("access_token", refreshToken, { httpOnly: true, sameSite: 'Strict', secure: true , maxAge :24*60*60*1000 }).status(200).json({
+      role: user.role,
+      token
+  });
   } catch (error) {
     console.error("Error logging in user:", error);
     next(error);

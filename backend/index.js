@@ -20,6 +20,9 @@ import cors from "cors";
 import session from "express-session";
 import passport from "./controllers/GoogleSignIn.js";
 import recoveryRoute from "./routes/recoveryPassword.js";
+import refreshRoute from "./routes/refresh.js";
+import logoutRoute from "./routes/logout.js";
+
 
 const app = express();
 //for usage of google sign in
@@ -30,6 +33,16 @@ app.use(
     saveUninitialized: false,
   })
 );
+
+const corsOptions = {
+  origin: 'http://localhost:3000', // Frontend URL
+  credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
+
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -53,12 +66,12 @@ app.listen(5001, () => {
 
 
 // middlewares
-app.use(cors())
 app.use("/webhook", webHookRoute);
 app.use(express.json());
 app.use(cookieParser());
 
-
+app.use("/refresh",refreshRoute);
+app.use("/logout",logoutRoute);
 app.use("/auth", authRoute);
 app.use("/movies", movieRoute);
 app.use("/theatres", theatreRoute);
