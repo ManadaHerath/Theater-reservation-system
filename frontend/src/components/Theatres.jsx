@@ -1,8 +1,11 @@
 import {React, useEffect , useState} from "react";
 import useFetch from "../hooks/useFetch";
-import { useNavigate, useLocation  } from "react-router-dom";
+
+
+import {Link, useNavigate, useLocation  } from "react-router-dom";
 import axios from "axios";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
+
 
 
 
@@ -12,36 +15,45 @@ const TheatreCard = ({ theatre }) => {
     navigate(`/schedule/${theatre.id}`);
   };
 
-    return (
-        <div 
-          className={`theatre-card w-72 relative overflow-hidden transition-transform duration-300 hover:scale-105 ${
-            theatre.is_active ? "" : "inactive"
-          }`} 
-          onClick={handleClick}
-        >
-          {/* Image Container with hover effect */}
-          <div className="relative transition-opacity duration-300 hover:opacity-75">
-            <img
-              src={theatre.image_url}
-              alt={theatre.name}
-              className="object-cover w-full h-64" 
-              onError={(e) =>
-                (e.target.src =
-                  'https://blog.bbt4vw.com/wp-content/uploads/2021/05/sorry-we-are-closed-sign-on-door-store-business-vector-27127112-1.jpg')
-              }
-            />
-          </div>
-    
-          {/* Details Container */}
-          <div className="theatre-details p-4">
-            <h3 className="text-xl font-bold mb-2">{theatre.name}</h3>
-            <p className="text-gray-700">{theatre.details}</p>
-          </div>
+  return (
+    <div>
+      <div
+        className={`theatre-card w-72 relative overflow-hidden transition-transform duration-300 hover:scale-105 ${
+          theatre.is_active ? "" : "inactive"
+        }`}
+        onClick={handleClick}
+      >
+        {/* Image Container with hover effect */}
+        <div className="relative transition-opacity duration-300 hover:opacity-75">
+          <img
+            src={theatre.image_url}
+            alt={theatre.name}
+            className="object-cover w-full h-64"
+            onError={(e) =>
+              (e.target.src =
+                "https://blog.bbt4vw.com/wp-content/uploads/2021/05/sorry-we-are-closed-sign-on-door-store-business-vector-27127112-1.jpg")
+            }
+          />
         </div>
-      );
+
+        {/* Details Container */}
+        <div className="theatre-details p-4">
+          <h3 className="text-xl font-bold mb-2">{theatre.name}</h3>
+          <p className="text-gray-700">{theatre.details}</p>
+        </div>
+      </div>
+      <Link
+        to={`/theatre/${theatre.id}`}
+        className="block mt-4 text-blue-600 hover:underline"
+      >
+        See More{" "}
+      </Link>
+    </div>
+  );
 };
 
 const TheatreList = () => {
+
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const location = useLocation();
