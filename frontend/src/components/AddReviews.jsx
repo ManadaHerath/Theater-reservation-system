@@ -4,8 +4,9 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 
-const AddReview = ({ onSubmit }) => {
+const AddReview = ({ onSubmit, disable,photo }) => {
   const [review, setReview] = useState("");
+  console.log("disable", disable);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -13,22 +14,31 @@ const AddReview = ({ onSubmit }) => {
     setReview("");
   };
 
+
   return (
     <Box
       component="form"
       sx={{
         display: "flex",
         flexDirection: "column",
-        gap: 2,
+        gap: 1,
         mt: 5,
         ml: 5,
         maxWidth: "400px",
       }}
       onSubmit={handleSubmit}
     >
+    
       <Typography variant="h6" sx={{ color: "white" }}>
-        Add a Review
+        {!disable ? "Add a Review" : "Please login to add a review"}
       </Typography>
+      {!disable && (
+        <img
+          src={photo}
+          alt="profile"
+          style={{ width: "50px", height: "50px", borderRadius: "50%" }}
+        />  
+      )}
       <TextField
         label="Review"
         variant="outlined"
@@ -36,6 +46,7 @@ const AddReview = ({ onSubmit }) => {
         onChange={(e) => setReview(e.target.value)}
         multiline
         rows={4}
+        disabled={disable} // Disable the input if
         required
         InputLabelProps={{
           sx: {
@@ -54,6 +65,9 @@ const AddReview = ({ onSubmit }) => {
             "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
               borderColor: "blue",
             },
+            "&.Mui-disabled .MuiOutlinedInput-notchedOutline": {
+              borderColor: "red", // Border color when disabled
+            },
           },
         }}
         FormHelperTextProps={{
@@ -62,7 +76,26 @@ const AddReview = ({ onSubmit }) => {
           },
         }}
       />
-      <Button variant="contained" color="primary" type="submit">
+      <Button
+        variant="contained"
+        color="primary"
+        type="submit"
+        onClick={(e) => {
+          if (disable) {
+            e.preventDefault();
+          } else {
+            handleSubmit(e);
+          }
+        }}
+        sx={{
+          backgroundColor: disable ? "grey" : "primary.main",
+          color: disable ? "white" : "inherit",
+          "&:hover": {
+            backgroundColor: disable ? "grey" : "primary.dark",
+          },
+          cursor: disable ? "not-allowed" : "pointer",
+        }}
+      >
         Submit
       </Button>
     </Box>

@@ -4,7 +4,6 @@ import Cookies from "js-cookie";
 import useAxiosPrivate from "./useAxiosPrivate";
 
 const useFetch = (url) => {
-
   const axiosPrivate = useAxiosPrivate();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState([]);
@@ -14,10 +13,20 @@ const useFetch = (url) => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const token = Cookies.get('access_token');
-        const res = await axios.get(url, { 
-          withCredentials: true,
-        });
+        const token = Cookies.get("access_token");
+        const res = await axios.get(
+          url,
+          {
+            withCredentials: true,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: "application/json",
+              "Access-Control-Allow-Origin": "*",
+            },
+          }
+        );
         setData(res.data);
       } catch (err) {
         setError(err);

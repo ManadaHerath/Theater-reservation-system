@@ -7,28 +7,64 @@ import Rating from "@mui/material/Rating";
 import Typography from "@mui/material/Typography";
 import AddReview from "./AddReviews";
 import ReviewList from "./ShowReviewList";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 export default function Theatre() {
+  const axiosPrivate = useAxiosPrivate();
+  const [userDetails, setUserDetails] = useState([]);
+  const [disable, setDisable] = useState(true);
   const [value, setValue] = useState(0);
-  const [reviews, setReviews] = useState([
-    { id: 1, name: 'John Doe', text: 'Great movie!', rating: 4, likes: 0,liked: false, replies: [] },
-    { id: 2, name: 'Jane Doe', text: 'Not bad.', rating: 3, likes: 0, liked: false,replies: [] },
-  ]);
+  const [reviews, setReviews] = useState([]);
+  // const [reviews, setReviews] = useState([
+  //   {
+  //     id: 1,
+  //     name: "John Doe",
+  //     text: "Great movie!",
+  //     rating: 4,
+  //     likes: 0,
+  //     liked: false,
+  //     replies: [],
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Jane Doe",
+  //     text: "Not bad.",
+  //     rating: 3,
+  //     likes: 0,
+  //     liked: false,
+  //     replies: [],
+  //   },
+  // ]);
 
   const handleAddReview = (review) => {
-    setReviews([...reviews, { ...review, id: reviews.length + 1, likes: 0, replies: [] }]);
+    setReviews([
+      ...reviews,
+      { ...review, id: reviews.length + 1, likes: 0, replies: [] },
+    ]);
   };
 
   const handleLikeReview = (id) => {
-    setReviews(reviews.map(review =>
-      review.id === id
-        ? { ...review, likes: review.liked ? review.likes - 1 : review.likes + 1, liked: !review.liked }
-        : review
-    ));
+    setReviews(
+      reviews.map((review) =>
+        review.id === id
+          ? {
+              ...review,
+              likes: review.liked ? review.likes - 1 : review.likes + 1,
+              liked: !review.liked,
+            }
+          : review
+      )
+    );
   };
 
   const handleReplyReview = (id, reply) => {
-    setReviews(reviews.map(review => review.id === id ? { ...review, replies: [...review.replies, reply] } : review));
+    setReviews(
+      reviews.map((review) =>
+        review.id === id
+          ? { ...review, replies: [...review.replies, reply] }
+          : review
+      )
+    );
   };
 
   const navigate = useNavigate();
@@ -40,10 +76,44 @@ export default function Theatre() {
     error,
   } = useFetch(`http://localhost:5001/theatres/${id}`);
 
+  // const { data: userDetails } = useFetch("http://localhost:5001/users/getUser");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosPrivate.get(
+          "http://localhost:5001/users/getUser"
+        );
+        setUserDetails(response.data);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      }
+    };
+
+    const fetchReviews = async () => {
+      try {
+        const response = await axiosPrivate.get(
+          `http://localhost:5001/reviews/${id}`
+        );
+        setReviews(response.data);
+      } catch (error) {
+        console.error("Error fetching reviews:", error);
+      }
+    };
+
+    fetchData();
+    fetchReviews();
+  }, []);
+
+  useEffect(() => {
+    if (userDetails && userDetails.length > 0 && userDetails[0] !== null) {
+      setDisable(false);
+    } else {
+      setDisable(true);
+    }
+  }, [userDetails]);
   if (loading) return <p>Loading...</p>;
   if (error.length > 0) return <p>error...</p>;
-
-  console.log(details);
 
   const handleonClick = () => {
     navigate(`/schedule/${id}`);
@@ -97,7 +167,6 @@ export default function Theatre() {
             {details.rating}/5
           </p>
           <Box className="my-auto">
-            <Typography component="legend">Controlled</Typography>
             <Rating
               name="read-only"
               value={details.rating}
@@ -126,7 +195,7 @@ export default function Theatre() {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 mt-5 ">
         <h1 className="lg:text-5xl text-xl font-bold mt-5 ml-10 text-white">
-          Rate Now
+          {disable ? "Please login to rate" : "Rate Now"}
         </h1>
         <Box className="ml-10">
           <Typography component="legend">Controlled</Typography>
@@ -135,8 +204,11 @@ export default function Theatre() {
             value={value}
             size="large"
             onChange={(event, newValue) => {
-              setValue(newValue);
+              if (!disable) {
+                setValue(newValue);
+              }
             }}
+            readOnly={disable}
             sx={{
               "& .MuiRating-iconEmpty": {
                 color: "white",
@@ -149,10 +221,18 @@ export default function Theatre() {
         Reviews
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 mt-5">
-      <AddReview onSubmit={handleAddReview} />
-      <ReviewList reviews={reviews} onLike={handleLikeReview} onReply={handleReplyReview} />
-      </div>
+        <AddReview
+          onSubmit={handleAddReview}
+          disable={disable}
+          photo={userDetails && userDetails[0]?.avatar}
+        />
 
+        <ReviewList
+          reviews={reviews}
+          onLike={handleLikeReview}
+          onReply={handleReplyReview}
+        />
+      </div>
     </div>
   );
 }
