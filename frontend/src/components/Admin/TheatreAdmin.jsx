@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 
@@ -25,10 +25,12 @@ export default function AddTheatreForm() {
   const [priceCategories, setPriceCategories] = useState([]);
   const [newCategoryName, setNewCategoryName] = useState("");
   const [newCategoryPrice, setNewCategoryPrice] = useState("");
+  const [priceCategoryAdded, setPriceCategoryAdded] = useState(false);
 
   // state for rows
   const [rows, setRows] = useState([]);
   const [newRowLabel, setNewRowLabel] = useState("");
+  const [newPriceCategory, setNewPriceCategory] = useState(0);
   const [dbpriceCategories, setdbPriceCategories] = useState([]);
 
 
@@ -95,10 +97,14 @@ export default function AddTheatreForm() {
   const handleSubmitCategories = async (e) => {
     e.preventDefault();
     try {
-      console.log({priceCategories,theatreId})
       // Send price categories to backend
       await axiosPrivate.post(`http://localhost:5001/seat_types/prices`, {priceCategories,theatreId});
       console.log("Price categories added successfully.");
+      setPriceCategoryAdded(true);
+
+
+      fetchPriceCategories();
+
       // Clear price categories state after submission
       setPriceCategories([]);
     } catch (error) {
@@ -106,54 +112,55 @@ export default function AddTheatreForm() {
       // Handle error states as needed
     }
   };
+  useEffect(()=>{
+    fetchPriceCategories();
+  },[])
+
 
   const fetchPriceCategories = async () => {
     try {
-      const response = await axiosPrivate.get(`http://localhost:5001/seat_types/pricesByTheatre`,{theatreId});
+      console.log({theatreId})
+      const response = await axiosPrivate.get(`http://localhost:5001/seat_types/pricesByTheatre/${theatreId}`);
       setdbPriceCategories(response.data);
     } catch (error) {
       console.error("Error fetching price categories:", error);
       // Handle error states as needed
     }
   };
-
-
-
   const handleAddRow = () => {
+    // Validate if category name and price are filled
     if (newRowLabel.trim() === "") {
-      alert("Please enter a row label.");
+      alert("Please fill in both category name and price.");
       return;
     }
-    setRows([...rows, { label: newRowLabel, priceCategoryId: "" }]);
+    // Add new category to state
+    setRows([
+      ...rows,
+      { row_label: newRowLabel, price_category_id: newPriceCategory },
+    ]);
+    console.log({rows})
+    // Clear input fields
     setNewRowLabel("");
+    setNewPriceCategory("");
   };
 
-  const handleRowPriceCategoryChange = (index, value) => {
-    const updatedRows = [...rows];
-    updatedRows[index].priceCategoryId = value;
-    setRows(updatedRows);
-  };
+
 
   const handleSubmitRows = async (e) => {
     e.preventDefault();
     try {
-      // Send rows data to backend
-      const rowsWithCategories = rows.map(row => ({
-        label: row.label,
-        price_category_id: row.priceCategoryId
-      }));
-      await axiosPrivate.post(`http://localhost:5001/theatres/${theatreId}/rows`, {
-        rows: rowsWithCategories,
-      });
-      console.log("Rows added successfully.");
-      // Clear rows state after submission
-      setRows([]);
+      console.log({rows,theatreId})
+      const response = await axiosPrivate.post('http://localhost:5001/rows/addRows', {rows,theatreId});
+
+      if (response.status === 200) {setRows([])}
+      else{
+        console.log("Error adding rows");
+      }
     } catch (error) {
-      console.error("Error adding rows:", error);
-      // Handle error states as needed
+      console.error("Error adding price categories:", error);
+
     }
   };
-
 
 
 
@@ -342,7 +349,6 @@ export default function AddTheatreForm() {
           </form>
         </div>
       )}
-
       {/* Form to add rows */}
       {theatreId && (
         <div className="xl:max-w-3xl bg-gray-800 border-gray-700 w-full py-3 sm:p-10 rounded-md sm:max-w-md my-6">
@@ -350,53 +356,57 @@ export default function AddTheatreForm() {
             Add Rows
           </h2>
           <form onSubmit={handleSubmitRows}>
-            {rows.map((row, index) => (
-              <div key={index} className="flex gap-3 items-center mb-3">
+            <div className="flex flex-col gap-4">
+              <div className="flex gap-3">
                 <input
                   className={inputStyles}
                   type="text"
-                  placeholder={`Row ${index + 1} Label`}
-                  value={row.label}
-                  onChange={(e) => {
-                    const updatedRows = [...rows];
-                    updatedRows[index].label = e.target.value;
-                    setRows(updatedRows);
-                  }}
-                  required
+                  placeholder="Row Label"
+                  value={newRowLabel}
+                  onChange={(e) => setNewRowLabel(e.target.value)}
+                  
                 />
                 <select
                   className={inputStyles}
-                  value={row.priceCategoryId}
-                  onChange={(e) => handleRowPriceCategoryChange(index, e.target.value)}
-                  required
+                  defaultValue = "Price Category"
+                  onChange={(e) => setNewPriceCategory(e.target.value)}>
+                  
+                    {dbpriceCategories.map(category => (
+                      <option key={category.id} value={category.id}>
+                        {category.category_name}
+                      </option>))}
+                </select>    
+                <button
+                  type="button"
+                  className="bg-[#E9522C] text-gray-100 px-4 py-2 rounded-lg hover:bg-[#E9522C]/90 transition-all duration-300 ease-in-out"
+                  onClick={handleAddRow}
                 >
-                  <option value="">Select Price Category</option>
-                  {priceCategories.map(category => (
-                    <option key={category.id} value={category.id}>
-                      {category.category_name} (${category.price})
-                    </option>
-                  ))}
-                </select>
-                {index === rows.length - 1 && (
-                  <button
-                    type="button"
-                    className="bg-[#E9522C] text-gray-100 px-4 py-2 rounded-lg hover:bg-[#E9522C]/90 transition-all duration-300 ease-in-out"
-                    onClick={handleAddRow}
-                  >
-                    Add Row
-                  </button>
-                )}
+                  Add
+                </button>
               </div>
-            ))}
-            <button
-              type="submit"
-              className="mt-5 tracking-wide font-semibold bg-[#E9522C] text-gray-100 w-full py-4 rounded-lg hover:bg-[#E9522C]/90 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
-            >
-              <span className="ml-3">Submit Rows</span>
-            </button>
+              {/* Display added categories */}
+              <div className="flex flex-wrap gap-2">
+                {rows.map((category, index) => (
+                  <div
+                    key={index}
+                    className="bg-gray-700 p-2 rounded-lg flex items-center gap-2"
+                  >
+                    <span className="text-white">{category.row_label}</span>
+                  </div>
+                ))}
+              </div>
+              <button
+                type="submit"
+                className="mt-5 tracking-wide font-semibold bg-[#E9522C] text-gray-100 w-full py-4 rounded-lg hover:bg-[#E9522C]/90 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+              >
+                <span className="ml-3">Done Adding Rows</span>
+              </button>
+            </div>
           </form>
         </div>
       )}
+
+      
 
     </div>
 

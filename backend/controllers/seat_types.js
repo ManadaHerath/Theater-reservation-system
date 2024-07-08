@@ -32,8 +32,9 @@ export const getSeatPrices = async (req, res, next) => {
     }
 }
 export const getPricesByTheatre = async (req, res, next) => {
+  console.log(req.params)
     
-    const {theatreId} = req.body
+    const {theatreId} = req.params
 
     try{
         const [price_categories] = await connection.query('SELECT * FROM price_categories where theatre_id = ? ',[theatreId]);

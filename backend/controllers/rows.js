@@ -30,3 +30,26 @@ export const getSeats = async (req, res, next) => {
     next(error)
   }
 }
+
+
+export const addRows = async (req,res,next) =>{
+  try{
+    const {rows,theatreId} = req.body;
+    console.log(rows,theatreId)
+
+    const insertPromises = rows.map(async (row) => {
+      const {row_label, price_category_id} =row;
+      const [result] = await connection.query('INSERT INTO rovs (theatre_id,row_label,price_category_id) VALUES (?,?,?)',[theatreId,row_label,price_category_id]);
+    });
+
+    await Promise.all(insertPromises);
+    res.send('Rows added successfully').status(200);
+    }catch(error){
+      next(error)
+    }
+
+
+
+
+  
+}

@@ -8,7 +8,7 @@ router.get("/types", getSeatTypes);
 router.post("/types",addSeatType);
 router.get("/prices", getSeatPrices);
 router.post("/prices",addPriceType);
-router.get("/pricesByTheatre",getPricesByTheatre)
+router.get("/pricesByTheatre/:theatreId",getPricesByTheatre)
 
 
 export default router;
