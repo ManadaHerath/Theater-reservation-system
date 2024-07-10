@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 
-const AddReview = ({ onSubmit }) => {
+const AddReview = ({ onSubmit, disable, photo }) => {
   const [review, setReview] = useState("");
 
   const handleSubmit = (event) => {
@@ -19,7 +19,7 @@ const AddReview = ({ onSubmit }) => {
       sx={{
         display: "flex",
         flexDirection: "column",
-        gap: 2,
+        gap: 1,
         mt: 5,
         ml: 5,
         maxWidth: "400px",
@@ -27,8 +27,20 @@ const AddReview = ({ onSubmit }) => {
       onSubmit={handleSubmit}
     >
       <Typography variant="h6" sx={{ color: "white" }}>
-        Add a Review
+        {!disable ? "Add a Review" : "Please login to add a review"}
       </Typography>
+      {!disable && (
+        <img
+          src={photo}
+          alt="profile"
+          style={{
+            width: "50px",
+            height: "50px",
+            borderRadius: "50%",
+            border: "1px solid white",
+          }}
+        />
+      )}
       <TextField
         label="Review"
         variant="outlined"
@@ -36,23 +48,27 @@ const AddReview = ({ onSubmit }) => {
         onChange={(e) => setReview(e.target.value)}
         multiline
         rows={4}
+        disabled={disable}
         required
         InputLabelProps={{
           sx: {
-            color: "white", // Label color
+            color: "white",
           },
         }}
         InputProps={{
           sx: {
-            color: "white", // Text color
+            color: "white",
             "& .MuiOutlinedInput-notchedOutline": {
-              borderColor: "blue", // Initial border color
+              borderColor: "blue",
             },
             "&:hover .MuiOutlinedInput-notchedOutline": {
               borderColor: "blue",
             },
             "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
               borderColor: "blue",
+            },
+            "&.Mui-disabled .MuiOutlinedInput-notchedOutline": {
+              borderColor: "red",
             },
           },
         }}
@@ -62,7 +78,26 @@ const AddReview = ({ onSubmit }) => {
           },
         }}
       />
-      <Button variant="contained" color="primary" type="submit">
+      <Button
+        variant="contained"
+        color="primary"
+        type="submit"
+        onClick={(e) => {
+          if (disable | review=="") {
+            e.preventDefault();
+          } else {
+            handleSubmit(e);
+          }
+        }}
+        sx={{
+          backgroundColor: disable ? "grey" : "primary.main",
+          color: disable ? "white" : "inherit",
+          "&:hover": {
+            backgroundColor: disable ? "grey" : "primary.dark",
+          },
+          cursor: disable | review=="" ? "not-allowed" : "pointer",
+        }}
+      >
         Submit
       </Button>
     </Box>
