@@ -33,6 +33,7 @@ export const register = async (req, res, next) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    const defaultAvatar = "https://firebasestorage.googleapis.com/v0/b/medilink-812fc.appspot.com/o/person.png?alt=media&token=510412a5-bfd5-423d-b65d-f3b2a206e88d";
 
     console.log(req.body);
     const [result] = await connection.query(
@@ -42,7 +43,7 @@ export const register = async (req, res, next) => {
         phone_number,
         full_name,
         gender,
-        avatar,
+        avatar || defaultAvatar,
         address,
         birthday,
         role,
