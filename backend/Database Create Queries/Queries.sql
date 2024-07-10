@@ -612,6 +612,8 @@ INSERT INTO seats (id, row_id, seat_number, seat_type_id) VALUES
 (93, 5, 13, 3), (94, 5, 14, 3), (95, 5, 15, 3), (96, 5, 16, 3), 
 (97, 5, 17, 3), (98, 5, 18, 3), (99, 5, 19, 3), (100, 5, 20, 3);
 
+
+-------------- Theatre Reviews --------------
 CREATE TABLE theatre_reviews (
     review_id varchar(100) PRIMARY KEY DEFAULT (UUID()),
     theatre_id varchar(100) NOT NULL,
