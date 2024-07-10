@@ -648,3 +648,30 @@ VALUES
 ('7a14cbad-3cf7-11ef-a035-8915cbbb4a40', '64c818c1-2f35-11ef-a881-00155d7a82dd',  'We appreciate your feedback. We are working on improving our snack offerings.'),
 ('7a14a220-3cf7-11ef-a035-8915cbbb4a40', 'd54415c6-2e52-11ef-a881-00155d7a82dd', 'Thank you for your kind words! We look forward to seeing you again.');
 
+CREATE TABLE theatre_user_rating (
+    rating_id varchar(100) PRIMARY KEY DEFAULT (UUID()),
+    theatre_id varchar(100) NOT NULL,
+    user_id varchar(100) NOT NULL,
+    rates DECIMAL(2,1) CHECK (rates >= 1.0 AND rates <= 5.0),
+    FOREIGN KEY (theatre_id) REFERENCES theatres(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+INSERT INTO theatre_user_rating (theatre_id, user_id,rates)
+VALUES
+( 'd54567f1-2e52-11ef-a881-00155d7a82dd', '36fee9d3-2f7f-11ef-a881-00155d7a82dd', 4.5),
+('d5456d04-2e52-11ef-a881-00155d7a82dd', 'd543e9c0-2e52-11ef-a881-00155d7a82dd',  3.0),
+('d5456e33-2e52-11ef-a881-00155d7a82dd', '36fee9d3-2f7f-11ef-a881-00155d7a82dd',  4.8);CREATE TABLE theatre_user_rating (
+    rating_id varchar(100) PRIMARY KEY DEFAULT (UUID()),
+    theatre_id varchar(100) NOT NULL,
+    user_id varchar(100) NOT NULL,
+    rates DECIMAL(2,1) CHECK (rates >= 1.0 AND rates <= 5.0),
+    FOREIGN KEY (theatre_id) REFERENCES theatres(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+INSERT INTO theatre_user_rating (theatre_id, user_id,rates)
+VALUES
+( 'd54567f1-2e52-11ef-a881-00155d7a82dd', '36fee9d3-2f7f-11ef-a881-00155d7a82dd', 4.5),
+('d5456d04-2e52-11ef-a881-00155d7a82dd', 'd543e9c0-2e52-11ef-a881-00155d7a82dd',  3.0),
+('d5456e33-2e52-11ef-a881-00155d7a82dd', '36fee9d3-2f7f-11ef-a881-00155d7a82dd',  4.8);
