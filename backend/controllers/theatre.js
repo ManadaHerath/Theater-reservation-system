@@ -20,14 +20,15 @@ export const addTheatre = async (req, res, next) => {
       email,
       details,
       is_active,
-      no_of_seates,
+      no_of_seats,
       no_of_rows,
       no_of_columns,
       image_url
     } = req.body;
+    console.log(req.body)
 
     const [result] = await connection.query(
-      "INSERT INTO theatres (name, address, location, mobile_number, email, details, is_active, no_of_seates, no_of_rows, no_of_columns, image_url) VALUES (?, ?, ST_GeomFromText(?), ?, ?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO theatres (name, address, location, mobile_number, email, details, is_active, no_of_seats, no_of_rows, no_of_columns, image_url) VALUES (?, ?, ST_GeomFromText(?), ?, ?, ?, ?, ?, ?, ?, ?)",
       [
         name,
         address,
@@ -36,7 +37,7 @@ export const addTheatre = async (req, res, next) => {
         email,
         details,
         is_active,
-        no_of_seates,
+        no_of_seats,
         no_of_rows,
         no_of_columns,
         image_url
@@ -72,4 +73,18 @@ export const addTheatre = async (req, res, next) => {
       next(error);
     }
   };
+
+
+  export const deleteTheatre = async (req, res, next ) =>{
+    try{
+      const{id} = req.params;
+      const [result] = await connection.query('DELETE FROM theatres WHERE id = ?', [id]);
+
+
+      res.status(200).json({message: 'Theatre deleted successfully'})
+    }catch(error){
+      console.log('Error deleting theatre:', error)
+      next(error)
+    }
+  }
 
