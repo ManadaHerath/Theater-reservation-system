@@ -22,7 +22,7 @@ const Review = ({ review, onLike, onReply }) => {
         <img
           src={review.avatar}
           alt="profile"
-          style={{ width: "50px", height: "50px", borderRadius: "50%" }}
+          style={{ width: "50px", height: "50px", borderRadius: "50%", border: "1px solid white,"}}
         />
         <Typography variant="h6" sx={{ color: "white" }}>
           {review.name}
@@ -32,9 +32,9 @@ const Review = ({ review, onLike, onReply }) => {
         {review.text}
       </Typography>
       <Rating
-        value={review.rating}
+        value={parseInt(review.rating, 10)}
         readOnly
-        sx={{ "& .MuiRating-iconFilled": { color: "white" } }}
+        
       />
       <Button variant="text" color="primary" onClick={() => onLike(review.id)}>
         {review.liked ? `Unlike (${review.likes})` : `Like (${review.likes})`}
@@ -92,20 +92,23 @@ const Review = ({ review, onLike, onReply }) => {
             type="submit"
             sx={{ mt: 1 }}
           >
-            Submit
+            Add Reply
           </Button>
         </Box>
       )}
       <Box sx={{ mt: 2, ml: 5 }}>
         {review.replies.map((reply, index) => (
-          <div key={index} style={{ marginBottom: "10px" }}>
-            <Typography variant="body2" style={{ color: "white" }}>
+          <div key={index} style={{ marginBottom: "30px" }}>
+            <Typography variant="body2" style={{ color: "white" }} className="flex flex-row space-x-3">
               <img
                 src={reply.avatar}
                 alt="profile"
-                style={{ width: "50px", height: "50px", borderRadius: "50%" }}
+                style={{ width: "50px", height: "50px", borderRadius: "50%", border: "1px solid white", border: "1px solid white"}}
               />{" "}
-              <strong>{reply.name}:</strong> {reply.text}
+              <strong className="mt-3 ">{reply.name}</strong> 
+            </Typography>
+            <Typography variant="body2" style={{ color: "white", marginLeft:"60px" }}>
+              {reply.text}
             </Typography>
           </div>
         ))}

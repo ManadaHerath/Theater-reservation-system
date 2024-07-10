@@ -6,7 +6,6 @@ dotenv.config();
 export const getIDFromToken = async (req, res, next) => {
   const cookies = req.cookies;
   const refreshKey = process.env.REFRESH_SECRET_KEY;
-
   if (!cookies?.access_token) return res.sendStatus(401);
 
   const refreshToken = cookies.access_token;

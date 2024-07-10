@@ -8,39 +8,20 @@ import Typography from "@mui/material/Typography";
 import AddReview from "./AddReviews";
 import ReviewList from "./ShowReviewList";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import axios from "axios";
 
 export default function Theatre() {
   const axiosPrivate = useAxiosPrivate();
   const [userDetails, setUserDetails] = useState([]);
   const [disable, setDisable] = useState(true);
-  const [value, setValue] = useState(0);
+  const [userRatingvalue, setUserRatingValue] = useState(0);
   const [reviews, setReviews] = useState([]);
-  // const [reviews, setReviews] = useState([
-  //   {
-  //     id: 1,
-  //     name: "John Doe",
-  //     text: "Great movie!",
-  //     rating: 4,
-  //     likes: 0,
-  //     liked: false,
-  //     replies: [],
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Jane Doe",
-  //     text: "Not bad.",
-  //     rating: 3,
-  //     likes: 0,
-  //     liked: false,
-  //     replies: [],
-  //   },
-  // ]);
+  const { id } = useParams();
+  console.log(id);
+  const [theatre_id, setTheatre_id] = useState(id);
 
   const handleAddReview = (review) => {
-    setReviews([
-      ...reviews,
-      { ...review, id: reviews.length + 1, likes: 0, replies: [] },
-    ]);
+    sendReview(review);
   };
 
   const handleLikeReview = (id) => {
@@ -55,28 +36,67 @@ export default function Theatre() {
           : review
       )
     );
+    updateReviewLikes(id);
+
   };
 
   const handleReplyReview = (id, reply) => {
-    setReviews(
-      reviews.map((review) =>
-        review.id === id
-          ? { ...review, replies: [...review.replies, reply] }
-          : review
-      )
-    );
+    sendReplyReview(id, reply);
   };
 
+const sendReplyReview = async (id, reply) => {
+    try {
+        const reviewReply = await axiosPrivate.post(`http://localhost:5001/reviews/reply`, {
+            id,reply
+        });
+        console.log(reviewReply.data);
+        window.location.reload();
+      } catch (error) {
+        console.error("Error replying review:", error);
+      }
+  };
+
+  const updateReviewLikes = async (id) => {
+    try {
+      const reviewLikes = await axios.patch(`http://localhost:5001/reviews/like`, {
+        id
+      });
+      console.log(reviewLikes.data);
+    } catch (error) {
+      console.error("Error liking review:", error);
+    }
+  };
+
+  const sendReview = async (review) => {
+    try {
+
+      const reviewPayload = {
+        ...review,
+        theatre_id: theatre_id,
+        rating: userRatingvalue,
+      };
+      const reviewResponse = await axiosPrivate.post(
+        `http://localhost:5001/reviews/addReview`,
+        reviewPayload
+      );
+      console.log(reviewResponse.data);
+      window.location.reload();
+    } catch (error) {
+      console.error("Error adding review:", error);
+    }
+  };
+  
+
+
+
   const navigate = useNavigate();
-  const { id } = useParams();
-  console.log(id);
+
   const {
     data: details,
     loading,
     error,
   } = useFetch(`http://localhost:5001/theatres/${id}`);
 
-  // const { data: userDetails } = useFetch("http://localhost:5001/users/getUser");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -120,7 +140,7 @@ export default function Theatre() {
   };
 
   return (
-    <div className="max-h-full mb-16 bg-black">
+    <div className="max-h-full pb-10 bg-black">
       <div className="relative">
         <img src={details.image_url} className="size-full" />
         <h1 className="text-2xl lg:text-5xl  font-bold absolute text-white bottom-10 left-10 flex flex-col md:space-y-4 space-y-1">
@@ -201,11 +221,11 @@ export default function Theatre() {
           <Typography component="legend">Controlled</Typography>
           <Rating
             name="simple-controlled"
-            value={value}
+            value={userRatingvalue}
             size="large"
             onChange={(event, newValue) => {
               if (!disable) {
-                setValue(newValue);
+                setUserRatingValue(newValue);
               }
             }}
             readOnly={disable}
@@ -220,7 +240,7 @@ export default function Theatre() {
       <h1 className="lg:text-5xl text-xl font-bold mt-5 ml-10 text-white">
         Reviews
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 mt-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 md:mt-5">
         <AddReview
           onSubmit={handleAddReview}
           disable={disable}

@@ -64,3 +64,57 @@ export const getReviews = async (req, res, next) => {
     next(error);
   }
 };
+
+export const PostReviewReply = async (req, res, next) => {
+  try {
+    const { id, reply } = req.body;
+    const user = req.user;
+    const dbquery = "INSERT INTO theatre_review_reply (review_id, user_id, reply) VALUES (?, ?, ?)"
+
+    await connection.query(
+      dbquery,
+      [id, req.user.id, reply]
+    );
+
+    res.status(201).json({ message: "Reply added" });
+ 
+  } catch (error) {
+    console.log("Error adding review reply:", error);
+  }
+};
+
+export const updateReviewLikes = async (req, res, next) => {
+  try {
+    const { id } = req.body;
+    console.log("Review ID:", id);
+    const dbquery = "UPDATE theatre_reviews SET like_count = like_count + 1 WHERE review_id = ?";
+
+    await connection.query(
+      dbquery,
+      [id]
+    );
+    console.log("Review liked");
+
+    res.status(201).json({ message: "Review liked" });
+
+  } catch (error) {
+    console.log("Error liking review:", error);
+  }
+};
+
+export const addReview = async (req, res, next) => {
+  try {
+    const { theatre_id, review, rating } = req.body;
+    const dbquery = "INSERT INTO theatre_reviews (theatre_id, user_id, review, rates) VALUES (?, ?, ?, ?)";
+
+    await connection.query(
+      dbquery,
+      [theatre_id, req.user.id, review, rating]
+    );
+
+    res.status(201).json({ message: "Review added" });
+
+  } catch (error) {
+    console.log("Error adding review:", error);
+  }
+};
