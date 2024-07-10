@@ -1,8 +1,9 @@
-import "dotenv/config";
+import dotenv from "dotenv";
 import { connection } from "../index.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
+dotenv.config();
 
 export const register = async (req, res, next) => {
   try {
@@ -32,6 +33,7 @@ export const register = async (req, res, next) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    const defaultAvatar = "https://firebasestorage.googleapis.com/v0/b/medilink-812fc.appspot.com/o/person.png?alt=media&token=510412a5-bfd5-423d-b65d-f3b2a206e88d";
 
     console.log(req.body);
     const [result] = await connection.query(
@@ -41,7 +43,7 @@ export const register = async (req, res, next) => {
         phone_number,
         full_name,
         gender,
-        avatar,
+        avatar || defaultAvatar,
         address,
         birthday,
         role,
@@ -82,58 +84,58 @@ export const login = async (req, res, next) => {
     );
 
     if (users.length === 0) {
-      return res.status(201).json({ message: "Invalid credentials" });
+      return res.status(401).json({ message: "Invalid credentials" });
     }
 
     const user = users[0];
 
     if (!user.password) {
-      return res.status(201).json({ message: "Please sign in with Google" });
+      return res.status(401).json({ message: "Please sign in with Google" });
     }
 
     // Check if the password is correct
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
     if (!isPasswordCorrect) {
-      return res.status(201).json({ message: "Invalid credentials" });
+      return res.status(401).json({ message: "Invalid credentials" });
     }
+
     const role = user.role;
     const token = jwt.sign(
-      { UserInfo:{id: user.id, role: role} },
+      { UserInfo: { id: user.id, role: role } },
       process.env.JWT_SECRET_KEY,
       { expiresIn: "10s" }
-  );
+    );
 
     const refreshToken = jwt.sign(
-      {id:user.id, userName:user.email},
+      { id: user.id, userName: user.email },
       process.env.REFRESH_SECRET_KEY,
-      {expiresIn: "1d"}
-    )
+      { expiresIn: "1d" }
+    );
 
-    // save the freshToken to the database with the user id
-    try{
-      const [result] = await connection.query(
+    // Save the refreshToken to the database with the user id
+    try {
+      await connection.query(
         'UPDATE users SET refresh_token = ? WHERE id = ?',
         [refreshToken, user.id]
-    );
-    }catch(error){
+      );
+    } catch (error) {
       console.error("Error saving refresh token to the database:", error);
-      next(error);
+      return next(error); // Ensure we return to avoid sending headers again
     }
 
-
-
-
-  // Return the user
-  res.cookie("access_token", refreshToken, { httpOnly: true, sameSite: 'Strict', secure: true , maxAge :24*60*60*1000 }).status(200).json({
+    // Set the cookie and send the response
+    res.cookie("access_token", refreshToken, { httpOnly: true, sameSite: 'Strict', secure: true, maxAge: 24 * 60 * 60 * 1000 });
+    return res.status(200).json({
       role: user.role,
       token
-  });
+    });
   } catch (error) {
     console.error("Error logging in user:", error);
     next(error);
   }
 };
+
 
 export const forgotPassword = async (req, res, next) => {
   try {

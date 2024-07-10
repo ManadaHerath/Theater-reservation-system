@@ -22,6 +22,7 @@ import passport from "./controllers/GoogleSignIn.js";
 import recoveryRoute from "./routes/recoveryPassword.js";
 import refreshRoute from "./routes/refresh.js";
 import logoutRoute from "./routes/logout.js";
+import reviewsRoute from "./routes/reviews.js";
 
 
 const app = express();
@@ -69,7 +70,7 @@ app.listen(5001, () => {
 app.use("/webhook", webHookRoute);
 app.use(express.json());
 app.use(cookieParser());
-
+app.use("/reviews", reviewsRoute);
 app.use("/refresh",refreshRoute);
 app.use("/logout",logoutRoute);
 app.use("/auth", authRoute);

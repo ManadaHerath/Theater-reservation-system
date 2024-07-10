@@ -34,6 +34,9 @@ import Reset from "./components/User Login/Reset";
 
 import PaymentFailure from "./pages/PaymentFailure";
 import PaymentSuccess from "./pages/PaymentSuccess";
+
+import TheatreDetails from "./pages/TheatreDetailsPage";
+
 import Layout from "./layout/layout";
 import RequireAuth from "./components/RequireAuth";
 import PersistLogin from "./components/Persist Login/PersistLogin";
@@ -46,12 +49,14 @@ import AdminPanel from "./components/Admin/AdminPanel";
 
 
 
+
 const App = () => {
   return (
     <div>
       <Router>
         <Heading />
         <Routes>
+
         <Route path = "/" element ={<Layout/>}>
             
             
@@ -62,7 +67,7 @@ const App = () => {
             <Route path="/help" element={<Help />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
-
+            <Route path ="/theatre/:id" element = {<TheatreDetails/>} />   
             <Route path="/schedule/:paramId" element={<Schedule />} />
             <Route path="/reset" element={<Reset />}></Route>
             <Route
@@ -90,6 +95,7 @@ const App = () => {
 
 
           </Route>
+
         </Routes>
       </Router>
     </div>

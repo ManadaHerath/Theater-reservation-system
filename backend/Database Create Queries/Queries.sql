@@ -611,3 +611,40 @@ INSERT INTO seats (id, row_id, seat_number, seat_type_id) VALUES
 (89, 5, 9, 3), (90, 5, 10, 3), (91, 5, 11, 3), (92, 5, 12, 3), 
 (93, 5, 13, 3), (94, 5, 14, 3), (95, 5, 15, 3), (96, 5, 16, 3), 
 (97, 5, 17, 3), (98, 5, 18, 3), (99, 5, 19, 3), (100, 5, 20, 3);
+
+
+-------------- Theatre Reviews --------------
+CREATE TABLE theatre_reviews (
+    review_id varchar(100) PRIMARY KEY DEFAULT (UUID()),
+    theatre_id varchar(100) NOT NULL,
+    user_id varchar(100) NOT NULL,
+    review TEXT ,
+    like_count INT DEFAULT 0,
+    rates DECIMAL(2,1) CHECK (rates >= 1.0 AND rates <= 5.0),
+    FOREIGN KEY (theatre_id) REFERENCES theatres(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE theatre_review_reply (
+    reply_id varchar(100) PRIMARY KEY DEFAULT (UUID()),
+    review_id varchar(100) NOT NULL,
+    user_id varchar(100) NOT NULL,
+    reply TEXT ,
+    FOREIGN KEY (review_id) REFERENCES theatre_reviews(review_id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- Insert sample data into the theatre_reviews table
+INSERT INTO theatre_reviews (theatre_id, user_id, review, like_count, rates)
+VALUES
+( 'd54567f1-2e52-11ef-a881-00155d7a82dd', '36fee9d3-2f7f-11ef-a881-00155d7a82dd', 'Great theatre with comfortable seating and excellent sound quality.', 10, 4.5),
+('d5456d04-2e52-11ef-a881-00155d7a82dd', 'd543e9c0-2e52-11ef-a881-00155d7a82dd', 'The movie experience was good, but the snacks were overpriced.', 5, 3.0),
+('d5456e33-2e52-11ef-a881-00155d7a82dd', '36fee9d3-2f7f-11ef-a881-00155d7a82dd', 'Loved the atmosphere and the screen quality, would definitely come again.', 15, 4.8);
+
+-- Insert sample data into the theatre_review_reply table
+INSERT INTO theatre_review_reply ( review_id, user_id, reply)
+VALUES
+('7a14a220-3cf7-11ef-a035-8915cbbb4a40', '24abd8e7-2eda-11ef-a881-00155d7a82dd', 'Thank you for your positive feedback! We’re glad you enjoyed your visit.'),
+('7a14cbad-3cf7-11ef-a035-8915cbbb4a40', '64c818c1-2f35-11ef-a881-00155d7a82dd',  'We appreciate your feedback. We are working on improving our snack offerings.'),
+('7a14a220-3cf7-11ef-a035-8915cbbb4a40', 'd54415c6-2e52-11ef-a881-00155d7a82dd', 'Thank you for your kind words! We look forward to seeing you again.');
+

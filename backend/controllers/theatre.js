@@ -1,22 +1,37 @@
-import {connection} from '../index.js';
+import { connection } from "../index.js";
 
-export const getTheatres = async(req,res) =>{
-    try{
-        const [movies] = await connection.query('SELECT * FROM theatres');
+export const getTheatres = async (req, res) => {
+  try {
+    const [movies] = await connection.query("SELECT * FROM theatres");
 
-        res.json(movies)
-
-    }catch(error){
-        next(error)
-    }
-}
+    res.json(movies);
+  } catch (error) {
+    next(error);
+  }
+};
 
 export const addTheatre = async (req, res, next) => {
-    try {
-      const {
+  try {
+    const {
+      name,
+      address,
+      location,
+      mobile_number,
+      email,
+      details,
+      is_active,
+      no_of_seates,
+      no_of_rows,
+      no_of_columns,
+      image_url
+    } = req.body;
+
+    const [result] = await connection.query(
+      "INSERT INTO theatres (name, address, location, mobile_number, email, details, is_active, no_of_seates, no_of_rows, no_of_columns, image_url) VALUES (?, ?, ST_GeomFromText(?), ?, ?, ?, ?, ?, ?, ?, ?)",
+      [
         name,
         address,
-        location,
+        `POINT(${location.lat} ${location.lng})`,
         mobile_number,
         email,
         details,
