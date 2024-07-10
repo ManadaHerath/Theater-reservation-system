@@ -6,7 +6,6 @@ const RequireAuth= ({allowedRoles}) =>{
     const location = useLocation();
 
 
-
     return (
 
         

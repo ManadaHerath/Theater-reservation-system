@@ -40,31 +40,41 @@ export const addTheatre = async (req, res, next) => {
         no_of_rows,
         no_of_columns,
         image_url
-      ]
-    );
-
-    res.status(200).json({ id: result.insertId, ...req.body });
-  } catch (error) {
-    console.error('Error adding theatre:', error);
-    next(error);
-  }
-};
+      } = req.body;
+  
+      const [result] = await connection.query(
+        'INSERT INTO theatres (name, address, location, mobile_number, email, details, is_active, no_of_seats, no_of_rows, no_of_columns,image_url) VALUES (?, ?, ST_GeomFromText(?), ?, ?, ?, ?, ?, ?, ?,?)',
+        [name, address, `POINT(${location.lat} ${location.lng})`, mobile_number, email, details, is_active, no_of_seates, no_of_rows, no_of_columns,image_url]
+      );
 
 
-export const getTheatreById = async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const [theatres] = await connection.query(
-      "SELECT * FROM theatres WHERE id = ?",
-      [id]
-    );
+      const theatreIdQuery = 'SELECT id FROM theatres WHERE name = ? AND address = ? ORDER BY id DESC LIMIT 1';
+      const [rows] = await connection.query(theatreIdQuery, [name, address]);
+      const theatreId = rows[0]?.id;
+      console.log(theatreId)
 
-    if (theatres.length) {
-      res.json(theatres[0]);
-    } else {
-      res.status(404).json({ message: "Theatre not found" });
+
+
+      res.json({id: theatreId, ...req.body}).status(200)
+    } catch (error) {
+      console.error('Error adding theatre:', error);
+      next(error);
     }
-  } catch (error) {
-    next(error);
-  }
-};
+  };
+
+  export const getTheatreById = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+  
+      const [theatres] = await connection.query('SELECT * FROM theatres WHERE id = ?', [id]);
+  
+      if (theatres.length) {
+        res.json(theatres[0]);
+      } else {
+        res.status(404).json({ message: 'Theatre not found' });
+      }
+    } catch (error) {
+      next(error);
+    }
+  };
+
