@@ -7,12 +7,18 @@ const UpdateTheatreForm = () => {
   const navigate = useNavigate();
   const axiosPrivate = useAxiosPrivate();
   console.log(id);
-
   const [theatre, setTheatre] = useState({
     name: "",
+    address: "",
+    location: { lat: "", lng: "" },
+    mobile_number: "",
+    email: "",
     details: "",
-    image_url: "",
     is_active: false,
+    no_of_seats: 0,
+    no_of_rows: 0,
+    no_of_columns: 0,
+    image_url: "",
   });
 
   useEffect(() => {
@@ -35,6 +41,17 @@ const UpdateTheatreForm = () => {
     });
   };
 
+  const handleLocationChange = (e) => {
+    const { name, value } = e.target;
+    setTheatre({
+      ...theatre,
+      location: {
+        ...theatre.location,
+        [name]: value,
+      },
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -53,6 +70,61 @@ const UpdateTheatreForm = () => {
           type="text"
           name="name"
           value={theatre.name}
+          onChange={handleChange}
+          className="w-full p-2 border border-gray-300 rounded"
+          required
+        />
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700">Address</label>
+        <input
+          type="text"
+          name="address"
+          value={theatre.address}
+          onChange={handleChange}
+          className="w-full p-2 border border-gray-300 rounded"
+          required
+        />
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700">Latitude</label>
+        <input
+          type="text"
+          name="lat"
+          value={theatre.location.lat}
+          onChange={handleLocationChange}
+          className="w-full p-2 border border-gray-300 rounded"
+          required
+        />
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700">Longitude</label>
+        <input
+          type="text"
+          name="lng"
+          value={theatre.location.lng}
+          onChange={handleLocationChange}
+          className="w-full p-2 border border-gray-300 rounded"
+          required
+        />
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700">Mobile Number</label>
+        <input
+          type="text"
+          name="mobile_number"
+          value={theatre.mobile_number}
+          onChange={handleChange}
+          className="w-full p-2 border border-gray-300 rounded"
+          required
+        />
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700">Email</label>
+        <input
+          type="email"
+          name="email"
+          value={theatre.email}
           onChange={handleChange}
           className="w-full p-2 border border-gray-300 rounded"
           required
@@ -86,6 +158,39 @@ const UpdateTheatreForm = () => {
           checked={theatre.is_active}
           onChange={handleChange}
           className="mr-2"
+        />
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700">Number of Seats</label>
+        <input
+          type="number"
+          name="no_of_seats"
+          value={theatre.no_of_seats}
+          onChange={handleChange}
+          className="w-full p-2 border border-gray-300 rounded"
+          required
+        />
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700">Number of Rows</label>
+        <input
+          type="number"
+          name="no_of_rows"
+          value={theatre.no_of_rows}
+          onChange={handleChange}
+          className="w-full p-2 border border-gray-300 rounded"
+          required
+        />
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700">Number of Columns</label>
+        <input
+          type="number"
+          name="no_of_columns"
+          value={theatre.no_of_columns}
+          onChange={handleChange}
+          className="w-full p-2 border border-gray-300 rounded"
+          required
         />
       </div>
       <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded">
