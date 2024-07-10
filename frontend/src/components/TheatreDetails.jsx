@@ -14,7 +14,7 @@ export default function Theatre() {
   const axiosPrivate = useAxiosPrivate();
   const [userDetails, setUserDetails] = useState([]);
   const [disable, setDisable] = useState(true);
-  const [userRatingvalue, setUserRatingValue] = useState(0);
+  const [userRatingvalue, setUserRatingValue] = useState(0.0);
   const [reviews, setReviews] = useState([]);
   const { id } = useParams();
   console.log(id);
@@ -37,30 +37,36 @@ export default function Theatre() {
       )
     );
     updateReviewLikes(id);
-
   };
 
   const handleReplyReview = (id, reply) => {
     sendReplyReview(id, reply);
   };
 
-const sendReplyReview = async (id, reply) => {
+  const sendReplyReview = async (id, reply) => {
     try {
-        const reviewReply = await axiosPrivate.post(`http://localhost:5001/reviews/reply`, {
-            id,reply
-        });
-        console.log(reviewReply.data);
-        window.location.reload();
-      } catch (error) {
-        console.error("Error replying review:", error);
-      }
+      const reviewReply = await axiosPrivate.post(
+        `http://localhost:5001/reviews/reply`,
+        {
+          id,
+          reply,
+        }
+      );
+      console.log(reviewReply.data);
+      window.location.reload();
+    } catch (error) {
+      console.error("Error replying review:", error);
+    }
   };
 
   const updateReviewLikes = async (id) => {
     try {
-      const reviewLikes = await axios.patch(`http://localhost:5001/reviews/like`, {
-        id
-      });
+      const reviewLikes = await axios.patch(
+        `http://localhost:5001/reviews/like`,
+        {
+          id,
+        }
+      );
       console.log(reviewLikes.data);
     } catch (error) {
       console.error("Error liking review:", error);
@@ -69,11 +75,9 @@ const sendReplyReview = async (id, reply) => {
 
   const sendReview = async (review) => {
     try {
-
       const reviewPayload = {
         ...review,
         theatre_id: theatre_id,
-        rating: userRatingvalue,
       };
       const reviewResponse = await axiosPrivate.post(
         `http://localhost:5001/reviews/addReview`,
@@ -85,9 +89,26 @@ const sendReplyReview = async (id, reply) => {
       console.error("Error adding review:", error);
     }
   };
-  
 
+  useEffect(() => {
+    sendUserRating(userRatingvalue);
+  }, [userRatingvalue]);
 
+  const sendUserRating = async (rating) => {
+    try {
+      const ratingPayload = {
+        rating: rating,
+        theatre_id: theatre_id,
+      };
+      const ratingResponse = await axiosPrivate.post(
+        "http://localhost:5001/reviews/addRating",
+        ratingPayload
+      );
+      console.log(ratingResponse.data);
+    } catch (error) {
+      console.error("Error adding rating:", error);
+    }
+  };
 
   const navigate = useNavigate();
 
@@ -96,7 +117,6 @@ const sendReplyReview = async (id, reply) => {
     loading,
     error,
   } = useFetch(`http://localhost:5001/theatres/${id}`);
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -121,8 +141,20 @@ const sendReplyReview = async (id, reply) => {
       }
     };
 
+    const fetchUserRating = async () => {
+      try {
+        const response = await axiosPrivate.get(
+          `http://localhost:5001/reviews/rating/${id}`
+        );
+        setUserRatingValue(response.data.rates);
+      } catch (error) {
+        console.error("Error fetching user rating:", error);
+      }
+    };
+
     fetchData();
     fetchReviews();
+    fetchUserRating();
   }, []);
 
   useEffect(() => {
@@ -142,7 +174,7 @@ const sendReplyReview = async (id, reply) => {
   return (
     <div className="max-h-full pb-10 bg-black">
       <div className="relative">
-        <img src={details.image_url} className="size-full" />
+        <img src={details.image_url} alt="profile" className="size-full" />
         <h1 className="text-2xl lg:text-5xl  font-bold absolute text-white bottom-10 left-10 flex flex-col md:space-y-4 space-y-1">
           <span> {details.name}</span>
           <span> {details.district}</span>
@@ -189,7 +221,7 @@ const sendReplyReview = async (id, reply) => {
           <Box className="my-auto">
             <Rating
               name="read-only"
-              value={details.rating}
+              value={parseInt(details.rating, 10)}
               size="large"
               sx={{
                 "& .MuiRating-iconEmpty": {
@@ -205,12 +237,11 @@ const sendReplyReview = async (id, reply) => {
           Location
         </h1>
         <iframe
+          title="location"
           className="w-3/4 h-3/4 ml-10 mt-5 lg:w-96 lg:h-96"
           src={details.location}
           style={{ border: 0 }}
-          allowfullscreen=""
           loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
         ></iframe>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 mt-5 ">
@@ -221,7 +252,7 @@ const sendReplyReview = async (id, reply) => {
           <Typography component="legend">Controlled</Typography>
           <Rating
             name="simple-controlled"
-            value={userRatingvalue}
+            value={parseInt(userRatingvalue, 10)}
             size="large"
             onChange={(event, newValue) => {
               if (!disable) {

@@ -83,7 +83,7 @@ const AddReview = ({ onSubmit, disable, photo }) => {
         color="primary"
         type="submit"
         onClick={(e) => {
-          if (disable | review=="") {
+          if (disable | review==="") {
             e.preventDefault();
           } else {
             handleSubmit(e);
@@ -95,7 +95,7 @@ const AddReview = ({ onSubmit, disable, photo }) => {
           "&:hover": {
             backgroundColor: disable ? "grey" : "primary.dark",
           },
-          cursor: disable | review=="" ? "not-allowed" : "pointer",
+          cursor: disable | review==="" ? "not-allowed" : "pointer",
         }}
       >
         Submit
