@@ -45,7 +45,7 @@ import PersistLogin from "./components/Persist Login/PersistLogin";
 // Admin Panel
 
 import AdminPanel from "./components/Admin/AdminPanel";
-
+import UpdateTheatreAdmin from "./components/Admin/Theatre/UpdateTheatreAdmin";
 
 
 
@@ -83,8 +83,10 @@ const App = () => {
             <Route path="/movies" element={<Movies />} />
             <Route path="/theatres" element={<Theatres />} />
             <Route element = {<RequireAuth allowedRoles={["admin"]}/>}>
-              
+
+              <Route path = "/admin/update-theatre/:id" element={<UpdateTheatreAdmin/>}></Route>
               <Route path="/admin" element={<AdminPanel />} />
+
             </Route>
             </Route>
 

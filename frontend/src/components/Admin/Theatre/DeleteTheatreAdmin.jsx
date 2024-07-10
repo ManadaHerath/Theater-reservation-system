@@ -14,7 +14,7 @@ const TheatreCard = ({ theatre, onUpdate, onDelete }) => {
     };
   
     const handleUpdateClick = () => {
-      onUpdate(theatre.id);
+      navigate(`/admin/update-theatre/${theatre.id}`);
     };
   
     const handleDeleteClick = async () => {
