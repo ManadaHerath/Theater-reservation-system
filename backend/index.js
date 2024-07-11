@@ -22,7 +22,14 @@ import passport from "./controllers/GoogleSignIn.js";
 import recoveryRoute from "./routes/recoveryPassword.js";
 import refreshRoute from "./routes/refresh.js";
 import logoutRoute from "./routes/logout.js";
+<<<<<<< Updated upstream
 import reviewsRoute from "./routes/reviews.js";
+=======
+import { Server } from "socket.io";
+import { initializeSocket } from './socket.js';
+
+
+>>>>>>> Stashed changes
 
 
 const app = express();
@@ -61,10 +68,13 @@ const pool = mysql.createPool({
 
 export const connection = pool.promise();
 
-app.listen(5001, () => {
+
+const server = app.listen(5001, () => {
   console.log("Server is running on port 5001");
 });
 
+
+initializeSocket(server);
 
 // middlewares
 app.use("/webhook", webHookRoute);

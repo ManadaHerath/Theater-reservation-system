@@ -55,6 +55,7 @@ const App = () => {
     <div>
       <Router>
         <Heading />
+       
         <Routes>
 
         <Route path = "/" element ={<Layout/>}>
