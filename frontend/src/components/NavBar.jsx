@@ -43,7 +43,7 @@ const NavBar = () => {
           <Link to="/theatres" className="hover:text-gray-400">Theatres</Link>
         </li>
         {user.token? (
-          <li onClick={signOut} className="hover:text-gray-400 cursor-pointer">Logout</li>
+          <li onClick={signOut} className="cursor-pointer hover:text-gray-400">Logout</li>
         ) : (
           <>
             <li className="text-sm">

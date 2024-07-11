@@ -205,6 +205,14 @@ CREATE TABLE seats (
   FOREIGN KEY (seat_type_id) REFERENCES seat_types(id)
 );
 
+-- messages table for live chat
+CREATE TABLE messages (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  author VARCHAR(255) NOT NULL,
+  message TEXT NOT NULL,
+  time VARCHAR(255) NOT NULL
+);
+
 -- Add a column for a refresh token in the users table
 
 ALTER TABLE users
