@@ -1,5 +1,5 @@
 import React from 'react';
-import TheatreList from './Theatre/DeleteTheatreAdmin';
+import TheatreList from './Theatre/UpdateTheatreAndPrices';
 
 const AdminPanel = () => {
     return (
