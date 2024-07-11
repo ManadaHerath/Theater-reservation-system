@@ -22,14 +22,10 @@ import passport from "./controllers/GoogleSignIn.js";
 import recoveryRoute from "./routes/recoveryPassword.js";
 import refreshRoute from "./routes/refresh.js";
 import logoutRoute from "./routes/logout.js";
-<<<<<<< Updated upstream
 import reviewsRoute from "./routes/reviews.js";
-=======
 import { Server } from "socket.io";
 import { initializeSocket } from './socket.js';
 
-
->>>>>>> Stashed changes
 
 
 const app = express();
