@@ -16,6 +16,9 @@ const TheatreCard = ({ theatre, onUpdate, onDelete }) => {
     const handleUpdateClick = () => {
       navigate(`/admin/update-theatre/${theatre.id}`);
     };
+    const handlePriceCategoriesClick = () => {
+      navigate(`/admin/price-categories/${theatre.id}`);
+    }
   
     const handleDeleteClick = async () => {
       try {
@@ -62,6 +65,12 @@ const TheatreCard = ({ theatre, onUpdate, onDelete }) => {
           className="block mt-2 text-green-600 hover:underline"
         >
           Update
+        </button>
+        <button
+          onClick={handlePriceCategoriesClick}
+          className="block mt-2 text-violet-600 hover:underline"
+        >
+          Change Pricing Categories
         </button>
         <button
           onClick={handleDeleteClick}
