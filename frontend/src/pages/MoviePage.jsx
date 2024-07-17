@@ -1,11 +1,11 @@
-
 import MovieList from "../components/Movies";
-
-
-
+import NavBar from "../components/NavBar";
+import Footer from "../components/Footer";
 
 export default () => (
-    <div>
-        <MovieList />
-    </div>
-)
+  <div>
+    <NavBar />
+    <MovieList />
+    <Footer />
+  </div>
+);

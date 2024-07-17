@@ -16,13 +16,10 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 import React from "react";
 import ReactDOM from "react-dom/client";
-import MovieList from "./components/Movies";
+
 import Heading from "./components/Heading";
-import NavBar from "./components/NavBar";
-import Footer from "./components/Footer";
-import TheatreList from "./components/Theatres";
-import MovieShedule from "./components/Shedule";
-import MoviePage from "./pages/MoviePage";
+
+
 import SeatSelection from "./components/SeatSelection";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -36,6 +33,7 @@ import PaymentFailure from "./pages/PaymentFailure";
 import PaymentSuccess from "./pages/PaymentSuccess";
 
 import TheatreDetails from "./pages/TheatreDetailsPage";
+import MovieDetails from "./pages/MovieDetailsPage";
 
 import Layout from "./layout/layout";
 import RequireAuth from "./components/RequireAuth";
@@ -67,7 +65,9 @@ const App = () => {
             <Route path="/help" element={<Help />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
-            <Route path ="/theatre/:id" element = {<TheatreDetails/>} />   
+            <Route path ="/theatre/:id" element = {<TheatreDetails/>} />
+            <Route path ="/movie/:id" element = {<MovieDetails/>} />
+
             <Route path="/schedule/:paramId" element={<Schedule />} />
             <Route path="/reset" element={<Reset />}></Route>
             <Route

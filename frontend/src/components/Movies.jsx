@@ -12,7 +12,7 @@ const MovieCard = ({movie}) => {
   const navigate = useNavigate(); // Hook for navigation
 
   const handleClick = () => {
-    navigate(`/schedule/${movie.id}`); // Navigate to the schedule page
+   navigate(`/movie/${movie.id}`) // Navigate to the schedule page
   };
   const handlePosterClick  = () =>{
     
@@ -63,7 +63,7 @@ const MovieCard = ({movie}) => {
             className="bg-violet-500 hover:bg-violet-700 text-white py-1.5 px-3 rounded-full text-sm focus:outline-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
             onClick={handleClick}
           >
-            Book
+            View More
           </button>
         </div>
         
