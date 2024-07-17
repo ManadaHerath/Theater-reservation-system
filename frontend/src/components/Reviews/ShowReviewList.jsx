@@ -21,5 +21,4 @@ const ReviewList = ({ reviews = [], onLike, onReply }) => {
   );
 };
 
-
 export default ReviewList;
