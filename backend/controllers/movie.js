@@ -1,5 +1,5 @@
 import { connection } from "../index.js";
-export const getMovies = async (req, res) => {
+export const getMovies = async (req, res,next) => {
   try {
     const [movies] = await connection.query("SELECT * FROM movies");
 
