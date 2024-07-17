@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
 
 export default function AddTheatreForm() {
