@@ -23,6 +23,7 @@ import recoveryRoute from "./routes/recoveryPassword.js";
 import refreshRoute from "./routes/refresh.js";
 import logoutRoute from "./routes/logout.js";
 import reviewsRoute from "./routes/reviews.js";
+import movieReviewsRoute from "./routes/movie_reviews.js";
 
 
 const app = express();
@@ -71,6 +72,7 @@ app.use("/webhook", webHookRoute);
 app.use(express.json());
 app.use(cookieParser());
 app.use("/reviews", reviewsRoute);
+app.use("/movie_reviews", movieReviewsRoute);
 app.use("/refresh",refreshRoute);
 app.use("/logout",logoutRoute);
 app.use("/auth", authRoute);

@@ -1,7 +1,297 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import useFetch from "../../hooks/useFetch";
+import { useNavigate } from "react-router-dom";
+import Button from "@mui/material/Button";
+import Rating from "@mui/material/Rating";
+import Box from "@mui/material/Box";
+import { Typography } from "@mui/material";
+import { axiosPrivate } from "../../api/axios";
+import AddReview from "../Reviews/AddReviews";
+import ReviewList from "../Reviews/ShowReviewList";
+import axios from "axios";
 
 export default function MovieDetails() {
+  const { id } = useParams();
+  const[movie_id, setMovie_id] = useState(id);
+  const [disable, setDisable] = useState(true);
+  const [userRatingvalue, setUserRatingValue] = useState(0.0);
+  const [userDetails, setUserDetails] = useState([]);
+  const [reviews, setReviews] = useState([]);
+  const navigate = useNavigate();
+
+  const handleAddReview = (review) => {
+    sendReview(review);
+  };
+
+  const handleLikeReview = (id) => {
+    setReviews(
+      reviews.map((review) =>
+        review.id === id
+          ? {
+              ...review,
+              likes: review.liked ? review.likes - 1 : review.likes + 1,
+              liked: !review.liked,
+            }
+          : review
+      )
+    );
+    updateReviewLikes(id);
+  };
+
+  const handleReplyReview = (id, reply) => {
+    sendReplyReview(id, reply);
+  };
+
+  const sendReplyReview = async (id, reply) => {
+    try {
+      const reviewReply = await axiosPrivate.post(
+        `http://localhost:5001/movie_reviews/reply`,
+        {
+          id,
+          reply,
+        }
+      );
+      console.log(reviewReply.data);
+      window.location.reload();
+    } catch (error) {
+      console.error("Error replying review:", error);
+    }
+  };
+
+  const updateReviewLikes = async (id) => {
+    try {
+      const reviewLikes = await axios.patch(
+        `http://localhost:5001/movie_reviews/like`,
+        {
+          id,
+        }
+      );
+      console.log(reviewLikes.data);
+    } catch (error) {
+      console.error("Error liking review:", error);
+    }
+  };
+
+  const sendReview = async (review) => {
+    try {
+      const reviewPayload = {
+        ...review,
+        movie_id: movie_id,
+      };
+      const reviewResponse = await axiosPrivate.post(
+        `http://localhost:5001/movie_reviews/addReview`,
+        reviewPayload
+      );
+      console.log(reviewResponse.data);
+      window.location.reload();
+    } catch (error) {
+      console.error("Error adding review:", error);
+    }
+  };
+
+  useEffect(() => {
+    sendUserRating(userRatingvalue);
+  }, [userRatingvalue]);
+
+  const sendUserRating = async (rating) => {
+    try {
+      const ratingPayload = {
+        rating: rating,
+        movie_id: movie_id,
+      };
+      const ratingResponse = await axiosPrivate.post(
+        "http://localhost:5001/movie_reviews/addRating",
+        ratingPayload
+      );
+      console.log(ratingResponse.data);
+    } catch (error) {
+      console.error("Error adding rating:", error);
+    }
+  };
+
+  const handleClick = () => {
+    navigate(`/schedule/${id}`);
+  };
+
+  const handleUrlClick = () => {
+    window.location.href = movie.trailer_video_url;
+  };
+
+  const {
+    data: movie,
+    error,
+    isPending,
+  } = useFetch(`http://localhost:5001/movies/${id}`);
+  console.log(movie);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosPrivate.get(
+          "http://localhost:5001/users/getUser"
+        );
+        setUserDetails(response.data);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      }
+    };
+
+    const fetchReviews = async () => {
+      try {
+        const response = await axiosPrivate.get(
+          `http://localhost:5001/movie_reviews/${id}`
+        );
+        setReviews(response.data);
+      } catch (error) {
+        console.error("Error fetching reviews:", error);
+      }
+    };
+
+    const fetchUserRating = async () => {
+      try {
+        const response = await axiosPrivate.get(
+          `http://localhost:5001/movie_reviews/rating/${id}`
+        );
+        console.log("user Rating Value", response.data.rates);
+        setUserRatingValue(response.data.rates);
+      } catch (error) {
+        console.error("Error fetching user rating:", error);
+      }
+    };
+
+    fetchData();
+    fetchReviews();
+    fetchUserRating();
+  }, []);
+
+  useEffect(() => {
+    if (userDetails && userDetails.length > 0 && userDetails[0] !== null) {
+      setDisable(false);
+    } else {
+      setDisable(true);
+    }
+  }, [userDetails]);
+
+  if (isPending) return <div>Loading...</div>;
+
   return (
-    <div>MovieDetails</div>
-  )
+    <div className="pb-12">
+      <div className="max-h-full pb-10 bg-black">
+        <div className="relative">
+          <img
+            src={movie.cover_photo}
+            alt="profile"
+            className="w-full h-auto object-contain"
+          />
+          <h1 className="text-2xl lg:text-6xl  font-bold absolute text-white bottom-3 left-5 md:bottom-10 md:left-10 flex flex-col md:space-y-4 space-y-3">
+            <span> {movie.title}</span>
+            <span className="text-xl">{movie.overview}</span>
+            <div className="flex flex-row lg:space-x-8 space-x-3">
+              <Button variant="contained" onClick={handleUrlClick}>
+                Watch Trailer
+              </Button>
+              <Button variant="contained" onClick={handleClick}>
+                Book Ticket
+              </Button>
+            </div>
+          </h1>
+        </div>
+        <div className="grid md:grid-cols-2 grid-cols-1">
+          <div>
+            <h1 className="lg:text-5xl text-xl font-bold ml-10 mt-5 text-white">
+              {movie.duration}
+            </h1>
+            <Box className="my-3 mx-10">
+              <Rating
+                name="half-rating-read"
+                value={parseFloat(movie.rating).toFixed(1)}
+                precision={0.5}
+                readOnly
+                size="large"
+                sx={{
+                  "& .MuiRating-iconEmpty": {
+                    color: "white",
+                  },
+                }}
+              />
+            </Box>
+          </div>
+          <div>
+            <h1 className="lg:text-xl text-lg font-bold ml-10 mt-5 text-white flex flex-col">
+              <span>Released Date: </span>
+              <span>{new Date(movie.released_date).toDateString()}</span>
+            </h1>
+            <h1 className="lg:text-xl text-lg font-bold ml-10 mt-5 text-white flex flex-col">
+              <span>Directed By: </span>
+              <span>{movie.movie_director}</span>
+            </h1>
+            <h1 className="lg:text-xl text-lg font-bold ml-10 mt-5 text-white flex flex-col">
+              <span>Written By: </span>
+              <span>{movie.movie_writter}</span>
+            </h1>
+          </div>
+        </div>
+        <div className="grid md:grid-cols-2 grid-cols-1 text-white ml-10 lg:mt-10 mt-5">
+          <div className="text-xl lg:text-5xl font-bold">Cast</div>
+          <div>
+            {movie.actors &&
+              movie.actors.map((actor) => (
+                <div className="flex flex-row space-x-5 mt-5">
+                  <img
+                    src={actor.avatar}
+                    alt={actor.name}
+                    className="lg:size-28 size-16 rounded-full"
+                  />
+                  <div className="flex flex-col items-center justify-center lg:text-xl">
+                    <span>{actor.name}</span>
+                  </div>
+                </div>
+              ))}
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 mt-5 ">
+          <h1 className="lg:text-5xl text-xl font-bold mt-5 ml-10 text-white">
+            {disable ? "Please login to rate" : "Rate Now"}
+          </h1>
+          <Box className="flex items-end mt-5 ml-10">
+            <Typography component="legend"></Typography>
+            <Rating
+              name="half-rating"
+              precision={0.5}
+              value={parseFloat(userRatingvalue).toFixed(1)}
+              size="large"
+              onChange={(event, newValue) => {
+                if (!disable) {
+                  setUserRatingValue(newValue);
+                }
+              }}
+              readOnly={disable}
+              sx={{
+                "& .MuiRating-iconEmpty": {
+                  color: "white",
+                },
+              }}
+            />
+          </Box>
+        </div>
+        <h1 className="lg:text-5xl text-xl font-bold mt-5 ml-10 text-white">
+        Reviews
+      </h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 md:mt-5 pb-8">
+        <AddReview
+          onSubmit={handleAddReview}
+          disable={disable}
+          photo={userDetails && userDetails[0]?.avatar}
+        />
+
+        <ReviewList
+          reviews={reviews}
+          onLike={handleLikeReview}
+          onReply={handleReplyReview}
+        />
+      </div>
+      </div>
+    </div>
+  );
 }
