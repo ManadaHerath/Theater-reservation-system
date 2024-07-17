@@ -22,27 +22,40 @@ const Review = ({ review, onLike, onReply }) => {
         <img
           src={review.avatar}
           alt="profile"
-          style={{ width: "50px", height: "50px", borderRadius: "50%", border: "1px solid white,"}}
+          style={{
+            width: "50px",
+            height: "50px",
+            borderRadius: "50%",
+            border: "1px solid white,",
+          }}
         />
+        <div>
         <Typography variant="h6" sx={{ color: "white" }}>
           {review.name}
         </Typography>
+        <Rating
+        value={parseFloat(review.rating).toFixed(1)}
+        precision={0.5}
+        readOnly
+        sx={{
+          "& .MuiRating-iconEmpty": {
+            color: "white",
+          },
+        }}
+      />
+      </div>
       </div>
       <Typography variant="body1" sx={{ color: "white" }}>
         {review.text}
       </Typography>
-      <Rating
-        value={parseInt(review.rating, 10)}
-        readOnly
-        
-      />
+      
       <Button variant="text" color="primary" onClick={() => onLike(review.id)}>
         {review.liked ? `Unlike (${review.likes})` : `Like (${review.likes})`}
       </Button>
       <Button
         variant="text"
         color="primary"
-        onClick={() => setShowReplyField(!showReplyField) }
+        onClick={() => setShowReplyField(!showReplyField)}
       >
         Reply
       </Button>
@@ -99,15 +112,28 @@ const Review = ({ review, onLike, onReply }) => {
       <Box sx={{ mt: 2, ml: 5 }}>
         {review.replies.map((reply, index) => (
           <div key={index} style={{ marginBottom: "30px" }}>
-            <Typography variant="body2" style={{ color: "white" }} className="flex flex-row space-x-3">
+            <Typography
+              variant="body2"
+              style={{ color: "white" }}
+              className="flex flex-row space-x-3"
+            >
               <img
                 src={reply.avatar}
                 alt="profile"
-                style={{ width: "50px", height: "50px", borderRadius: "50%", border: "1px solid white", border: "1px solid white"}}
+                style={{
+                  width: "50px",
+                  height: "50px",
+                  borderRadius: "50%",
+                  border: "1px solid white",
+                  border: "1px solid white",
+                }}
               />{" "}
-              <strong className="mt-3 ">{reply.name}</strong> 
+              <strong className="mt-3 ">{reply.name}</strong>
             </Typography>
-            <Typography variant="body2" style={{ color: "white", marginLeft:"60px" }}>
+            <Typography
+              variant="body2"
+              style={{ color: "white", marginLeft: "60px" }}
+            >
               {reply.text}
             </Typography>
           </div>
