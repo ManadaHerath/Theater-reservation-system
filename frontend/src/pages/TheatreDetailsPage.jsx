@@ -1,5 +1,5 @@
 import React from "react";
-import Theatre from "../components/TheatreDetails";
+import Theatre from "../components/Theatre/TheatreDetails";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import useFetch from "../hooks/useFetch";
+import useFetch from "../../hooks/useFetch";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import Typography from "@mui/material/Typography";
-import AddReview from "./AddReviews";
-import ReviewList from "./ShowReviewList";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import AddReview from "../Reviews/AddReviews";
+import ReviewList from "../Reviews/ShowReviewList";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import axios from "axios";
 
 export default function Theatre() {
