@@ -147,6 +147,7 @@ export default function Theatre() {
           `http://localhost:5001/reviews/rating/${id}`
         );
         setUserRatingValue(response.data.rates);
+        console.log("user Rating Value", response.data.rates);
       } catch (error) {
         console.error("Error fetching user rating:", error);
       }
@@ -220,8 +221,10 @@ export default function Theatre() {
           </p>
           <Box className="my-auto">
             <Rating
-              name="read-only"
-              value={parseInt(details.rating, 10)}
+              name="half-rating-read"
+              value={parseFloat(details.rating).toFixed(1)}
+              precision={0.5}
+              readOnly
               size="large"
               sx={{
                 "& .MuiRating-iconEmpty": {
@@ -251,8 +254,9 @@ export default function Theatre() {
         <Box className="ml-10">
           <Typography component="legend">Controlled</Typography>
           <Rating
-            name="simple-controlled"
-            value={parseInt(userRatingvalue, 10)}
+            name="half-rating"
+            precision={0.5}
+            value={parseFloat(userRatingvalue).toFixed(1)}
             size="large"
             onChange={(event, newValue) => {
               if (!disable) {

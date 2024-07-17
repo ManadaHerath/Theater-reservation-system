@@ -1,5 +1,5 @@
 import { connection } from "../index.js";
-export const getMovies = async (req, res,next) => {
+export const getMovies = async (req, res, next) => {
   try {
     const [movies] = await connection.query("SELECT * FROM movies");
 
@@ -55,5 +55,18 @@ export const addMovies = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const getMovieById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const dbquery =
+      "SELECT movies.id,movies.title,movies.trailer_video_url,movies.cover_photo,movies.overview,movies.released_date,movies.duration,movies.original_language,movies.age_type,movies.movie_director,movies.rating,movies.movie_writter,JSON_ARRAYAGG(JSON_OBJECT('name', actors.full_name, 'avatar', actors.avatar)) AS actors FROM movies LEFT JOIN actors ON movies.id = actors.movie_id WHERE movies.id = ? GROUP BY movies.id";
+    const [movie] = await connection.query(dbquery, [id]);
+
+    res.json(movie[0]);
+  } catch (error) {
+    next(error);
   }
 };

@@ -675,3 +675,56 @@ VALUES
 ( 'd54567f1-2e52-11ef-a881-00155d7a82dd', '36fee9d3-2f7f-11ef-a881-00155d7a82dd', 4.5),
 ('d5456d04-2e52-11ef-a881-00155d7a82dd', 'd543e9c0-2e52-11ef-a881-00155d7a82dd',  3.0),
 ('d5456e33-2e52-11ef-a881-00155d7a82dd', '36fee9d3-2f7f-11ef-a881-00155d7a82dd',  4.8);
+
+
+-- Movie Reviews Tables --
+
+CREATE TABLE movie_reviews (
+    review_id varchar(100) PRIMARY KEY DEFAULT (UUID()),
+    movie_id varchar(100) NOT NULL,
+    user_id varchar(100) NOT NULL,
+    review TEXT ,
+    like_count INT DEFAULT 0,
+    rates DECIMAL(2,1) CHECK (rates >= 1.0 AND rates <= 5.0),
+    FOREIGN KEY (movie_id) REFERENCES movies(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE movie_review_reply (
+    reply_id varchar(100) PRIMARY KEY DEFAULT (UUID()),
+    review_id varchar(100) NOT NULL,
+    user_id varchar(100) NOT NULL,
+    reply TEXT ,
+    FOREIGN KEY (review_id) REFERENCES movie_reviews(review_id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- Insert sample data into the movie_reviews table
+INSERT INTO movie_reviews (movie_id, user_id, review, like_count, rates)
+VALUES
+( 'd544c5df-2e52-11ef-a881-00155d7a82dd', '36fee9d3-2f7f-11ef-a881-00155d7a82dd', 'Great theatre with comfortable seating and excellent sound quality.', 10, 4.5),
+('d544ca40-2e52-11ef-a881-00155d7a82dd', 'd543e9c0-2e52-11ef-a881-00155d7a82dd', 'The movie experience was good, but the snacks were overpriced.', 5, 3.0),
+('d544c5df-2e52-11ef-a881-00155d7a82dd', '36fee9d3-2f7f-11ef-a881-00155d7a82dd', 'Loved the atmosphere and the screen quality, would definitely come again.', 15, 4.8);
+
+-- Insert sample data into the movie_review_reply table
+INSERT INTO movie_review_reply ( review_id, user_id, reply)
+VALUES
+('61cef4dc-444c-11ef-a1c9-a138314ef3db', '24abd8e7-2eda-11ef-a881-00155d7a82dd', 'Thank you for your positive feedback! We’re glad you enjoyed your visit.'),
+('61cefed8-444c-11ef-a1c9-a138314ef3db', '64c818c1-2f35-11ef-a881-00155d7a82dd',  'We appreciate your feedback. We are working on improving our snack offerings.'),
+('61cef4dc-444c-11ef-a1c9-a138314ef3db', 'd54415c6-2e52-11ef-a881-00155d7a82dd', 'Thank you for your kind words! We look forward to seeing you again.');
+
+CREATE TABLE movie_user_rating (
+    rating_id varchar(100) PRIMARY KEY DEFAULT (UUID()),
+    movie_id varchar(100) NOT NULL,
+    user_id varchar(100) NOT NULL,
+    rates DECIMAL(2,1) CHECK (rates >= 1.0 AND rates <= 5.0),
+    FOREIGN KEY (movie_id) REFERENCES movies(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+
+INSERT INTO movie_user_rating (movie_id, user_id,rates)
+VALUES
+( 'd544cb6e-2e52-11ef-a881-00155d7a82dd', '36fee9d3-2f7f-11ef-a881-00155d7a82dd', 4.5),
+('d544c5df-2e52-11ef-a881-00155d7a82dd', 'd543e9c0-2e52-11ef-a881-00155d7a82dd',  3.0),
+('d544cb6e-2e52-11ef-a881-00155d7a82dd', '36fee9d3-2f7f-11ef-a881-00155d7a82dd',  4.8);
