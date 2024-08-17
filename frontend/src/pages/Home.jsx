@@ -8,6 +8,7 @@ export default ()=> (
     <div>
         <NavBar />
         <MovieList />
+
     </div>
 )
 
