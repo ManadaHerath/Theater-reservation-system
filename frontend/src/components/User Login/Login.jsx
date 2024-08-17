@@ -6,17 +6,11 @@ import GoogleSignInButton from "./SignInButton";
 import useAuth from "../../hooks/useAuth";
 import axios from "../../api/axios";
 
-
-
 export default function Login() {
-
   const { setUser } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
- 
-
-
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -34,25 +28,29 @@ export default function Login() {
   const onsubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/auth/login", JSON.stringify({ email, password }),{
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: true
-    });
+      const response = await axios.post(
+        "/auth/login",
+        JSON.stringify({ email, password }),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
       const data = response.data;
       if (response.status === 200) {
         setAlert("Successfullly Logged In");
-        
+
         setAlertStyle("text-green-600 text-s mt-1 flex justify-center");
-        
 
         const accessToken = data?.token;
         const role = data?.role;
-        setUser({email,accessToken, role})
+        setUser({ email, accessToken, role });
         setEmail("");
         setPassword("");
-        navigate(from, { replace: true });
-
-
+        if (role === "user") {
+          navigate(from, { replace: true });
+        }
+        if (role === "admin") navigate("/admin", { replace: true });
       } else {
         setAlert(data.message);
         setAlertStyle("text-red-600 text-s mt-1 flex justify-center");
@@ -78,7 +76,6 @@ export default function Login() {
         <form onSubmit={onsubmit}>
           <div className="w-full mt-8">
             <div className="mx-auto max-w-xs sm:max-w-md md:max-w-lg flex flex-col gap-4">
-            
               <input
                 className={inputStyles}
                 name="email"
@@ -116,7 +113,9 @@ export default function Login() {
                 </span>
               </div>
               <Link to={"/forgot-password"}>
-                <p className="text-xs text-gray-200 text-right mr-3">Forgot Password?</p>
+                <p className="text-xs text-gray-200 text-right mr-3">
+                  Forgot Password?
+                </p>
               </Link>
               <button
                 type="submit"

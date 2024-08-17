@@ -25,16 +25,19 @@ router.get(
       httpOnly: true,
       sameSite: "Strict",
       secure: true,
-      maxAge: 24 * 60 * 60 * 1000, 
+      maxAge: 24 * 60 * 60 * 1000,
     });
     res.cookie("access_token", req.token, {
       httpOnly: true,
       sameSite: "Strict",
       secure: true,
-      maxAge: 10 * 1000, 
+      maxAge: 10 * 1000,
     });
-    
-    res.redirect("http://localhost:3000/");
+    if (req.user.role == "user") {
+      res.redirect("http://localhost:3000");
+    } else if (req.user.role == "admin") {
+      res.redirect("http://localhost:3000/admin");
+    }
   }
 );
 
