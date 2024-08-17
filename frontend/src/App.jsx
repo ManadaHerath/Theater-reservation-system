@@ -49,6 +49,9 @@ import UpdateTheatreAdmin from "./components/Admin/Theatre/UpdateTheatreAdmin";
 import PriceCategoriesChange from "./components/Admin/Theatre/PriceCategoriesChange";
 
 
+// chatbot
+import Chatbot from "../src/components/ChatBot";
+
 
 const App = () => {
   return (
@@ -95,11 +98,12 @@ const App = () => {
             <Route path="/payment-success" element={<PaymentSuccess />} />
 
             <Route path="/login" element={<LoginPage />} />
-
+          
 
           </Route>
 
         </Routes>
+        <Chatbot chatbotId={"nfGTj217gv4zsYzJ5dct2"} />
       </Router>
     </div>
   );
