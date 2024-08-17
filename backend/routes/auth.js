@@ -1,6 +1,6 @@
 import expresss from "express";
 const router = expresss.Router();
-import { register, login,forgotPassword } from "../controllers/auth.js";
+import { register, login, forgotPassword } from "../controllers/auth.js";
 import passport from "../controllers/GoogleSignIn.js";
 
 const app = expresss();
@@ -21,6 +21,19 @@ router.get(
   }),
   (req, res) => {
     // Successful authentication
+    res.cookie("refresh_token", req.refreshToken, {
+      httpOnly: true,
+      sameSite: "Strict",
+      secure: true,
+      maxAge: 24 * 60 * 60 * 1000, 
+    });
+    res.cookie("access_token", req.token, {
+      httpOnly: true,
+      sameSite: "Strict",
+      secure: true,
+      maxAge: 10 * 1000, 
+    });
+    
     res.redirect("http://localhost:3000/");
   }
 );

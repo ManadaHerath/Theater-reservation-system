@@ -33,7 +33,8 @@ export const register = async (req, res, next) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const defaultAvatar = "https://firebasestorage.googleapis.com/v0/b/medilink-812fc.appspot.com/o/person.png?alt=media&token=510412a5-bfd5-423d-b65d-f3b2a206e88d";
+    const defaultAvatar =
+      "https://firebasestorage.googleapis.com/v0/b/medilink-812fc.appspot.com/o/person.png?alt=media&token=510412a5-bfd5-423d-b65d-f3b2a206e88d";
 
     console.log(req.body);
     const [result] = await connection.query(
@@ -116,7 +117,7 @@ export const login = async (req, res, next) => {
     // Save the refreshToken to the database with the user id
     try {
       await connection.query(
-        'UPDATE users SET refresh_token = ? WHERE id = ?',
+        "UPDATE users SET refresh_token = ? WHERE id = ?",
         [refreshToken, user.id]
       );
     } catch (error) {
@@ -125,17 +126,21 @@ export const login = async (req, res, next) => {
     }
 
     // Set the cookie and send the response
-    res.cookie("access_token", refreshToken, { httpOnly: true, sameSite: 'Strict', secure: true, maxAge: 24 * 60 * 60 * 1000 });
+    res.cookie("access_token", refreshToken, {
+      httpOnly: true,
+      sameSite: "Strict",
+      secure: true,
+      maxAge: 24 * 60 * 60 * 1000,
+    });
     return res.status(200).json({
       role: user.role,
-      token
+      token,
     });
   } catch (error) {
     console.error("Error logging in user:", error);
     next(error);
   }
 };
-
 
 export const forgotPassword = async (req, res, next) => {
   try {
