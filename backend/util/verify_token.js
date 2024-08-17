@@ -3,11 +3,11 @@ import { createError } from "./error.js";
 
 export const verifyJWT = (req, res, next) => {
   const authHeader = req.headers["authorization"] || req.headers.Authorization;
-  console.log(authHeader);
+  // console.log(authHeader);
   if (!authHeader?.startsWith("Bearer ")) return res.sendStatus(401);
 
   const token = authHeader.split(" ")[1];
-  console.log(token);
+  // console.log(token);
   jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decoded) => {
     if (err) return res.sendStatus(403); //invalid token
     req.user = decoded.UserInfo.id;
@@ -42,7 +42,7 @@ export const verifyUser = async (req, res, next) => {
 
 export const verifyAdmin = async (req, res, next) => {
   verifyToken(req, res, () => {
-    if (req.user.role === "admin") {
+    if (req.user.role == "admin") {
       next();
     } else {
       return res.status(403).json("You do not have admin access");

@@ -70,3 +70,63 @@ export const getMovieById = async (req, res, next) => {
     next(error);
   }
 };
+
+export const updateMovie = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const {
+      title,
+      trailer_video_url,
+      poster_url,
+      overview,
+      released_date,
+      duration,
+      original_language,
+      age_type,
+      is_active,
+    } = req.body;
+
+    const [result] = await connection.query(
+      "UPDATE movies SET title = ?, trailer_video_url = ?, poster_url = ?, overview = ?, released_date = ?, duration = ?, original_language = ?, age_type = ?, is_active = ? WHERE id = ?",
+      [
+        title,
+        trailer_video_url,
+        poster_url,
+        overview,
+        released_date,
+        duration,
+        original_language,
+        age_type,
+        is_active,
+        id,
+      ]
+    );
+
+    res.json({
+      id,
+      title,
+      trailer_video_url,
+      poster_url,
+      overview,
+      released_date,
+      duration,
+      original_language,
+      age_type,
+      is_active,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteMovie = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    console.log("Deleting movie with id: ", id);
+    await connection.query("DELETE FROM movies WHERE id = ?", [id]);
+    console.log("Movie deleted");
+    res.json({ message: "Movie deleted" });
+  } catch (error) {
+    next(error);
+  }
+};
