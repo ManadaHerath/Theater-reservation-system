@@ -55,7 +55,7 @@ export const getReviews = async (req, res, next) => {
         })
       );
 
-      console.log(reviewsWithReplies);
+      // console.log(reviewsWithReplies);
 
       res.json(reviewsWithReplies);
     } else {
@@ -84,7 +84,7 @@ export const PostReviewReply = async (req, res, next) => {
 export const updateReviewLikes = async (req, res, next) => {
   try {
     const { id } = req.body;
-    console.log("Review ID:", id);
+    // console.log("Review ID:", id);
     const dbquery =
       "UPDATE theatre_reviews SET like_count = like_count + 1 WHERE review_id = ?";
 
@@ -99,7 +99,7 @@ export const updateReviewLikes = async (req, res, next) => {
 
 export const addReview = async (req, res, next) => {
   try {
-    const { theatre_id, review} = req.body;
+    const { theatre_id, review } = req.body;
     const dbquery =
       "INSERT INTO theatre_reviews (theatre_id, user_id, review) VALUES (?, ?, ?)";
 
@@ -133,7 +133,6 @@ export const addRating = async (req, res) => {
     }
   } catch (error) {
     console.log("Error adding/updating rating:", error);
-   
   }
 };
 
