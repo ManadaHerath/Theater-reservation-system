@@ -24,9 +24,10 @@ CREATE TABLE `movies` (
   `id` varchar(24) NOT NULL,
   `title` varchar(1024),
   `trailer_video_url` varchar(512),
-  `poster_url` varchar(512),
+  `poster_url` varchar(1024),
   `overview` text,
   `released_date` date,
+  `cover_photo` varchar(1024),
   `duration` int(11),
   `original_language` varchar(32),
   `age_type` ENUM('G', 'PG', 'PG-13', 'R', 'NC-17'),
@@ -728,3 +729,20 @@ VALUES
 ( 'd544cb6e-2e52-11ef-a881-00155d7a82dd', '36fee9d3-2f7f-11ef-a881-00155d7a82dd', 4.5),
 ('d544c5df-2e52-11ef-a881-00155d7a82dd', 'd543e9c0-2e52-11ef-a881-00155d7a82dd',  3.0),
 ('d544cb6e-2e52-11ef-a881-00155d7a82dd', '36fee9d3-2f7f-11ef-a881-00155d7a82dd',  4.8);
+
+-- Insert trigger for actors --
+DELIMITER $$
+CREATE TRIGGER before_insert_actors
+BEFORE INSERT ON actors
+FOR EACH ROW
+BEGIN
+    IF NEW.id IS NULL THEN
+        SET NEW.id = UUID();
+    END IF;
+END$$
+DELIMITER ;
+
+
+//
+
+In movie table cover photo url and poster url should be varchar(1024) instead of varchar(100) as the url can be longer than 100 characters.

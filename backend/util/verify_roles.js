@@ -1,8 +1,8 @@
-export const verifyRoles = (allowedRoles) =>{
-    return (req,res,next) =>{
-        if(!req?.role) return res.sendStatus(401);
-        if(!allowedRoles.includes(req.role)) return res.sendStatus(401);
-        next();
-    }
-    
-}
+export const verifyRoles = (allowedRoles) => {
+  return (req, res, next) => {
+    if (!req?.role) return res.sendStatus(401);
+    if (!allowedRoles.includes(req.role)) return res.sendStatus(401);
+    console.log(req.role);
+    next();
+  };
+};

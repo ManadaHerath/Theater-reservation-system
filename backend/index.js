@@ -24,7 +24,7 @@ import refreshRoute from "./routes/refresh.js";
 import logoutRoute from "./routes/logout.js";
 import reviewsRoute from "./routes/reviews.js";
 import movieReviewsRoute from "./routes/movie_reviews.js";
-
+import photoUploadRoute from "./routes/photoUpload.js";
 
 const app = express();
 //for usage of google sign in
@@ -37,13 +37,12 @@ app.use(
 );
 
 const corsOptions = {
-  origin: 'http://localhost:3000', // Frontend URL
+  origin: "http://localhost:3000", // Frontend URL
   credentials: true, // Allow credentials (cookies, authorization headers, etc.)
   optionsSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
-
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -66,15 +65,14 @@ app.listen(5001, () => {
   console.log("Server is running on port 5001");
 });
 
-
 // middlewares
 app.use("/webhook", webHookRoute);
 app.use(express.json());
 app.use(cookieParser());
 app.use("/reviews", reviewsRoute);
 app.use("/movie_reviews", movieReviewsRoute);
-app.use("/refresh",refreshRoute);
-app.use("/logout",logoutRoute);
+app.use("/refresh", refreshRoute);
+app.use("/logout", logoutRoute);
 app.use("/auth", authRoute);
 app.use("/movies", movieRoute);
 app.use("/theatres", theatreRoute);
@@ -87,9 +85,9 @@ app.use("/seat_types", seatTypesRoute);
 app.use("/purchased_seats", purchasedSeatsRoute);
 app.use("/stripe", createCheckoutRoute);
 app.use("/recovery", recoveryRoute);
+app.use("/photo-upload", photoUploadRoute);
 
 // error
 app.use((err, req, res, next) => {
   return res.status(500).json(err.message);
 });
-
