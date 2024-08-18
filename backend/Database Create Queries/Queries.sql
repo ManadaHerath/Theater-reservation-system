@@ -24,9 +24,10 @@ CREATE TABLE `movies` (
   `id` varchar(24) NOT NULL,
   `title` varchar(1024),
   `trailer_video_url` varchar(512),
-  `poster_url` varchar(512),
+  `poster_url` varchar(1024),
   `overview` text,
   `released_date` date,
+  `cover_photo` varchar(1024),
   `duration` int(11),
   `original_language` varchar(32),
   `age_type` ENUM('G', 'PG', 'PG-13', 'R', 'NC-17'),
@@ -740,3 +741,8 @@ BEGIN
     END IF;
 END$$
 DELIMITER ;
+
+
+//
+
+In movie table cover photo url and poster url should be varchar(1024) instead of varchar(100) as the url can be longer than 100 characters.

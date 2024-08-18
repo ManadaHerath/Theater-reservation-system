@@ -82,7 +82,6 @@ const AddNewMovie = () => {
 
   const handleCoverPhotoChange = (event) => {
     setSelectedCoverPhoto(event.target.files[0]);
-    console.log("Cover photo:", event.target.files[0]);
   };
   const handleMoviePosterChange = (event) => {
     setSelectedMoviePoster(event.target.files[0]);
@@ -93,7 +92,9 @@ const AddNewMovie = () => {
     const formData = new FormData();
     formData.append("cover_photo", selectedCoverPhoto);
     formData.append("movie_poster", selectedMoviePoster);
-    console.log("Form data:", formData);
+    for (let [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
 
     try {
       const response = await axiosPrivate.post("/photo-upload", formData, {
@@ -101,23 +102,29 @@ const AddNewMovie = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-
-      console.log("Upload successful:", response.data);
+      setMovie({
+        ...movie,
+        poster_url: response.data[1].movie_poster,
+        cover_photo: response.data[0].cover_photo,
+      });
+      console.log("Upload successful:", movie);
+      console.log("cover_photo:", response.data[0]);
+      console.log("movie_poster:", response.data[1]);
     } catch (error) {
       console.error("Error uploading photos:", error);
     }
 
-    // try {
-    //   const response = await axiosPrivate.post("http://localhost:5001/movies", {
-    //     movie,
-    //     actors,
-    //   });
-    //   if (response.status === 201) {
-    //     setShowDialog(true);
-    //   }
-    // } catch (error) {
-    //   console.error("Error during form submission:", error);
-    // }
+    try {
+      const response = await axiosPrivate.post("http://localhost:5001/movies", {
+        movie,
+        actors,
+      });
+      if (response.status === 201) {
+        setShowDialog(true);
+      }
+    } catch (error) {
+      console.error("Error during form submission:", error);
+    }
     console.log("Form submitted:");
   };
 
