@@ -10,49 +10,42 @@ export const getMovies = async (req, res, next) => {
 };
 
 export const addMovies = async (req, res, next) => {
+  const movie = req.body.movie;
+  const actors = req.body.actors;
   try {
-    const {
-      title,
-      trailer_video_url,
-      poster_url,
-      overview,
-      released_date,
-      duration,
-      original_language,
-      age_type,
-      is_active,
-    } = req.body;
-
     const [result] = await connection.query(
-      "INSERT INTO movies (title, trailer_video_url, poster_url, overview, released_date, duration, original_language, age_type, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO movies (title, trailer_video_url, poster_url, overview, released_date, duration, original_language,movie_director,movie_writter,cover_photo,rating ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
       [
-        title,
-        trailer_video_url,
-        poster_url,
-        overview,
-        released_date,
-        duration,
-        original_language,
-        age_type,
-        is_active,
+        movie.title,
+        movie.trailer_video_url,
+        movie.poster_url,
+        movie.overview,
+        movie.released_date,
+        movie.duration,
+        movie.original_language,
+        movie.movie_director,
+        movie.movie_writer,
+        movie.cover_photo,
+        movie.rating,
       ]
     );
 
-    // Get the inserted movie ID
-    const insertedId = result.insertId;
+    const movieId = await connection.query(
+      "SELECT id FROM movies WHERE title = ?",
+      [movie.title]
+    );
 
-    res.json({
-      id: insertedId,
-      title,
-      trailer_video_url,
-      poster_url,
-      overview,
-      released_date,
-      duration,
-      original_language,
-      age_type,
-      is_active,
-    });
+    const newMovieId = movieId[0][0].id;
+
+    for (const actor of actors) {
+      await connection.query(
+        "INSERT INTO actors (full_name, avatar, movie_id) VALUES (?, ?, ?)",
+        [actor.name, actor.photo_url,newMovieId]
+      );
+    }
+    
+    res.status(201).json({ message: "Movie added successfully" });
+    
   } catch (error) {
     console.log(error);
   }

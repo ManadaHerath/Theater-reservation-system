@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+import { axiosPrivate } from "../../../api/axios";
+import AlertDialog from "./DialogBox";
+// import { storage } from "../config/firebaseconfig";
+// import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import {
   Button,
   TextField,
@@ -10,6 +14,7 @@ import {
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import { styled } from "@mui/system";
+import { set } from "date-fns";
 
 const BlueButton = styled(Button)(({ theme }) => ({
   backgroundColor: "#1976d2",
@@ -40,10 +45,24 @@ const BlueTextField = styled(TextField)({
 });
 
 const AddNewMovie = () => {
-  const [actors, setActors] = useState([{ name: "", photo: null }]);
+  const [actors, setActors] = useState([{ name: "", photo_url: "" }]);
+  const [showDialog, setShowDialog] = useState(false);
+  const [movie, setMovie] = useState({
+    title: "",
+    trailer_video_url: "",
+    poster_url: "",
+    overview: "",
+    released_date: "",
+    duration: "",
+    original_language: "",
+    movie_director: "",
+    movie_writer: "",
+    cover_photo: "",
+    rating: "",
+  });
 
   const handleAddActor = () => {
-    setActors([...actors, { name: "", photo: null }]);
+    setActors([...actors, { name: "", photo_url: "" }]);
   };
 
   const handleRemoveActor = (index) => {
@@ -57,17 +76,26 @@ const AddNewMovie = () => {
     );
     setActors(newActors);
   };
+  const handleChange = (e) => {
+    setMovie({ ...movie, [e.target.name]: e.target.value });
+  };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Handle form submission logic here
+
+    try {
+      const response = await axiosPrivate.post("http://localhost:5001/movies", {
+        movie,
+        actors,
+      });
+      if (response.status === 201) {
+        setShowDialog(true);
+      }
+    } catch (error) {
+      console.error("Error during form submission:", error);
+    }
     console.log("Form submitted:", {
-      movieName: event.target.movieName.value,
-      description: event.target.description.value,
-      writer: event.target.writer.value,
-      director: event.target.director.value,
-      releaseDate: event.target.releaseDate.value,
-      coverPhoto: event.target.coverPhoto.files[0],
+      movie,
       actors,
     });
   };
@@ -91,38 +119,94 @@ const AddNewMovie = () => {
           <BlueTextField
             fullWidth
             label="Movie Name"
-            name="movieName"
+            name="title"
             margin="normal"
+            onChange={handleChange}
             required
           />
           <BlueTextField
             fullWidth
             label="Description"
-            name="description"
+            name="overview"
             margin="normal"
             required
             multiline
+            onChange={handleChange}
             rows={3}
           />
           <BlueTextField
             fullWidth
             label="Writer"
-            name="writer"
+            name="movie_writer"
             margin="normal"
+            onChange={handleChange}
             required
           />
           <BlueTextField
             fullWidth
             label="Director"
-            name="director"
+            name="movie_director"
+            margin="normal"
+            onChange={handleChange}
+            required
+          />
+          <BlueTextField
+            fullWidth
+            label="Released Date"
+            name="released_date"
+            type="date"
+            InputLabelProps={{ shrink: true }}
+            margin="normal"
+            onChange={handleChange}
+            required
+          />
+
+          <BlueTextField
+            fullWidth
+            label="Trailer Video Url"
+            name="trailer_video_url"
+            margin="normal"
+            onChange={handleChange}
+            required
+          />
+          <BlueTextField
+            fullWidth
+            label="Original Language"
+            name="original_language"
+            margin="normal"
+            onChange={handleChange}
+            required
+          />
+          <BlueTextField
+            fullWidth
+            label="Duration"
+            name="duration"
+            margin="normal"
+            onChange={handleChange}
+            required
+          />
+          <BlueTextField
+            fullWidth
+            label="Rating"
+            name="rating"
+            margin="normal"
+            onChange={handleChange}
+            required
+          />
+          <BlueTextField
+            fullWidth
+            label="Movie Cover"
+            name="coverPhoto"
+            type="file"
+            InputLabelProps={{ shrink: true }}
             margin="normal"
             required
           />
           <BlueTextField
             fullWidth
-            label="Release Date"
-            name="releaseDate"
-            type="date"
+            label="Movie Poster"
+            name="moviePoster"
+            type="file"
             InputLabelProps={{ shrink: true }}
             margin="normal"
             required
@@ -146,13 +230,15 @@ const AddNewMovie = () => {
                   required
                   sx={{ flexGrow: 1, mr: 1 }}
                 />
-                <input
-                  accept="image/*"
-                  type="file"
+                <BlueTextField
+                  label={`Actor Photo URL ${index + 1}`}
+                  value={actor.photo_url}
                   onChange={(e) =>
-                    handleActorChange(index, "photo", e.target.files[0])
+                    handleActorChange(index, "photo_url", e.target.value)
                   }
+                  margin="normal"
                   required
+                  sx={{ flexGrow: 1, mr: 1 }}
                 />
                 <IconButton
                   onClick={() => handleRemoveActor(index)}
@@ -168,21 +254,15 @@ const AddNewMovie = () => {
               <AddCircleIcon fontSize="large" />
             </IconButton>
           </Box>
-          <BlueTextField
-            fullWidth
-            label="Movie Cover"
-            name="coverPhoto"
-            type="file"
-            InputLabelProps={{ shrink: true }}
-            margin="normal"
-            required
-          />
+
           <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
             <BlueButton type="submit" variant="contained">
               Submit
             </BlueButton>
           </Box>
         </form>
+
+        {showDialog && <AlertDialog message={"Movie Added Successfully!"} />}
       </Box>
     </Container>
   );

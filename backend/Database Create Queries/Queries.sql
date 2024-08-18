@@ -728,3 +728,15 @@ VALUES
 ( 'd544cb6e-2e52-11ef-a881-00155d7a82dd', '36fee9d3-2f7f-11ef-a881-00155d7a82dd', 4.5),
 ('d544c5df-2e52-11ef-a881-00155d7a82dd', 'd543e9c0-2e52-11ef-a881-00155d7a82dd',  3.0),
 ('d544cb6e-2e52-11ef-a881-00155d7a82dd', '36fee9d3-2f7f-11ef-a881-00155d7a82dd',  4.8);
+
+-- Insert trigger for actors --
+DELIMITER $$
+CREATE TRIGGER before_insert_actors
+BEFORE INSERT ON actors
+FOR EACH ROW
+BEGIN
+    IF NEW.id IS NULL THEN
+        SET NEW.id = UUID();
+    END IF;
+END$$
+DELIMITER ;

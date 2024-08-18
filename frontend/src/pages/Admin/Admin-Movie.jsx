@@ -32,7 +32,7 @@ const MovieCard = ({ movie }) => {
   const handleDeleteClickOkay = async () => {
     try {
       await axiosPrivate.delete(`/movies/${movie.id}`);
-      navigate("/admin/movies", { replace: true });
+      navigate("/admin/movie", { replace: true });
     } catch (error) {
       console.log(error);
     }

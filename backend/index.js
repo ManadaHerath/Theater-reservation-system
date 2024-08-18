@@ -24,6 +24,7 @@ import refreshRoute from "./routes/refresh.js";
 import logoutRoute from "./routes/logout.js";
 import reviewsRoute from "./routes/reviews.js";
 import movieReviewsRoute from "./routes/movie_reviews.js";
+import actorRoute from "./routes/actors.js";
 
 
 const app = express();
@@ -87,6 +88,7 @@ app.use("/seat_types", seatTypesRoute);
 app.use("/purchased_seats", purchasedSeatsRoute);
 app.use("/stripe", createCheckoutRoute);
 app.use("/recovery", recoveryRoute);
+app.use("/actors", actorRoute);
 
 // error
 app.use((err, req, res, next) => {

@@ -18,7 +18,7 @@ import { verifyRoles } from "../util/verify_roles.js";
 const router = expresss.Router();
 
 router.get("/", getMovies);
-router.post("/", verifyJWT, verifyRoles("admin"), addMovies);
+router.post("/", addMovies);
 router.get("/:id", getMovieById);
 router.delete("/:id", verifyJWT, verifyRoles("admin"), deleteMovie);
 router.put("/:id", verifyJWT, verifyRoles("admin"), updateMovie);
