@@ -12,7 +12,6 @@ import {
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import { styled } from "@mui/system";
-import { set } from "date-fns";
 
 const BlueButton = styled(Button)(({ theme }) => ({
   backgroundColor: "#1976d2",
@@ -44,6 +43,7 @@ const BlueTextField = styled(TextField)({
 
 const AddNewMovie = () => {
   const [actors, setActors] = useState([{ name: "", photo_url: "" }]);
+  const [submitted, setSubmitted] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
   const [movie, setMovie] = useState({
     title: "",
@@ -88,6 +88,7 @@ const AddNewMovie = () => {
   };
 
   const handleSubmit = async (event) => {
+    setSubmitted(true);
     event.preventDefault();
     const formData = new FormData();
     formData.append("cover_photo", selectedCoverPhoto);
@@ -97,26 +98,23 @@ const AddNewMovie = () => {
     }
 
     try {
-      const response = await axiosPrivate.post("/photo-upload", formData, {
+      const photoResponse = await axiosPrivate.post("/photo-upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      setMovie({
+      const updatedMovie = {
         ...movie,
-        poster_url: response.data[1].movie_poster,
-        cover_photo: response.data[0].cover_photo,
-      });
+        poster_url: photoResponse.data[1].movie_poster,
+        cover_photo: photoResponse.data[0].cover_photo,
+      };
       console.log("Upload successful:", movie);
-      console.log("cover_photo:", response.data[0]);
-      console.log("movie_poster:", response.data[1]);
-    } catch (error) {
-      console.error("Error uploading photos:", error);
-    }
+      console.log("cover_photo:", photoResponse.data[0]);
+      console.log("movie_poster:", photoResponse.data[1]);
+      setMovie(updatedMovie);
 
-    try {
       const response = await axiosPrivate.post("http://localhost:5001/movies", {
-        movie,
+        movie: updatedMovie,
         actors,
       });
       if (response.status === 201) {
@@ -286,7 +284,7 @@ const AddNewMovie = () => {
           </Box>
 
           <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
-            <BlueButton type="submit" variant="contained">
+            <BlueButton type="submit" variant="contained" disabled={submitted}>
               Submit
             </BlueButton>
           </Box>
