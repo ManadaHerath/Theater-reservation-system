@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { axiosPrivate } from "../../../api/axios";
 import AlertDialog from "./DialogBox";
-// import { storage } from "../config/firebaseconfig";
-// import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import {
   Button,
   TextField,
@@ -79,25 +77,48 @@ const AddNewMovie = () => {
   const handleChange = (e) => {
     setMovie({ ...movie, [e.target.name]: e.target.value });
   };
+  const [selectedCoverPhoto, setSelectedCoverPhoto] = useState(null);
+  const [selectedMoviePoster, setSelectedMoviePoster] = useState(null);
+
+  const handleCoverPhotoChange = (event) => {
+    setSelectedCoverPhoto(event.target.files[0]);
+    console.log("Cover photo:", event.target.files[0]);
+  };
+  const handleMoviePosterChange = (event) => {
+    setSelectedMoviePoster(event.target.files[0]);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const formData = new FormData();
+    formData.append("cover_photo", selectedCoverPhoto);
+    formData.append("movie_poster", selectedMoviePoster);
+    console.log("Form data:", formData);
 
     try {
-      const response = await axiosPrivate.post("http://localhost:5001/movies", {
-        movie,
-        actors,
+      const response = await axiosPrivate.post("/photo-upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
-      if (response.status === 201) {
-        setShowDialog(true);
-      }
+
+      console.log("Upload successful:", response.data);
     } catch (error) {
-      console.error("Error during form submission:", error);
+      console.error("Error uploading photos:", error);
     }
-    console.log("Form submitted:", {
-      movie,
-      actors,
-    });
+
+    // try {
+    //   const response = await axiosPrivate.post("http://localhost:5001/movies", {
+    //     movie,
+    //     actors,
+    //   });
+    //   if (response.status === 201) {
+    //     setShowDialog(true);
+    //   }
+    // } catch (error) {
+    //   console.error("Error during form submission:", error);
+    // }
+    console.log("Form submitted:");
   };
 
   return (
@@ -200,6 +221,7 @@ const AddNewMovie = () => {
             type="file"
             InputLabelProps={{ shrink: true }}
             margin="normal"
+            onChange={handleCoverPhotoChange}
             required
           />
           <BlueTextField
@@ -209,6 +231,7 @@ const AddNewMovie = () => {
             type="file"
             InputLabelProps={{ shrink: true }}
             margin="normal"
+            onChange={handleMoviePosterChange}
             required
           />
           <Typography variant="h6" sx={{ mt: 2, color: "#1976d2" }}>
