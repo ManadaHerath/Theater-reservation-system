@@ -31,8 +31,8 @@ const MovieCard = ({ movie }) => {
   };
   const handleDeleteClickOkay = async () => {
     try {
-      await axiosPrivate.delete(`/movies/${movie.id}`);
-      navigate("/admin/movie", { replace: true });
+      await axiosPrivate.delete(`http://localhost:5001/movies/${movie.id}`);
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }

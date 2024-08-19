@@ -746,3 +746,39 @@ DELIMITER ;
 //
 
 In movie table cover photo url and poster url should be varchar(1024) instead of varchar(100) as the url can be longer than 100 characters.
+
+DELIMITER //
+
+CREATE TRIGGER before_review_delete
+BEFORE DELETE ON movie_reviews
+FOR EACH ROW
+BEGIN
+    -- Delete all replies related to the review being deleted
+    DELETE FROM movie_review_reply
+    WHERE review_id = OLD.review_id;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER before_movie_delete
+BEFORE DELETE ON movies
+FOR EACH ROW
+BEGIN
+    -- Delete all replies related to the review being deleted
+    DELETE FROM movie_reviews
+    WHERE movie_id = OLD.id;
+    
+    DELETE FROM movie_user_rating
+    WHERE movie_id = OLD.id;
+    
+    DELETE FROM show_times
+    WHERE movie_id = OLD.id;
+    
+    DELETE FROM actors
+    WHERE movie_id = OLD.id;
+    
+END //
+
+DELIMITER ;
