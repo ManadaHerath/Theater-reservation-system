@@ -290,7 +290,9 @@ const AddNewMovie = () => {
           </Box>
         </form>
 
-        {showDialog && <AlertDialog message={"Movie Added Successfully!"} />}
+        {showDialog && (
+          <AlertDialog message={"Movie Added Successfully!"} reload={true} />
+        )}
       </Box>
     </Container>
   );

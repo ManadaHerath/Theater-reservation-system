@@ -6,12 +6,15 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-export default function AlertDialog({ message }) {
+export default function AlertDialog({ message,reload }) {
   const [open, setOpen] = React.useState(true);
 
   const handleClose = () => {
     setOpen(false);
-    window.location.reload();
+    if(reload){
+      window.location.reload();
+    }
+    
   };
 
   return (

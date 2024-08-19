@@ -40,12 +40,11 @@ export const addMovies = async (req, res, next) => {
     for (const actor of actors) {
       await connection.query(
         "INSERT INTO actors (full_name, avatar, movie_id) VALUES (?, ?, ?)",
-        [actor.name, actor.photo_url,newMovieId]
+        [actor.name, actor.photo_url, newMovieId]
       );
     }
-    
+
     res.status(201).json({ message: "Movie added successfully" });
-    
   } catch (error) {
     console.log(error);
   }
@@ -55,7 +54,7 @@ export const getMovieById = async (req, res, next) => {
   try {
     const { id } = req.params;
     const dbquery =
-      "SELECT movies.id,movies.title,movies.trailer_video_url,movies.cover_photo,movies.overview,movies.released_date,movies.duration,movies.original_language,movies.age_type,movies.movie_director,movies.rating,movies.movie_writter,JSON_ARRAYAGG(JSON_OBJECT('name', actors.full_name, 'avatar', actors.avatar)) AS actors FROM movies LEFT JOIN actors ON movies.id = actors.movie_id WHERE movies.id = ? GROUP BY movies.id";
+      "SELECT movies.id,movies.title,movies.trailer_video_url,movies.cover_photo,movies.poster_url,movies.overview,movies.released_date,movies.duration,movies.original_language,movies.movie_director,movies.rating,movies.movie_writter,JSON_ARRAYAGG(JSON_OBJECT('name', actors.full_name, 'avatar', actors.avatar)) AS actors FROM movies LEFT JOIN actors ON movies.id = actors.movie_id WHERE movies.id = ? GROUP BY movies.id";
     const [movie] = await connection.query(dbquery, [id]);
 
     res.json(movie[0]);
@@ -66,47 +65,48 @@ export const getMovieById = async (req, res, next) => {
 
 export const updateMovie = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const {
-      title,
-      trailer_video_url,
-      poster_url,
-      overview,
-      released_date,
-      duration,
-      original_language,
-      age_type,
-      is_active,
-    } = req.body;
+    const movie = req.body.movie;
+    const actors = req.body.actors;
+
+    console.log("actors ", actors);
+    console.log("movie ", movie);
 
     const [result] = await connection.query(
-      "UPDATE movies SET title = ?, trailer_video_url = ?, poster_url = ?, overview = ?, released_date = ?, duration = ?, original_language = ?, age_type = ?, is_active = ? WHERE id = ?",
+      "UPDATE movies SET title = ?, trailer_video_url = ?, poster_url = ?, overview = ?, released_date = ? ,duration = ?, original_language = ?, movie_director = ?, movie_writter = ?,cover_photo= ?, rating=? WHERE id = ?",
       [
-        title,
-        trailer_video_url,
-        poster_url,
-        overview,
-        released_date,
-        duration,
-        original_language,
-        age_type,
-        is_active,
-        id,
+        movie.title,
+        movie.trailer_video_url,
+        movie.poster_url,
+        movie.overview,
+        new Date(movie.released_date).toISOString().split("T")[0],
+        movie.duration,
+        movie.original_language,
+        movie.movie_director,
+        movie.movie_writter,
+        movie.cover_photo,
+        movie.rating,
+        movie.id,
       ]
     );
 
-    res.json({
-      id,
-      title,
-      trailer_video_url,
-      poster_url,
-      overview,
-      released_date,
-      duration,
-      original_language,
-      age_type,
-      is_active,
-    });
+    try {
+      console.log("Deleting actors for movie with id: ", movie.id);
+      await connection.query("DELETE FROM actors WHERE movie_id = ?", [
+        movie.id,
+      ]);
+    } catch (error) {
+      console.error("Error deleting actors:", error);
+      throw error;
+    }
+
+    for (const actor of actors) {
+      await connection.query(
+        "INSERT INTO actors (full_name, avatar, movie_id) VALUES (?, ?, ?)",
+        [actor.name, actor.avatar, movie.id]
+      );
+    }
+
+    res.status(201).json({ message: "Movie updated successfully" });
   } catch (error) {
     next(error);
   }
