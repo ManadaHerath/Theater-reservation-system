@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { act, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { axiosPrivate } from "../../../api/axios";
@@ -72,13 +72,15 @@ const UpdateMovie = () => {
   };
 
   const handleActorChange = (index, field, value) => {
-    const newActors = actors.map((actor, i) =>
-      i === index ? { ...actor, [field]: value } : actor
-    );
+    const newActors = [...actors];
+    newActors[index] = { ...newActors[index], [field]: value };
     setActors(newActors);
+    console.log("data from new actors:", newActors);
+    console.log("data from actors:", actors);
   };
   const handleChange = (e) => {
     setMovie({ ...movie, [e.target.name]: e.target.value });
+    console.log("actor data:", actors);
   };
   const [selectedCoverPhoto, setSelectedCoverPhoto] = useState(null);
   const [selectedMoviePoster, setSelectedMoviePoster] = useState(null);
@@ -208,6 +210,7 @@ const UpdateMovie = () => {
             fullWidth
             label="Writer"
             name="movie_writter"
+            value={movie.movie_writter || ""}
             margin="normal"
             focused
             onChange={handleChange}
@@ -309,7 +312,7 @@ const UpdateMovie = () => {
                 <BlueTextField
                   label={`Actor Name ${index + 1}`}
                   focused
-                  value={actor.name} // Bind the value to the actor's name
+                  value={actor.name}
                   onChange={(e) =>
                     handleActorChange(index, "name", e.target.value)
                   }
@@ -345,13 +348,12 @@ const UpdateMovie = () => {
           </Box>
 
           <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
-            <BlueButton type="submit" variant="contained">
+            <BlueButton type="submit" variant="contained" disabled={submitted}>
               Submit
             </BlueButton>
           </Box>
         </form>
-
-        {showDialog && <AlertDialog message={"Movie Updated Successfully!"} />}
+        {showDialog && <AlertDialog message={"Movie Updated Successfully!"} reload={true}/>}
       </Box>
     </Container>
   );

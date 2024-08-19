@@ -65,11 +65,11 @@ export const getMovieById = async (req, res, next) => {
 
 export const updateMovie = async (req, res, next) => {
   try {
-    const { id } = req.params;
     const movie = req.body.movie;
     const actors = req.body.actors;
-    console.log("Updating movie with id: ", id);
-    console.log("Movie: ", movie);
+
+    console.log("actors ", actors);
+    console.log("movie ", movie);
 
     const [result] = await connection.query(
       "UPDATE movies SET title = ?, trailer_video_url = ?, poster_url = ?, overview = ?, released_date = ? ,duration = ?, original_language = ?, movie_director = ?, movie_writter = ?,cover_photo= ?, rating=? WHERE id = ?",
@@ -78,22 +78,31 @@ export const updateMovie = async (req, res, next) => {
         movie.trailer_video_url,
         movie.poster_url,
         movie.overview,
-        movie.released_date,
+        new Date(movie.released_date).toISOString().split("T")[0],
         movie.duration,
         movie.original_language,
         movie.movie_director,
         movie.movie_writter,
         movie.cover_photo,
         movie.rating,
-        id,
+        movie.id,
       ]
     );
 
-    //await connection.query("Delete from actors where movie_id = ?", [id]);
+    try {
+      console.log("Deleting actors for movie with id: ", movie.id);
+      await connection.query("DELETE FROM actors WHERE movie_id = ?", [
+        movie.id,
+      ]);
+    } catch (error) {
+      console.error("Error deleting actors:", error);
+      throw error;
+    }
+
     for (const actor of actors) {
       await connection.query(
         "INSERT INTO actors (full_name, avatar, movie_id) VALUES (?, ?, ?)",
-        [actor.name, actor.avatar, id]
+        [actor.name, actor.avatar, movie.id]
       );
     }
 
