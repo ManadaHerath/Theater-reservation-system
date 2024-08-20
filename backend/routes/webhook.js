@@ -4,8 +4,7 @@ import 'dotenv/config';
 import { createPurchaseFromSession } from '../controllers/purchase.js';
 import {generateQRCode} from '../routes/payment-recipt/qrcodegen.js';
 import { createPDF } from './payment-recipt/create_pdf.js';
-import fs from 'fs';
-import path from 'path';
+import { tokenGen } from './tokenGen.js';
 import nodemailer from 'nodemailer';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -43,6 +42,7 @@ router.post('/', express.raw({ type: 'application/json' }), async (req, res) => 
     const showId = session.metadata?.showId;
     const seatInfo = session.metadata?.selectedSeats;
     const customerEmail = session.customer_details.email;
+    const token = tokenGen();
 
     if (!theatreId || !showId) {
       console.error('Missing metadata in session');
@@ -72,6 +72,8 @@ router.post('/', express.raw({ type: 'application/json' }), async (req, res) => 
         show_time_id: showId,
         seats: seats,
         pi: pi,
+        token: token,
+
       },
     };
 
@@ -83,7 +85,7 @@ router.post('/', express.raw({ type: 'application/json' }), async (req, res) => 
 
       const pdfBytes = await createPDF(reqForCreatePurchase.body, qrCodeDataUrl);
       
-      await sendEmailWithAttachment(customerEmail, pdfBytes);
+      await sendEmailWithAttachment(customerEmail, pdfBytes,`http://localhost:3000/refund/${token}`);
 
     } catch (error) {
       console.error(error);
@@ -94,14 +96,40 @@ router.post('/', express.raw({ type: 'application/json' }), async (req, res) => 
   res.status(200).json({ received: true });
 });
 
-const sendEmailWithAttachment = async (toEmail, pdfBytes) => {
+// const sendEmailWithAttachment = async (toEmail, pdfBytes) => {
+//   try {
+//     // Send email using nodemailer
+//     const info = await transporter.sendMail({
+//       from: `"Your Application" <${process.env.SMTP_USER}>`,
+//       to: toEmail,
+//       subject: 'Your Ticket PDF',
+//       text: 'Please find attached your ticket PDF.',
+//       attachments: [{
+//         filename: 'ticket.pdf',
+//         content: pdfBytes,
+//         encoding: 'base64', // PDF content encoding
+//       }],
+//     });
+
+//     console.log('Email sent:', info.response);
+//   } catch (error) {
+//     console.error('Error sending email:', error);
+//     throw error;
+//   }
+// };
+
+const sendEmailWithAttachment = async (toEmail, pdfBytes, refundLink) => {
   try {
-    // Send email using nodemailer
     const info = await transporter.sendMail({
-      from: `"Your Application" <${process.env.SMTP_USER}>`,
+      from: `"Movie Mingle" <${process.env.SMTP_USER}>`,
       to: toEmail,
-      subject: 'Your Ticket PDF',
-      text: 'Please find attached your ticket PDF.',
+      subject: 'Your Ticket',
+      html: `
+        <p>Thank you for your purchase!</p>
+        <p>Please find attached your ticket PDF.</p>
+        <p>If you need to request a refund or cancel your purchase, click the link below:</p>
+        <p><a href="${refundLink}">Refund or Cancel Purchase</a></p>
+      `,
       attachments: [{
         filename: 'ticket.pdf',
         content: pdfBytes,
@@ -109,11 +137,12 @@ const sendEmailWithAttachment = async (toEmail, pdfBytes) => {
       }],
     });
 
-    console.log('Email sent:', info.response);
+    console.log('Email sent:', info.messageId);
   } catch (error) {
     console.error('Error sending email:', error);
-    throw error;
+    throw error; // Re-throw the error to handle it outside this function
   }
 };
+
 
 export default router;

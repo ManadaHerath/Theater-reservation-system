@@ -3,7 +3,7 @@ import { useParams ,useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import useFetch from '../hooks/useFetch';
 import { loadStripe } from '@stripe/stripe-js';
-
+import useAuth from "../hooks/useAuth";
 
 
 
@@ -13,6 +13,8 @@ import { loadStripe } from '@stripe/stripe-js';
 
 const SeatSelection = () => {
   const navigate =  useNavigate();
+  const { user } = useAuth();
+  console.log("UserYO",user);
 
 
   const { showId, theatreId } = useParams();

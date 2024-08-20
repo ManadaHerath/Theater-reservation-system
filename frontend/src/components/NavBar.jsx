@@ -9,7 +9,6 @@ const NavBar = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const logout = useLogout();
-  console.log("user", user);
 
   const signOut = async () => {
     await logout();
