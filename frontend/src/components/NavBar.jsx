@@ -1,71 +1,109 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import search_logo from "../assets/search-w.png";
 import { useNavigate } from "react-router-dom";
 import useLogout from "../hooks/useLogout";
 import useAuth from "../hooks/useAuth";
+import LogoutIcon from "@mui/icons-material/Logout";
+import LoginIcon from "@mui/icons-material/Login";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
 
 const NavBar = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const logout = useLogout();
-  console.log("user", user);
 
   const signOut = async () => {
     await logout();
     navigate("/");
   };
 
+  const [selectedItem, setSelectedItem] = useState("Home");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  const handleItemClick = (item) => {
+    setSelectedItem(item);
+    setIsMenuOpen(false); // Close menu on selection
+  };
+
+  const routes = {
+    Home: "/",
+    Movies: "/movies",
+    Schedule: "/schedule",
+    Theatres: "/theatres",
+  };
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <div className="flex items-center justify-between h-16 p-4 text-white bg-gray-800">
-      <div className="flex items-center p-2 space-x-2 bg-gray-700 rounded-full">
-        <input
-          type="text"
-          placeholder="Search"
-          className="p-1 text-lg text-white placeholder-gray-400 bg-transparent border-0 outline-none"
-        />
-        <img src={search_logo} alt="search" className="w-5 cursor-pointer" />
+    <div
+      className={`fixed bg-black left-0 w-full z-50 flex p-4 text-white bg-opacity-50 transition-all duration-300 ease-in-out ${
+        isScrolled ? "bg-black bg-opacity-100 h-16 top-0" : "h-16"
+      } justify-between items-center`}
+    >
+      <h1 className="text-2xl font-bold">Movie Mingle</h1>
+
+      <div
+        className={`${
+          isMenuOpen ? "block" : "hidden"
+        } md:flex flex-grow justify-center items-center `}
+      >
+        <ul
+          className={`flex flex-col md:flex-row md:space-x-24 text-lg md:bg-transparent bg-black md:rounded-none rounded-lg md:p-0 p-4 absolute md:static top-16 right-4 md:right-0 `}
+        >
+          {["Home", "Movies", "Schedule", "Theatres"].map((item) => (
+            <li
+              key={item}
+              className={`${
+                selectedItem === item ? "text-blue-500 font-semibold" : ""
+              } hover:text-blue-700 cursor-pointer p-2`}
+              onClick={() => handleItemClick(item)}
+            >
+              <Link to={routes[item]}>{item}</Link>
+            </li>
+          ))}
+        </ul>
       </div>
-      <ul className="flex space-x-4 text-lg">
-        <li>
-          <Link to="/" className="hover:text-gray-400">
-            Home
-          </Link>
-        </li>
-        <li>
-          <Link to="/movies" className="hover:text-gray-400">
-            Movies
-          </Link>
-        </li>
-        <li>
-          <Link to="/schedule" className="hover:text-gray-400">
-            Schedule
-          </Link>
-        </li>
-        <li>
-          <Link to="/theatres" className="hover:text-gray-400">
-            Theatres
-          </Link>
-        </li>
-        {user.token ? (
-          <li onClick={signOut} className="hover:text-gray-400 cursor-pointer">
-            Logout
-          </li>
+
+      {/* Right - Login/Logout Icons */}
+      <div className="flex items-center">
+        {user?.token ? (
+          <div onClick={signOut} className="hover:text-blue-700 cursor-pointer">
+            <LogoutIcon />
+          </div>
         ) : (
-          <>
-            <li className="text-sm">
-              <Link to="/register" className="hover:text-gray-400">
-                Register
-              </Link>
-            </li>
-            <li className="text-sm">
-              <Link to="/login" className="hover:text-gray-400">
-                Login
-              </Link>
-            </li>
-          </>
+          <Link to="/login" className="hover:text-blue-700 cursor-pointer">
+            <LoginIcon />
+          </Link>
         )}
-      </ul>
+
+        {/* Mobile Menu Icon */}
+        <div className="ml-4 md:hidden">
+          {isMenuOpen ? (
+            <CloseIcon onClick={toggleMenu} className="cursor-pointer" />
+          ) : (
+            <MenuIcon onClick={toggleMenu} className="cursor-pointer" />
+          )}
+        </div>
+      </div>
     </div>
   );
 };
