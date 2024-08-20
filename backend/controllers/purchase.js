@@ -9,6 +9,7 @@ export const getPurchasedSeats = async (req, res, next) => {
         const selectedSeats = [...purchasedSeats, ...tempPurchasedSeats];
         if(selectedSeats.length){
           res.json(selectedSeats)
+
         }else{
           res.status(404).json({message: 'Purchased seats not found'})
         }
@@ -19,8 +20,14 @@ export const getPurchasedSeats = async (req, res, next) => {
 
 export const createPurchase = async (req, res, next) => {
     try{
-        const {theatre_id, show_time_id, seats} = req.body;
-        const [purchase] = await connection.query('INSERT INTO purchases (theatre_id, show_time_id, seats) VALUES (?, ?, ?)', [theatre_id, show_time_id, seats]);
+
+        const {theatre_id, show_time_id, seats,pi} = req.body;
+        if (seats.length === 0) {
+          return res.status(400).json({message: 'No seats selected'});
+        }
+
+        const [purchase] = await connection.query('INSERT INTO temp_purchases (theatre_id, show_time_id, seats, pi) VALUES (?, ?, ?, ?)', [theatre_id, show_time_id, seats, pi]);
+        
         res.json(purchase)
     }catch(error){
         next(error)
@@ -29,8 +36,8 @@ export const createPurchase = async (req, res, next) => {
 
 export const createPurchaseFromSession = async (purchaseData,res) => {
   try{
-      const {theatre_id, show_time_id, seats} = purchaseData.body;
-      const [purchase] = await connection.query('INSERT INTO purchases (theatre_id, show_time_id, seats) VALUES (?, ?, ?)', [theatre_id, show_time_id, seats]);
+      const {theatre_id, show_time_id, seats, pi} = purchaseData.body;
+      const [purchase] = await connection.query('INSERT INTO purchases (theatre_id, show_time_id, seats,pi) VALUES (?, ?, ?,?)', [theatre_id, show_time_id, seats,pi]);
       console.log('purchase:', purchase);
   }catch(error){
     console.error('Error creating purchase:', error);

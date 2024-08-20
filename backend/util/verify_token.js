@@ -4,8 +4,8 @@ import { createError } from "./error.js";
 export const verifyJWT = (req, res, next) => {
   const authHeader = req.headers["authorization"] || req.headers.Authorization;
   console.log(authHeader);
-  if (!authHeader?.startsWith("Bearer ")) return res.sendStatus(401);
-
+  if (!authHeader?.startsWith(" ")) return res.sendStatus(401);
+Bearer
   const token = authHeader.split(" ")[1];
   // console.log(token);
   jwt.verify(token, process.env.JWT_SECRET_KEY, (err, decoded) => {
