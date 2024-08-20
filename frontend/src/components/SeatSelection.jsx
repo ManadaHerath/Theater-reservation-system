@@ -64,6 +64,8 @@ const SeatSelection = () => {
     fetchPurchasedSeats();
   }, [theatreId, showId]);
 
+
+
   const handleSeatClick = (seat) => {
     if (purchasedSeats.includes(seat)) {
       alert('This seat is already purchased. Please select another seat.');
@@ -159,9 +161,12 @@ const SeatSelection = () => {
       console.log('Seat counts by type:', seatTypeCounts);
       console.log('Total price:', totalPrice);
       console.log('Purchase details (JSON):', JSON.stringify(purchaseDetails, null, 2));
-  
+
+      
+      
+
       const stripe = await loadStripe('pk_test_51PTpvf09I3fN7mCT7vXxyWe679a3SVfurihlsN1HlkS3WPffQW9uKyvmRnXv5xyyikN9TFMkFsYUyUjDYKOAzclw003rvNg99T');
-  
+      
       const response = await axios.post('http://localhost:5001/stripe/create-checkout-session', purchaseDetails);
   
       const { id: sessionId } = response.data;
@@ -169,21 +174,9 @@ const SeatSelection = () => {
       const result = await stripe.redirectToCheckout({
         sessionId,
       });
-      console.log('Result:', result.error);
       if (!result.error) {
         // Payment Successful
-        try {
-          await axios.post('http://localhost:5001/purchased_seats', {
-            theatre_id: theatreId,
-            show_time_id: showId,
-            seats: selectedSeats.join(',')
-          });
-          alert(`Seats purchased successfully! Total price: ${totalPrice.toFixed(2)}`);
-          // Optionally: redirect to a success page or update local state
-        } catch (postError) {
-          console.error('Error saving purchase:', postError);
-          // Handle the error (e.g., offer a retry, notify the user)
-        }
+        console.log("nice")
       } else {
         console.error('Error redirecting to checkout:', result.error);
       }
