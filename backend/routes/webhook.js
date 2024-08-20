@@ -36,8 +36,9 @@ router.post('/', express.raw({ type: 'application/json' }), async (req, res) => 
   }
 
   if (event.type === 'checkout.session.completed') {
-    const session = event.data.object;
 
+    const session = event.data.object;
+    const pi = session.payment_intent;
     const theatreId = session.metadata?.theatreId;
     const showId = session.metadata?.showId;
     const seatInfo = session.metadata?.selectedSeats;
@@ -70,9 +71,9 @@ router.post('/', express.raw({ type: 'application/json' }), async (req, res) => 
         theatre_id: theatreId,
         show_time_id: showId,
         seats: seats,
+        pi: pi,
       },
     };
-    console.log('reqForCreatePurchase:', reqForCreatePurchase);
 
     try {
       await createPurchaseFromSession(reqForCreatePurchase);
