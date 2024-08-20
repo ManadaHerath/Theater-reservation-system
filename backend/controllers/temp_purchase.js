@@ -6,7 +6,7 @@ export const postTempPurchase = async (req, res, next) => {
         const { theatre_id, show_time_id, seats } = req.body;
     
         const [result] = await connection.query(
-        'INSERT INTO temp_purchases (theatre_id, show_time_id, seats) VALUES (?, ?, ?)',
+        'INSERT INTO temp_tickets (theatre_id, show_time_id, seats) VALUES (?, ?, ?)',
         [theatre_id, show_time_id, seats]
         );
     

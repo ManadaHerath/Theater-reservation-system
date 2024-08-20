@@ -5,8 +5,10 @@ export const getPurchasedSeats = async (req, res, next) => {
     try{
         const {theatreId, showId} = req.params;
         const [purchasedSeats] = await connection.query('SELECT * FROM purchases WHERE theatre_id = ? AND show_time_id = ?' , [theatreId, showId]);
-        if(purchasedSeats.length){
-          res.json(purchasedSeats)
+        const [tempPurchasedSeats] = await connection.query('SELECT * FROM temp_tickets WHERE theatre_id = ? AND show_time_id = ?' , [theatreId, showId]);
+        const selectedSeats = [...purchasedSeats, ...tempPurchasedSeats];
+        if(selectedSeats.length){
+          res.json(selectedSeats)
         }else{
           res.status(404).json({message: 'Purchased seats not found'})
         }
