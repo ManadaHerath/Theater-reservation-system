@@ -48,8 +48,9 @@ export default function Login() {
         setEmail("");
         setPassword("");
         if (role === "customer") {
-          console.log("aaaaaaaa")
-          navigate(from, { replace: true });
+
+          navigate("/", { replace: true });
+
         }
         if (role === "admin") navigate("/", { replace: true });
       } else {
