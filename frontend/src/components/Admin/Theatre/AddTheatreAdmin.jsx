@@ -33,7 +33,7 @@ export default function AddTheatreForm() {
   // state for rows
   const [rows, setRows] = useState([]);
   const [newRowLabel, setNewRowLabel] = useState("");
-  const [newSeatNumber, setNewSeatNumber] = useState("");
+  const [newSeatNumber, setNewSeatNumber] = useState(0);
   const [newPriceCategory, setNewPriceCategory] = useState(0);
   const [dbpriceCategories, setdbPriceCategories] = useState([]);
 
@@ -118,7 +118,7 @@ export default function AddTheatreForm() {
   };
   useEffect(()=>{
     fetchPriceCategories();
-  },[])
+  },[newRowLabel])
 
 
   const fetchPriceCategories = async () => {
@@ -126,28 +126,38 @@ export default function AddTheatreForm() {
       console.log({theatreId})
       const response = await axiosPrivate.get(`http://localhost:5001/seat_types/pricesByTheatre/${theatreId}`);
       setdbPriceCategories(response.data);
+      console.log({dbpriceCategories})
     } catch (error) {
       console.error("Error fetching price categories:", error);
       // Handle error states as needed
     }
   };
   const handleAddRow = () => {
-    // Validate if category name and price are filled
-    if (newRowLabel.trim() === "") {
-      alert("Please fill in both category name and price.");
+    // Validate if all fields are filled
+    if (newRowLabel.trim() === "" || newPriceCategory === "" || newSeatNumber <= 0) {
+      console.log(newRowLabel,newPriceCategory,newSeatNumber)
+      console.log("Please fill in the row label, select a price category, and specify a valid number of seats.");
       return;
     }
-    // Add new category to state
+
+    console.log(dbpriceCategories)
+  
+    // Ensure newSeatNumber is an integer
+    const seatNumber = parseInt(newSeatNumber, 10);
+  
+    // Add new row to state
     setRows([
       ...rows,
-      { row_label: newRowLabel, price_category_id: newPriceCategory, number: newSeatNumber},
+      { row_label: newRowLabel.trim(), price_category_id: newPriceCategory, number: seatNumber },
     ]);
-    console.log({rows})
+    console.log(newRowLabel,newPriceCategory,seatNumber)
+  
     // Clear input fields
     setNewRowLabel("");
-    setNewSeatNumber("");
-    setNewPriceCategory("");
+    setNewSeatNumber(0);
+    
   };
+  
 
 
 
@@ -157,6 +167,7 @@ export default function AddTheatreForm() {
       console.log({rows,theatreId})
       const response = await axiosPrivate.post('http://localhost:5001/rows/addRows', {rows,theatreId});
 
+      // navigate('/admin');
       if (response.status === 200) {
         setRows([]);
         navigate('/admin');
@@ -381,9 +392,7 @@ export default function AddTheatreForm() {
                   className={inputStyles}
                   type="number"
                   placeholder="Number of Seats"
-                  value={newSeatNumber}
-                  onChange={(e) => setNewSeatNumber(e.target.value)}
-                  
+                  onChange={(e) => setNewSeatNumber(parseInt(e.target.value, 10) || 0)}
                 />
                 <select
                   className={inputStyles}

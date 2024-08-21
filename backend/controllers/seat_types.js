@@ -2,14 +2,16 @@ import e from "express";
 import { connection } from "../index.js";
 
 export const getSeatTypes = async (req, res, next) => {
-  try {
-    const [seat_types] = await connection.query("SELECT * FROM seat_types");
+    const {theatreId} = req.params;
+    try{
+        const [seat_types] = await connection.query('SELECT * FROM seat_types where theatre_id = ? ',[theatreId]);
+        console.log(seat_types)
+        if (seat_types.length){
+            res.json(seat_types);
+        }else{
+            res.status(404).json({message: 'Seat types not found'})
+        }
 
-    if (seat_types.length) {
-      res.json(seat_types);
-    } else {
-      res.status(404).json({ message: "Seat types not found" });
-    }
   } catch (error) {
     next(error);
   }
@@ -81,10 +83,6 @@ export const addPriceType = async (req, res, next) => {
         const [result] = await connection.query(
           "INSERT INTO price_categories (category_name, price, theatre_id) VALUES (?, ?, ?)",
           [category_name, price, theatreId]
-        );
-        const [result2] = await connection.query(
-          "INSERT INTO seat_types (type_name ,theatre_id ) VALUES (?, ?)",
-          [category_name, theatreId]
         );
 
         console.log("added price categories", result);

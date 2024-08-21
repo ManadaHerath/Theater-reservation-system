@@ -565,12 +565,12 @@ INSERT INTO seat_types (id, type_name) VALUES
 (3, 'Couples');
 
 -- Rovs Table
-INSERT INTO rovs (id, theatre_id, row_label, price_category_id) VALUES 
-(1, 'theatre1', 'A', 1), 
-(2, 'theatre1', 'B', 1), 
-(3, 'theatre1', 'C', 1), 
-(4, 'theatre1', 'D', 2), 
-(5, 'theatre1', 'E', 3);
+INSERT INTO rovs (id, theatre_id, row_label, price_category_id,number) VALUES 
+(1, 'theatre1', 'A', 1,10), 
+(2, 'theatre1', 'B', 1,12), 
+(3, 'theatre1', 'C', 1,12), 
+(4, 'theatre1', 'D', 2,6), 
+(5, 'theatre1', 'E', 3,2);
 
 -- Seats Table
 -- For row A

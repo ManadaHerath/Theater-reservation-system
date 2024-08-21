@@ -18,7 +18,7 @@ const SeatSelection = () => {
   const { showId, theatreId } = useParams();
   const { data: theatreData, loading: theatreLoading, error: theatreError } = useFetch(`http://localhost:5001/theatres/${theatreId}`);
   const { data: rowsData, loading: rowsLoading, error: rowsError } = useFetch(`http://localhost:5001/rows/getrows/${theatreId}`);
-  const { data: seatTypesData, loading: seatTypesLoading, error: seatTypesError } = useFetch(`http://localhost:5001/seat_types/types`);
+  const { data: seatTypesData, loading: seatTypesLoading, error: seatTypesError } = useFetch(`http://localhost:5001/seat_types/types/${theatreId}`);
   const { data: priceCategoriesData, loading: priceCategoriesLoading, error: priceCategoriesError } = useFetch('http://localhost:5001/seat_types/prices');
 
 
@@ -34,7 +34,6 @@ const SeatSelection = () => {
         try {
           const seatsPromises = rowsData.map(row => axios.get(`http://localhost:5001/rows/getseats/${row.id}`));
           const seatsResults = await Promise.all(seatsPromises);
-          console.log("seats ",seatsResults);
           const seats = seatsResults.reduce((acc, result, index) => {
             acc[rowsData[index].id] = result.data;
             return acc;
