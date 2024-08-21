@@ -12,7 +12,9 @@ const TheatreCard = ({ theatre, onUpdate, onDelete }) => {
     const handleScheduleClick = () => {
       navigate(`/schedule/${theatre.id}`);
     };
-  
+
+
+
     const handleUpdateClick = () => {
       navigate(`/admin/update-theatre/${theatre.id}`);
     };
@@ -30,7 +32,9 @@ const TheatreCard = ({ theatre, onUpdate, onDelete }) => {
     };
   
     return (
+      
       <div>
+        
         <div
           className={`theatre-card w-72 relative overflow-hidden transition-transform duration-300 hover:scale-105 ${
             theatre.is_active ? "" : "inactive"
