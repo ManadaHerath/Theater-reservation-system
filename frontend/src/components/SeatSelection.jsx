@@ -9,8 +9,6 @@ import useAuth from "../hooks/useAuth";
 
 
 
-
-
 const SeatSelection = () => {
   const navigate =  useNavigate();
   const { user } = useAuth();
@@ -36,6 +34,7 @@ const SeatSelection = () => {
         try {
           const seatsPromises = rowsData.map(row => axios.get(`http://localhost:5001/rows/getseats/${row.id}`));
           const seatsResults = await Promise.all(seatsPromises);
+          console.log("seats ",seatsResults);
           const seats = seatsResults.reduce((acc, result, index) => {
             acc[rowsData[index].id] = result.data;
             return acc;

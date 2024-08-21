@@ -39,6 +39,7 @@ import PersistLogin from "./components/Persist Login/PersistLogin";
 // Admin Panel
 
 import AdminPanel from "./components/Admin/AdminPanel";
+import AddTheatreForm from "./components/Admin/Theatre/AddTheatreAdmin"
 import UpdateTheatreAdmin from "./components/Admin/Theatre/UpdateTheatreAdmin";
 import PriceCategoriesChange from "./components/Admin/Theatre/PriceCategoriesChange";
 
@@ -88,6 +89,10 @@ const App = () => {
                 <Route
                   path="/admin/update-theatre/:id"
                   element={<UpdateTheatreAdmin />}
+                ></Route>
+                <Route
+                  path="/admin/add-theatre"
+                  element={<AddTheatreForm />}
                 ></Route>
                 <Route
                   path="/admin/price-categories/:id"

@@ -37,6 +37,7 @@ router.post('/', express.raw({ type: 'application/json' }), async (req, res) => 
   if (event.type === 'checkout.session.completed') {
 
     const session = event.data.object;
+    console.log(session)
     const pi = session.payment_intent;
     const theatreId = session.metadata?.theatreId;
     const showId = session.metadata?.showId;
@@ -95,28 +96,6 @@ router.post('/', express.raw({ type: 'application/json' }), async (req, res) => 
 
   res.status(200).json({ received: true });
 });
-
-// const sendEmailWithAttachment = async (toEmail, pdfBytes) => {
-//   try {
-//     // Send email using nodemailer
-//     const info = await transporter.sendMail({
-//       from: `"Your Application" <${process.env.SMTP_USER}>`,
-//       to: toEmail,
-//       subject: 'Your Ticket PDF',
-//       text: 'Please find attached your ticket PDF.',
-//       attachments: [{
-//         filename: 'ticket.pdf',
-//         content: pdfBytes,
-//         encoding: 'base64', // PDF content encoding
-//       }],
-//     });
-
-//     console.log('Email sent:', info.response);
-//   } catch (error) {
-//     console.error('Error sending email:', error);
-//     throw error;
-//   }
-// };
 
 const sendEmailWithAttachment = async (toEmail, pdfBytes, refundLink) => {
   try {

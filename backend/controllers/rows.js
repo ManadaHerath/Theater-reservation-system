@@ -36,10 +36,9 @@ export const addRows = async (req,res,next) =>{
   try{
     const {rows,theatreId} = req.body;
     console.log(rows,theatreId)
-
     const insertPromises = rows.map(async (row) => {
-      const {row_label, price_category_id} =row;
-      const [result] = await connection.query('INSERT INTO rovs (theatre_id,row_label,price_category_id) VALUES (?,?,?)',[theatreId,row_label,price_category_id]);
+      const {row_label, price_category_id,number} =row;
+      const [result] = await connection.query('INSERT INTO rovs (theatre_id,row_label,price_category_id,number) VALUES (?,?,?,?)',[theatreId,row_label,price_category_id,number]);
     });
 
     await Promise.all(insertPromises);

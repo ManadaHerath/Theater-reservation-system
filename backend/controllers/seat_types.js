@@ -87,7 +87,7 @@ export const addSeatType = async (req, res, next) => {
             [category_name,theatreId]
           );
 
-        console.log("added price categories")
+        console.log("added price categories",result)
         return result;
 
         }
