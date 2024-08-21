@@ -12,11 +12,13 @@ const NavBar = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const logout = useLogout();
+
   const location = useLocation(); // Use useLocation to get the current route
 
   const [selectedItem, setSelectedItem] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+
 
   const signOut = async () => {
     await logout();

@@ -17,4 +17,5 @@ export const postTempPurchase = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-    }
+
+}
