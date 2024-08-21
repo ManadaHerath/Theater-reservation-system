@@ -782,3 +782,15 @@ BEGIN
 END //
 
 DELIMITER ;
+
+
+-- Temperary purchases deleting after 1 minute
+
+ALTER TABLE temp_tickets
+ADD COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+
+CREATE EVENT delete_old_purchases
+ON SCHEDULE EVERY 1 MINUTE
+DO
+  DELETE FROM temp_tickets
+  WHERE created_at < NOW() - INTERVAL 1 MINUTE;

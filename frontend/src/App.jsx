@@ -39,6 +39,7 @@ import PersistLogin from "./components/Persist Login/PersistLogin";
 // Admin Panel
 
 import AdminPanel from "./components/Admin/AdminPanel";
+import AddTheatreForm from "./components/Admin/Theatre/AddTheatreAdmin"
 import UpdateTheatreAdmin from "./components/Admin/Theatre/UpdateTheatreAdmin";
 import PriceCategoriesChange from "./components/Admin/Theatre/PriceCategoriesChange";
 
@@ -48,7 +49,10 @@ import AdminMovie from "./pages/Admin/Admin-Movie";
 
 // chatbot
 import Chatbot from "../src/components/ChatBot";
-import "./index.css";
+
+import RequestRefund from "./pages/RequestRefund";
+
+
 
 const App = () => {
   return (
@@ -80,10 +84,15 @@ const App = () => {
               <Route path="/home" element={<Home />} />
               <Route path="/movies" element={<Movies />} />
               <Route path="/theatres" element={<Theatres />} />
+              <Route path="/refund/:token" element={<RequestRefund />}></Route>
               <Route element={<RequireAuth allowedRoles={["admin"]} />}>
                 <Route
                   path="/admin/update-theatre/:id"
                   element={<UpdateTheatreAdmin />}
+                ></Route>
+                <Route
+                  path="/admin/add-theatre"
+                  element={<AddTheatreForm />}
                 ></Route>
                 <Route
                   path="/admin/price-categories/:id"

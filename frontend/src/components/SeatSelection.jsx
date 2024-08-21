@@ -3,8 +3,7 @@ import { useParams ,useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import useFetch from '../hooks/useFetch';
 import { loadStripe } from '@stripe/stripe-js';
-
-
+import useAuth from "../hooks/useAuth";
 
 
 
@@ -12,6 +11,8 @@ import { loadStripe } from '@stripe/stripe-js';
 
 const SeatSelection = () => {
   const navigate =  useNavigate();
+  const { user } = useAuth();
+  console.log("UserYO",user);
 
 
   const { showId, theatreId } = useParams();
@@ -26,13 +27,14 @@ const SeatSelection = () => {
   const [seatsLoading, setSeatsLoading] = useState(true);
   const [seatsError, setSeatsError] = useState(null);
   const [purchasedSeats, setPurchasedSeats] = useState([]);
-
+  const [clicked, setClicked] = useState(false);
   useEffect(() => {
     const fetchSeatsData = async () => {
       if (rowsData) {
         try {
           const seatsPromises = rowsData.map(row => axios.get(`http://localhost:5001/rows/getseats/${row.id}`));
           const seatsResults = await Promise.all(seatsPromises);
+          console.log("seats ",seatsResults);
           const seats = seatsResults.reduce((acc, result, index) => {
             acc[rowsData[index].id] = result.data;
             return acc;
@@ -48,6 +50,24 @@ const SeatSelection = () => {
 
     fetchSeatsData();
   }, [rowsData]);
+
+  useEffect(()=>{
+    const postSelectedSeats = async () => {
+        try {
+          const temp = await axios.post('http://localhost:5001/temp_purchase', {
+            theatre_id: theatreId,
+            show_time_id: showId,
+            seats: selectedSeats.join(',')
+          });
+      }catch(error){
+          console.error('Error saving temp purchase:', error);
+          // Handle the error (e.g., offer a retry, notify the user)
+        }
+    }
+    postSelectedSeats();
+    
+  },[clicked])
+
 
   useEffect(() => {
     const fetchPurchasedSeats = async () => {
@@ -82,8 +102,8 @@ const SeatSelection = () => {
 
 
   const handleBuyClick = async () => {
-    try {
-      
+
+      setClicked(true);
       const seatTypeCounts = selectedSeats.reduce((acc, seatLabel) => {
         const row = rowsData.find((row) => seatLabel.startsWith(row.row_label));
         if (!row) {
@@ -156,14 +176,6 @@ const SeatSelection = () => {
         theatreId, // Add theatreId
         showId // Format totalPrice to two decimal places
       };
-  
-      console.log('Selected seats:', selectedSeats);
-      console.log('Seat counts by type:', seatTypeCounts);
-      console.log('Total price:', totalPrice);
-      console.log('Purchase details (JSON):', JSON.stringify(purchaseDetails, null, 2));
-
-      
-      
 
       const stripe = await loadStripe('pk_test_51PTpvf09I3fN7mCT7vXxyWe679a3SVfurihlsN1HlkS3WPffQW9uKyvmRnXv5xyyikN9TFMkFsYUyUjDYKOAzclw003rvNg99T');
       
@@ -180,13 +192,6 @@ const SeatSelection = () => {
       } else {
         console.error('Error redirecting to checkout:', result.error);
       }
-
-      
-      alert(`Seats purchased successfully! Total price: ${totalPrice.toFixed(2)}`);
-    } catch (err) {
-      console.error('Error purchasing seats:', err);
-      navigate(`/payment-failure/${theatreId}/${showId}`);
-    }
   };
 
 

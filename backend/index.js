@@ -13,9 +13,7 @@ import purchasedSeatsRoute from "./routes/purchase.js";
 import createCheckoutRoute from "./routes/payment.js";
 import webHookRoute from "./routes/webhook.js";
 import "dotenv/config";
-import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
-import { verifyToken } from "./util/verify_token.js";
 import cors from "cors";
 import session from "express-session";
 import passport from "./controllers/GoogleSignIn.js";
@@ -25,6 +23,7 @@ import logoutRoute from "./routes/logout.js";
 import reviewsRoute from "./routes/reviews.js";
 import movieReviewsRoute from "./routes/movie_reviews.js";
 import photoUploadRoute from "./routes/photoUpload.js";
+import refundRoute from "./routes/refundReq.js"
 
 const app = express();
 //for usage of google sign in
@@ -86,6 +85,7 @@ app.use("/purchased_seats", purchasedSeatsRoute);
 app.use("/stripe", createCheckoutRoute);
 app.use("/recovery", recoveryRoute);
 app.use("/photo-upload", photoUploadRoute);
+app.use("/refund", refundRoute);
 
 // error
 app.use((err, req, res, next) => {

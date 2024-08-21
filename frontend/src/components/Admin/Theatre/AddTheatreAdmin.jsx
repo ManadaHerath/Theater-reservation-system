@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
+import {useNavigate} from "react-router-dom";
+
 
 
 export default function AddTheatreForm() {
+  const navigate = useNavigate();
   const axiosPrivate = useAxiosPrivate();
   const inputStyles =
     "sm:text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500";
@@ -30,6 +33,7 @@ export default function AddTheatreForm() {
   // state for rows
   const [rows, setRows] = useState([]);
   const [newRowLabel, setNewRowLabel] = useState("");
+  const [newSeatNumber, setNewSeatNumber] = useState("");
   const [newPriceCategory, setNewPriceCategory] = useState(0);
   const [dbpriceCategories, setdbPriceCategories] = useState([]);
 
@@ -136,11 +140,12 @@ export default function AddTheatreForm() {
     // Add new category to state
     setRows([
       ...rows,
-      { row_label: newRowLabel, price_category_id: newPriceCategory },
+      { row_label: newRowLabel, price_category_id: newPriceCategory, number: newSeatNumber},
     ]);
     console.log({rows})
     // Clear input fields
     setNewRowLabel("");
+    setNewSeatNumber("");
     setNewPriceCategory("");
   };
 
@@ -152,7 +157,13 @@ export default function AddTheatreForm() {
       console.log({rows,theatreId})
       const response = await axiosPrivate.post('http://localhost:5001/rows/addRows', {rows,theatreId});
 
-      if (response.status === 200) {setRows([])}
+      if (response.status === 200) {
+        setRows([]);
+        navigate('/admin');
+
+      }
+
+
       else{
         console.log("Error adding rows");
       }
@@ -364,6 +375,14 @@ export default function AddTheatreForm() {
                   placeholder="Row Label"
                   value={newRowLabel}
                   onChange={(e) => setNewRowLabel(e.target.value)}
+                  
+                />
+                <input
+                  className={inputStyles}
+                  type="number"
+                  placeholder="Number of Seats"
+                  value={newSeatNumber}
+                  onChange={(e) => setNewSeatNumber(e.target.value)}
                   
                 />
                 <select
