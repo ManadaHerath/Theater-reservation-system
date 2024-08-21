@@ -5,7 +5,6 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import Paper from "@mui/material/Paper";
-import Rating from "@mui/material/Rating";
 
 const AddReview = ({ onSubmit, disable, photo }) => {
   const [review, setReview] = useState("");
@@ -23,6 +22,7 @@ const AddReview = ({ onSubmit, disable, photo }) => {
         mt: 5,
         ml: 5,
         maxWidth: "450px",
+        maxHeight: "400px",
         backgroundColor: "#1E1E1E",
         borderRadius: "10px",
       }}
