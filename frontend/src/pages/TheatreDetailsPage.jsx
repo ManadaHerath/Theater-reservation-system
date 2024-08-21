@@ -8,7 +8,7 @@ export default function TheatreDetails() {
     <div>
       <NavBar />
       <Theatre />
-      <Footer />
+
     </div>
   );
 }

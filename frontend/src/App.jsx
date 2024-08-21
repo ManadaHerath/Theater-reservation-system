@@ -12,7 +12,7 @@ import Unauthorized from "./components/Unauthorized";
 import Help from "./pages/HelpPage";
 import Terms from "./pages/TermsPage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
-
+import Footer from "./components/Footer";
 import React from "react";
 import ReactDOM from "react-dom/client";
 
@@ -110,6 +110,7 @@ const App = () => {
           </Route>
         </Routes>
         <Chatbot chatbotId={"nfGTj217gv4zsYzJ5dct2"} />
+        <Footer />
       </Router>
     </div>
   );
