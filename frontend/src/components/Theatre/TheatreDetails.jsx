@@ -277,7 +277,7 @@ export default function Theatre() {
       <h1 className="lg:text-4xl text-xl font-bold mt-5 ml-10 text-white">
         Reviews
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 md:mt-5 pb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 md:mt-5 pb-8 mb-8">
         <AddReview
           onSubmit={handleAddReview}
           disable={disable}

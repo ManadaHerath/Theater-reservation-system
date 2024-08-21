@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import useLogout from "../hooks/useLogout";
 import useAuth from "../hooks/useAuth";
@@ -12,19 +12,15 @@ const NavBar = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const logout = useLogout();
+  const location = useLocation(); // Use useLocation to get the current route
+
+  const [selectedItem, setSelectedItem] = useState("");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const signOut = async () => {
     await logout();
     navigate("/");
-  };
-
-  const [selectedItem, setSelectedItem] = useState("Home");
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  const handleItemClick = (item) => {
-    setSelectedItem(item);
-    setIsMenuOpen(false); // Close menu on selection
   };
 
   const routes = {
@@ -34,8 +30,10 @@ const NavBar = () => {
     Theatres: "/theatres",
   };
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+  // Update selectedItem based on the current route
+  const getSelectedItem = () => {
+    const currentPath = location.pathname;
+    return Object.keys(routes).find((item) => routes[item] === currentPath) || "Home";
   };
 
   useEffect(() => {
@@ -52,6 +50,20 @@ const NavBar = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  useEffect(() => {
+    // Update selectedItem whenever the route changes
+    setSelectedItem(getSelectedItem());
+  }, [location]);
+
+  const handleItemClick = (item) => {
+    setSelectedItem(item);
+    setIsMenuOpen(false); // Close menu on selection
+  };
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   return (
     <div

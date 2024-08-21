@@ -8,7 +8,6 @@ export default function TheatreDetails() {
     <div>
       <NavBar />
       <Theatre />
-
     </div>
   );
 }
