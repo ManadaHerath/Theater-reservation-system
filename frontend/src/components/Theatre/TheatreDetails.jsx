@@ -176,12 +176,14 @@ export default function Theatre() {
     <div className="max-h-full pb-10 bg-black">
       <div className="relative">
         <img src={details.image_url} alt="profile" className="size-full" />
-        <h1 className="text-2xl lg:text-5xl  font-bold absolute text-white bottom-10 left-10 flex flex-col md:space-y-4 space-y-1">
+        {/* Dark Canvas Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
+        <div className="text-2xl lg:text-5xl font-bold absolute text-white bottom-10 left-10 flex flex-col md:space-y-4 space-y-1">
           <span> {details.name}</span>
           <span> {details.district}</span>
-        </h1>
+        </div>
       </div>
-      <h1 className="lg:text-5xl text-xl font-bold ml-10 mt-5 text-white">
+      <h1 className="lg:text-4xl text-xl font-bold ml-10 mt-5 text-white">
         Movie Show Times at {details.name}
       </h1>
       <button
@@ -192,34 +194,34 @@ export default function Theatre() {
       </button>
       <hr className="mt-5 w-3/4 h-1 mx-auto bg-white" />
 
-      <p className="lg:text-2xl text-lg ml-10 mt-5 text-white">
+      <p className="lg:text-2xl text-lg ml-10 mt-5 text-white font-semibold">
         {details.details}
       </p>
       <div className="grid grid-cols-1 md:grid-cols-2">
-        <h1 className="lg:text-5xl text-xl font-bold ml-10 mt-5 text-white">
+        <h1 className="lg:text-4xl text-xl font-bold ml-10 mt-5 text-white">
           Contact Details
         </h1>
         <div>
-          <p className="lg:text-2xl text-lg ml-10 mt-5 text-white">
+          <p className="lg:text-xl text-lg ml-10 mt-5 text-white">
             Mobile Number : {details.mobile_number}
           </p>
-          <p className="lg:text-2xl text-lg ml-10 mt-2 lg:mt-5 text-white">
+          <p className="lg:text-xl text-lg ml-10 mt-2 lg:mt-2 text-white">
             Email Address : {details.email}
           </p>
-          <p className="lg:text-2xl text-lg ml-10 mt-2 lg:mt-5 text-white">
+          <p className="lg:text-xl text-lg ml-10 mt-2 lg:mt-2 text-white">
             Address : {details.address}
           </p>
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 mt-5">
-        <h1 className="lg:text-5xl text-xl font-bold ml-10 mt-5 text-white">
+        <h1 className="lg:text-4xl text-xl font-bold ml-10 mt-5 text-white">
           Ratings
         </h1>
         <div className="flex flex-row space-x-5">
-          <p className="lg:text-5xl mt-5 ml-12 text-xl text-white font-bold">
+          <p className="lg:text-4xl mt-5 ml-12 text-xl text-white font-bold">
             {details.rating}/5
           </p>
-          <Box className="my-auto">
+          <Box className="my-auto justify-items-center items-center">
             <Rating
               name="half-rating-read"
               value={parseFloat(details.rating).toFixed(1)}
@@ -236,7 +238,7 @@ export default function Theatre() {
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 mt-5">
-        <h1 className="lg:text-5xl text-xl font-bold ml-10 mt-5 text-white">
+        <h1 className="lg:text-4xl text-xl font-bold ml-10 mt-5 text-white">
           Location
         </h1>
         <iframe
@@ -248,7 +250,7 @@ export default function Theatre() {
         ></iframe>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 mt-5 ">
-        <h1 className="lg:text-5xl text-xl font-bold mt-5 ml-10 text-white">
+        <h1 className="lg:text-4xl text-xl font-bold mt-5 ml-10 text-white">
           {disable ? "Please login to rate" : "Rate Now"}
         </h1>
         <Box className="ml-10">
@@ -272,10 +274,10 @@ export default function Theatre() {
           />
         </Box>
       </div>
-      <h1 className="lg:text-5xl text-xl font-bold mt-5 ml-10 text-white">
+      <h1 className="lg:text-4xl text-xl font-bold mt-5 ml-10 text-white">
         Reviews
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 md:mt-5 pb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 md:mt-5 pb-8 mb-8">
         <AddReview
           onSubmit={handleAddReview}
           disable={disable}

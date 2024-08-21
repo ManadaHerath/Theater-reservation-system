@@ -54,16 +54,16 @@ const MovieCard = ({movie}) => {
         </div>
         <div className="flex justify-between mt-2">
           <button
-            className="bg-violet-500 hover:bg-violet-700 text-white py-1.5 px-3 rounded-full text-sm focus:outline-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            className="bg-blue-500 hover:bg-blue-700 text-white py-1.5 px-3 rounded-full text-sm focus:outline-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
             onClick={handleUrlClick}
           >
             Watch Trailer
           </button>
           <button
-            className="bg-violet-500 hover:bg-violet-700 text-white py-1.5 px-3 rounded-full text-sm focus:outline-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            className="bg-blue-500 hover:bg-blue-700 text-white py-1.5 px-3 rounded-full text-sm focus:outline-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
             onClick={handleClick}
           >
-            View More
+            Buy Tickets
           </button>
         </div>
         
