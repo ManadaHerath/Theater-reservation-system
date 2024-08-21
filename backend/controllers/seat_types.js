@@ -4,9 +4,10 @@ import {connection} from "../index.js";
 
 
 export const getSeatTypes = async (req, res, next) => {
+    const {theatreId} = req.params;
     try{
-        const [seat_types] = await connection.query('SELECT * FROM seat_types');
-
+        const [seat_types] = await connection.query('SELECT * FROM seat_types where theatre_id = ? ',[theatreId]);
+        console.log(seat_types)
         if (seat_types.length){
             res.json(seat_types);
         }else{
@@ -82,10 +83,6 @@ export const addSeatType = async (req, res, next) => {
           'INSERT INTO price_categories (category_name, price, theatre_id) VALUES (?, ?, ?)',
           [category_name, price, theatreId]
         );
-        const [result2] = await connection.query(
-            'INSERT INTO seat_types (type_name ,theatre_id ) VALUES (?, ?)',
-            [category_name,theatreId]
-          );
 
         console.log("added price categories",result)
         return result;

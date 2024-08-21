@@ -41,11 +41,14 @@ export const addRows = async (req,res,next) =>{
       const [result] = await connection.query('INSERT INTO rovs (theatre_id,row_label,price_category_id,number) VALUES (?,?,?,?)',[theatreId,row_label,price_category_id,number]);
     });
 
-    await Promise.all(insertPromises);
-    res.send('Rows added successfully').status(200);
+    // await Promise.all(insertPromises);
+    // res.send('Rows added successfully').status(200);
     }catch(error){
       next(error)
     }
+
+
+
 
 
 
