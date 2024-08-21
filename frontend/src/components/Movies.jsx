@@ -26,8 +26,8 @@ const MovieCard = ({movie}) => {
 
   return (
     <div
-      className="group relative w-72 h-96 bg-gray-900 rounded-lg overflow-hidden shadow-xl transition-transform duration-300 hover:scale-105"
-      onClick={handlePosterClick}
+      className="group relative w-72 h-96 cursor-pointer bg-gray-900 rounded-lg overflow-hidden shadow-xl transition-transform duration-300 hover:scale-105"
+      onClick={handleClick}
     >
       <div className="absolute inset-0">
         <img
@@ -54,16 +54,16 @@ const MovieCard = ({movie}) => {
         </div>
         <div className="flex justify-between mt-2">
           <button
-            className="bg-violet-500 hover:bg-violet-700 text-white py-1.5 px-3 rounded-full text-sm focus:outline-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            className="bg-blue-500 hover:bg-blue-700 text-white py-1.5 px-3 rounded-full text-sm focus:outline-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
             onClick={handleUrlClick}
           >
             Watch Trailer
           </button>
           <button
-            className="bg-violet-500 hover:bg-violet-700 text-white py-1.5 px-3 rounded-full text-sm focus:outline-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            className="bg-blue-500 hover:bg-blue-700 text-white py-1.5 px-3 rounded-full text-sm focus:outline-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
             onClick={handleClick}
           >
-            View More
+            Buy Tickets
           </button>
         </div>
         
@@ -101,7 +101,7 @@ const MovieList = () => {
     }
 
   return (
-    <div className='flex flex-col sm:flex-row justify-center sm:space-x-4 py-4'>
+    <div className='flex flex-col sm:flex-row justify-center sm:space-x-4 py-16'>
       {data.map((movie) => ( 
         <MovieCard 
           key={movie.id} 

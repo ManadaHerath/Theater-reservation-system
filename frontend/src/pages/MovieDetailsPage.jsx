@@ -7,7 +7,7 @@ export default function MovieDetailsPage() {
     <div>
       <Navbar />
       <MovieDetails />
-      <Footer />
+
     </div>
   );
 }

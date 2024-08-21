@@ -220,15 +220,15 @@ export default function MovieDetails() {
           <div>
             <h1 className="lg:text-xl text-lg font-bold ml-10 mt-5 text-white flex flex-col">
               <span>Released Date: </span>
-              <span>{new Date(movie.released_date).toDateString()}</span>
+              <span className="text-md lg:text-base font-thin">{new Date(movie.released_date).toDateString()}</span>
             </h1>
             <h1 className="lg:text-xl text-lg font-bold ml-10 mt-5 text-white flex flex-col">
               <span>Directed By: </span>
-              <span>{movie.movie_director}</span>
+              <span className="text-md lg:text-base font-thin">{movie.movie_director}</span>
             </h1>
             <h1 className="lg:text-xl text-lg font-bold ml-10 mt-5 text-white flex flex-col">
               <span>Written By: </span>
-              <span>{movie.movie_writter}</span>
+              <span className="text-md lg:text-base font-thin">{movie.movie_writter}</span>
             </h1>
           </div>
         </div>
