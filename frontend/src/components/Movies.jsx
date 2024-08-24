@@ -26,12 +26,12 @@ const MovieCard = ({movie}) => {
 
   return (
     <div
-      className="group relative w-72 h-96 bg-gray-900 rounded-lg overflow-hidden shadow-xl transition-transform duration-300 hover:scale-105"
+      className="relative overflow-hidden transition-transform duration-300 bg-gray-900 rounded-lg shadow-xl group w-72 h-96 hover:scale-105"
       onClick={handlePosterClick}
     >
       <div className="absolute inset-0">
         <img
-          className="w-full h-full object-cover transform transition-opacity duration-300 group-hover:opacity-80"
+          className="object-cover w-full h-full transition-opacity duration-300 transform group-hover:opacity-80"
           src={movie.poster_url}
           alt={`${movie.title} Poster`}
           onError={(e) => {
@@ -39,13 +39,13 @@ const MovieCard = ({movie}) => {
           }}
         />
         
-        <div className="absolute inset-0 bg-gradient-to-t from-black opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
+        <div className="absolute inset-0 transition-opacity duration-300 opacity-0 bg-gradient-to-t from-black group-hover:opacity-50"></div>
       </div>
 
       {/* Card Content */}
-      <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-gray-900 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
-        <h3 className="text-white font-semibold text-lg mb-2 line-clamp-2">{movie.title}</h3>
-        <div className="hidden group-hover:block text-gray-300 text-sm line-clamp-3">
+      <div className="absolute bottom-0 left-0 right-0 p-4 transition-all duration-300 opacity-0 bg-gradient-to-t from-gray-900 to-transparent group-hover:opacity-100">
+        <h3 className="mb-2 text-lg font-semibold text-white line-clamp-2">{movie.title}</h3>
+        <div className="hidden text-sm text-gray-300 group-hover:block line-clamp-3">
           {movie.overview}
           <p>Released: {new Date(movie.released_date).toDateString()}</p>
           <p>Duration: {movie.duration} min</p>
@@ -101,7 +101,7 @@ const MovieList = () => {
     }
 
   return (
-    <div className='flex flex-col sm:flex-row justify-center sm:space-x-4 py-4'>
+    <div className='flex flex-col justify-center py-4 sm:flex-row sm:space-x-4'>
       {data.map((movie) => ( 
         <MovieCard 
           key={movie.id} 

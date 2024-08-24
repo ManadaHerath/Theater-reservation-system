@@ -1,0 +1,19 @@
+.now-showing {
+    width: 100%;
+    /* Full screen width */
+    height: 100vh;
+    /* Full screen height */
+    overflow: hidden;
+    /* Prevent overflow */
+    display: flex;
+    /* Optional: for flexbox layout */
+    justify-content: center;
+    /* Optional: center content horizontally */
+    align-items: center;
+    /* Optional: center content vertically */
+    background-color: white;
+}
+.now-showing .title{
+    color: black;
+    
+}
