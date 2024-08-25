@@ -78,7 +78,7 @@ const NavBar = () => {
       <div
         className={`${
           isMenuOpen ? "block" : "hidden"
-        } md:flex flex-grow justify-center items-center `}
+        } md:flex flex-grow justify-center items-center relative inset-0 bg-gradient-to-b from-[rgba(0,0,0,0.8)]  to-transparent`}
       >
         <ul
           className={`flex text-white flex-col md:flex-row md:space-x-24 text-lg md:bg-transparent bg-black md:rounded-none rounded-lg md:p-0 p-4 absolute md:static top-16 right-4 md:right-0 ${

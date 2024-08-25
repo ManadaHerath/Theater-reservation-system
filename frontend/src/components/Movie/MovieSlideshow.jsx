@@ -104,6 +104,7 @@ function MovieSlideshow({ movies }) {
 
   const [state, dispatch] = useReducer(slidesReducer, initialState);
   const navigate = useNavigate();
+  const activeMovie = state.movies[state.slideIndex];
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -117,21 +118,31 @@ function MovieSlideshow({ movies }) {
     navigate(`/movie/${movie.id}`); // Navigate to the movie details page with the movie ID
   };
 
-  const activeMovie = state.movies[state.slideIndex];
+  const handleUrlClick = () => {
+    window.open(activeMovie.trailer_video_url, '_blank');
+  }
+
+
+  
 
   return (
     <>
       <div className="relative homepage-front-view">
 
-        <img className="front-image" src={activeMovie.cover_poster} alt={activeMovie.title} />
+        <img className="relative front-image" src={activeMovie.cover_poster} alt={activeMovie.title} />
         <div className="absolute inset-0 bg-gradient-to-t from-[rgba(0,0,0,1)]  to-transparent"></div>
+        
 
-        <div className="absolute flex gap-4 bottom-20 left-20">
-          <button className="px-6 py-3 text-white bg-blue-500 rounded-lg shadow-lg hover:bg-blue-600">
-            Button 1
+        
+        <h1 className="absolute z-20 text-white text-8xl bottom-40 left-20">
+          {activeMovie.title}
+        </h1>
+        <div className="absolute flex gap-10 bottom-10 left-20">
+          <button className="block px-6 py-3 text-2xl text-left text-white bg-transparent border-none hover:text-blue-700">
+            Buy<br/>Tickets
           </button>
-          <button className="px-6 py-3 text-white bg-green-500 rounded-lg shadow-lg hover:bg-green-600">
-            Button 2
+          <button className="block px-6 py-3 text-2xl text-left text-white bg-transparent border-none hover:text-blue-700" onClick={handleUrlClick}>
+            Watch<br/>Trailer 
           </button>
         </div>
 

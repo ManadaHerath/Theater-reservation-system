@@ -11,7 +11,6 @@
     /* Optional: center content horizontally */
     align-items: center;
     /* Optional: center content vertically */
-    background-color: white;
 }
 .now-showing .title{
     color: black;
