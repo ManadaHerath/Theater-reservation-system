@@ -1,18 +1,13 @@
-.now-showing {
-    width: 100%;
-    /* Full screen width */
-    height: 100vh;
-    /* Full screen height */
-    overflow: hidden;
-    /* Prevent overflow */
+.explore-menu-list {
     display: flex;
-    /* Optional: for flexbox layout */
-    justify-content: center;
-    /* Optional: center content horizontally */
+    justify-content: space-around;
     align-items: center;
-    /* Optional: center content vertically */
+    gap: 30px;
+    text-align: center;
+    margin: 20px 0px;
+    overflow-x: scroll;
 }
-.now-showing .title{
-    color: black;
-    
+
+.explore-menu-list::-webkit-scrollbar {
+    display: none;
 }
