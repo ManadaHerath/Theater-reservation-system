@@ -25,14 +25,14 @@ const SeatSelection = () => {
     data: seatTypesData,
     loading: seatTypesLoading,
     error: seatTypesError,
-  } = useFetch(`http://localhost:5001/seat_types/types`);
+  } = useFetch(`http://localhost:5001/seat_types/types/${theatreId}`);
   const {
     data: priceCategoriesData,
     loading: priceCategoriesLoading,
     error: priceCategoriesError,
   } = useFetch("http://localhost:5001/seat_types/prices");
 
-
+  console.log("TheatreData", seatTypesData);
   const [seatsData, setSeatsData] = useState({});
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [seatsLoading, setSeatsLoading] = useState(true);
@@ -234,7 +234,7 @@ const SeatSelection = () => {
   return (
     <div className="min-h-screen flex flex-col justify-between">
       <div className="container mx-auto p-6 flex-grow">
-        <h2 className="text-3xl font-extrabold mb-6 text-indigo-600">
+        <h2 className="text-3xl font-extrabold mb-6 text-blue-600">
           Select Your Seats
         </h2>
         <div className="flex flex-col items-center mb-6">

@@ -13,7 +13,7 @@ import axios from "axios";
 
 export default function MovieDetails() {
   const { id } = useParams();
-  const[movie_id, setMovie_id] = useState(id);
+  const [movie_id, setMovie_id] = useState(id);
   const [disable, setDisable] = useState(true);
   const [userRatingvalue, setUserRatingValue] = useState(0.0);
   const [userDetails, setUserDetails] = useState([]);
@@ -220,15 +220,21 @@ export default function MovieDetails() {
           <div>
             <h1 className="lg:text-xl text-lg font-bold ml-10 mt-5 text-white flex flex-col">
               <span>Released Date: </span>
-              <span className="text-md lg:text-base font-thin">{new Date(movie.released_date).toDateString()}</span>
+              <span className="text-md lg:text-base font-thin">
+                {new Date(movie.released_date).toDateString()}
+              </span>
             </h1>
             <h1 className="lg:text-xl text-lg font-bold ml-10 mt-5 text-white flex flex-col">
               <span>Directed By: </span>
-              <span className="text-md lg:text-base font-thin">{movie.movie_director}</span>
+              <span className="text-md lg:text-base font-thin">
+                {movie.movie_director}
+              </span>
             </h1>
             <h1 className="lg:text-xl text-lg font-bold ml-10 mt-5 text-white flex flex-col">
               <span>Written By: </span>
-              <span className="text-md lg:text-base font-thin">{movie.movie_writter}</span>
+              <span className="text-md lg:text-base font-thin">
+                {movie.movie_writter}
+              </span>
             </h1>
           </div>
         </div>
@@ -276,21 +282,21 @@ export default function MovieDetails() {
           </Box>
         </div>
         <h1 className="lg:text-5xl text-xl font-bold mt-5 ml-10 text-white">
-        Reviews
-      </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 md:mt-5 pb-8">
-        <AddReview
-          onSubmit={handleAddReview}
-          disable={disable}
-          photo={userDetails && userDetails[0]?.avatar}
-        />
+          Reviews
+        </h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 md:mt-5 pb-8">
+          <AddReview
+            onSubmit={handleAddReview}
+            disable={disable}
+            photo={userDetails && userDetails[0]?.avatar}
+          />
 
-        <ReviewList
-          reviews={reviews}
-          onLike={handleLikeReview}
-          onReply={handleReplyReview}
-        />
-      </div>
+          <ReviewList
+            reviews={reviews}
+            onLike={handleLikeReview}
+            onReply={handleReplyReview}
+          />
+        </div>
       </div>
     </div>
   );

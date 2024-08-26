@@ -21,19 +21,19 @@ router.get(
   }),
   (req, res) => {
     // Successful authentication
-    res.cookie("refresh_token", req.refreshToken, {
-      httpOnly: true,
-      sameSite: "Strict",
-      secure: true,
-      maxAge: 24 * 60 * 60 * 1000,
-    });
-    res.cookie("access_token", req.token, {
+    // res.cookie("refresh_token", req.refreshToken, {
+    //   httpOnly: true,
+    //   sameSite: "Strict",
+    //   secure: true,
+    //   maxAge: 24 * 60 * 60 * 1000,
+    // });
+    res.cookie("access_token", req.refreshToken, {
       httpOnly: true,
       sameSite: "Strict",
       secure: true,
       maxAge: 10 * 1000,
     });
-    if (req.user.role == "user") {
+    if (req.user.role == "customer") {
       res.redirect("http://localhost:3000");
     } else if (req.user.role == "admin") {
       res.redirect("http://localhost:3000/admin");
