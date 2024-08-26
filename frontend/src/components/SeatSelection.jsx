@@ -32,6 +32,7 @@ const SeatSelection = () => {
     error: priceCategoriesError,
   } = useFetch("http://localhost:5001/seat_types/prices");
 
+
   const [seatsData, setSeatsData] = useState({});
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [seatsLoading, setSeatsLoading] = useState(true);
@@ -46,7 +47,7 @@ const SeatSelection = () => {
             axios.get(`http://localhost:5001/rows/getseats/${row.id}`)
           );
           const seatsResults = await Promise.all(seatsPromises);
-          console.log("seats ", seatsResults);
+
           const seats = seatsResults.reduce((acc, result, index) => {
             acc[rowsData[index].id] = result.data;
             return acc;

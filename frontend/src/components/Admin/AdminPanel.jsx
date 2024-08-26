@@ -1,31 +1,27 @@
 import React from 'react';
 import TheatreList from './Theatre/UpdateTheatreAndPrices';
-import {useNavigate} from "react-router-dom";
-
-
+import { useNavigate } from "react-router-dom";
+import AdminLayout from './AdminLayout';
 
 const AdminPanel = () => {
     const navigate = useNavigate();
 
-
-    const handleAddTheatreClick = ()=>{
-    
+    const handleAddTheatreClick = () => {
         navigate(`/admin/add-theatre`);
     }
 
     return (
-        <div>
+        <AdminLayout>
             <h1 className="text-3xl font-semibold text-gray-800">Admin Panel</h1>
             <button
                 onClick={handleAddTheatreClick}
-                className="block mt-2 text-green-600 hover:underline"
-                >
+                className="mt-4 text-green-600 hover:underline"
+            >
                 Add Theatre
             </button>
             <TheatreList />
-        </div>
+        </AdminLayout>
     );
 };
-
 
 export default AdminPanel;

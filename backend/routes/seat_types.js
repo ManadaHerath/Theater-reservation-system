@@ -4,7 +4,7 @@ import {getSeatTypes,getSeatPrices,addSeatType,addPriceType, getPricesByTheatre,
 
 const router = express.Router();
 
-router.get("/types", getSeatTypes);
+router.get("/types/:theatreId", getSeatTypes);
 router.post("/types",addSeatType);
 router.get("/prices", getSeatPrices);
 router.post("/prices",addPriceType);

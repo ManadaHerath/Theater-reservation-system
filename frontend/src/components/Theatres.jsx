@@ -3,7 +3,6 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const TheatreCard = (props) => {
-  const navigate = useNavigate();
 
   return (
     <div>
