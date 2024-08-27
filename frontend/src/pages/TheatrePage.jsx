@@ -5,6 +5,5 @@ export default ()=> (
     <div>
         <NavBar/>
         <TheatreList/>
-        <Footer/>
     </div>
 );

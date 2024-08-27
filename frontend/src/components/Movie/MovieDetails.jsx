@@ -176,8 +176,8 @@ export default function MovieDetails() {
   if (isPending) return <div>Loading...</div>;
 
   return (
-    <div className="pb-12">
-      <div className="max-h-full pb-10 bg-black">
+    <div className="">
+      <div className="max-h-full bg-black">
         <div className="relative">
           <img
             src={movie.cover_photo}

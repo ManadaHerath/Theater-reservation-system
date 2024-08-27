@@ -81,19 +81,21 @@ const NavBar = () => {
 
   return (
     <div
-      className={`fixed bg-black left-0 w-full z-50 flex p-4 text-white bg-opacity-50 transition-all duration-300 ease-in-out ${
-        isScrolled ? "bg-black bg-opacity-100 h-16 top-0" : "h-16"
-      } justify-between items-center`}
+      className={`fixed text-white left-0 top-0 w-full z-50 flex ${
+        isScrolled ? "bg-black bg-opacity-100 h-12" : "bg-black bg-opacity-0 "
+      } transition-all duration-500 ease-in-out justify-between items-center`}
     >
       <h1 className="text-2xl font-bold">Movie Mingle</h1>
 
       <div
         className={`${
           isMenuOpen ? "block" : "hidden"
-        } md:flex flex-grow justify-center items-center`}
+        } md:flex flex-grow justify-center items-center relative inset-0 bg-gradient-to-b from-[rgba(0,0,0,0.8)]  to-transparent`}
       >
         <ul
-          className={`flex flex-col md:flex-row md:space-x-24 text-lg md:bg-transparent bg-black md:rounded-none rounded-lg md:p-0 p-4 absolute md:static top-16 right-4 md:right-0`}
+          className={`flex text-white flex-col md:flex-row md:space-x-24 text-lg md:bg-transparent bg-black md:rounded-none rounded-lg md:p-0 p-4 absolute md:static top-16 right-4 md:right-0 ${
+            isScrolled ? "bg-black bg-opacity-100" : "bg-black bg-opacity-0"
+          } transition-colors duration-500 ease-in-out`}
         >
           {["Home", "Movies", "Schedule", "Theatres"].map((item) => (
             <li
@@ -117,14 +119,16 @@ const NavBar = () => {
               alt="profile"
               className="w-8 h-8 rounded-full"
             />
-            <LogoutIcon
+            <button
               className="hover:text-blue-700 cursor-pointer"
               onClick={signOut}
-            />
+            >
+              <div> Logout</div>
+            </button>
           </div>
         ) : (
           <Link to="/login" className="hover:text-blue-700 cursor-pointer">
-            <LoginIcon />
+            <div className="flex flex-row gap-3 text-white">Login</div>
           </Link>
         )}
 
