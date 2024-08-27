@@ -82,7 +82,7 @@ const MovieScheduleGrid = () => {
   }
 
   return (
-    <div className="container mx-auto pt-16">
+    <div className="container mx-auto pt-16 mb-8">
       <div className="flex items-center justify-center mb-6 gap-x-4">
         <FiChevronLeft
           className={`text-3xl cursor-pointer ${

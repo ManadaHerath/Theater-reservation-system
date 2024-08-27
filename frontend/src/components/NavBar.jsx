@@ -129,7 +129,7 @@ const NavBar = () => {
         ) : (
           <Link
             to="/login"
-            className="cursor-pointer bg-blue-800 hover:bg-blue-900"
+            className="cursor-pointer bg-blue-800 hover:bg-blue-900 rounded-xl"
           >
             <div className="flex flex-row gap-3 text-white px-4 py-2 rounded-xl ">
               Login

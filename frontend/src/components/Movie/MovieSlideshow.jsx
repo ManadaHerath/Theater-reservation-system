@@ -129,26 +129,26 @@ function MovieSlideshow({ movies }) {
           alt={activeMovie.title}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[rgba(0,0,0,1)]  to-transparent"></div>
-        <h1 className="absolute z-20 text-white text-8xl bottom-40 left-20">
+        <h1 className="absolute z-20 text-white text-8xl bottom-40 left-20 cursor-default">
           {activeMovie.title}
         </h1>
-        <div className="absolute flex gap-10 bottom-10 left-20">
-          <button className="block px-6 py-3 text-2xl text-left text-white bg-transparent border-none hover:text-blue-700">
+        <div className="absolute flex gap-6 bottom-16 left-20">
+          <button className="block px-6 py-3 text-2xl text-left  text-white bg-transparent border rounded-2xl  hover:text-black hover:bg-white font-semibold">
             Buy
-            <br />
+            
             Tickets
           </button>
           <button
-            className="block px-6 py-3 text-2xl text-left text-white bg-transparent border-none hover:text-blue-700"
+            className="block px-4 py-2 text-2xl text-left text-white bg-transparent border rounded-2xl  hover:text-black hover:bg-white font-semibold"
             onClick={handleUrlClick}
           >
             Watch
-            <br />
+           
             Trailer
           </button>
         </div>
 
-        <div className="items-center text-white side-bar">
+        <div className="items-center text-white side-bar cursor-default">
           <h1
             className="w-full font-bold text-center text-7xl"
             style={{ paddingTop: "15vh" }}

@@ -11,7 +11,7 @@ const AdminLayout = ({ children }) => {
                 sx={{
                     flexGrow: 1,
                     p: 3,
-                    marginLeft: '240px', // Make space for the drawer
+                    marginLeft: '10px', // Make space for the drawer
                 }}
             >
                 {children}
