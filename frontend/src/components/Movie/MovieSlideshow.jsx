@@ -123,7 +123,6 @@ function MovieSlideshow({ movies }) {
   return (
     <>
       <div className="relative homepage-front-view">
-        <h1>{activeMovie.title}</h1>
         <img
           className="front-image"
           src={activeMovie.cover_photo}

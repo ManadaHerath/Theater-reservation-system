@@ -15,10 +15,10 @@ const ChatBot = ({ chatbotId }) => {
   }, [chatbotId]);
 
   return (
-    <div style={{ position: "fixed", bottom: "70px", right: "60px" }}>
+    <div style={{ position: "fixed", bottom: "50px", right: "30px" }}>
       <button
         onClick={handleChatBubbleClick}
-        className="bg-blue-500 text-white rounded-full px-4 py-2 hover:bg-blue-800 transition duration-300 
+        className="bg-[#3d4654] text-white rounded-full px-4 py-2 hover:bg-blue-800 transition duration-300 
       background-image: url('path/to/your/logo.png');
       background-size: contain;
       background-position: center;"

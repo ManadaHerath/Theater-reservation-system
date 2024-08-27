@@ -81,12 +81,10 @@ const NavBar = () => {
 
   return (
     <div
-      className={`fixed text-white left-0 top-0 w-full z-50 flex ${
+      className={`fixed text-white left-0 top-0 w-full pr-5 z-50 flex ${
         isScrolled ? "bg-black bg-opacity-100 h-12" : "bg-black bg-opacity-0 "
       } transition-all duration-500 ease-in-out justify-between items-center`}
     >
-      <h1 className="text-2xl font-bold">Movie Mingle</h1>
-
       <div
         className={`${
           isMenuOpen ? "block" : "hidden"
@@ -123,12 +121,14 @@ const NavBar = () => {
               className="hover:text-blue-700 cursor-pointer"
               onClick={signOut}
             >
-              <div> Logout</div>
+              <div className="px-4 py-2 rounded-xl bg-blue-900"> Logout</div>
             </button>
           </div>
         ) : (
           <Link to="/login" className="hover:text-blue-700 cursor-pointer">
-            <div className="flex flex-row gap-3 text-white">Login</div>
+            <div className="flex flex-row gap-3 text-white px-4 py-2 rounded-xl bg-blue-800 hover:bg-blue-900">
+              Login
+            </div>
           </Link>
         )}
 
