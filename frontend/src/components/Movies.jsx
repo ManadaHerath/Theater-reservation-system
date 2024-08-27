@@ -19,7 +19,7 @@ const MovieCard = ({ movie }) => {
 
   return (
     <div
-      className="group mx-auto sm:mx-0 my-5 relative w-72 h-96 cursor-pointer bg-gray-900 rounded-lg overflow-hidden shadow-xl transition-transform duration-300 hover:scale-105 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+      className="group relative w-72 h-96 cursor-pointer bg-gray-900 rounded-lg overflow-hidden shadow-xl transition-transform duration-300 hover:scale-105 mt-5 "
       onClick={handleClick}
     >
       <div className="absolute inset-0">
@@ -96,10 +96,12 @@ const MovieList = () => {
   }
 
   return (
-    <div className="flex flex-col sm:flex-row justify-center sm:space-x-4 py-16">
-      {data.map((movie) => (
-        <MovieCard key={movie.id} movie={movie} />
-      ))}
+    <div className="py-16 mb-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-items-center mx-auto">
+        {data.map((movie) => (
+          <MovieCard key={movie.id} movie={movie} />
+        ))}
+      </div>
     </div>
   );
 };

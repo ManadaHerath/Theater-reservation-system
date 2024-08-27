@@ -10,12 +10,12 @@ const TheatreCard = (props) => {
           props.is_active ? "" : "inactive"
         }`}
       >
-        <div className="relative transition-opacity duration-300 hover:opacity-75 rounded-xl gap-2 mt-4">
+        <div className="relative transition-opacity duration-300 hover:opacity-75 rounded-xl mt-4 w-72 h-96">
           <Link to={`/theatre/${props.id}`}>
             <img
               src={props.image_url}
               alt={props.name}
-              className="object-cover w-full h-80 rounded-xl"
+              className="object-cover w-full h-full rounded-xl"
               onError={(e) =>
                 (e.target.src =
                   "https://blog.bbt4vw.com/wp-content/uploads/2021/05/sorry-we-are-closed-sign-on-door-store-business-vector-27127112-1.jpg")
