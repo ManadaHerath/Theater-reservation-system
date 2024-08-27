@@ -3,7 +3,6 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const TheatreCard = (props) => {
-  const navigate = useNavigate();
 
   return (
     <div>
@@ -72,7 +71,7 @@ const TheatreList = () => {
   const theatresToShow = showAll ? data : data.slice(0, 8);
 
   return (
-    <div className="p-4 mb-10">
+    <div className="py-16 mb-10">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-items-center mx-auto">
         {theatresToShow.map((theatre) => (
           <TheatreCard

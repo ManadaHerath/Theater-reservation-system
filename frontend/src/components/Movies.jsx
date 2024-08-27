@@ -26,8 +26,10 @@ const MovieCard = ({movie}) => {
 
   return (
     <div
-      className="relative overflow-hidden transition-transform duration-300 bg-gray-900 rounded-lg shadow-xl group w-72 h-96 hover:scale-105"
-      onClick={handlePosterClick}
+
+      className="relative overflow-hidden transition-transform duration-300 bg-gray-900 rounded-lg shadow-xl cursor-pointer group w-72 h-96 hover:scale-105"
+      onClick={handleClick}
+
     >
       <div className="absolute inset-0">
         <img
@@ -101,7 +103,9 @@ const MovieList = () => {
     }
 
   return (
-    <div className='flex flex-col justify-center py-4 sm:flex-row sm:space-x-4'>
+
+    <div className='flex flex-col justify-center py-16 sm:flex-row sm:space-x-4'>
+
       {data.map((movie) => ( 
         <MovieCard 
           key={movie.id} 

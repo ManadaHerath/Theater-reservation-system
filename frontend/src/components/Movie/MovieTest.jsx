@@ -34,7 +34,7 @@ const MovieTest = () => {
   }
 
   return (
-    <div className="py-4">
+    <div>
       <MovieSlideshow movies={data} />
     </div>
   );

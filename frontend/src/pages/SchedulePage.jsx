@@ -1,6 +1,9 @@
-import Schedule from "../components/Shedule"
+import Schedule from "../components/Shedule";
+import NavBar from "../components/NavBar";
 
-export default ()=> (
+export default () => (
+  <>
+    <NavBar />
     <Schedule />
+  </>
 );
-
