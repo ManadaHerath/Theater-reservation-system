@@ -82,7 +82,9 @@ const NavBar = () => {
   return (
     <div
       className={`fixed text-white left-0 top-0 w-full pr-5 z-50 flex ${
-        isScrolled ? "bg-black bg-opacity-100 h-12" : "bg-black bg-opacity-0 "
+        isScrolled
+          ? "bg-black bg-opacity-100 h-12"
+          : "bg-black bg-opacity-0 "
       } transition-all duration-500 ease-in-out justify-between items-center`}
     >
       <div
@@ -115,18 +117,21 @@ const NavBar = () => {
             <img
               src={userDetails.avatar}
               alt="profile"
-              className="w-8 h-8 rounded-full"
+              className="w-10 h-10 rounded-full"
             />
-            <button
-              className="hover:text-blue-700 cursor-pointer"
-              onClick={signOut}
-            >
-              <div className="px-4 py-2 rounded-xl bg-blue-900"> Logout</div>
+            <button className=" cursor-pointer" onClick={signOut}>
+              <div className="px-4 py-2 rounded-xl bg-blue-700 hover:bg-blue-900">
+                {" "}
+                Logout
+              </div>
             </button>
           </div>
         ) : (
-          <Link to="/login" className="hover:text-blue-700 cursor-pointer">
-            <div className="flex flex-row gap-3 text-white px-4 py-2 rounded-xl bg-blue-800 hover:bg-blue-900">
+          <Link
+            to="/login"
+            className="cursor-pointer bg-blue-800 hover:bg-blue-900"
+          >
+            <div className="flex flex-row gap-3 text-white px-4 py-2 rounded-xl ">
               Login
             </div>
           </Link>

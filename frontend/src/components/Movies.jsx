@@ -19,7 +19,7 @@ const MovieCard = ({ movie }) => {
 
   return (
     <div
-      className="group relative w-72 h-96 cursor-pointer bg-gray-900 rounded-lg overflow-hidden shadow-xl transition-transform duration-300 hover:scale-105 mt-5 "
+      className="group relative w-80 h-96 cursor-pointer bg-gray-900 rounded-lg overflow-hidden shadow-xl transition-transform duration-300 hover:scale-105 mt-5 "
       onClick={handleClick}
     >
       <div className="absolute inset-0">
@@ -97,6 +97,8 @@ const MovieList = () => {
 
   return (
     <div className="py-16 mb-10">
+      <h1 className="text-white text-3xl pl-6 pb-5 font-bold">Movies</h1>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-items-center mx-auto">
         {data.map((movie) => (
           <MovieCard key={movie.id} movie={movie} />

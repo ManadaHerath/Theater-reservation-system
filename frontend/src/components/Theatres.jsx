@@ -6,11 +6,11 @@ const TheatreCard = (props) => {
   return (
     <div>
       <div
-        className={`theatre-card w-72 h-auto relative overflow-hidden transition-transform duration-300 hover:scale-105 ${
+        className={`theatre-card w-80 h-auto relative overflow-hidden transition-transform duration-300 hover:scale-105 ${
           props.is_active ? "" : "inactive"
         }`}
       >
-        <div className="relative transition-opacity duration-300 hover:opacity-75 rounded-xl mt-4 w-72 h-96">
+        <div className="relative transition-opacity duration-300 hover:opacity-75 rounded-xl mt-4 w-80 h-96">
           <Link to={`/theatre/${props.id}`}>
             <img
               src={props.image_url}
@@ -69,6 +69,7 @@ const TheatreList = () => {
 
   return (
     <div className="py-16 mb-10">
+      <h1 className="text-white text-3xl pl-6 pb-5 font-bold">Theaters</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-items-center mx-auto">
         {theatresToShow.map((theatre) => (
           <TheatreCard
