@@ -1,10 +1,11 @@
-import MovieList from "../components/Movies";
 import NavBar from "../components/NavBar";
+import MovieTest from '../components/Movie/MovieTest'
+import Test from "../components/Test";
 export default ()=> (
     <div>
         <NavBar />
-        <MovieList />
-
+        <MovieTest />
+        <Test />
     </div>
 )
 

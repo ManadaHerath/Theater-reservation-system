@@ -55,11 +55,12 @@ import RequestRefund from "./pages/RequestRefund";
 
 
 const App = () => {
+  
   return (
     <div>
       <Router>
-        <Heading />
-        <Routes>
+        <ConditionalLayout>
+          <Routes>
           <Route path="/" element={<Layout />}>
             <Route path="/unauthorized" element={<Unauthorized />}></Route>
             <Route path="/schedule" element={<Schedule />} />
@@ -120,6 +121,8 @@ const App = () => {
         </Routes>
         <Chatbot chatbotId={"nfGTj217gv4zsYzJ5dct2"} />
         <Footer />
+        </ConditionalLayout>
+        
       </Router>
     </div>
   );
@@ -140,5 +143,17 @@ const App = () => {
 
 //   return !hideNavBarRoutes.includes(location.pathname) ? <NavBar /> : null;
 // };
+
+const ConditionalLayout = ({ children }) => {
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
+
+  return (
+    <>
+      {!isHomePage && <Heading />}
+      {children}
+    </>
+  );
+};
 
 export default App;
