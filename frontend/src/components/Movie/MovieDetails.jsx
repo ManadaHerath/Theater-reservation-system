@@ -184,8 +184,13 @@ export default function MovieDetails() {
             alt="profile"
             className="w-full h-auto object-contain"
           />
-          <h1 className="text-2xl lg:text-6xl  font-bold absolute text-white bottom-3 left-5 md:bottom-10 md:left-10 flex flex-col md:space-y-4 space-y-3">
-            <span> {movie.title}</span>
+
+          {/* Black overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+
+          {/* Text content */}
+          <div className="absolute bottom-3 left-5 md:bottom-10 md:left-10 flex flex-col md:space-y-4 space-y-3 text-white">
+            <h1 className="text-2xl lg:text-6xl font-bold">{movie.title}</h1>
             <span className="text-xl">{movie.overview}</span>
             <div className="flex flex-row lg:space-x-8 space-x-3">
               <Button variant="contained" onClick={handleUrlClick}>
@@ -195,8 +200,9 @@ export default function MovieDetails() {
                 Book Ticket
               </Button>
             </div>
-          </h1>
+          </div>
         </div>
+
         <div className="grid md:grid-cols-2 grid-cols-1">
           <div>
             <h1 className="lg:text-5xl text-xl font-bold ml-10 mt-5 text-white">

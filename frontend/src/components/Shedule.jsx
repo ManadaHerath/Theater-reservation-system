@@ -71,7 +71,7 @@ const MovieScheduleGrid = () => {
     }
   };
 
-  const dates = generateDates(new Date(), 30); // Generating 30 days to allow scrolling forward
+  const dates = generateDates(new Date(), 30);
 
   if (loading) {
     return <p>Loading showtimes...</p>;
@@ -115,7 +115,7 @@ const MovieScheduleGrid = () => {
           onClick={handleNext}
         />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 text-white">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 text-white mx-auto">
         {Object.keys(moviesToShow).length === 0 ? (
           <p className="text-center">
             No shows available for the selected date.
