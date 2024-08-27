@@ -3,7 +3,6 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const TheatreCard = (props) => {
-
   return (
     <div>
       <div
@@ -11,12 +10,12 @@ const TheatreCard = (props) => {
           props.is_active ? "" : "inactive"
         }`}
       >
-        <div className="relative transition-opacity duration-300 hover:opacity-75">
+        <div className="relative transition-opacity duration-300 hover:opacity-75 rounded-xl gap-2 mt-4">
           <Link to={`/theatre/${props.id}`}>
             <img
               src={props.image_url}
               alt={props.name}
-              className="object-cover w-full h-64"
+              className="object-cover w-full h-80 rounded-xl"
               onError={(e) =>
                 (e.target.src =
                   "https://blog.bbt4vw.com/wp-content/uploads/2021/05/sorry-we-are-closed-sign-on-door-store-business-vector-27127112-1.jpg")
@@ -24,9 +23,7 @@ const TheatreCard = (props) => {
             />
           </Link>
         </div>
-
-        {/* Details Container */}
-        <div className="theatre-details p-4">
+        <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-gray-900 to-transparent cursor-pointer group-hover:opacity-50">
           <h3 className="text-xl font-bold mb-2 text-white">{props.name}</h3>
           <p className="text-white font-thin">{props.details}</p>
         </div>
