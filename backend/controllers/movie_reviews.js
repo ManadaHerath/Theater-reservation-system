@@ -55,7 +55,7 @@ export const getReviews = async (req, res, next) => {
         })
       );
 
-      console.log("reviews",reviewsWithReplies);
+      console.log("reviews", reviewsWithReplies);
 
       res.json(reviewsWithReplies);
     } else {
@@ -99,7 +99,7 @@ export const updateReviewLikes = async (req, res, next) => {
 
 export const addReview = async (req, res, next) => {
   try {
-    const { movie_id, review} = req.body;
+    const { movie_id, review } = req.body;
     const dbquery =
       "INSERT INTO movie_reviews (movie_id, user_id, review) VALUES (?, ?, ?)";
 
@@ -121,21 +121,21 @@ export const addRating = async (req, res) => {
     const checkQuery =
       "SELECT * FROM movie_user_rating WHERE movie_id = ? AND user_id = ?";
     const [rows] = await connection.query(checkQuery, [movie_id, user_id]);
-
-    if (rows.length > 0) {
-      const updateQuery =
-        "UPDATE movie_user_rating SET rates = ? WHERE movie_id = ? AND user_id = ?";
-      await connection.query(updateQuery, [rating, movie_id, user_id]);
-      res.status(200).json({ message: `Rating updated` });
-    } else {
-      const insertQuery =
-        "INSERT INTO movie_user_rating (movie_id, user_id, rates) VALUES (?, ?, ?)";
-      await connection.query(insertQuery, [movie_id, user_id, rating]);
-      res.status(201).json({ message: `Rating added` });
+    if (rating > 0) {
+      if (rows.length > 0) {
+        const updateQuery =
+          "UPDATE movie_user_rating SET rates = ? WHERE movie_id = ? AND user_id = ?";
+        await connection.query(updateQuery, [rating, movie_id, user_id]);
+        res.status(200).json({ message: `Rating updated` });
+      } else {
+        const insertQuery =
+          "INSERT INTO movie_user_rating (movie_id, user_id, rates) VALUES (?, ?, ?)";
+        await connection.query(insertQuery, [movie_id, user_id, rating]);
+        res.status(201).json({ message: `Rating added` });
+      }
     }
   } catch (error) {
     console.log("Error adding/updating rating:", error);
-   
   }
 };
 
@@ -143,8 +143,6 @@ export const getUserRating = async (req, res, next) => {
   try {
     const { id } = req.params;
     const user_id = req.user.id;
-
-    
 
     const dbquery =
       "SELECT rates FROM movie_user_rating WHERE movie_id = ? AND user_id = ?";
