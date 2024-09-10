@@ -1,3 +1,4 @@
+
 import React from "react";
 import TheatreList from "./Theatre/UpdateTheatreAndPrices";
 import { useNavigate } from "react-router-dom";
@@ -23,6 +24,7 @@ const AdminPanel = () => {
       </button>
     </AdminLayout>
   );
+
 };
 
 export default AdminPanel;
