@@ -55,7 +55,7 @@ export const getReviews = async (req, res, next) => {
         })
       );
 
-      // console.log(reviewsWithReplies);
+      console.log(reviewsWithReplies);
 
       res.json(reviewsWithReplies);
     } else {
@@ -119,17 +119,18 @@ export const addRating = async (req, res) => {
     const checkQuery =
       "SELECT * FROM theatre_user_rating WHERE theatre_id = ? AND user_id = ?";
     const [rows] = await connection.query(checkQuery, [theatre_id, user_id]);
-
-    if (rows.length > 0) {
-      const updateQuery =
-        "UPDATE theatre_user_rating SET rates = ? WHERE theatre_id = ? AND user_id = ?";
-      await connection.query(updateQuery, [rating, theatre_id, user_id]);
-      res.status(200).json({ message: `Rating updated` });
-    } else {
-      const insertQuery =
-        "INSERT INTO theatre_user_rating (theatre_id, user_id, rates) VALUES (?, ?, ?)";
-      await connection.query(insertQuery, [theatre_id, user_id, rating]);
-      res.status(201).json({ message: `Rating added` });
+    if (rating > 0) {
+      if (rows.length > 0) {
+        const updateQuery =
+          "UPDATE theatre_user_rating SET rates = ? WHERE theatre_id = ? AND user_id = ?";
+        await connection.query(updateQuery, [rating, theatre_id, user_id]);
+        res.status(200).json({ message: `Rating updated` });
+      } else {
+        const insertQuery =
+          "INSERT INTO theatre_user_rating (theatre_id, user_id, rates) VALUES (?, ?, ?)";
+        await connection.query(insertQuery, [theatre_id, user_id, rating]);
+        res.status(201).json({ message: `Rating added` });
+      }
     }
   } catch (error) {
     console.log("Error adding/updating rating:", error);

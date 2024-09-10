@@ -72,7 +72,7 @@ const MovieScheduleGrid = () => {
     }
   };
 
-  const dates = generateDates(new Date(), 30); // Generating 30 days to allow scrolling forward
+  const dates = generateDates(new Date(), 30);
 
   if (loading) {
     return <p>Loading showtimes...</p>;
@@ -83,7 +83,7 @@ const MovieScheduleGrid = () => {
   }
 
   return (
-    <div className="container mx-auto pt-16">
+    <div className="container mx-auto pt-16 mb-8">
       <div className="flex items-center justify-center mb-6 gap-x-4">
         <FiChevronLeft
           className={`text-3xl cursor-pointer ${
@@ -116,7 +116,7 @@ const MovieScheduleGrid = () => {
           onClick={handleNext}
         />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 text-white">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 text-white mx-auto">
         {Object.keys(moviesToShow).length === 0 ? (
           <p className="text-center">
             No shows available for the selected date.

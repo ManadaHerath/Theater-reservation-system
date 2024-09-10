@@ -7,18 +7,34 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import LoginIcon from "@mui/icons-material/Login";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
+import { axiosPrivate } from "../api/axios";
 
 const NavBar = () => {
   const { user } = useAuth();
+  const [userDetails, setUserDetails] = useState({});
   const navigate = useNavigate();
   const logout = useLogout();
-
-  const location = useLocation(); // Use useLocation to get the current route
-
+  const location = useLocation();
   const [selectedItem, setSelectedItem] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosPrivate.get("/users/getUser");
+        setUserDetails(response.data[0]);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      }
+    };
+
+    if (user?.token) {
+      fetchData();
+    } else {
+      setUserDetails({});
+    }
+  }, [user?.token]);
 
   const signOut = async () => {
     await logout();
@@ -32,19 +48,16 @@ const NavBar = () => {
     Theatres: "/theatres",
   };
 
-  // Update selectedItem based on the current route
   const getSelectedItem = () => {
     const currentPath = location.pathname;
-    return Object.keys(routes).find((item) => routes[item] === currentPath) || "Home";
+    return (
+      Object.keys(routes).find((item) => routes[item] === currentPath) || "Home"
+    );
   };
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 50);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -54,13 +67,12 @@ const NavBar = () => {
   }, []);
 
   useEffect(() => {
-    // Update selectedItem whenever the route changes
     setSelectedItem(getSelectedItem());
   }, [location]);
 
   const handleItemClick = (item) => {
     setSelectedItem(item);
-    setIsMenuOpen(false); // Close menu on selection
+    setIsMenuOpen(false);
   };
 
   const toggleMenu = () => {
@@ -69,19 +81,21 @@ const NavBar = () => {
 
   return (
     <div
-      className={`fixed bg-black left-0 w-full z-50 flex p-4 text-white bg-opacity-50 transition-all duration-300 ease-in-out ${
-        isScrolled ? "bg-black bg-opacity-100 h-16 top-0" : "h-16"
-      } justify-between items-center`}
+      className={`fixed text-white left-0 top-0 w-full pr-5 z-50 flex ${
+        isScrolled
+          ? "bg-black bg-opacity-100 h-12"
+          : "bg-black bg-opacity-0 "
+      } transition-all duration-500 ease-in-out justify-between items-center`}
     >
-      <h1 className="text-2xl font-bold">Movie Mingle</h1>
-
       <div
         className={`${
           isMenuOpen ? "block" : "hidden"
-        } md:flex flex-grow justify-center items-center `}
+        } md:flex flex-grow justify-center items-center relative inset-0 bg-gradient-to-b from-[rgba(0,0,0,0.8)]  to-transparent`}
       >
         <ul
-          className={`flex flex-col md:flex-row md:space-x-24 text-lg md:bg-transparent bg-black md:rounded-none rounded-lg md:p-0 p-4 absolute md:static top-16 right-4 md:right-0 `}
+          className={`flex text-white flex-col md:flex-row md:space-x-24 text-lg md:bg-transparent bg-black md:rounded-none rounded-lg md:p-0 p-4 absolute md:static top-16 right-4 md:right-0 ${
+            isScrolled ? "bg-black bg-opacity-100" : "bg-black bg-opacity-0"
+          } transition-colors duration-500 ease-in-out`}
         >
           {["Home", "Movies", "Schedule", "Theatres"].map((item) => (
             <li
@@ -97,19 +111,32 @@ const NavBar = () => {
         </ul>
       </div>
 
-      {/* Right - Login/Logout Icons */}
       <div className="flex items-center">
         {user?.token ? (
-          <div onClick={signOut} className="hover:text-blue-700 cursor-pointer">
-            <LogoutIcon />
+          <div className="flex flex-row gap-3">
+            <img
+              src={userDetails.avatar}
+              alt="profile"
+              className="w-10 h-10 rounded-full"
+            />
+            <button className=" cursor-pointer" onClick={signOut}>
+              <div className="px-4 py-2 rounded-xl bg-blue-700 hover:bg-blue-900">
+                {" "}
+                Logout
+              </div>
+            </button>
           </div>
         ) : (
-          <Link to="/login" className="hover:text-blue-700 cursor-pointer">
-            <LoginIcon />
+          <Link
+            to="/login"
+            className="cursor-pointer bg-blue-800 hover:bg-blue-900 rounded-xl"
+          >
+            <div className="flex flex-row gap-3 text-white px-4 py-2 rounded-xl ">
+              Login
+            </div>
           </Link>
         )}
 
-        {/* Mobile Menu Icon */}
         <div className="ml-4 md:hidden">
           {isMenuOpen ? (
             <CloseIcon onClick={toggleMenu} className="cursor-pointer" />

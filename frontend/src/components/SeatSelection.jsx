@@ -4,6 +4,7 @@ import axios from "axios";
 import useFetch from "../hooks/useFetch";
 import { loadStripe } from "@stripe/stripe-js";
 import useAuth from "../hooks/useAuth";
+import NavBar from "./NavBar";
 
 const SeatSelection = () => {
   const navigate = useNavigate();
@@ -25,14 +26,14 @@ const SeatSelection = () => {
     data: seatTypesData,
     loading: seatTypesLoading,
     error: seatTypesError,
-  } = useFetch(`http://localhost:5001/seat_types/types`);
+  } = useFetch(`http://localhost:5001/seat_types/types/${theatreId}`);
   const {
     data: priceCategoriesData,
     loading: priceCategoriesLoading,
     error: priceCategoriesError,
   } = useFetch("http://localhost:5001/seat_types/prices");
 
-
+  console.log("TheatreData", seatTypesData);
   const [seatsData, setSeatsData] = useState({});
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [seatsLoading, setSeatsLoading] = useState(true);
@@ -232,13 +233,15 @@ const SeatSelection = () => {
   // if (seatTypesError) return <p>Error loading seat types data: {seatTypesError.message}</p>;
 
   return (
-    <div className="min-h-screen flex flex-col justify-between">
+    <div>
+    <NavBar />
+    <div className="min-h-screen flex flex-col justify-between mt-5">
       <div className="container mx-auto p-6 flex-grow">
-        <h2 className="text-3xl font-extrabold mb-6 text-indigo-600">
+        <h2 className="text-3xl font-extrabold mb-6 text-blue-400">
           Select Your Seats
         </h2>
         <div className="flex flex-col items-center mb-6">
-          <div className="grid grid-cols-1 gap-2">
+          <div className="grid grid-cols-1 gap-2 text-white ">
             {seatTypesData.map((seatType) => (
               <div key={seatType.id}>
                 <h3 className="text-xl font-bold mb-2">{seatType.type_name}</h3>
@@ -265,11 +268,11 @@ const SeatSelection = () => {
                               <div className="w-4"></div> // Road space divider
                             )}
                             <div
-                              className={`border p-3 rounded-md shadow-lg cursor-pointer transform transition-transform duration-200 ${
+                              className={`border text-black p-3 gap-y-3 rounded-md shadow-lg cursor-pointer transform transition-transform duration-200 ${
                                 isPurchased
                                   ? "bg-gray-300 cursor-not-allowed"
                                   : isSelected
-                                  ? "bg-green-500"
+                                  ? "bg-green-500 text-white"
                                   : "bg-white"
                               }`}
                               style={{
@@ -289,13 +292,11 @@ const SeatSelection = () => {
                       })}
                     </div>
                   ))}
-                <div className="mt-4 w-full h-px bg-gray-400"></div>{" "}
-                {/* Row type divider */}
               </div>
             ))}
           </div>
         </div>
-        <div className="p-6 bg-gray-100">
+        <div className="flex justify-center">
           <button
             className="bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 transition-colors duration-200"
             onClick={handleBuyClick}
@@ -304,6 +305,7 @@ const SeatSelection = () => {
           </button>
         </div>
       </div>
+    </div>
     </div>
   );
 };

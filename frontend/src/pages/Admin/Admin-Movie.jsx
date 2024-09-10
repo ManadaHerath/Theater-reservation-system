@@ -141,12 +141,12 @@ export default function AdminMovie() {
   }
   return (
     <div>
-      <div className="flex flex-col sm:flex-row justify-center sm:space-x-4 py-4">
+      <div className="flex flex-col sm:flex-row justify-center sm:space-x-4 py-8 mb-5">
         {data.map((movie) => (
           <MovieCard key={movie.id} movie={movie} />
         ))}
       </div>
-      <div className="flex justify-center">
+      <div className="flex justify-center pb-8">
         <Button
           variant="contained"
           onClick={() => {

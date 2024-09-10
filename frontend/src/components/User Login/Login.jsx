@@ -10,8 +10,6 @@ export default function Login() {
   const { setUser } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [alert, setAlert] = useState("");
@@ -52,7 +50,7 @@ export default function Login() {
           navigate("/", { replace: true });
 
         }
-        if (role === "admin") navigate("/", { replace: true });
+        if (role === "admin") navigate("/admin", { replace: true });
       } else {
         setAlert(data.message);
         setAlertStyle("text-red-600 text-s mt-1 flex justify-center");

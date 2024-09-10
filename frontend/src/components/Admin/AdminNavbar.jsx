@@ -57,7 +57,7 @@ const AdminNavbar = () => {
             </Button>
             <Button
                 component={NavLink}
-                to="/admin/movies"
+                to="/admin/movie"
                 color="inherit"
                 sx={{
                     color: 'white',

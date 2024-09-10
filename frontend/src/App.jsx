@@ -39,7 +39,7 @@ import PersistLogin from "./components/Persist Login/PersistLogin";
 // Admin Panel
 
 import AdminPanel from "./components/Admin/AdminPanel";
-import AddTheatreForm from "./components/Admin/Theatre/AddTheatreAdmin"
+import AddTheatreForm from "./components/Admin/Theatre/AddTheatreAdmin";
 import UpdateTheatreAdmin from "./components/Admin/Theatre/UpdateTheatreAdmin";
 import PriceCategoriesChange from "./components/Admin/Theatre/PriceCategoriesChange";
 
@@ -52,13 +52,10 @@ import Chatbot from "../src/components/ChatBot";
 
 import RequestRefund from "./pages/RequestRefund";
 
-
-
 const App = () => {
   return (
     <div>
       <Router>
-        <Heading />
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route path="/unauthorized" element={<Unauthorized />}></Route>
@@ -125,20 +122,16 @@ const App = () => {
   );
 };
 
-// const ConditionalNavBar = () => {
-//   const location = useLocation();
-//   const hideNavBarRoutes = [
-//     "/register",
-//     "/login",
-//     "/otp",
-//     "/forgot-password",
-//     "/reset",
-//     "/terms",
-//     "/privacyPolicy",
-//     "/help",
-//   ];
+const ConditionalLayout = ({ children }) => {
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
 
-//   return !hideNavBarRoutes.includes(location.pathname) ? <NavBar /> : null;
-// };
+  return (
+    <>
+      {!isHomePage && <Heading />}
+      {children}
+    </>
+  );
+};
 
 export default App;

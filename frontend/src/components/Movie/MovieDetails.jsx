@@ -13,7 +13,7 @@ import axios from "axios";
 
 export default function MovieDetails() {
   const { id } = useParams();
-  const[movie_id, setMovie_id] = useState(id);
+  const [movie_id, setMovie_id] = useState(id);
   const [disable, setDisable] = useState(true);
   const [userRatingvalue, setUserRatingValue] = useState(0.0);
   const [userDetails, setUserDetails] = useState([]);
@@ -176,16 +176,21 @@ export default function MovieDetails() {
   if (isPending) return <div>Loading...</div>;
 
   return (
-    <div className="pb-12">
-      <div className="max-h-full pb-10 bg-black">
+    <div className="">
+      <div className="max-h-full bg-black">
         <div className="relative">
           <img
             src={movie.cover_photo}
             alt="profile"
             className="w-full h-auto object-contain"
           />
-          <h1 className="text-2xl lg:text-6xl  font-bold absolute text-white bottom-3 left-5 md:bottom-10 md:left-10 flex flex-col md:space-y-4 space-y-3">
-            <span> {movie.title}</span>
+
+          {/* Black overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+
+          {/* Text content */}
+          <div className="absolute bottom-3 left-5 md:bottom-10 md:left-10 flex flex-col md:space-y-4 space-y-3 text-white">
+            <h1 className="text-2xl lg:text-6xl font-bold">{movie.title}</h1>
             <span className="text-xl">{movie.overview}</span>
             <div className="flex flex-row lg:space-x-8 space-x-3">
               <Button variant="contained" onClick={handleUrlClick}>
@@ -195,8 +200,9 @@ export default function MovieDetails() {
                 Book Ticket
               </Button>
             </div>
-          </h1>
+          </div>
         </div>
+
         <div className="grid md:grid-cols-2 grid-cols-1">
           <div>
             <h1 className="lg:text-5xl text-xl font-bold ml-10 mt-5 text-white">
@@ -220,15 +226,21 @@ export default function MovieDetails() {
           <div>
             <h1 className="lg:text-xl text-lg font-bold ml-10 mt-5 text-white flex flex-col">
               <span>Released Date: </span>
-              <span className="text-md lg:text-base font-thin">{new Date(movie.released_date).toDateString()}</span>
+              <span className="text-md lg:text-base font-thin">
+                {new Date(movie.released_date).toDateString()}
+              </span>
             </h1>
             <h1 className="lg:text-xl text-lg font-bold ml-10 mt-5 text-white flex flex-col">
               <span>Directed By: </span>
-              <span className="text-md lg:text-base font-thin">{movie.movie_director}</span>
+              <span className="text-md lg:text-base font-thin">
+                {movie.movie_director}
+              </span>
             </h1>
             <h1 className="lg:text-xl text-lg font-bold ml-10 mt-5 text-white flex flex-col">
               <span>Written By: </span>
-              <span className="text-md lg:text-base font-thin">{movie.movie_writter}</span>
+              <span className="text-md lg:text-base font-thin">
+                {movie.movie_writter}
+              </span>
             </h1>
           </div>
         </div>
@@ -276,21 +288,21 @@ export default function MovieDetails() {
           </Box>
         </div>
         <h1 className="lg:text-5xl text-xl font-bold mt-5 ml-10 text-white">
-        Reviews
-      </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 md:mt-5 pb-8">
-        <AddReview
-          onSubmit={handleAddReview}
-          disable={disable}
-          photo={userDetails && userDetails[0]?.avatar}
-        />
+          Reviews
+        </h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 md:mt-5 pb-8">
+          <AddReview
+            onSubmit={handleAddReview}
+            disable={disable}
+            photo={userDetails && userDetails[0]?.avatar}
+          />
 
-        <ReviewList
-          reviews={reviews}
-          onLike={handleLikeReview}
-          onReply={handleReplyReview}
-        />
-      </div>
+          <ReviewList
+            reviews={reviews}
+            onLike={handleLikeReview}
+            onReply={handleReplyReview}
+          />
+        </div>
       </div>
     </div>
   );

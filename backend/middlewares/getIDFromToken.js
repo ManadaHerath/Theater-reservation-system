@@ -19,7 +19,7 @@ export const getIDFromToken = async (req, res, next) => {
     );
 
     if (rows.length === 0) {
-        console.log("No user found with this refresh token.");
+      console.log("No user found with this refresh token.");
       return res.sendStatus(403);
     } // Forbidden
 
@@ -35,12 +35,11 @@ export const getIDFromToken = async (req, res, next) => {
         process.env.JWT_SECRET_KEY,
         { expiresIn: "60s" }
       );
-        console.log("user", user);
       req.user = user;
       next();
     });
   } catch (error) {
-    console.log("Error verifying refresh token:", error); 
+    console.log("Error verifying refresh token:", error);
     res.sendStatus(500).error("Error verifying refresh token:", error);
   }
 };

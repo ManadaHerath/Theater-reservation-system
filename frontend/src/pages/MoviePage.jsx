@@ -6,6 +6,5 @@ export default () => (
   <div>
     <NavBar />
     <MovieList />
-    <Footer />
   </div>
 );
