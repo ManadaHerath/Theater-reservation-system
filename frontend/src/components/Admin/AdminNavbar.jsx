@@ -85,6 +85,21 @@ const AdminNavbar = () => {
             >
                 Manage Users
             </Button>
+            <Button
+                component={NavLink}
+                to="/admin/seatgrid"
+                color="inherit"
+                sx={{
+                    color: 'white',
+                    marginBottom: 2,
+                    width: '100%',
+                    justifyContent: 'flex-start',
+                    '&.active': { color: 'green' },
+                    '&:hover': { color: 'green' },
+                }}
+            >
+                Seat Grid
+            </Button>
         </Box>
     );
 };
