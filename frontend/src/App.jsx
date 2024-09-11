@@ -37,7 +37,7 @@ import RequireAuth from "./components/RequireAuth";
 import PersistLogin from "./components/Persist Login/PersistLogin";
 
 // Admin Panel
-
+import SeatGrid from "./components/Admin/SeatGrid/SeatGrid";
 import AdminPanel from "./components/Admin/AdminPanel";
 import AddTheatreForm from "./components/Admin/Theatre/AddTheatreAdmin";
 import UpdateTheatreAdmin from "./components/Admin/Theatre/UpdateTheatreAdmin";
@@ -86,6 +86,10 @@ const App = () => {
                 <Route
                   path="/admin/update-theatre/:id"
                   element={<UpdateTheatreAdmin />}
+                ></Route>
+                <Route
+                  path="/admin/seatgrid"
+                  element={<SeatGrid />}
                 ></Route>
                 <Route
                   path="/admin/add-theatre"
