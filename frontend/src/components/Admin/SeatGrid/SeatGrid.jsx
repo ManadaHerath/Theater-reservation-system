@@ -196,7 +196,7 @@ useEffect(() => {
     };
     console.log("Grid Data:", JSON.stringify(gridData, null, 2));
     try {
-      const response = await axios.post('/api/theater_grids', gridData);
+      const response = await axios.post('http://localhost:5001/grid/addtheatregrid', gridData);
       console.log('Grid data saved successfully:', response.data);
     } catch (error) {
       console.error('Error saving grid data:', error);
