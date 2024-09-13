@@ -2,6 +2,7 @@ import { connection } from "../index.js";
 
 
 export const postTheatreGrid = async (req, res, next) => {
+    console.log(req.body);
 
 const { screenPosition, grid, seatTypes, theatre_id } = req.body;
 
@@ -14,7 +15,7 @@ const { screenPosition, grid, seatTypes, theatre_id } = req.body;
     VALUES (?, ?, ?, ?)
   `;
 
-  db.query(query, [screenPosition, JSON.stringify(grid), JSON.stringify(seatTypes), theatre_id], (error, results) => {
+  connection.query(query, [screenPosition, JSON.stringify(grid), JSON.stringify(seatTypes), theatre_id], (error, results) => {
     if (error) {
       console.error('Database error:', error);
       return res.status(500).send('Error saving data');
