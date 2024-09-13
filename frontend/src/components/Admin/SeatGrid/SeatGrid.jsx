@@ -1,38 +1,53 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
 
 const SeatGrid = () => {
   const [rows, setRows] = useState(0);
   const [columns, setColumns] = useState(0);
   const [grid, setGrid] = useState([]);
+  const [seatTypes, setSeatTypes] = useState([]);
   const [isSelecting, setIsSelecting] = useState(false);
   const [selection, setSelection] = useState({ start: null, end: null });
   const [editMode, setEditMode] = useState({ row: null, col: null });
   const [history, setHistory] = useState([]);
   const [redoStack, setRedoStack] = useState([]);
-  const [isDeselecting, setIsDeselecting] = useState(false); // New flag for deselection mode
+  const [isDeselecting, setIsDeselecting] = useState(false);
+  const [screenPosition, setScreenPosition] = useState("top");
+  const [dragging, setDragging] = useState(null); // Track dragging
   const gridRef = useRef(null);
 
-  // Create a grid with all seats unselected initially
+
+useEffect(() => {
+
+})
+
+  
+
+  
+
+
   const createGrid = () => {
     const newGrid = [];
+    const newSeatTypes = [];
     for (let i = 0; i < rows; i++) {
       const row = [];
+      newSeatTypes.push({ type: "", price: "" });
       for (let j = 0; j < columns; j++) {
         row.push({ name: "", selected: false, editable: false });
       }
       newGrid.push(row);
     }
-    saveToHistory(newGrid); // Save initial grid to history
+    console.log("Created Grid:", newGrid); // Debugging
+    saveToHistory(newGrid);
     setGrid(newGrid);
+    setSeatTypes(newSeatTypes);
   };
 
-  // Save the current state of the grid to the history stack
   const saveToHistory = (newGrid) => {
-    setHistory([...history, JSON.parse(JSON.stringify(newGrid))]); // Deep copy the grid
-    setRedoStack([]); // Clear redo stack on new action
+    setHistory([...history, JSON.parse(JSON.stringify(newGrid))]);
+    setRedoStack([]);
   };
 
-  // Undo the last action
   const undo = () => {
     if (history.length > 1) {
       const previousHistory = [...history];
@@ -43,7 +58,6 @@ const SeatGrid = () => {
     }
   };
 
-  // Redo the last undone action
   const redo = () => {
     if (redoStack.length > 0) {
       const newRedoStack = [...redoStack];
@@ -54,17 +68,15 @@ const SeatGrid = () => {
     }
   };
 
-  // Reset all seats to selected
   const resetGrid = () => {
     const newGrid = grid.map(row =>
       row.map(seat => ({ ...seat, selected: true }))
     );
-    updateSeatNames(newGrid); // Update names based on selection
-    saveToHistory(newGrid); // Save state before resetting
+    updateSeatNames(newGrid);
+    saveToHistory(newGrid);
     setGrid(newGrid);
   };
 
-  // Update seat names based on selection
   const updateSeatNames = (gridToUpdate = grid) => {
     const updatedGrid = [...gridToUpdate];
     updatedGrid.forEach((row, rowIdx) => {
@@ -81,7 +93,6 @@ const SeatGrid = () => {
     setGrid(updatedGrid);
   };
 
-  // Toggle or rename seat on click
   const toggleSeat = (rowIdx, colIdx) => {
     const updatedGrid = [...grid];
     const seat = updatedGrid[rowIdx][colIdx];
@@ -94,13 +105,12 @@ const SeatGrid = () => {
     setGrid(updatedGrid);
   };
 
-  // Handle mouse events for multi-seat selection and deselection
   const handleMouseDown = (e, rowIdx, colIdx) => {
     e.preventDefault();
     const seat = grid[rowIdx][colIdx];
     setIsSelecting(true);
     setSelection({ start: { rowIdx, colIdx }, end: { rowIdx, colIdx } });
-    setIsDeselecting(seat.selected); // If seat is already selected, enter deselection mode
+    setIsDeselecting(seat.selected);
   };
 
   const handleMouseMove = (e, rowIdx, colIdx) => {
@@ -126,7 +136,6 @@ const SeatGrid = () => {
     }
   };
 
-  // Handle double click to edit seat name
   const handleDoubleClick = (rowIdx, colIdx) => {
     const updatedGrid = [...grid];
     updatedGrid[rowIdx][colIdx].editable = true;
@@ -134,14 +143,12 @@ const SeatGrid = () => {
     setEditMode({ row: rowIdx, col: colIdx });
   };
 
-  // Handle change in seat name input
   const handleNameChange = (e, rowIdx, colIdx) => {
     const updatedGrid = [...grid];
     updatedGrid[rowIdx][colIdx].name = e.target.value;
     setGrid(updatedGrid);
   };
 
-  // Handle blur event to save seat name and exit edit mode
   const handleBlur = () => {
     if (editMode.row !== null && editMode.col !== null) {
       const updatedGrid = [...grid];
@@ -151,13 +158,66 @@ const SeatGrid = () => {
     }
   };
 
-  // Log the grid data to the console
-  const saveGrid = () => {
-    console.log("Grid Data:", JSON.stringify(grid, null, 2));
+  const handleSeatTypeChange = (e, rowIdx, field) => {
+    const updatedSeatTypes = [...seatTypes];
+    updatedSeatTypes[rowIdx][field] = e.target.value;
+    setSeatTypes(updatedSeatTypes);
+  };
+
+  const handleDragStart = (rowIdx, field) => {
+    setDragging({ rowIdx, field, value: seatTypes[rowIdx][field] });
+  };
+
+  const handleDragOver = (e, rowIdx) => {
+    e.preventDefault();
+    if (dragging) {
+      const updatedSeatTypes = [...seatTypes];
+      updatedSeatTypes[rowIdx][dragging.field] = dragging.value;
+      setSeatTypes(updatedSeatTypes);
+    }
+  };
+
+  const handleDrop = (e, rowIdx) => {
+    e.preventDefault();
+    if (dragging) {
+      const updatedSeatTypes = [...seatTypes];
+      updatedSeatTypes[rowIdx][dragging.field] = dragging.value;
+      setSeatTypes(updatedSeatTypes);
+      setDragging(null); // Clear the dragging state
+    }
+  };
+
+  const saveGrid = async () => {
+    const gridData = {
+      grid,
+      seatTypes,
+      screenPosition,
+      theatre_id: 1
+    };
+    console.log("Grid Data:", JSON.stringify(gridData, null, 2));
+    try {
+      const response = await axios.post('/api/theater_grids', gridData);
+      console.log('Grid data saved successfully:', response.data);
+    } catch (error) {
+      console.error('Error saving grid data:', error);
+    }
   };
 
   return (
     <div className="p-4">
+      <div className="mb-4">
+        <label>Screen Position: </label>
+        <select
+          value={screenPosition}
+          onChange={(e) => setScreenPosition(e.target.value)}
+          className="border border-gray-300 p-2 rounded-md"
+        >
+          <option value="top">Top</option>
+          <option value="bottom">Bottom</option>
+          <option value="left">Left</option>
+          <option value="right">Right</option>
+        </select>
+      </div>
       <div className="flex items-center space-x-4 mb-4">
         <input
           type="number"
@@ -181,61 +241,118 @@ const SeatGrid = () => {
         </button>
       </div>
 
-      <div>
-        {grid.length > 0 && (
-          <div
-            className="grid"
-            style={{
-              gridTemplateColumns: `repeat(${columns}, 30px)`, // Fixed column width
-              gap: '0px' // No gaps between cells
-            }}
-            ref={gridRef}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={() => setIsSelecting(false)} // Stop selection if mouse leaves the grid
-          >
-            {grid.map((row, rowIdx) => (
-              row.map((seat, colIdx) => (
-                <div
-                  key={`${rowIdx}-${colIdx}`}
-                  onMouseDown={(e) => handleMouseDown(e, rowIdx, colIdx)}
-                  onMouseMove={(e) => handleMouseMove(e, rowIdx, colIdx)}
-                  onDoubleClick={() => handleDoubleClick(rowIdx, colIdx)}
-                  className={`flex items-center justify-center border rounded-lg cursor-pointer transition duration-300
-                    ${seat.selected ? "bg-green-400" : "bg-gray-200"}
-                    hover:bg-blue-200`}
-                  style={{ width: '30px', height: '30px', fontSize: '10px' }} // Smaller size and font
-                >
-                  {seat.editable ? (
-                    <input
-                      type="text"
-                      value={seat.name}
-                      onChange={(e) => handleNameChange(e, rowIdx, colIdx)}
-                      onBlur={handleBlur}
-                      autoFocus
-                      className="w-full h-full text-center border-none outline-none bg-transparent"
-                    />
-                  ) : (
-                    seat.name
-                  )}
-                </div>
-              ))
-            ))}
-          </div>
-        )}
+      {/*  */}
+
+      <div className="flex">
+        <div>
+          {grid.length > 0 && (
+            <>
+              {/* <div
+                className={`screen-indicator ${screenPosition === "top" ? "mb-2" : "mt-2"}`}
+                style={{
+                  textAlign: screenPosition === "left" ? "left" : "center",
+                }}
+              >
+                Screen
+              </div> */}
+
+              <div
+                className="grid"
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: `repeat(${columns}, 30px)`,
+                  gap: '0px'
+                }}
+                ref={gridRef}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={() => setIsSelecting(false)}
+              >
+                {grid.map((row, rowIdx) => (
+                  <React.Fragment key={rowIdx}>
+                    {row.map((seat, colIdx) => (
+                      <div
+                        key={colIdx}
+                        onMouseDown={(e) => handleMouseDown(e, rowIdx, colIdx)}
+                        onMouseMove={(e) => handleMouseMove(e, rowIdx, colIdx)}
+                        onDoubleClick={() => handleDoubleClick(rowIdx, colIdx)}
+                        className={`flex items-center justify-center border rounded-lg cursor-pointer transition duration-300
+                          ${seat.selected ? "bg-green-400" : "bg-gray-200"}
+                          hover:bg-blue-200`}
+                        style={{ width: '30px', height: '30px', fontSize: '10px' }}
+                      >
+                        {seat.editable ? (
+                          <input
+                            type="text"
+                            value={seat.name}
+                            onChange={(e) => handleNameChange(e, rowIdx, colIdx)}
+                            onBlur={handleBlur}
+                            autoFocus
+                            className="w-full h-full text-center border-none outline-none bg-transparent"
+                          />
+                        ) : (
+                          seat.name
+                        )}
+                      </div>
+                    ))}
+                  </React.Fragment>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+
+        <div className="ml-4">
+          {grid.length > 0 && (
+            <div>
+              {grid.length > 0 && (
+  <div className="ml-4">
+    <div className="grid grid-cols-[repeat(columns, 1fr)] gap-0">
+      {seatTypes.map((seatType, rowIdx) => (
+        <div key={rowIdx} className="flex space-x-2 mb-1">
+          <input
+            type="text"
+            placeholder="Seat Type"
+            value={seatType.type}
+            onChange={(e) => handleSeatTypeChange(e, rowIdx, "type")}
+            className="border border-gray-300 p-1 rounded-md"
+            style={{ height: "26.14px" }}
+            draggable
+            onDragStart={() => handleDragStart(rowIdx, "type")}
+            onDragOver={(e) => handleDragOver(e, rowIdx)}
+            onDrop={(e) => handleDrop(e, rowIdx)}
+          />
+          <input
+            type="text"
+            placeholder="Price"
+            value={seatType.price}
+            onChange={(e) => handleSeatTypeChange(e, rowIdx, "price")}
+            className="border border-gray-300 p-1 rounded-md"
+            style={{ height: "26.14px" }}
+            draggable
+            onDragStart={() => handleDragStart(rowIdx, "price")}
+            onDragOver={(e) => handleDragOver(e, rowIdx)}
+            onDrop={(e) => handleDrop(e, rowIdx)}
+          />
+        </div>
+      ))}
+    </div>
+  </div>
+)}
+            </div>
+          )}
+        </div>
       </div>
 
-      <div className="flex items-center space-x-4 mt-4">
+      <div className="mt-4">
         <button
           onClick={undo}
-          disabled={history.length <= 1}
-          className="bg-gray-500 text-white p-2 rounded-md hover:bg-gray-600 transition duration-300"
+          className="bg-gray-500 text-white p-2 rounded-md hover:bg-gray-600 transition duration-300 mr-2"
         >
           Undo
         </button>
         <button
           onClick={redo}
-          disabled={redoStack.length === 0}
-          className="bg-gray-500 text-white p-2 rounded-md hover:bg-gray-600 transition duration-300"
+          className="bg-gray-500 text-white p-2 rounded-md hover:bg-gray-600 transition duration-300 mr-2"
         >
           Redo
         </button>
@@ -243,11 +360,11 @@ const SeatGrid = () => {
           onClick={resetGrid}
           className="bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition duration-300"
         >
-          Reset
+          Reset Grid
         </button>
         <button
           onClick={saveGrid}
-          className="bg-green-500 text-white p-2 rounded-md hover:bg-green-600 transition duration-300"
+          className="bg-green-500 text-white p-2 rounded-md hover:bg-green-600 transition duration-300 ml-2"
         >
           Save Grid
         </button>
