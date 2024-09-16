@@ -25,7 +25,7 @@ const SeatGridUser = ({ theatreId }) => {
     };
 
     fetchGridData();
-  }, [loading]);
+  }, [theatreId]);
 
   const handleSeatClick = (seat) => {
     if (selectedSeats.includes(seat.name)) {
@@ -36,7 +36,14 @@ const SeatGridUser = ({ theatreId }) => {
   };
 
   const handleBuyClick = () => {
-    console.log('Selected seats:', selectedSeats);
+    const seatPrices = selectedSeats.map((seatName,rowIndex) => {
+      return {
+        name: seatName,
+        price: seatTypes[rowIndex].price
+      };
+    });
+
+    console.log('Selected seats with prices:', seatPrices);
   };
 
   if (loading) {
@@ -65,7 +72,7 @@ const SeatGridUser = ({ theatreId }) => {
                 <div
                   key={seatIndex}
                   className={`w-10 h-10 flex items-center justify-center 
-                    ${seat.selected ? (selectedSeats.includes(seat.name) ? 'bg-green-500 text-white' : 'bg-gray-500 text-white') : 'bg-transparent'}
+                    ${seat.selected ? (selectedSeats.includes(seat.name,rowIndex) ? 'bg-green-500 text-white' : 'bg-gray-500 text-white') : 'bg-transparent'}
                     ${seat.selected ? 'cursor-pointer' : 'cursor-default'}
                     ${seat.selected ? 'border border-black' : 'border-0'}
                     m-1`}
