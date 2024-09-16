@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { axiosPrivate } from "../../../api/axios";
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import AlertDialog from "./DialogBox";
 import {
   Button,
@@ -44,6 +44,7 @@ const BlueTextField = styled(TextField)({
 });
 
 const UpdateMovie = () => {
+  const axiosPrivate = useAxiosPrivate();
   const movie_id = useParams().id;
   const [actors, setActors] = useState([]);
   const [submitted, setSubmitted] = useState(false);
