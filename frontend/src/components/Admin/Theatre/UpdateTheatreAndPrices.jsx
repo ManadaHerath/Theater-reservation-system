@@ -6,7 +6,7 @@ const TheatreCard = ({ theatre, onUpdate, onDelete }) => {
   const navigate = useNavigate();
   const axiosPrivate = useAxiosPrivate();
 
-  const handleScheduleClick = () => {
+  const handleViewClick = () => {
     navigate(`/theatre/${theatre.id}`);
   };
 
@@ -27,12 +27,12 @@ const TheatreCard = ({ theatre, onUpdate, onDelete }) => {
   };
 
   return (
-    <div className="bg-blue-100 p-4 rounded-xl mx-1 my-3 w-80 h-auto shadow-xl transition-transform duration-300 hover:scale-105">
+    <div className="bg-black p-4 rounded-xl mx-1 my-3 w-80 h-auto shadow-xl transition-transform duration-300 hover:scale-105">
       <div
         className={`theatre-card bg-gray-400 p-4 rounded-xl relative ${
           theatre.is_active ? "" : "inactive"
         } cursor-pointer`}
-        onClick={handleScheduleClick}
+        onClick={handleViewClick}
       >
         <div className="relative transition-opacity duration-300 hover:opacity-75">
           <img

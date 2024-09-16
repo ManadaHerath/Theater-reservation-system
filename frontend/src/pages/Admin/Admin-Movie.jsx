@@ -41,12 +41,12 @@ const MovieCard = ({ movie }) => {
 
   return (
     <React.Fragment>
-    <AdminLayout>
-      <div className="group relative w-72 h-96 bg-gray-900 rounded-lg overflow-hidden shadow-xl transition-transform duration-300 hover:scale-105">
+      <div className="group relative p-4 w-72 m-4 cursor-pointer h-96 bg-gray-100 rounded-xl overflow-hidden shadow-xl transition-transform duration-300 hover:scale-105"  onClick={handleViewClick}>
         <div className="absolute inset-0">
           <img
             className="w-full h-full object-cover transform transition-opacity duration-300 group-hover:opacity-80"
             src={movie.poster_url}
+            onClick={handleViewClick}
             alt={`${movie.title} Poster`}
             onError={(e) => {
               e.target.src =
@@ -71,7 +71,7 @@ const MovieCard = ({ movie }) => {
           </div>
           <div className="flex space-x-2 mt-2">
             <button
-              className="bg-yellow-500 hover:bg-yellow-700 text-white py-1 px-1 rounded-xl text-sm focus:outline-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              className="bg-yellow-500 hover:bg-yellow-700 text-white py-2 px-2 rounded-xl text-sm focus:outline-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
               onClick={handleUpdateClick}
             >
               Update Movie
@@ -82,12 +82,12 @@ const MovieCard = ({ movie }) => {
             >
               Delete Movie
             </button>
-            <button
+            {/* <button
               className="bg-violet-500 hover:bg-violet-700 text-white py-1 px-1 rounded-xl text-sm focus:outline-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
               onClick={handleViewClick}
             >
               View More
-            </button>
+            </button> */}
           </div>
           <Dialog
             open={open}
@@ -109,7 +109,6 @@ const MovieCard = ({ movie }) => {
           </Dialog>
         </div>
       </div>
-    </AdminLayout>
     </React.Fragment>
   );
 };
@@ -119,6 +118,7 @@ export default function AdminMovie() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [showAll, setShowAll] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -142,23 +142,38 @@ export default function AdminMovie() {
   if (error.length > 0) {
     console.log(error);
   }
+  const moviesToShow = showAll ? data : data.slice(0, 8);
+
   return (
-    <div>
-      <div className="flex flex-col sm:flex-row justify-center sm:space-x-4 py-8 mb-5">
-        {data.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
-        ))}
-      </div>
-      <div className="flex justify-center pb-8">
-        <Button
-          variant="contained"
+    <AdminLayout>
+      <div className="p-4 md:p-8">
+        <h1 className="text-2xl md:text-3xl font-semibold text-white">
+          Manage Movies
+        </h1>
+        <button
           onClick={() => {
             navigate("/admin/add-new-movie");
           }}
+          className="mt-4 text-sm md:text-base bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-all"
         >
-          Add New Movie
-        </Button>
+          Add Movie
+        </button>
+        <div className="mt-8 grid grid-cols-1  md:grid-cols-2 lg:grid-cols-4 justify-center items-center sm:space-x-4">
+        {moviesToShow.map((movie) => (
+            <MovieCard key={movie.id} movie={movie} />
+          ))}
+        </div>
+        {!showAll && data.length > 8 && (
+        <div className="flex justify-center mt-8">
+          <button
+            onClick={() => setShowAll(true)}
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300 mb-10"
+          >
+            Show More
+          </button>
+        </div>
+      )}
       </div>
-    </div>
+    </AdminLayout>
   );
 }
