@@ -24,9 +24,10 @@ import reviewsRoute from "./routes/reviews.js";
 import movieReviewsRoute from "./routes/movie_reviews.js";
 import photoUploadRoute from "./routes/photoUpload.js";
 import refundRoute from "./routes/refundReq.js"
-
+import theatreGrid from "./routes/theatre_grid.js";
 const app = express();
 //for usage of google sign in
+
 app.use(
   session({
     secret: process.env.JWT_SECRET_KEY,
@@ -86,7 +87,7 @@ app.use("/stripe", createCheckoutRoute);
 app.use("/recovery", recoveryRoute);
 app.use("/photo-upload", photoUploadRoute);
 app.use("/refund", refundRoute);
-
+app.use("/grid", theatreGrid);
 // error
 app.use((err, req, res, next) => {
   return res.status(500).json(err.message);
