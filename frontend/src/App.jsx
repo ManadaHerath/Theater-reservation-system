@@ -35,6 +35,9 @@ import Layout from "./layout/layout";
 import RequireAuth from "./components/RequireAuth";
 import PersistLogin from "./components/Persist Login/PersistLogin";
 
+// seat grid user side
+import SeatGridUser from "./components/SeatGridUser";
+
 // Admin Panel
 import SeatGrid from "./components/Admin/SeatGrid/SeatGrid";
 import AdminPanel from "./components/Admin/AdminPanel";
@@ -59,6 +62,7 @@ const App = () => {
           <Route path="/" element={<Layout />}>
             <Route path="/unauthorized" element={<Unauthorized />}></Route>
             <Route path="/schedule" element={<Schedule />} />
+            <Route path="/seatgrid" element={<SeatGridUser theatreId={2}/>} />
             <Route path="forgot-password" element={<Forgotpassword />} />
             <Route path="/otp" element={<OTPInput />} />
             <Route path="/help" element={<Help />} />
