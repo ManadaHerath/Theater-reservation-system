@@ -80,9 +80,7 @@ const NavBar = () => {
   return (
     <div
       className={`fixed text-white left-0 top-0 w-full pr-5 z-50 flex ${
-        isScrolled
-          ? "bg-black bg-opacity-100 h-12"
-          : "bg-black bg-opacity-0 "
+        isScrolled ? "bg-black bg-opacity-100 h-12" : "bg-black bg-opacity-0 "
       } transition-all duration-500 ease-in-out justify-between items-center`}
     >
       <div

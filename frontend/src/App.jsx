@@ -41,7 +41,7 @@ import AdminPanel from "./components/Admin/AdminPanel";
 import AddTheatreForm from "./components/Admin/Theatre/AddTheatreAdmin";
 import UpdateTheatreAdmin from "./components/Admin/Theatre/UpdateTheatreAdmin";
 import PriceCategoriesChange from "./components/Admin/Theatre/PriceCategoriesChange";
-
+import ManageTheatres from "./pages/Admin/Admin-Theatre";
 import AddNewMovie from "./components/Admin/Movies/AddNewMovie";
 import UpdateMovie from "./components/Admin/Movies/UpdateMovie";
 import AdminMovie from "./pages/Admin/Admin-Movie";
@@ -81,6 +81,7 @@ const App = () => {
               <Route path="/movies" element={<Movies />} />
               <Route path="/theatres" element={<Theatres />} />
               <Route path="/refund/:token" element={<RequestRefund />}></Route>
+
               <Route element={<RequireAuth allowedRoles={["admin"]} />}>
                 <Route
                   path="/admin/update-theatre/:id"
@@ -89,6 +90,10 @@ const App = () => {
                 <Route
                   path="/admin/add-theatre"
                   element={<AddTheatreForm />}
+                ></Route>
+                <Route
+                  path="/admin/manage-theatres"
+                  element={<ManageTheatres />}
                 ></Route>
                 <Route
                   path="/admin/price-categories/:id"
@@ -115,7 +120,7 @@ const App = () => {
           </Route>
         </Routes>
         <Chatbot chatbotId={"nfGTj217gv4zsYzJ5dct2"} />
-        <Footer />
+        <ConditionalLayout />
       </Router>
     </div>
   );
@@ -123,11 +128,11 @@ const App = () => {
 
 const ConditionalLayout = ({ children }) => {
   const location = useLocation();
-  const isHomePage = location.pathname === "/";
+  const isAdminPage = location.pathname.startsWith("/admin");
 
   return (
     <>
-      {!isHomePage && <Heading />}
+      {!isAdminPage && <Footer />}
       {children}
     </>
   );

@@ -8,6 +8,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
+import AdminLayout from "../../components/Admin/AdminLayout";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -40,6 +41,7 @@ const MovieCard = ({ movie }) => {
 
   return (
     <React.Fragment>
+    <AdminLayout>
       <div className="group relative w-72 h-96 bg-gray-900 rounded-lg overflow-hidden shadow-xl transition-transform duration-300 hover:scale-105">
         <div className="absolute inset-0">
           <img
@@ -107,6 +109,7 @@ const MovieCard = ({ movie }) => {
           </Dialog>
         </div>
       </div>
+    </AdminLayout>
     </React.Fragment>
   );
 };

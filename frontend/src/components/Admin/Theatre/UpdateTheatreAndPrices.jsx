@@ -7,7 +7,7 @@ const TheatreCard = ({ theatre, onUpdate, onDelete }) => {
   const axiosPrivate = useAxiosPrivate();
 
   const handleScheduleClick = () => {
-    navigate(`/schedule/${theatre.id}`);
+    navigate(`/theatre/${theatre.id}`);
   };
 
   const handleUpdateClick = () => {
@@ -51,12 +51,6 @@ const TheatreCard = ({ theatre, onUpdate, onDelete }) => {
           <p className="text-gray-700">{theatre.details}</p>
         </div>
       </div>
-      <Link
-        to={`/theatre/${theatre.id}`}
-        className="block mt-4 text-blue-600 hover:underline"
-      >
-        See More{" "}
-      </Link>
       <button
         onClick={handleUpdateClick}
         className="block mt-2 text-green-600 hover:underline"
@@ -119,7 +113,7 @@ const TheatreList = () => {
   }
 
   return (
-    <div className="flex flex-col sm:flex-row justify-center items-center sm:space-x-4">
+    <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-4 justify-center items-center sm:space-x-4">
       {data.map((theatre) => (
         <TheatreCard
           key={theatre.id}
