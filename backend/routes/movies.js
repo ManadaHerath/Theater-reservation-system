@@ -1,5 +1,4 @@
 import expresss from "express";
-import { connection } from "../index.js";
 import {
   getMovies,
   addMovies,
@@ -7,20 +6,15 @@ import {
   deleteMovie,
   updateMovie,
 } from "../controllers/movie.js";
-import {
-  verifyToken,
-  verifyUser,
-  verifyAdmin,
-  verifyJWT,
-} from "../util/verify_token.js";
+import { verifyJWT } from "../util/verify_token.js";
 import { verifyRoles } from "../util/verify_roles.js";
 
 const router = expresss.Router();
 
 router.get("/", getMovies);
-router.post("/", addMovies); /* verifyJWT, verifyRoles("admin"), */
+router.post("/", verifyJWT, verifyRoles("admin"), addMovies);
 router.get("/:id", getMovieById);
 router.delete("/:id", verifyJWT, verifyRoles("admin"), deleteMovie);
-router.patch("/:id", updateMovie); /* verifyJWT, verifyRoles("admin"), */
+router.patch("/:id", verifyJWT, verifyRoles("admin"), updateMovie);
 
 export default router;

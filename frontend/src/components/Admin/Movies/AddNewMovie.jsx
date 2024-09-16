@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { axiosPrivate } from "../../../api/axios";
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import AlertDialog from "./DialogBox";
 import {
   Button,
@@ -42,6 +42,7 @@ const BlueTextField = styled(TextField)({
 });
 
 const AddNewMovie = () => {
+  const axiosPrivate = useAxiosPrivate();
   const [actors, setActors] = useState([{ name: "", photo_url: "" }]);
   const [submitted, setSubmitted] = useState(false);
   const [showDialog, setShowDialog] = useState(false);

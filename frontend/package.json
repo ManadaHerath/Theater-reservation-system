@@ -13,6 +13,7 @@
     "@mui/icons-material": "^5.16.7",
     "@mui/material": "^5.16.0",
     "@mui/styled-engine": "^5.15.14",
+    "@mui/x-charts": "^7.17.0",
     "@stripe/react-stripe-js": "^2.7.1",
     "@stripe/stripe-js": "^3.0.0",
     "@testing-library/jest-dom": "^6.4.6",

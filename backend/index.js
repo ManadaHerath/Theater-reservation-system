@@ -23,8 +23,10 @@ import logoutRoute from "./routes/logout.js";
 import reviewsRoute from "./routes/reviews.js";
 import movieReviewsRoute from "./routes/movie_reviews.js";
 import photoUploadRoute from "./routes/photoUpload.js";
-import refundRoute from "./routes/refundReq.js"
+import refundRoute from "./routes/refundReq.js";
 import theatreGrid from "./routes/theatre_grid.js";
+import registrationRouter from "./routes/Admin_Panel/AdminDash.js";
+
 const app = express();
 //for usage of google sign in
 
@@ -88,6 +90,7 @@ app.use("/recovery", recoveryRoute);
 app.use("/photo-upload", photoUploadRoute);
 app.use("/refund", refundRoute);
 app.use("/grid", theatreGrid);
+app.use("/admin-dash", registrationRouter);
 // error
 app.use((err, req, res, next) => {
   return res.status(500).json(err.message);
