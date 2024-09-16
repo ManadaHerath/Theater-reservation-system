@@ -89,7 +89,7 @@ const TheatreList = () => {
             onClick={() => setShowAll(true)}
             className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300 mb-10"
           >
-            Explore More
+            Show More
           </button>
         </div>
       )}
