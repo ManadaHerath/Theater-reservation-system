@@ -1,9 +1,11 @@
 import Schedule from "../components/Shedule";
 import NavBar from "../components/NavBar";
 
-export default () => (
+const SchedulePage = () => (
   <>
     <NavBar />
     <Schedule />
   </>
 );
+
+export default SchedulePage;

@@ -1,4 +1,4 @@
-import React, { act, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { axiosPrivate } from "../../../api/axios";
@@ -353,7 +353,9 @@ const UpdateMovie = () => {
             </BlueButton>
           </Box>
         </form>
-        {showDialog && <AlertDialog message={"Movie Updated Successfully!"} reload={true}/>}
+        {showDialog && (
+          <AlertDialog message={"Movie Updated Successfully!"} reload={true} />
+        )}
       </Box>
     </Container>
   );

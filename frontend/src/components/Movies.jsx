@@ -1,17 +1,14 @@
 import { React, useEffect, useState } from "react";
-import useFetch from "../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const MovieCard = ({ movie }) => {
-  const axiosPrivate = useAxiosPrivate();
+  
   const navigate = useNavigate(); // Hook for navigation
 
   const handleClick = () => {
     navigate(`/movie/${movie.id}`); // Navigate to the schedule page
   };
-  const handlePosterClick = () => {};
 
   const handleUrlClick = () => {
     window.open(movie.trailer_video_url, "_blank");
