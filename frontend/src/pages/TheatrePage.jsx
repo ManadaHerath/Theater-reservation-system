@@ -1,9 +1,10 @@
 import TheatreList from "../components/Theatres";
 import NavBar from "../components/NavBar";
-import Footer from "../components/Footer";
-export default ()=> (
+const TheatrePage = () => (
     <div>
-        <NavBar/>
-        <TheatreList/>
+        <NavBar />
+        <TheatreList />
     </div>
 );
+
+export default TheatrePage;

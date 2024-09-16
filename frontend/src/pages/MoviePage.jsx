@@ -1,10 +1,11 @@
 import MovieList from "../components/Movies";
 import NavBar from "../components/NavBar";
-import Footer from "../components/Footer";
 
-export default () => (
+const MoviePage = () => (
   <div>
     <NavBar />
     <MovieList />
   </div>
 );
+
+export default MoviePage;

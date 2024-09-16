@@ -1,8 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import useFetch from "../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
-import axios from "../api/axios";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const colorClasses = [
