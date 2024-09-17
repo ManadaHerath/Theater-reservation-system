@@ -1,6 +1,6 @@
 "use client";
-import React, { useState, useContext } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import GoogleSignInButton from "./SignInButton";
 import useAuth from "../../hooks/useAuth";
@@ -9,7 +9,6 @@ import axios from "../../api/axios";
 export default function Login() {
   const { setUser } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [alert, setAlert] = useState("");

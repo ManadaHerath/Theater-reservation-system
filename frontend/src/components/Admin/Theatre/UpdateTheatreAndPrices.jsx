@@ -6,8 +6,8 @@ const TheatreCard = ({ theatre, onUpdate, onDelete }) => {
   const navigate = useNavigate();
   const axiosPrivate = useAxiosPrivate();
 
-  const handleScheduleClick = () => {
-    navigate(`/schedule/${theatre.id}`);
+  const handleViewClick = () => {
+    navigate(`/theatre/${theatre.id}`);
   };
 
   const handleUpdateClick = () => {
@@ -30,18 +30,18 @@ const TheatreCard = ({ theatre, onUpdate, onDelete }) => {
   };
 
   return (
-    <div>
+    <div className="bg-black p-4 rounded-xl mx-1 my-3 w-80 h-auto shadow-xl transition-transform duration-300 hover:scale-105">
       <div
-        className={`theatre-card bg-gray-200 w-72 relative overflow-hidden transition-transform duration-300 hover:scale-105 ${
+        className={`theatre-card bg-gray-400 p-4 rounded-xl relative ${
           theatre.is_active ? "" : "inactive"
-        }`}
-        onClick={handleScheduleClick}
+        } cursor-pointer`}
+        onClick={handleViewClick}
       >
         <div className="relative transition-opacity duration-300 hover:opacity-75">
           <img
             src={theatre.image_url}
             alt={theatre.name}
-            className="object-cover w-full h-64"
+            className="object-cover w-full h-64 rounded-lg"
             onError={(e) =>
               (e.target.src =
                 "https://blog.bbt4vw.com/wp-content/uploads/2021/05/sorry-we-are-closed-sign-on-door-store-business-vector-27127112-1.jpg")
@@ -51,15 +51,9 @@ const TheatreCard = ({ theatre, onUpdate, onDelete }) => {
 
         <div className="theatre-details p-4">
           <h3 className="text-xl font-bold mb-2">{theatre.name}</h3>
-          <p className="text-gray-700">{theatre.details}</p>
+          <p className="text-gray-800">{theatre.details}</p>
         </div>
       </div>
-      <Link
-        to={`/theatre/${theatre.id}`}
-        className="block mt-4 text-blue-600 hover:underline"
-      >
-        See More{" "}
-      </Link>
       <button
         onClick={handleUpdateClick}
         className="block mt-2 text-green-600 hover:underline"
@@ -95,6 +89,7 @@ const TheatreList = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -126,17 +121,30 @@ const TheatreList = () => {
   if (error.length > 0) {
     console.log(error);
   }
+  const theatresToShow = showAll ? data : data.slice(0, 8);
 
   return (
-    <div className="flex flex-col sm:flex-row justify-center items-center sm:space-x-4">
-      {data.map((theatre) => (
-        <TheatreCard
-          key={theatre.id}
-          theatre={theatre}
-          onUpdate={handleUpdate}
-          onDelete={handleDelete}
-        />
-      ))}
+    <div>
+      <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-4 justify-center items-center sm:space-x-4">
+        {theatresToShow.map((theatre) => (
+          <TheatreCard
+            key={theatre.id}
+            theatre={theatre}
+            onUpdate={handleUpdate}
+            onDelete={handleDelete}
+          />
+        ))}
+      </div>
+      {!showAll && data.length > 8 && (
+        <div className="flex justify-center mt-8">
+          <button
+            onClick={() => setShowAll(true)}
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300 mb-10"
+          >
+            Show More
+          </button>
+        </div>
+      )}
     </div>
   );
 };

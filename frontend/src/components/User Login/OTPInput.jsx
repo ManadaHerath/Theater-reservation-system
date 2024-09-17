@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
-import { set } from "date-fns";
 
 export default function OTPInput() {
   const location = useLocation();
@@ -12,9 +11,7 @@ export default function OTPInput() {
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
   const [resendOTPAlert, setResendOTPAlert] = useState("");
-  const [alertStyle, setAlertStyle] = useState(
-    ""
-  );
+  const [alertStyle, setAlertStyle] = useState("");
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -60,7 +57,6 @@ export default function OTPInput() {
           } else {
             setAlertStyle("text-red-500 text-center mt-1");
             setAlert("OTP is incorrect");
-           
           }
         });
       setTimeout(() => {

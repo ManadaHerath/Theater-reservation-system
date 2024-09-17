@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { axiosPrivate } from "../api/axios";
 import Cookies from "js-cookie";
-import useAxiosPrivate from "./useAxiosPrivate";
 
 const useFetch = (url) => {
-  const axiosPrivate = useAxiosPrivate();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState([]);
   const [error, setError] = useState([]);
@@ -14,7 +12,7 @@ const useFetch = (url) => {
       setLoading(true);
       try {
         const token = Cookies.get("access_token");
-        const res = await axios.get(
+        const res = await axiosPrivate.get(
           url,
           {
             withCredentials: true,
@@ -39,7 +37,7 @@ const useFetch = (url) => {
   const reFetch = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(url, { withCredentials: true });
+      const res = await axiosPrivate.get(url, { withCredentials: true });
       setData(res.data);
     } catch (err) {
       setError(err);

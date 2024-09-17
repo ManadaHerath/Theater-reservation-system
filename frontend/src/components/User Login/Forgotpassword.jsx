@@ -1,7 +1,6 @@
 "use client";
-import { set } from "date-fns";
 import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function () {
   const [email, setEmail] = useState("");
@@ -10,7 +9,6 @@ export default function () {
   const [disable, setDisable] = useState(false);
   const[loading, setLoading] = useState("");
   const navigate = useNavigate();
-  const location = useLocation();
   const onsubmit = async (e) => {
     setDisable(true);
     setLoading("Loading...");

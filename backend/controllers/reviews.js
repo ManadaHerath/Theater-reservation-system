@@ -55,7 +55,6 @@ export const getReviews = async (req, res, next) => {
         })
       );
 
-      console.log(reviewsWithReplies);
 
       res.json(reviewsWithReplies);
     } else {

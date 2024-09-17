@@ -14,9 +14,6 @@ import Terms from "./pages/TermsPage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Footer from "./components/Footer";
 import React from "react";
-import ReactDOM from "react-dom/client";
-
-import Heading from "./components/Heading";
 
 import SeatSelection from "./components/SeatSelection";
 import LoginPage from "./pages/LoginPage";
@@ -41,14 +38,14 @@ import SeatGridUser from "./components/SeatGridUser";
 
 // Admin Panel
 import SeatGrid from "./components/Admin/SeatGrid/SeatGrid";
-import AdminPanel from "./components/Admin/AdminPanel";
 import AddTheatreForm from "./components/Admin/Theatre/AddTheatreAdmin";
 import UpdateTheatreAdmin from "./components/Admin/Theatre/UpdateTheatreAdmin";
 import PriceCategoriesChange from "./components/Admin/Theatre/PriceCategoriesChange";
-
+import ManageTheatres from "./pages/Admin/Admin-Theatre";
 import AddNewMovie from "./components/Admin/Movies/AddNewMovie";
 import UpdateMovie from "./components/Admin/Movies/UpdateMovie";
 import AdminMovie from "./pages/Admin/Admin-Movie";
+import Dashboard from "./components/Admin/Dashboard/Dashboard";
 
 // chatbot
 import Chatbot from "../src/components/ChatBot";
@@ -86,18 +83,25 @@ const App = () => {
               <Route path="/movies" element={<Movies />} />
               <Route path="/theatres" element={<Theatres />} />
               <Route path="/refund/:token" element={<RequestRefund />}></Route>
-              <Route > {/*  element={<RequireAuth allowedRoles={["admin"]} />} */}
+
+              <Route element={<RequireAuth allowedRoles={["admin"]} />}>
                 <Route
                   path="/admin/update-theatre/:id"
                   element={<UpdateTheatreAdmin />}
                 ></Route>
+
                 <Route
                   path="/admin/seatgrid/:theatreId"
                   element={<SeatGrid />}
                 ></Route>
+
                 <Route
                   path="/admin/add-theatre"
                   element={<AddTheatreForm />}
+                ></Route>
+                <Route
+                  path="/admin/manage-theatres"
+                  element={<ManageTheatres />}
                 ></Route>
                 <Route
                   path="/admin/price-categories/:id"
@@ -110,7 +114,7 @@ const App = () => {
                   element={<UpdateMovie />}
                 />
                 <Route path="/admin/movie" element={<AdminMovie />} />
-                <Route path="/admin" element={<AdminPanel />} />
+                <Route path="/admin" element={<Dashboard />} />
               </Route>
             </Route>
 
@@ -124,7 +128,7 @@ const App = () => {
           </Route>
         </Routes>
         <Chatbot chatbotId={"nfGTj217gv4zsYzJ5dct2"} />
-        <Footer />
+        <ConditionalLayout />
       </Router>
     </div>
   );
@@ -132,11 +136,11 @@ const App = () => {
 
 const ConditionalLayout = ({ children }) => {
   const location = useLocation();
-  const isHomePage = location.pathname === "/";
+  const isAdminPage = location.pathname.startsWith("/admin");
 
   return (
     <>
-      {!isHomePage && <Heading />}
+      {!isAdminPage && <Footer />}
       {children}
     </>
   );
