@@ -41,8 +41,8 @@ const MovieCard = ({ movie }) => {
 
   return (
     <React.Fragment>
-      <div className="group relative p-4 w-72 m-4 cursor-pointer h-96 bg-gray-100 rounded-xl overflow-hidden shadow-xl transition-transform duration-300 hover:scale-105"  onClick={handleViewClick}>
-        <div className="absolute inset-0">
+      <div className="group relative p-4 w-72 m-4 cursor-pointer h-96 bg-gray-100 rounded-xl overflow-hidden shadow-xl transition-transform duration-300 hover:scale-105">
+        <div className="absolute inset-0" onClick={handleViewClick}>
           <img
             className="w-full h-full object-cover transform transition-opacity duration-300 group-hover:opacity-80"
             src={movie.poster_url}
@@ -62,7 +62,10 @@ const MovieCard = ({ movie }) => {
           <h3 className="text-white font-semibold text-lg mb-2 line-clamp-2">
             {movie.title}
           </h3>
-          <div className="hidden group-hover:block text-gray-300 text-sm line-clamp-3">
+          <div
+            className="hidden group-hover:block text-gray-300 text-sm line-clamp-3"
+            onClick={handleViewClick}
+          >
             {movie.overview}
             <p>Released: {new Date(movie.released_date).toDateString()}</p>
             <p>Duration: {movie.duration} min</p>
@@ -159,20 +162,20 @@ export default function AdminMovie() {
           Add Movie
         </button>
         <div className="mt-8 grid grid-cols-1  md:grid-cols-2 lg:grid-cols-4 justify-center items-center sm:space-x-4">
-        {moviesToShow.map((movie) => (
+          {moviesToShow.map((movie) => (
             <MovieCard key={movie.id} movie={movie} />
           ))}
         </div>
         {!showAll && data.length > 8 && (
-        <div className="flex justify-center mt-8">
-          <button
-            onClick={() => setShowAll(true)}
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300 mb-10"
-          >
-            Show More
-          </button>
-        </div>
-      )}
+          <div className="flex justify-center mt-8">
+            <button
+              onClick={() => setShowAll(true)}
+              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300 mb-10"
+            >
+              Show More
+            </button>
+          </div>
+        )}
       </div>
     </AdminLayout>
   );

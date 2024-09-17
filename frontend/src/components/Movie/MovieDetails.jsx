@@ -9,7 +9,6 @@ import { Typography } from "@mui/material";
 import { axiosPrivate } from "../../api/axios";
 import AddReview from "../Reviews/AddReviews";
 import ReviewList from "../Reviews/ShowReviewList";
-import axios from "axios";
 
 export default function MovieDetails() {
   const { id } = useParams();
@@ -46,7 +45,7 @@ export default function MovieDetails() {
   const sendReplyReview = async (id, reply) => {
     try {
       const reviewReply = await axiosPrivate.post(
-        `http://localhost:5001/movie_reviews/reply`,
+        `/movie_reviews/reply`,
         {
           id,
           reply,
@@ -61,8 +60,8 @@ export default function MovieDetails() {
 
   const updateReviewLikes = async (id) => {
     try {
-      const reviewLikes = await axios.patch(
-        `http://localhost:5001/movie_reviews/like`,
+      const reviewLikes = await axiosPrivate.patch(
+        `/movie_reviews/like`,
         {
           id,
         }
@@ -80,7 +79,7 @@ export default function MovieDetails() {
         movie_id: movie_id,
       };
       const reviewResponse = await axiosPrivate.post(
-        `http://localhost:5001/movie_reviews/addReview`,
+        `/movie_reviews/addReview`,
         reviewPayload
       );
       console.log(reviewResponse.data);
@@ -101,7 +100,7 @@ export default function MovieDetails() {
         movie_id: movie_id,
       };
       const ratingResponse = await axiosPrivate.post(
-        "http://localhost:5001/movie_reviews/addRating",
+        "/movie_reviews/addRating",
         ratingPayload
       );
       console.log(ratingResponse.data);
@@ -122,14 +121,14 @@ export default function MovieDetails() {
     data: movie,
     error,
     isPending,
-  } = useFetch(`http://localhost:5001/movies/${id}`);
+  } = useFetch(`/movies/${id}`);
   console.log(movie);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axiosPrivate.get(
-          "http://localhost:5001/users/getUser"
+          "/users/getUser"
         );
         setUserDetails(response.data);
       } catch (error) {
@@ -140,7 +139,7 @@ export default function MovieDetails() {
     const fetchReviews = async () => {
       try {
         const response = await axiosPrivate.get(
-          `http://localhost:5001/movie_reviews/${id}`
+          `/movie_reviews/${id}`
         );
         setReviews(response.data);
       } catch (error) {
@@ -151,7 +150,7 @@ export default function MovieDetails() {
     const fetchUserRating = async () => {
       try {
         const response = await axiosPrivate.get(
-          `http://localhost:5001/movie_reviews/rating/${id}`
+          `/movie_reviews/rating/${id}`
         );
         console.log("user Rating Value", response.data.rates);
         setUserRatingValue(response.data.rates);
