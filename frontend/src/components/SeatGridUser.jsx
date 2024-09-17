@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { loadStripe } from '@stripe/stripe-js';
+import { useParams } from 'react-router-dom';
 
-const SeatGridUser = ({ theatreId, showId }) => {
+const SeatGridUser = () => {
+  const { showId, theatreId } = useParams();
   const [gridData, setGridData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [seatTypes, setSeatTypes] = useState([]);
   const [screenPosition, setScreenPosition] = useState('');
   const [clicked, setClicked] = useState(false);
+
 
   useEffect(() => {
     const fetchGridData = async () => {
