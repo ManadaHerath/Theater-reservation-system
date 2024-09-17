@@ -7,7 +7,6 @@ export const getUserbyID = async (req, res,next) => {
 
       const id = req.user.id; 
       const [userDetails] = await connection.query(dbquery, [id]);
-      console.log("userDetails", userDetails);
       res.json(userDetails);
     } catch (error) {
       console.log("Error fetching user details from user.js:", error);

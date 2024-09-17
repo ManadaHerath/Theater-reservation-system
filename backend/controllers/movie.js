@@ -68,9 +68,6 @@ export const updateMovie = async (req, res, next) => {
     const movie = req.body.movie;
     const actors = req.body.actors;
 
-    console.log("actors ", actors);
-    console.log("movie ", movie);
-
     const [result] = await connection.query(
       "UPDATE movies SET title = ?, trailer_video_url = ?, poster_url = ?, overview = ?, released_date = ? ,duration = ?, original_language = ?, movie_director = ?, movie_writter = ?,cover_photo= ?, rating=? WHERE id = ?",
       [
@@ -115,9 +112,7 @@ export const updateMovie = async (req, res, next) => {
 export const deleteMovie = async (req, res, next) => {
   try {
     const { id } = req.params;
-    console.log("Deleting movie with id: ", id);
     await connection.query("DELETE FROM movies WHERE id = ?", [id]);
-    console.log("Movie deleted");
     res.json({ message: "Movie deleted" });
   } catch (error) {
     next(error);

@@ -25,7 +25,7 @@ export const handleRefreshToken = async (req, res, next) => {
     const user = rows[0];
     const role = user.role;
 
-    jwt.verify(refreshToken,process.env.REFRESH_SECRET_KEY, (err, decoded) => {
+    jwt.verify(refreshToken, process.env.REFRESH_SECRET_KEY, (err, decoded) => {
       if (err || user.id !== decoded.id) {
         console.log("Token expired or invalid bro.");
         return res.sendStatus(403);
@@ -36,7 +36,6 @@ export const handleRefreshToken = async (req, res, next) => {
         { expiresIn: "60s" }
       );
 
-      console.log("user", user);
       res.json({ role, token, user });
     });
   } catch (error) {
