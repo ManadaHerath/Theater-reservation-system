@@ -55,7 +55,6 @@ export const getReviews = async (req, res, next) => {
         })
       );
 
-      console.log("reviews", reviewsWithReplies);
 
       res.json(reviewsWithReplies);
     } else {
@@ -84,12 +83,10 @@ export const PostReviewReply = async (req, res, next) => {
 export const updateReviewLikes = async (req, res, next) => {
   try {
     const { id } = req.body;
-    console.log("Review ID:", id);
     const dbquery =
       "UPDATE movie_reviews SET like_count = like_count + 1 WHERE review_id = ?";
 
     await connection.query(dbquery, [id]);
-    console.log("Review liked");
 
     res.status(201).json({ message: "Review liked" });
   } catch (error) {
@@ -115,8 +112,7 @@ export const addReview = async (req, res, next) => {
 export const addRating = async (req, res) => {
   try {
     const { movie_id, rating } = req.body;
-    console.log("Movie ID:", movie_id);
-    console.log("rating:", rating);
+
     const user_id = req.user.id;
     const checkQuery =
       "SELECT * FROM movie_user_rating WHERE movie_id = ? AND user_id = ?";

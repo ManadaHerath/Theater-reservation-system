@@ -25,7 +25,6 @@ export const addTheatre = async (req, res, next) => {
       no_of_columns,
       image_url,
     } = req.body;
-    console.log(req.body);
 
     const [result] = await connection.query(
       "INSERT INTO theatres (name, address, location, mobile_number, email, details, is_active, no_of_seats, no_of_rows, no_of_columns, image_url) VALUES (?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?)",
@@ -48,7 +47,6 @@ export const addTheatre = async (req, res, next) => {
       "SELECT id FROM theatres WHERE name = ? AND address = ? ORDER BY id DESC LIMIT 1";
     const [rows] = await connection.query(theatreIdQuery, [name, address]);
     const theatreId = rows[0]?.id;
-    console.log(theatreId);
 
     res.json({ id: theatreId, ...req.body }).status(200);
   } catch (error) {

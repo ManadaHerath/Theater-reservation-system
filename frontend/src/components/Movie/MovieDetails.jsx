@@ -51,7 +51,6 @@ export default function MovieDetails() {
           reply,
         }
       );
-      console.log(reviewReply.data);
       window.location.reload();
     } catch (error) {
       console.error("Error replying review:", error);
@@ -66,7 +65,6 @@ export default function MovieDetails() {
           id,
         }
       );
-      console.log(reviewLikes.data);
     } catch (error) {
       console.error("Error liking review:", error);
     }
@@ -82,7 +80,6 @@ export default function MovieDetails() {
         `/movie_reviews/addReview`,
         reviewPayload
       );
-      console.log(reviewResponse.data);
       window.location.reload();
     } catch (error) {
       console.error("Error adding review:", error);
@@ -103,7 +100,6 @@ export default function MovieDetails() {
         "/movie_reviews/addRating",
         ratingPayload
       );
-      console.log(ratingResponse.data);
     } catch (error) {
       console.error("Error adding rating:", error);
     }
@@ -122,7 +118,6 @@ export default function MovieDetails() {
     error,
     isPending,
   } = useFetch(`/movies/${id}`);
-  console.log(movie);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -152,7 +147,6 @@ export default function MovieDetails() {
         const response = await axiosPrivate.get(
           `/movie_reviews/rating/${id}`
         );
-        console.log("user Rating Value", response.data.rates);
         setUserRatingValue(response.data.rates);
       } catch (error) {
         console.error("Error fetching user rating:", error);
