@@ -98,6 +98,7 @@ const SeatGridUser = ({ theatreId, showId }) => {
       theatreId,
       showId,
     };
+    console.log('purchaseDetails:', purchaseDetails);
   
     // Initialize Stripe
     const stripe = await loadStripe('pk_test_51PTpvf09I3fN7mCT7vXxyWe679a3SVfurihlsN1HlkS3WPffQW9uKyvmRnXv5xyyikN9TFMkFsYUyUjDYKOAzclw003rvNg99T');
