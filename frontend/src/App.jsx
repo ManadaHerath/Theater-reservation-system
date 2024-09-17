@@ -92,7 +92,7 @@ const App = () => {
                   element={<UpdateTheatreAdmin />}
                 ></Route>
                 <Route
-                  path="/admin/seatgrid"
+                  path="/admin/seatgrid/:theatreId"
                   element={<SeatGrid />}
                 ></Route>
                 <Route

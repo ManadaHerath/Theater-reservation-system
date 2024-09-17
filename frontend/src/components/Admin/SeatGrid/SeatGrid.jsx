@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-
+import { useParams,useNavigate } from "react-router-dom";
 const SeatGrid = () => {
+  const { theatreId } = useParams();
+  const navigate = useNavigate();
   const [rows, setRows] = useState(0);
   const [columns, setColumns] = useState(0);
   const [grid, setGrid] = useState([]);
@@ -192,12 +194,13 @@ useEffect(() => {
       grid,
       seatTypes,
       screenPosition,
-      theatre_id: 1
+      theatre_id: theatreId
     };
     console.log("Grid Data:", JSON.stringify(gridData, null, 2));
     try {
       const response = await axios.post('http://localhost:5001/grid/addtheatregrid', gridData);
-      console.log('Grid data saved successfully:', response.data);
+      navigate(`/admin`);
+
     } catch (error) {
       console.error('Error saving grid data:', error);
     }
