@@ -89,7 +89,12 @@ const App = () => {
                   path="/admin/update-theatre/:id"
                   element={<UpdateTheatreAdmin />}
                 ></Route>
-                <Route path="/admin/seatgrid" element={<SeatGrid />}></Route>
+
+                <Route
+                  path="/admin/seatgrid/:theatreId"
+                  element={<SeatGrid />}
+                ></Route>
+
                 <Route
                   path="/admin/add-theatre"
                   element={<AddTheatreForm />}
