@@ -8,7 +8,6 @@ import Typography from "@mui/material/Typography";
 import AddReview from "../Reviews/AddReviews";
 import ReviewList from "../Reviews/ShowReviewList";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import axios from "axios";
 
 export default function Theatre() {
   const axiosPrivate = useAxiosPrivate();
@@ -45,13 +44,10 @@ export default function Theatre() {
 
   const sendReplyReview = async (id, reply) => {
     try {
-      const reviewReply = await axiosPrivate.post(
-        `http://localhost:5001/reviews/reply`,
-        {
-          id,
-          reply,
-        }
-      );
+      const reviewReply = await axiosPrivate.post(`/reviews/reply`, {
+        id,
+        reply,
+      });
       console.log(reviewReply.data);
       window.location.reload();
     } catch (error) {
@@ -61,12 +57,9 @@ export default function Theatre() {
 
   const updateReviewLikes = async (id) => {
     try {
-      const reviewLikes = await axios.patch(
-        `http://localhost:5001/reviews/like`,
-        {
-          id,
-        }
-      );
+      const reviewLikes = await axiosPrivate.patch(`/reviews/like`, {
+        id,
+      });
       console.log(reviewLikes.data);
     } catch (error) {
       console.error("Error liking review:", error);
@@ -80,7 +73,7 @@ export default function Theatre() {
         theatre_id: theatre_id,
       };
       const reviewResponse = await axiosPrivate.post(
-        `http://localhost:5001/reviews/addReview`,
+        `/reviews/addReview`,
         reviewPayload
       );
       console.log(reviewResponse.data);
@@ -101,7 +94,7 @@ export default function Theatre() {
         theatre_id: theatre_id,
       };
       const ratingResponse = await axiosPrivate.post(
-        "http://localhost:5001/reviews/addRating",
+        "/reviews/addRating",
         ratingPayload
       );
       console.log(ratingResponse.data);
@@ -112,18 +105,12 @@ export default function Theatre() {
 
   const navigate = useNavigate();
 
-  const {
-    data: details,
-    loading,
-    error,
-  } = useFetch(`http://localhost:5001/theatres/${id}`);
+  const { data: details, loading, error } = useFetch(`/theatres/${id}`);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axiosPrivate.get(
-          "http://localhost:5001/users/getUser"
-        );
+        const response = await axiosPrivate.get("/users/getUser");
         setUserDetails(response.data);
       } catch (error) {
         console.error("Error fetching user:", error);
@@ -132,9 +119,7 @@ export default function Theatre() {
 
     const fetchReviews = async () => {
       try {
-        const response = await axiosPrivate.get(
-          `http://localhost:5001/reviews/${id}`
-        );
+        const response = await axiosPrivate.get(`/reviews/${id}`);
         setReviews(response.data);
       } catch (error) {
         console.error("Error fetching reviews:", error);
@@ -143,9 +128,7 @@ export default function Theatre() {
 
     const fetchUserRating = async () => {
       try {
-        const response = await axiosPrivate.get(
-          `http://localhost:5001/reviews/rating/${id}`
-        );
+        const response = await axiosPrivate.get(`/reviews/rating/${id}`);
         setUserRatingValue(response.data.rates);
         console.log("user Rating Value", response.data.rates);
       } catch (error) {
@@ -176,7 +159,6 @@ export default function Theatre() {
     <div className="max-h-full pb-10 bg-black">
       <div className="relative">
         <img src={details.image_url} alt="profile" className="size-full" />
-        {/* Dark Canvas Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"></div>
         <div className="text-2xl lg:text-5xl font-bold absolute text-white bottom-10 left-10 flex flex-col md:space-y-4 space-y-1">
           <span> {details.name}</span>
@@ -224,7 +206,7 @@ export default function Theatre() {
           <Box className="my-auto justify-items-center items-center">
             <Rating
               name="half-rating-read"
-              value={parseFloat(details.rating).toFixed(1)}
+              value={parseFloat(details.rating)}
               precision={0.5}
               readOnly
               size="large"
