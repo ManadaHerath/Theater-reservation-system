@@ -8,16 +8,16 @@ const SeatGridUser = () => {
   const [gridData, setGridData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedSeats, setSelectedSeats] = useState([]);
+  const [purchasedSeats, setPurchasedSeats] = useState([]); // To track seats already purchased
   const [seatTypes, setSeatTypes] = useState([]);
   const [screenPosition, setScreenPosition] = useState('');
   const [clicked, setClicked] = useState(false);
 
-
+  // Fetch grid data
   useEffect(() => {
     const fetchGridData = async () => {
       try {
         const response = await axios.get(`http://localhost:5001/grid/gettheatregrid/${theatreId}`);
-        
         if (response.data) {
           setGridData(response.data);
           setLoading(false);
@@ -32,6 +32,26 @@ const SeatGridUser = () => {
     fetchGridData();
   }, [theatreId]);
 
+  // Fetch purchased seats
+  useEffect(() => {
+    const fetchPurchasedSeats = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5001/purchased_seats/${theatreId}/${showId}`
+        );
+        const purchasedSeats = response.data
+          .map((purchase) => purchase.seats.split(","))
+          .flat();
+        setPurchasedSeats(purchasedSeats);
+      } catch (err) {
+        console.error("Error fetching purchased seats:", err);
+      }
+    };
+
+    fetchPurchasedSeats();
+  }, [theatreId, showId]);
+
+  // Handle seat click
   const handleSeatClick = (seat) => {
     if (selectedSeats.includes(seat.name)) {
       setSelectedSeats(selectedSeats.filter((s) => s !== seat.name));
@@ -39,11 +59,24 @@ const SeatGridUser = () => {
       setSelectedSeats([...selectedSeats, seat.name]);
     }
   };
-
+  useEffect(() => {
+    const postSelectedSeats = async () => {
+      try {
+        const temp = await axios.post("http://localhost:5001/temp_purchase", {
+          theatre_id: theatreId,
+          show_time_id: showId,
+          seats: selectedSeats.join(","),
+        });
+      } catch (error) {
+        console.error("Error saving temp purchase:", error);
+        // Handle the error (e.g., offer a retry, notify the user)
+      }
+    };
+    postSelectedSeats();
+  }, [clicked]);
+  // Handle buy click
   const handleBuyClick = async () => {
     setClicked(true);
-  
-    // Calculate the count of selected seat types
     const seatTypeCounts = selectedSeats.reduce((acc, seatName) => {
       const row = gridData.grid.find((row) => row.some((seat) => seat.name === seatName));
       if (!row) {
@@ -52,23 +85,21 @@ const SeatGridUser = () => {
       }
       const seat = row.find((s) => s.name === seatName);
       const seatType = seatTypes.find((type) => type.id === seat.seat_type_id);
-  
+
       if (!seatType) {
         console.error(`Seat type not found for seat: ${seatName}`);
         return acc;
       }
-  
+
       acc[seatType.type] = (acc[seatType.type] || 0) + 1;
       return acc;
     }, {});
-  
-    // Map seat types to their respective prices
+
     const seatTypePrices = seatTypes.reduce((acc, type) => {
       acc[type.type] = parseFloat(type.price); // Ensure price is a number
       return acc;
     }, {});
-  
-    // Calculate total price based on selected seats
+
     const totalPrice = selectedSeats.reduce((total, seatName) => {
       const row = gridData.grid.find((row) => row.some((seat) => seat.name === seatName));
       if (!row) {
@@ -79,12 +110,11 @@ const SeatGridUser = () => {
       const seatType = seatTypes.find((type) => type.id === seat.seat_type_id);
       return total + (seatTypePrices[seatType.type] || 0);
     }, 0);
-  
+
     if (isNaN(totalPrice)) {
       throw new Error("Total price calculation resulted in NaN");
     }
-  
-    // Prepare purchase details, including seat names and types
+
     const purchaseDetails = {
       selectedSeats: selectedSeats.map((seatName) => {
         const row = gridData.grid.find((row) => row.some((seat) => seat.name === seatName));
@@ -102,11 +132,9 @@ const SeatGridUser = () => {
       showId,
     };
     console.log('purchaseDetails:', purchaseDetails);
-  
-    // Initialize Stripe
+
     const stripe = await loadStripe('pk_test_51PTpvf09I3fN7mCT7vXxyWe679a3SVfurihlsN1HlkS3WPffQW9uKyvmRnXv5xyyikN9TFMkFsYUyUjDYKOAzclw003rvNg99T');
-  
-    // Create a Stripe checkout session with metadata including seat names
+
     try {
       const response = await axios.post('http://localhost:5001/stripe/create-checkout-session', {
         ...purchaseDetails,
@@ -114,10 +142,9 @@ const SeatGridUser = () => {
           seats: selectedSeats.join(', '), // Join seat names as a string to show in Stripe
         },
       });
-  
+
       const { id: sessionId } = response.data;
-  
-      // Redirect to Stripe checkout
+
       const result = await stripe.redirectToCheckout({ sessionId });
       if (result.error) {
         console.error('Error redirecting to checkout:', result.error);
@@ -126,7 +153,6 @@ const SeatGridUser = () => {
       console.error('Error creating checkout session:', error);
     }
   };
-  
 
   if (loading) {
     return <p className="text-center">Loading...</p>;
@@ -153,11 +179,11 @@ const SeatGridUser = () => {
                 <div
                   key={seatIndex}
                   className={`w-10 h-10 flex items-center justify-center 
-                    ${seat.selected ? (selectedSeats.includes(seat.name) ? 'bg-green-500 text-white' : 'bg-gray-500 text-white') : 'bg-transparent'}
-                    ${seat.selected ? 'cursor-pointer' : 'cursor-default'}
+                    ${seat.selected ? (purchasedSeats.includes(seat.name) ? 'bg-red-300 text-gray-600' : (selectedSeats.includes(seat.name) ? 'bg-green-500 text-white' : 'bg-gray-500 text-white')) : 'bg-transparent'}
+                    ${purchasedSeats.includes(seat.name) ? 'cursor-not-allowed' : (seat.selected ? 'cursor-pointer' : 'cursor-default')}
                     ${seat.selected ? 'border border-black' : 'border-0'}
                     m-1`}
-                  onClick={() => seat.selected && handleSeatClick(seat)}
+                  onClick={() => seat.selected && !purchasedSeats.includes(seat.name) && handleSeatClick(seat)}
                 >
                   {seat.name}
                 </div>
