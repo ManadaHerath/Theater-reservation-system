@@ -47,7 +47,7 @@ const MovieScheduleGrid = () => {
 
   const handleShowtimeClick = (showId, theatreId) => {
     console.log("Yo Yo what",showId,theatreId)
-    navigate(`/seat-selection/${showId}/${theatreId}`);
+    navigate(`/seatgrid/${showId}/${theatreId}`);
   };
 
   const generateDates = (start, numDays) => {

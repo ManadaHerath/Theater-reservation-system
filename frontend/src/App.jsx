@@ -60,7 +60,7 @@ const App = () => {
           <Route path="/" element={<Layout />}>
             <Route path="/unauthorized" element={<Unauthorized />}></Route>
             <Route path="/schedule" element={<Schedule />} />
-            <Route path="/seatgrid" element={<SeatGridUser theatreId={2} showId={2}/>} />
+            <Route path="/seatgrid/:showId/:theatreId" element={<SeatGridUser/>} />
             <Route path="forgot-password" element={<Forgotpassword />} />
             <Route path="/otp" element={<OTPInput />} />
             <Route path="/help" element={<Help />} />
