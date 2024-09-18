@@ -46,7 +46,7 @@ import AddNewMovie from "./components/Admin/Movies/AddNewMovie";
 import UpdateMovie from "./components/Admin/Movies/UpdateMovie";
 import AdminMovie from "./pages/Admin/Admin-Movie";
 import Dashboard from "./components/Admin/Dashboard/Dashboard";
-
+import AdminRefundPage from "./components/Admin/Refund/RefundReq";
 // chatbot
 import Chatbot from "../src/components/ChatBot";
 
@@ -85,6 +85,11 @@ const App = () => {
               <Route path="/refund/:token" element={<RequestRefund />}></Route>
 
               <Route element={<RequireAuth allowedRoles={["admin"]} />}>
+
+              <Route
+                  path="/admin/refunds"
+                  element={<AdminRefundPage />}
+                ></Route>
                 <Route
                   path="/admin/update-theatre/:id"
                   element={<UpdateTheatreAdmin />}

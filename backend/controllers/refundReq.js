@@ -47,7 +47,7 @@ export const acceptRefund = async (req, res, next) => {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
     const { id } = req.params;
     const [refundRequest] = await connection.query("SELECT * FROM refund_request WHERE refund_id = ?", [id]);
-  
+    
 
 
     if (refundRequest.length === 1) {
@@ -56,7 +56,7 @@ export const acceptRefund = async (req, res, next) => {
             payment_intent: refundRequest[0].pi,
         });
         console.log('Refund:', refund);
-
+        const [result] = await connection.query("DELETE FROM purchases WHERE token = ?", [refundRequest[0].token]);
         refundRequest.status = 'Accepted';
         refundRequest.stripeRefundId = refund.id;
 
@@ -65,6 +65,18 @@ export const acceptRefund = async (req, res, next) => {
 
 
 
+    } else {
+        res.status(404).json({ message: "Refund request not found." });
+    }
+}
+
+export const denyRefund = async (req, res, next) => {
+    const { id } = req.params;
+    const [refundRequest] = await connection.query("SELECT * FROM refund_request WHERE refund_id = ?", [id]);
+
+    if (refundRequest.length === 1) {
+        await connection.query("DELETE FROM refund_request WHERE refund_id = ?", [id]);
+        res.json({ message: "Refund request denied." });
     } else {
         res.status(404).json({ message: "Refund request not found." });
     }
