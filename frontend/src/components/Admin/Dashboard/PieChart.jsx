@@ -11,8 +11,7 @@ export default function BasicPieChart({ data }) {
           faded: { innerRadius: 30, additionalRadius: -30, color: "gray" },
         },
       ]}
-      width={500}
-      height={300}
+      {...pieParams}
       sx={{
         backgroundColor: "#f0f0f0",
         borderRadius: "8px",
@@ -21,3 +20,14 @@ export default function BasicPieChart({ data }) {
     />
   );
 }
+
+const pieParams = {
+  width: 500,
+  height: 300,
+  slotProps: {
+    legend: {
+      hidden: true, 
+
+    },
+  },
+};
