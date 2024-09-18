@@ -12,7 +12,7 @@ const MovieScheduleGrid = () => {
     data: showTimes,
     loading,
     error,
-  } = useFetch("http://localhost:5001/show_times");
+  } = useFetch("/show_times");
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [currentIndex, setCurrentIndex] = useState(0);
   const [moviesToShow, setMoviesToShow] = useState({});

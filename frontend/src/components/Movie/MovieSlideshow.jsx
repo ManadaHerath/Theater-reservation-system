@@ -84,7 +84,7 @@ function Slide({ movie, offset, handleClick, isActive }) {
         }}
       />
       <div
-        className="slideContent"
+        className="slideContent cursor-pointer"
         style={{
           backgroundImage: `url('${movie.cover_photo}')`,
         }}
