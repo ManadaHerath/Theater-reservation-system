@@ -18,12 +18,28 @@ const SeatGrid = () => {
   const [dragging, setDragging] = useState(null); // Track dragging
   const gridRef = useRef(null);
 
+  useEffect(() => {
+    const fetchGridData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5001/grid/gettheatregrid/${theatreId}`);
+        if (response.data) {
+          setRows(response.data.grid.length);
+          setColumns(response.data.grid[0]?.length || 0);
+          createGrid();
+          setGrid(response.data.grid);
+          setSeatTypes(response.data.seat_types);
+          setScreenPosition(response.data.screen_position || "top");
 
-useEffect(() => {
-
-})
-
+          saveToHistory(grid); // Save fetched grid to history
+        }
+      } catch (error) {
+        console.error("Error fetching grid data:", error);
+      }
+    };
   
+    fetchGridData();
+  }, [theatreId]);
+
 
   
 

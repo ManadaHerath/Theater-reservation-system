@@ -70,7 +70,7 @@ const TheatreCard = ({ theatre, onUpdate, onDelete }) => {
         onClick={handleSeatGrid}
         className="block mt-2 text-yellow-600 hover:underline"
       >
-        Add Seat Grid
+        Add or Update Seat Structure
       </button>
       <button
         onClick={handleDeleteClick}
