@@ -15,14 +15,14 @@ const { screenPosition, grid, seatTypes, theatre_id } = req.body;
     VALUES (?, ?, ?, ?)
   `;
 
-  connection.query(query, [screenPosition, JSON.stringify(grid), JSON.stringify(seatTypes), theatre_id], (error, results) => {
-    if (error) {
-      console.error('Database error:', error);
-      return res.status(500).send('Error saving data');
-    }
-    res.status(200).send('Data saved successfully');
-  });
 
+  const [result] = await connection.query(query, [screenPosition, JSON.stringify(grid), JSON.stringify(seatTypes), theatre_id]); 
+    if (result.affectedRows) {
+        console.log("yee theatre grid added");
+        res.status(200).json({ message: "Theatre grid created" });
+    } else {
+        res.status(500).json({ message: "Theatre grid not created" });
+    }
 };
 
 export const getTheatreGrid = async (req, res, next) => {
