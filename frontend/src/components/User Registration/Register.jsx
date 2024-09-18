@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import validator from "validator";
-import axios from "axios";
+import axios from "../../api/axios";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import GoogleSignInButton from "../User Login/SignInButton";
 
@@ -90,7 +90,7 @@ export default function Register_Form() {
     event.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:5001/auth/register", {
+      const response = await axios.post("/auth/register", {
         email: email,
         phone_number: phone,
         full_name: firstName + " " + lastName,

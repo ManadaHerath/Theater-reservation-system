@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 const MovieCard = ({ movie }) => {
-  
   const navigate = useNavigate(); // Hook for navigation
 
   const handleClick = () => {
@@ -43,7 +42,7 @@ const MovieCard = ({ movie }) => {
           <p>Released: {new Date(movie.released_date).toDateString()}</p>
           <p>Duration: {movie.duration} min</p>
           <p>Language: {movie.original_language}</p>
-          <p>Rating: {movie.age_type}</p>
+          <p>Rating: {movie.rating}</p>
         </div>
         <div className="flex justify-between mt-2">
           <button
