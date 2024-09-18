@@ -12,7 +12,12 @@ const { screenPosition, grid, seatTypes, theatre_id } = req.body;
 
   const query = `
     INSERT INTO theater_grids (screen_position, grid, seat_types, theatre_id)
-    VALUES (?, ?, ?, ?)
+VALUES (?, ?, ?, ?)
+ON DUPLICATE KEY UPDATE
+  screen_position = VALUES(screen_position),
+  grid = VALUES(grid),
+  seat_types = VALUES(seat_types);
+
   `;
 
 

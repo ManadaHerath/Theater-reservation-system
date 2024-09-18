@@ -76,6 +76,7 @@ export const register = async (req, res, next) => {
 export const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
+    
 
     // Find the user with the given email
     const [users] = await connection.query(
@@ -99,7 +100,7 @@ export const login = async (req, res, next) => {
     if (!isPasswordCorrect) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
-
+    console.log(user);
     const role = user.role;
     const token = jwt.sign(
       { UserInfo: { id: user.id, role: role } },
