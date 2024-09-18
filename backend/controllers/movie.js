@@ -1,8 +1,9 @@
 import { connection } from "../index.js";
 export const getMovies = async (req, res, next) => {
   try {
-    const [movies] = await connection.query("SELECT * FROM movies");
-
+    const [movies] = await connection.query(
+      "SELECT * FROM movies ORDER BY DATE(added_date) DESC"
+    );
     res.json(movies);
   } catch (error) {
     next(error);
