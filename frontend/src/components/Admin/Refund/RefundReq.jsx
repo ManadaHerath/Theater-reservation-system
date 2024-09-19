@@ -50,8 +50,8 @@ const AdminRefundPage = () => {
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Token</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment Intent</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Theatre</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time since payment</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
             </tr>
@@ -59,11 +59,12 @@ const AdminRefundPage = () => {
           <tbody className="bg-white divide-y divide-gray-200">
             {refundRequests.map((request) => (
               <tr key={request.refund_id}>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{request.token}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{request.pi}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{request.theatre_name}</td>
+               {/* {Math.floor((new Date(request.created_at) - new Date(request.purchased_time)) / 600000)} */}
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{Math.floor((new Date(request.created_at) - new Date(request.purchased_time)) / 3600000)} hours and {Math.floor(((new Date(request.created_at) - new Date(request.purchased_time)) % 3600000) / 60000)} minutes</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{request.status}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                  {request.status === 'Pending' ? (
+                  {request.status === 'pending' ? (
                     <>
                       <button
                         onClick={() => handleAccept(request.refund_id)}

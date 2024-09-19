@@ -38,7 +38,7 @@ export const deletePurchase = async (req, res, next) => {
 
 
 export const getRefunds = async (req, res, next) => {
-    const [refundList] = await connection.query("SELECT * FROM refund_request");
+    const [refundList] = await connection.query("SELECT refund_request.status as status, refund_request.created_at AS created_at,theatres.name AS theatre_name, purchases.created_at AS purchased_time FROM refund_request JOIN purchases ON refund_request.token = purchases.token JOIN theatres ON purchases.theatre_id = theatres.id;");
     res.json(refundList);
 }
 
