@@ -37,8 +37,9 @@ export const deletePurchase = async (req, res, next) => {
 }
 
 
+
 export const getRefunds = async (req, res, next) => {
-    const [refundList] = await connection.query("SELECT refund_request.status as status, refund_request.created_at AS created_at,theatres.name AS theatre_name, purchases.created_at AS purchased_time FROM refund_request JOIN purchases ON refund_request.token = purchases.token JOIN theatres ON purchases.theatre_id = theatres.id;");
+    const [refundList] = await connection.query("SELECT refund_request.id AS refund_id, refund_request.status as status, refund_request.created_at AS created_at,theatres.name AS theatre_name, purchases.created_at AS purchased_time FROM refund_request JOIN purchases ON refund_request.token = purchases.token JOIN theatres ON purchases.theatre_id = theatres.id;");
     res.json(refundList);
 }
 
@@ -46,7 +47,7 @@ export const acceptRefund = async (req, res, next) => {
 
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
     const { id } = req.params;
-    const [refundRequest] = await connection.query("SELECT * FROM refund_request WHERE refund_id = ?", [id]);
+    const [refundRequest] = await connection.query("SELECT * FROM refund_request WHERE id = ?", [id]);
     
 
 
@@ -56,13 +57,13 @@ export const acceptRefund = async (req, res, next) => {
             payment_intent: refundRequest[0].pi,
         });
         console.log('Refund:', refund);
-        const [result] = await connection.query("DELETE FROM purchases WHERE token = ?", [refundRequest[0].token]);
+        const [result] = await connection.query("UPDATE refund_request SET status = ? WHERE id = ?", ['accepted', id]);
         refundRequest.status = 'Accepted';
         refundRequest.stripeRefundId = refund.id;
+        res.status(200).json({ message: "Refund request accepted." });
 
 
-
-
+                    
 
 
     } else {
@@ -72,11 +73,14 @@ export const acceptRefund = async (req, res, next) => {
 
 export const denyRefund = async (req, res, next) => {
     const { id } = req.params;
-    const [refundRequest] = await connection.query("SELECT * FROM refund_request WHERE refund_id = ?", [id]);
+    console.log('deny',id)
+    // Query to check if the refund request exists
+    const [refundRequest] = await connection.query("SELECT * FROM refund_request WHERE id = ?", [id]);
 
     if (refundRequest.length === 1) {
-        await connection.query("DELETE FROM refund_request WHERE refund_id = ?", [id]);
-        res.json({ message: "Refund request denied." });
+        // Update the status of the refund request to 'denied'
+        await connection.query("UPDATE refund_request SET status = ? WHERE id = ?", ['denied', id]);
+        res.status(200).json({ message: "Refund request denied." });
     } else {
         res.status(404).json({ message: "Refund request not found." });
     }

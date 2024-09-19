@@ -24,8 +24,11 @@ const AdminRefundPage = () => {
   // Handle accepting a refund request
   const handleAccept = async (id) => {
     try {
-      await axios.post(`http://localhost:5001/refund/admin/accept/${id}`);
-      setRefundRequests(refundRequests.map(req => req.refund_id === id ? { ...req, status: 'Accepted' } : req));
+      const res = await axios.post(`http://localhost:5001/refund/admin/accept/${id}`);
+
+      if (res.status === 200) {
+        setRefundRequests(refundRequests.map(req => (req.refund_id === id ? { ...req, status: 'Accepted' } : req)));
+      }
     } catch (error) {
       console.error('Error accepting refund request:', error);
     }
@@ -34,8 +37,10 @@ const AdminRefundPage = () => {
   // Handle denying a refund request
   const handleDeny = async (id) => {
     try {
-      await axios.delete(`http://localhost:5001/refund/admin/deny/${id}`);
-      setRefundRequests(refundRequests.filter(req => req.refund_id !== id));
+      const res = await axios.post(`http://localhost:5001/refund/admin/deny/${id}`);
+      if (res.status === 200) {
+        setRefundRequests(refundRequests.map(req => (req.refund_id === id ? { ...req, status: 'Denied' } : req)));
+      }
     } catch (error) {
       console.error('Error denying refund request:', error);
     }
@@ -80,7 +85,7 @@ const AdminRefundPage = () => {
                       </button>
                     </>
                   ) : (
-                    <span>Actioned</span>
+                    <span>Took Action</span>
                   )}
                 </td>
               </tr>

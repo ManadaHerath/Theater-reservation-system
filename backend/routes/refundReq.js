@@ -5,10 +5,10 @@ import {getRefundRequest, deletePurchase,acceptRefund,getRefunds,denyRefund} fro
 const router = expresss.Router();
 
 router.get("/", getRefunds);
-router.delete("admin/deny/:id", denyRefund);
+router.post("/admin/deny/:id", denyRefund);
 router.post("/:token", getRefundRequest);
 router.delete("/:token", deletePurchase);
-router.get("/admin/accept/:id", acceptRefund);
+router.post("/admin/accept/:id", acceptRefund);
 
 
 export default router;
