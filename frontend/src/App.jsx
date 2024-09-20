@@ -37,6 +37,7 @@ import PersistLogin from "./components/Persist Login/PersistLogin";
 import SeatGridUser from "./components/SeatGridUser";
 
 // Admin Panel
+import CreateCoupon from "./components/Admin/Discounts/CreateCoupon";
 import SeatGrid from "./components/Admin/SeatGrid/SeatGrid";
 import AddTheatreForm from "./components/Admin/Theatre/AddTheatreAdmin";
 import UpdateTheatreAdmin from "./components/Admin/Theatre/UpdateTheatreAdmin";
@@ -86,9 +87,13 @@ const App = () => {
 
               <Route element={<RequireAuth allowedRoles={["admin"]} />}>
 
-              <Route
+                <Route
                   path="/admin/refunds"
                   element={<AdminRefundPage />}
+                ></Route>
+                <Route
+                  path="/admin/discounts"
+                  element={<CreateCoupon/>}
                 ></Route>
                 <Route
                   path="/admin/update-theatre/:id"
