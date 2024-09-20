@@ -105,6 +105,22 @@ const AdminNavbar = () => {
       >
         Refund Requests
       </Button>
+      <Button
+        component={NavLink}
+        to="/admin/discounts"
+        color="inherit"
+        sx={{
+          color: "white",
+          marginBottom: 2,
+          width: "100%",
+          justifyContent: "flex-start",
+        }}
+        style={({ isActive }) => ({
+          color: isActive ? "green" : "white",
+        })}
+      >
+        Create Discounts
+      </Button>
 
       <Button
         component={NavLink}
