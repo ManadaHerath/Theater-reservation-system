@@ -1,6 +1,8 @@
 import request from "supertest";
 import app from "../index";
 
+
+
 describe("GET /movies", () => {
   test("It should respond with an array of movies", async () => {
     const response = await request(app).get("/movies");
