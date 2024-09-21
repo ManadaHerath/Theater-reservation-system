@@ -56,7 +56,7 @@ export const getReviews = async (req, res, next) => {
       );
 
 
-      res.json(reviewsWithReplies);
+      res.status(200).json(reviewsWithReplies);
     } else {
       res.status(201).json({ message: "Reviews not found" });
     }
@@ -88,7 +88,7 @@ export const updateReviewLikes = async (req, res, next) => {
       "UPDATE theatre_reviews SET like_count = like_count + 1 WHERE review_id = ?";
 
     await connection.query(dbquery, [id]);
-    console.log("Review liked");
+
 
     res.status(201).json({ message: "Review liked" });
   } catch (error) {
