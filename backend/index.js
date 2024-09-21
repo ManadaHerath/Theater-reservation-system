@@ -30,6 +30,7 @@ import discountRouter from "./routes/discounts.js";
 
 const app = express();
 //for usage of google sign in
+export default app;
 
 app.use(
   session({
