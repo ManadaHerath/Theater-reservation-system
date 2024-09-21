@@ -4,7 +4,7 @@ export const getMovies = async (req, res, next) => {
     const [movies] = await connection.query(
       "SELECT * FROM movies ORDER BY DATE(added_date) DESC"
     );
-    res.json(movies);
+    res.status(200).json(movies);
   } catch (error) {
     next(error);
   }
@@ -58,7 +58,11 @@ export const getMovieById = async (req, res, next) => {
       "SELECT movies.id,movies.title,movies.trailer_video_url,movies.cover_photo,movies.poster_url,movies.overview,movies.released_date,movies.duration,movies.original_language,movies.movie_director,movies.rating,movies.movie_writter,JSON_ARRAYAGG(JSON_OBJECT('name', actors.full_name, 'avatar', actors.avatar)) AS actors FROM movies LEFT JOIN actors ON movies.id = actors.movie_id WHERE movies.id = ? GROUP BY movies.id";
     const [movie] = await connection.query(dbquery, [id]);
 
-    res.json(movie[0]);
+    if (movie.length === 0) {
+      return res.status(200).json([]); 
+    }
+
+    res.status(200).json(movie[0]);
   } catch (error) {
     next(error);
   }

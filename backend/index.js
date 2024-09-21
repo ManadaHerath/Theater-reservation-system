@@ -29,6 +29,7 @@ import registrationRouter from "./routes/Admin_Panel/AdminDash.js";
 
 const app = express();
 //for usage of google sign in
+export default app;
 
 app.use(
   session({
