@@ -1,6 +1,5 @@
 import request from "supertest";
 import app from "../index";
-import passport from "passport";
 
 describe("POST /auth/login", () => {
   test("It should respond with a valid token when enter correct credentials", async () => {
