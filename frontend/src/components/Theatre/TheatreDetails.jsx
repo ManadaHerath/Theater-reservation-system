@@ -16,7 +16,6 @@ export default function Theatre() {
   const [userRatingvalue, setUserRatingValue] = useState(0.0);
   const [reviews, setReviews] = useState([]);
   const { id } = useParams();
-  console.log(id);
   const [theatre_id, setTheatre_id] = useState(id);
 
   const handleAddReview = (review) => {
@@ -48,7 +47,6 @@ export default function Theatre() {
         id,
         reply,
       });
-      console.log(reviewReply.data);
       window.location.reload();
     } catch (error) {
       console.error("Error replying review:", error);

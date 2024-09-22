@@ -27,7 +27,7 @@ const reviews = [
     replies: [],
   },
   {
-    id: Number(5),
+    id: 4,
     name: "Jane Smith",
     avatar: "https://randomuser.me/api/portraits",
     text: "This is another review",

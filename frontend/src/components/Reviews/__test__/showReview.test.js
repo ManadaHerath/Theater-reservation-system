@@ -9,7 +9,6 @@ describe("ShowReviewList", () => {
     const reviewElements = screen.getAllByTestId("review");
     expect(reviewElements).toHaveLength(reviews.length);
   });
-
   it("should render 'No reviews available' when there are no reviews", () => {
     render(<ReviewList />);
     const noReviews = screen.getByText(/No reviews available/i);
