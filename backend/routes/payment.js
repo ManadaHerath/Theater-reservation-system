@@ -1,8 +1,7 @@
 import express from 'express';
 import Stripe from 'stripe';
 import 'dotenv/config';
-import { createPDF } from './payment-recipt/create_pdf.js';
-import path from 'path';
+import {discountCalculator} from '../controllers/discountCalculator.js';
 
 
 
@@ -28,7 +27,8 @@ router.post('/create-checkout-session', async (req, res) => {
   }));
 
 
-
+  const discounts = await discountCalculator(theatreId, showId);
+  console.log(discounts);
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
