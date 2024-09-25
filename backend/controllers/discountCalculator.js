@@ -1,7 +1,8 @@
 import { connection } from "../index.js";
 
 export const discountCalculator = async (theatreId, showId) => {
-  return new Promise((resolve, reject) => {
+  try {
+    console.log(theatreId,"yo discount")
     // Query to get all applicable coupons for the given theatreId
     const query = `
       SELECT stripe_id FROM coupons 
@@ -11,16 +12,14 @@ export const discountCalculator = async (theatreId, showId) => {
     // Adjust the LIKE clause to match the theatreId
     const theatreCondition = `%${theatreId}%`; // Assuming theatre_ids is a string of comma-separated values
 
-    connection.query(query, [theatreCondition], (error, results) => {
-      if (error) {
-        return reject(error);
+    // Use a promise-based method to get the results from the connection
+    const [results] = await connection.execute(query, [theatreCondition]);
+    if (results.length > 0) {
+        return [{ coupon: results[0].stripe_id }]; // Return the first discount
       }
-
-      // Extract the stripe_ids from the results
-      const discounts = results.map(row => ({ coupon: row.stripe_id }));
-
-      resolve(discounts);
-    });
-  });
+    // Map the results to the desired format for Stripe discounts
+    return [];
+  } catch (error) {
+    console.error("Error fetching discounts:", error);
+  }
 };
-

@@ -28,15 +28,12 @@ router.post('/create-checkout-session', async (req, res) => {
 
 
   const discounts = await discountCalculator(theatreId, showId);
-  console.log(discounts);
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items,
       mode: 'payment',
-      discounts: [{
-        coupon: 'ho6JHmhD',
-      }],
+      discounts: discounts,
       success_url: `http://localhost:3000/payment-success`,
       cancel_url: `http://localhost:3000/payment-failure/${showId}/${theatreId}`,
       metadata: {
@@ -52,6 +49,7 @@ router.post('/create-checkout-session', async (req, res) => {
     res.status(500).json({ error: 'Failed to create Stripe checkout session' });
   }
 });
+
 
 
 
