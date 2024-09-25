@@ -33,7 +33,7 @@ router.post('/create-checkout-session', async (req, res) => {
       payment_method_types: ['card'],
       line_items,
       mode: 'payment',
-      discounts: discounts,
+      discounts:discounts,
       success_url: `http://localhost:3000/payment-success`,
       cancel_url: `http://localhost:3000/payment-failure/${showId}/${theatreId}`,
       metadata: {
