@@ -10,7 +10,7 @@ const UpdateTheatreForm = () => {
   const [theatre, setTheatre] = useState({
     name: "",
     address: "",
-    location: { lat: "", lng: "" },
+    location: "",
     mobile_number: "",
     email: "",
     details: "",
@@ -41,16 +41,6 @@ const UpdateTheatreForm = () => {
     });
   };
 
-  const handleLocationChange = (e) => {
-    const { name, value } = e.target;
-    setTheatre({
-      ...theatre,
-      location: {
-        ...theatre.location,
-        [name]: value,
-      },
-    });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -87,23 +77,12 @@ const UpdateTheatreForm = () => {
         />
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700">Latitude</label>
+        <label className="block text-gray-700">Location</label>
         <input
           type="text"
           name="lat"
-          value={theatre.location.lat}
-          onChange={handleLocationChange}
-          className="w-full p-2 border border-gray-300 rounded"
-          required
-        />
-      </div>
-      <div className="mb-4">
-        <label className="block text-gray-700">Longitude</label>
-        <input
-          type="text"
-          name="lng"
-          value={theatre.location.lng}
-          onChange={handleLocationChange}
+          value={theatre.location}
+          onChange={handleChange}
           className="w-full p-2 border border-gray-300 rounded"
           required
         />

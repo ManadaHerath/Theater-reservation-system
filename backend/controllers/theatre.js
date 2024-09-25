@@ -15,8 +15,8 @@ export const addTheatre = async (req, res, next) => {
     const {
       name,
       address,
-      location,
       mobile_number,
+      location,
       email,
       details,
       is_active,
@@ -31,7 +31,7 @@ export const addTheatre = async (req, res, next) => {
       [
         name,
         address,
-        null,
+        location,
         mobile_number,
         email,
         details,
@@ -107,11 +107,11 @@ export const updateTheatre = async (req, res, next) => {
     } = req.body;
 
     const [result] = await connection.query(
-      "UPDATE theatres SET name = ?, address = ?, location = ST_GeomFromText(?), mobile_number = ?, email = ?, details = ?, is_active = ?, no_of_seats = ?, no_of_rows = ?, no_of_columns = ?, image_url = ? WHERE id = ?",
+      "UPDATE theatres SET name = ?, address = ?, location = ?, mobile_number = ?, email = ?, details = ?, is_active = ?, no_of_seats = ?, no_of_rows = ?, no_of_columns = ?, image_url = ? WHERE id = ?",
       [
         name,
         address,
-        `POINT(${location.lat} ${location.lng})`,
+        location,
         mobile_number,
         email,
         details,

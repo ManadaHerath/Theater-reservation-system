@@ -27,6 +27,7 @@ import refundRoute from "./routes/refundReq.js";
 import theatreGrid from "./routes/theatre_grid.js";
 import registrationRouter from "./routes/Admin_Panel/AdminDash.js";
 import discountRouter from "./routes/discounts.js";
+import theatreAdminRouter from "./routes/Theatre_admin/Theatre_Admin.js";
 
 const app = express();
 //for usage of google sign in
@@ -94,6 +95,7 @@ app.use("/refund", refundRoute);
 app.use("/grid", theatreGrid);
 app.use("/admin-dash", registrationRouter);
 app.use("/coupons", discountRouter);
+app.use("/theatre-admin", theatreAdminRouter);
 // error
 app.use((err, req, res, next) => {
   return res.status(500).json(err.message);

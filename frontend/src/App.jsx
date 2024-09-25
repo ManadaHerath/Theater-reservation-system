@@ -51,6 +51,11 @@ import AdminRefundPage from "./components/Admin/Refund/RefundReq";
 // chatbot
 import Chatbot from "../src/components/ChatBot";
 
+// Theatre Admin
+
+import TheatreAdminDashboard from "./components/Theatre Admin/Home/Dashboard";
+import ManageTheatre from "./components/Theatre Admin/Manage Theatre/ManageTheatre";
+
 import RequestRefund from "./pages/RequestRefund";
 
 const App = () => {
@@ -61,7 +66,10 @@ const App = () => {
           <Route path="/" element={<Layout />}>
             <Route path="/unauthorized" element={<Unauthorized />}></Route>
             <Route path="/schedule" element={<Schedule />} />
-            <Route path="/seatgrid/:showId/:theatreId" element={<SeatGridUser/>} />
+            <Route
+              path="/seatgrid/:showId/:theatreId"
+              element={<SeatGridUser />}
+            />
             <Route path="forgot-password" element={<Forgotpassword />} />
             <Route path="/otp" element={<OTPInput />} />
             <Route path="/help" element={<Help />} />
@@ -86,14 +94,13 @@ const App = () => {
               <Route path="/refund/:token" element={<RequestRefund />}></Route>
 
               <Route element={<RequireAuth allowedRoles={["admin"]} />}>
-
                 <Route
                   path="/admin/refunds"
                   element={<AdminRefundPage />}
                 ></Route>
                 <Route
                   path="/admin/discounts"
-                  element={<CreateCoupon/>}
+                  element={<CreateCoupon />}
                 ></Route>
                 <Route
                   path="/admin/update-theatre/:id"
@@ -126,6 +133,25 @@ const App = () => {
                 <Route path="/admin/movie" element={<AdminMovie />} />
                 <Route path="/admin" element={<Dashboard />} />
               </Route>
+
+              <Route element={<RequireAuth allowedRoles={["theatreAdmin"]} />}>
+                <Route
+                  path="/theatre-admin"
+                  element={<TheatreAdminDashboard />}
+                />
+                <Route
+                  path="/theatre-admin/manage-theatre"
+                  element={<ManageTheatre />}
+                />
+
+              </Route>
+
+              <Route element={<RequireAuth allowedRoles={["systemManager"]} />}>
+                <Route
+                  path="/system-manager"
+                  element={<TheatreAdminDashboard />}
+                />
+              </Route>
             </Route>
 
             <Route
@@ -147,10 +173,11 @@ const App = () => {
 const ConditionalLayout = ({ children }) => {
   const location = useLocation();
   const isAdminPage = location.pathname.startsWith("/admin");
+  const isTheatreAdminPage = location.pathname.startsWith("/theatre-admin");
 
   return (
     <>
-      {!isAdminPage && <Footer />}
+      {!isAdminPage && !isTheatreAdminPage && <Footer />}
       {children}
     </>
   );
