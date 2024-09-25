@@ -9,7 +9,6 @@ export const getTheatre = async (req, res, next) => {
     );
 
     res.json(theatre[0]);
-    console.log(theatre[0]);
   } catch (error) {
     next(error);
   }
@@ -58,3 +57,17 @@ export const updateTheatre = async (req, res, next) => {
   }
 };
 
+export const getMoviesByTheatre = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const [MoviesByTheatre] = await connection.query(
+      "SELECT movie_name As label, COUNT(*) AS value FROM PurchaseDetails WHERE theatre_id = ?  AND purchased_date >= CURDATE() - INTERVAL 2 MONTH GROUP BY movie_name",
+      [id]
+    );
+
+    res.json(MoviesByTheatre);
+  } catch (error) {
+    next(error);
+  }
+};
