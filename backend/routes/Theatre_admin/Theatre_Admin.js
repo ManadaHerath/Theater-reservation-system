@@ -4,6 +4,7 @@ import { verifyRoles } from "../../util/verify_roles.js";
 import {
   getTheatre,
   updateTheatre,
+  getMoviesByTheatre,
 } from "../../controllers/Theatre_Admin/TheatreAdmin.js";
 
 const router = express.Router();
@@ -15,5 +16,10 @@ router.put(
   verifyRoles("theatreAdmin"),
   updateTheatre
 );
-
+router.get(
+  "/theatre/:id",
+  verifyJWT,
+  verifyRoles("theatreAdmin"),
+  getMoviesByTheatre
+);
 export default router;
