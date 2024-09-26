@@ -24,6 +24,7 @@
     "date-fns": "^3.6.0",
     "frontend": "file:",
     "google-auth-library": "^9.11.0",
+    "html5-qrcode": "^2.3.8",
     "js-cookie": "^3.0.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

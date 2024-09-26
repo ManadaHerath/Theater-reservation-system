@@ -74,7 +74,7 @@ const TheatreAdminNavbar = () => {
 
       <Button
         component={NavLink}
-        to="/theatre-admin/checkout"
+        to="/theatre-admin/qr-code-scanner"
         color="inherit"
         sx={{
           color: "white",
