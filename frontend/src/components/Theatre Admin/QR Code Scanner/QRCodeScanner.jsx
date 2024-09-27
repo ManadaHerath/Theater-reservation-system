@@ -1,30 +1,55 @@
-import React, { useEffect } from 'react';
-import { Html5QrcodeScanner } from 'html5-qrcode';
+import React, { useState } from "react";
+import { QRCodeCanvas } from "qrcode.react";
+import QrScanner from "react-qr-scanner";
 
 const QRCodeScanner = () => {
-  useEffect(() => {
-    const scanner = new Html5QrcodeScanner('reader', {
-      fps: 10,
-      qrbox: { width: 250, height: 250 },
-    });
+  const [text, setText] = useState("");
+  const [scannedData, setScannedData] = useState(null);
 
-    scanner.render(
-      (decodedText, decodedResult) => {
-        console.log(`Code scanned = ${decodedText}`, decodedResult);
-      },
-      (errorMessage) => {
-        console.log(`Error scanning = ${errorMessage}`);
-      }
-    );
+  const handleInputChange = (e) => {
+    setText(e.target.value);
+  };
 
-    return () => {
-      scanner.clear().catch((error) => {
-        console.error('Failed to clear scanner:', error);
-      });
-    };
-  }, []);
+  const handleScan = (result) => {
+    if (result) {
+      setScannedData(result.text);
+    }
+  };
 
-  return <div id="reader" className='text-white' style={{ width: '500px' }}></div>;
+  const handleError = (error) => {
+    console.error(error);
+  };
+
+  const previewStyle = {
+    height: 240,
+    width: 320,
+  };
+
+  return (
+    <div className="flex flex-col items-center p-6">
+      {/* QR Code Generator */}
+      <h2 className="text-xl font-semibold mb-4 text-white">QR Code Generator</h2>
+      <input
+        type="text"
+        value={text}
+        onChange={handleInputChange}
+        placeholder="Enter text to generate QR Code"
+        className="p-2 border rounded mb-4 w-72"
+      />
+      <QRCodeCanvas value={text || " "} size={200} className="mb-8" />
+
+      <h2 className="text-xl font-semibold mb-4 text-white">QR Code Scanner</h2>
+      <QrScanner
+        delay={300}
+        style={previewStyle}
+        onScan={handleScan}
+        onError={handleError}
+      />
+      {scannedData && (
+        <p className="text-green-600">Scanned Data: {scannedData}</p>
+      )}
+    </div>
+  );
 };
 
 export default QRCodeScanner;
