@@ -14,3 +14,15 @@ export const getUserbyID = async (req, res,next) => {
     }
   };
   
+export const getAllUsers = async (req, res, next) => {
+  const dbquery = 
+    "SELECT full_name, email, role from users";
+  try {
+    const [users] = await connection.query(dbquery);
+    console.log("All Users:", users);
+    res.json(users);
+  } catch (error){
+    console.log("Error fetching all users from user.js:", error);
+    res.status(500).json({ message: "Error fetching all users" });
+  }
+}

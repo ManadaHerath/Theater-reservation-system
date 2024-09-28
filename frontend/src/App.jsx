@@ -51,6 +51,8 @@ import AdminMovie from "./pages/Admin/Admin-Movie";
 import Chatbot from "../src/components/ChatBot";
 
 import RequestRefund from "./pages/RequestRefund";
+import AdminUser from "./pages/Admin/Admin-User";
+
 
 const App = () => {
   return (
@@ -98,6 +100,10 @@ const App = () => {
                 <Route
                   path="/admin/price-categories/:id"
                   element={<PriceCategoriesChange />}
+                ></Route>
+
+                <Route path="/admin/users"
+                       element={<AdminUser/>}
                 ></Route>
 
                 <Route path="/admin/add-new-movie" element={<AddNewMovie />} />

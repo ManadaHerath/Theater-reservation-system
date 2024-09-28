@@ -8,6 +8,7 @@ import {
 import { getUserbyID } from "../controllers/user.js";
 import { handleRefreshToken } from "../controllers/refreshTokenController.js";
 import { getIDFromToken } from "../middlewares/getIDFromToken.js";
+import { getAllUsers } from "../controllers/user.js";
 
 const router = expresss.Router();
 
@@ -32,5 +33,8 @@ router.put("/:id", verifyUser, (req, res, next) => {
 });
 
 router.get("/getUser", getIDFromToken, getUserbyID);
+
+router.get("/allusers", getAllUsers);
+
 
 export default router;
