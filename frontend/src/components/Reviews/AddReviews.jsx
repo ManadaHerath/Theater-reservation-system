@@ -61,37 +61,43 @@ const AddReview = ({ onSubmit, disable, photo }) => {
         )}
 
         <TextField
-          label="Write your review..."
-          variant="outlined"
-          value={review}
-          onChange={(e) => setReview(e.target.value)}
-          multiline
-          rows={4}
-          disabled={disable}
-          required
-          InputLabelProps={{
-            sx: {
-              color: "white",
-            },
-          }}
-          InputProps={{
-            sx: {
-              color: "white",
-              "& .MuiOutlinedInput-notchedOutline": {
-                borderColor: "blue",
-              },
-              "&:hover .MuiOutlinedInput-notchedOutline": {
-                borderColor: "blue",
-              },
-              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                borderColor: "blue",
-              },
-              "&.Mui-disabled .MuiOutlinedInput-notchedOutline": {
-                borderColor: "red",
-              },
-            },
-          }}
-        />
+  label="Write your review..."
+  variant="outlined"
+  value={review}
+  onChange={(e) => setReview(e.target.value)}
+  multiline
+  rows={4}
+  disabled={disable}
+  required
+  InputLabelProps={{
+    sx: {
+      color: "white",
+      "&.Mui-focused": {
+        color: "white", // Label color when focused
+      },
+      "&.Mui-disabled": {
+        color: "rgba(255, 255, 255, 0.5)", // Label color when disabled (slightly lighter white)
+      },
+    },
+  }}
+  InputProps={{
+    sx: {
+      color: "white", // Text color inside input
+      "& .MuiOutlinedInput-notchedOutline": {
+        borderColor: "blue", // Normal border color
+      },
+      "&:hover .MuiOutlinedInput-notchedOutline": {
+        borderColor: "blue", // Border color on hover
+      },
+      "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+        borderColor: "blue", // Border color when focused
+      },
+      "&.Mui-disabled .MuiOutlinedInput-notchedOutline": {
+        borderColor: "red", // Border color when disabled
+      },
+    },
+  }}
+/>
 
         <Button
           variant="contained"
