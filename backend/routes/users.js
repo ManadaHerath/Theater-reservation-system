@@ -5,7 +5,7 @@ import {
   verifyAdmin,
   verifyJWT,
 } from "../util/verify_token.js";
-import { deleteUser, getAnyUser, getUserbyID, updateUser } from "../controllers/user.js";
+import { addUser, deleteUser, getAnyUser, getUserbyID, updateUser } from "../controllers/user.js";
 import { handleRefreshToken } from "../controllers/refreshTokenController.js";
 import { getIDFromToken } from "../middlewares/getIDFromToken.js";
 import { getAllUsers } from "../controllers/user.js";
@@ -41,6 +41,8 @@ router.get("/allusers", getAllUsers);
 router.put('/updateUser/:id', updateUser);
 
 router.delete('/deleteUser/:id', deleteUser);
+
+router.post('/adduser', addUser);
 
 
 export default router;

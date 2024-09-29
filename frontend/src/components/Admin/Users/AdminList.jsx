@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate"; 
+import { useNavigate } from "react-router-dom";
 
 const AdminList = () => {
   const axiosPrivate = useAxiosPrivate(); 
   const [users, setUsers] = useState([]);
+  const navigate = useNavigate();
   
 
   useEffect(()=>{
@@ -37,7 +39,10 @@ const AdminList = () => {
             </tr>
           ) : (
             users.map((user) => (
-              <tr key={user.id}>
+              <tr key={user.id}
+                  className="cursor-pointer hover:bg-gray-100"
+                  onClick={()=>navigate(`/admin/users/${user.id}`)}
+                >
                 <td className="px-4 py-2 border-b">{user.full_name}</td>
                 <td className="px-4 py-2 border-b">{user.email}</td>
                 <td className="px-4 py-2 border-b">{user.phone_number}</td>

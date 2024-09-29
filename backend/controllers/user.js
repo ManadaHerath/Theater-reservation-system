@@ -85,3 +85,32 @@ export const deleteUser = async (req, res) => {
     res.status(500).json({ message: 'Server error while deleting user' });
   }
 };
+
+export const addUser = async (req, res, next) => {
+  const { full_name, email, phone_number, address, gender, birthday, role, password} = req.body;
+  const insertQuery = `
+    INSERT INTO users (full_name, email, phone_number, address, gender, birthday, role, password)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+
+  try {
+    const [result] = await connection.query(insertQuery, [
+      full_name,
+      email,
+      phone_number,
+      address,
+      gender,
+      birthday,
+      role,
+      password
+    ]);
+
+    res.status(201).json({
+      message: 'User added successfully',
+      userId: result.insertId,
+    });
+  } catch (error) {
+    console.log("Error adding user:", error);
+    res.status(500).json({ message: "Server error while adding user" });
+  }
+};

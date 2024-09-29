@@ -38,7 +38,7 @@ const UserDetails = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUser({
-      user,
+      ...user,
       [name]: value
     });
   };

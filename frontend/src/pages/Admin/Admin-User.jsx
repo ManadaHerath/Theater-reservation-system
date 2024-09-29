@@ -3,6 +3,7 @@ import UsersList from '../../components/Admin/Users/UsersList';
 import AdminList from '../../components/Admin/Users/AdminList';
 import TheaterAdminList from '../../components/Admin/Users/TheaterAdminList';
 import SystemManagerList from '../../components/Admin/Users/SystemManagerList';
+import AddUser from '../../components/Admin/Users/AddUser';
 
 const AdminUser = () => {
   const [selectedTab, setSelectedTab] = useState('customer');
@@ -18,6 +19,8 @@ const AdminUser = () => {
         return <TheaterAdminList />;
       case 'systemManager':
         return <SystemManagerList />;
+      case 'addUser':
+        return <AddUser/>;
       default:
         return null;
     }
@@ -54,6 +57,12 @@ const AdminUser = () => {
             className={`cursor-pointer py-2 px-4 border-l-4 ${selectedTab === 'systemManager' ? 'border-blue-500 text-blue-500' : 'border-gray-300 text-gray-500'}`}
           >
             System Managers
+          </div>
+          <div
+            onClick={() => setSelectedTab('addUser')}
+            className={`cursor-pointer py-2 px-4 border-l-4 ${selectedTab === 'addUser' ? 'border-blue-500 text-blue-500' : 'border-gray-300 text-gray-500'}`}
+          >
+            Add User
           </div>
         </div>
       </div>
