@@ -10,7 +10,7 @@ import { loadSlim } from "tsparticles-slim";
 const MovieScheduleGrid = () => {
   const navigate = useNavigate();
   const { paramId } = useParams();
-  const { data: showTimes, loading, error } = useFetch("/show_times");
+  const { data: showTimes, loading, error } = useFetch(`/show_times/${paramId}`);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [currentIndex, setCurrentIndex] = useState(0);
   const [moviesToShow, setMoviesToShow] = useState({});
@@ -32,11 +32,7 @@ const MovieScheduleGrid = () => {
         if (
           format(showDate, "yyyy-MM-dd") === format(selectedDate, "yyyy-MM-dd")
         ) {
-          if (
-            paramId === undefined ||
-            (paramId.startsWith("t") && paramId === show.theatre_id) ||
-            (paramId.startsWith("m") && paramId === show.movie_id)
-          ) {
+          if (paramId === undefined || true) {
             if (!filteredMovies[show.movie_id]) {
               filteredMovies[show.movie_id] = [];
             }
