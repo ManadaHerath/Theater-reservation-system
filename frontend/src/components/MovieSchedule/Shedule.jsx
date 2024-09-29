@@ -10,6 +10,7 @@ import { loadSlim } from "tsparticles-slim";
 const MovieScheduleGrid = () => {
   const navigate = useNavigate();
   const { paramId } = useParams();
+  console.log(paramId);
   const { data: showTimes, loading, error } = useFetch("/show_times");
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -34,8 +35,8 @@ const MovieScheduleGrid = () => {
         ) {
           if (
             paramId === undefined ||
-            (paramId.startsWith("t") && paramId === show.theatre_id) ||
-            (paramId.startsWith("m") && paramId === show.movie_id)
+            (paramId.startsWith("t") && paramId.slice(1) === show.theatre_id) ||
+            (paramId.startsWith("m") && paramId.slice(1) === show.movie_id)
           ) {
             if (!filteredMovies[show.movie_id]) {
               filteredMovies[show.movie_id] = [];
@@ -213,7 +214,7 @@ const MovieScheduleGrid = () => {
                     {shows.map((show) => (
                       <div
                         key={show.id}
-                        className="border mx-auto p-3 lg:h-32 lg:w-auto w-1/2 rounded-md shadow-lg mb-3 bg-gray-300 cursor-pointer transform transition-transform duration-200 hover:scale-105 hover:shadow-xl hover:bg-blue-500 text-black hover:text-white"
+                        className="border mx-auto p-3 lg:h-32 lg:w-3/4 w-1/2 rounded-md shadow-lg mb-3 bg-gray-300 cursor-pointer transform transition-transform duration-200 hover:scale-105 hover:shadow-xl hover:bg-blue-500 text-black hover:text-white"
                         onClick={() =>
                           handleShowtimeClick(show.id, show.theatre_id)
                         }
