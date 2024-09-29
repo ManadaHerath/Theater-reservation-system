@@ -1,6 +1,12 @@
+// TheatreList.jsx
 import { React, useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import SearchBar from "./Searchbar";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 
 const TheatreCard = (props) => {
   return (
@@ -39,7 +45,26 @@ const TheatreList = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [showAll, setShowAll] = useState(false); // State to control how many cards to show
+  const [showAll, setShowAll] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  function useDebounce(value, delay) {
+    const [debouncedValue, setDebouncedValue] = useState(value);
+
+    useEffect(() => {
+      const handler = setTimeout(() => {
+        setDebouncedValue(value);
+      }, delay);
+
+      return () => {
+        clearTimeout(handler);
+      };
+    }, [value, delay]);
+
+    return debouncedValue;
+  }
+
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -64,26 +89,56 @@ const TheatreList = () => {
     console.log(error);
   }
 
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  // Filter data based on search term
+  const filteredTheatres = data.filter((theatre) =>
+    theatre.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
+  );
+
   // Determine the number of cards to show
-  const theatresToShow = showAll ? data : data.slice(0, 8);
+  const theatresToShow = showAll
+    ? filteredTheatres
+    : filteredTheatres.slice(0, 8);
 
   return (
     <div className="py-16 mb-10">
-      <h1 className="text-white text-3xl pl-6 pb-5 font-bold">Theaters</h1>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static" sx={{ backgroundColor: "transparent" }}>
+          <Toolbar>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ flexGrow: 5, marginLeft: 10 }}
+            >
+              Theatres
+            </Typography>
+            <SearchBar searchTerm={searchTerm} handleSearch={handleSearch} />
+          </Toolbar>
+        </AppBar>
+      </Box>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-items-center mx-auto">
-        {theatresToShow.map((theatre) => (
-          <TheatreCard
-            key={theatre.id}
-            id={theatre.id}
-            name={theatre.name}
-            details={theatre.details}
-            image_url={theatre.image_url}
-            is_active={theatre.is_active}
-          />
-        ))}
+        {theatresToShow.length > 0 ? (
+          theatresToShow.map((theatre) => (
+            <TheatreCard
+              key={theatre.id}
+              id={theatre.id}
+              name={theatre.name}
+              details={theatre.details}
+              image_url={theatre.image_url}
+              is_active={theatre.is_active}
+            />
+          ))
+        ) : (
+          <p className="text-white">No theatres found.</p>
+        )}
       </div>
 
-      {!showAll && data.length > 8 && (
+      {!showAll && filteredTheatres.length > 8 && (
         <div className="flex justify-center mt-8">
           <button
             onClick={() => setShowAll(true)}

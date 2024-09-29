@@ -75,7 +75,7 @@ const MovieList = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [searchTerm, setSearchTerm] = useState(""); // State to hold the search term
+  const [searchTerm, setSearchTerm] = useState(""); 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -122,7 +122,7 @@ const MovieList = () => {
       backgroundColor: alpha(theme.palette.common.white, 0.25),
     },
     marginLeft: 0,
-    width: "80%",
+    width: "60%",
     [theme.breakpoints.up("sm")]: {
       marginLeft: theme.spacing(1),
       width: "30%",
