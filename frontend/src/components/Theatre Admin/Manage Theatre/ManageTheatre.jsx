@@ -42,7 +42,7 @@ export default function ManageTheatre() {
     <TheatreAdminLayout>
       <form
         onSubmit={handleSubmit}
-        className="max-w-lg mx-auto mt-8 p-6 bg-gray-800 rounded-lg shadow-lg"
+        className="max-w-lg mx-auto mt-8 p-6 bg-[#181826] rounded-lg shadow-lg"
       >
         <div className="mb-6">
           <img

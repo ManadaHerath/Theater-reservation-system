@@ -82,7 +82,7 @@ const UpCommingMovies = () => {
   }
 
   return (
-    <div className="relative pt-8">
+    <div className="relative pt-8 bg-[#181826]">
       <h1 className="absolute top-0 flex pt-4 pb-20 pr-20 lg:text-3xl text-xl text-white left-20">
         Upcoming Movies
       </h1>

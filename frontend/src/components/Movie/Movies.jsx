@@ -177,7 +177,7 @@ const MovieList = () => {
   options={{
     background: {
       color: {
-        value: "#000", // Adjust to your preferred background color
+        value: "#181826", // Adjust to your preferred background color
       },
     },
     fpsLimit: 60,
