@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const colorClasses = [
   "bg-blue-950", // Dark blue
@@ -83,7 +83,7 @@ const UpCommingMovies = () => {
 
   return (
     <div className="relative pt-8">
-      <h1 className="absolute top-0 flex pt-4 pb-20 pr-20 text-3xl text-white left-20">
+      <h1 className="absolute top-0 flex pt-4 pb-20 pr-20 lg:text-3xl text-xl text-white left-20">
         Upcoming Movies
       </h1>
       <div className="flex pt-10 px-8">

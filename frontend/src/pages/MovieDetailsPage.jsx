@@ -1,13 +1,12 @@
-import Navbar from "../components/NavBar";
 import MovieDetails from "../components/Movie/MovieDetails";
-import Footer from "../components/Footer";
+import NavBar from "../components/NavBar/NavBar";
+
 
 export default function MovieDetailsPage() {
   return (
     <div>
-      <Navbar />
+      <NavBar />
       <MovieDetails />
-
     </div>
   );
 }

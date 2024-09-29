@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { format, addDays } from "date-fns";
-import useFetch from "../hooks/useFetch";
+import useFetch from "../../hooks/useFetch";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { FiChevronRight, FiChevronLeft } from "react-icons/fi";

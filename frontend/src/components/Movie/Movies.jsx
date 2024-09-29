@@ -1,6 +1,13 @@
 import { React, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import SearchIcon from "@mui/icons-material/Search";
+import Typography from "@mui/material/Typography";
+import InputBase from "@mui/material/InputBase";
+import { styled, alpha } from "@mui/material/styles";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
 
 const MovieCard = ({ movie }) => {
   const navigate = useNavigate(); // Hook for navigation
@@ -15,7 +22,7 @@ const MovieCard = ({ movie }) => {
 
   return (
     <div
-      className="group relative w-80 h-96 cursor-pointer bg-gray-900 rounded-lg overflow-hidden shadow-xl transition-transform duration-300 hover:scale-105 mt-5 "
+      className="group relative w-80 h-96 cursor-pointer bg-gray-900 rounded-lg overflow-hidden shadow-xl transition-transform duration-300 hover:scale-105 mt-5"
       onClick={handleClick}
     >
       <div className="absolute inset-0">
@@ -68,6 +75,7 @@ const MovieList = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [searchTerm, setSearchTerm] = useState(""); 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -83,6 +91,64 @@ const MovieList = () => {
     fetchData();
   }, []);
 
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+  function useDebounce(value, delay) {
+    const [debouncedValue, setDebouncedValue] = useState(value);
+
+    useEffect(() => {
+      const handler = setTimeout(() => {
+        setDebouncedValue(value);
+      }, delay);
+
+      return () => {
+        clearTimeout(handler);
+      };
+    }, [value, delay]);
+
+    return debouncedValue;
+  }
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
+  const filteredMovies = data.filter((movie) =>
+    movie.title.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
+  );
+
+  const Search = styled("div")(({ theme }) => ({
+    position: "relative",
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    "&:hover": {
+      backgroundColor: alpha(theme.palette.common.white, 0.25),
+    },
+    marginLeft: 0,
+    width: "60%",
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: theme.spacing(1),
+      width: "30%",
+    },
+  }));
+
+  const SearchIconWrapper = styled("div")(({ theme }) => ({
+    padding: theme.spacing(0, 2),
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  }));
+
+  const StyledInputBase = styled(InputBase)(({ theme }) => ({
+    color: "inherit",
+    width: "100%",
+    "& .MuiInputBase-input": {
+      padding: theme.spacing(1, 1, 1, 0),
+      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+      
+    },
+  }));
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -93,12 +159,42 @@ const MovieList = () => {
 
   return (
     <div className="py-16 mb-10">
-      <h1 className="text-white text-3xl pl-6 pb-5 font-bold">Movies</h1>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static" sx={{ backgroundColor: 'transparent' }}>
+          <Toolbar>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ flexGrow: 5,marginLeft: 10 }}
+            >
+              Movies
+            </Typography>
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                autoFocus
+                type="text"
+                placeholder="Search…"
+                inputProps={{ "aria-label": "search" }}
+                value={searchTerm}
+                onChange={handleSearch}
+              />
+            </Search>
+          </Toolbar>
+        </AppBar>
+      </Box>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-items-center mx-auto">
-        {data.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
-        ))}
+        {filteredMovies.length > 0 ? (
+          filteredMovies.map((movie) => (
+            <MovieCard key={movie.id} movie={movie} />
+          ))
+        ) : (
+          <p className="text-white">No movies found.</p>
+        )}
       </div>
     </div>
   );

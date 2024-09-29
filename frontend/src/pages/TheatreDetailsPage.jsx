@@ -1,7 +1,6 @@
 import React from "react";
 import Theatre from "../components/Theatre/TheatreDetails";
-import NavBar from "../components/NavBar";
-import Footer from "../components/Footer";
+import NavBar from "../components/NavBar/NavBar";
 
 export default function TheatreDetails() {
   return (

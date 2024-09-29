@@ -8,14 +8,14 @@ import Home from "./pages/Home";
 import Movies from "./pages/MoviePage";
 import Theatres from "./pages/TheatrePage";
 import Schedule from "./pages/SchedulePage";
-import Unauthorized from "./components/Unauthorized";
+import Unauthorized from "./components/Errors/Unauthorized";
 import Help from "./pages/HelpPage";
 import Terms from "./pages/TermsPage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
-import Footer from "./components/Footer";
+import Footer from "./components/Footer/Footer";
 import React from "react";
 
-import SeatSelection from "./components/SeatSelection";
+import SeatSelection from "./components/Seat Selection/SeatSelection";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 
@@ -30,11 +30,11 @@ import TheatreDetails from "./pages/TheatreDetailsPage";
 import MovieDetails from "./pages/MovieDetailsPage";
 
 import Layout from "./layout/layout";
-import RequireAuth from "./components/RequireAuth";
+import RequireAuth from "./components/Errors/RequireAuth";
 import PersistLogin from "./components/Persist Login/PersistLogin";
 
 // seat grid user side
-import SeatGridUser from "./components/SeatGridUser";
+import SeatGridUser from "./components/Seat Selection/SeatGridUser";
 
 // Admin Panel
 import CreateCoupon from "./components/Admin/Discounts/CreateCoupon";
@@ -49,12 +49,13 @@ import AdminMovie from "./pages/Admin/Admin-Movie";
 import Dashboard from "./components/Admin/Dashboard/Dashboard";
 import AdminRefundPage from "./components/Admin/Refund/RefundReq";
 // chatbot
-import Chatbot from "../src/components/ChatBot";
+import Chatbot from "../src/components/Chatbot/ChatBot";
 
 // Theatre Admin
 
 import TheatreAdminDashboard from "./components/Theatre Admin/Home/Dashboard";
 import ManageTheatre from "./components/Theatre Admin/Manage Theatre/ManageTheatre";
+import QRCodeScanner from "./components/Theatre Admin/QR Code Scanner/QRCodeScanner";
 
 import RequestRefund from "./pages/RequestRefund";
 
@@ -142,6 +143,10 @@ const App = () => {
                 <Route
                   path="/theatre-admin/manage-theatre"
                   element={<ManageTheatre />}
+                />
+                <Route
+                  path="/theatre-admin/qr-code-scanner"
+                  element={<QRCodeScanner />} 
                 />
 
               </Route>

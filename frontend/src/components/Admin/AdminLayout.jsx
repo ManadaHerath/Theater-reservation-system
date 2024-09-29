@@ -1,35 +1,40 @@
 import React, { useState } from "react";
 import { Box, Button } from "@mui/material";
-import AdminNavbar from "./AdminNavbar";
+import AdminNavBar from "./AdminNavbar";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
-import Footer from "../Footer";
+import Footer from "../Footer/Footer";
 
 const AdminLayout = ({ children }) => {
-  const [isNavbarVisible, setIsNavbarVisible] = useState(true);
+  const [isNavBarVisible, setIsNavBarVisible] = useState(true);
 
-  const toggleNavbar = () => {
-    setIsNavbarVisible((prev) => !prev);
+  const toggleNavBar = () => {
+    setIsNavBarVisible((prev) => !prev);
   };
 
   return (
-    <Box sx={{ display: "flex", flexDirection:"column", marginLeft: isNavbarVisible ? "250px" : "0px", 
-          transition: "margin-left 0.3s" }}>
-      {isNavbarVisible && <AdminNavbar />}
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        marginLeft: isNavBarVisible ? "250px" : "0px",
+        transition: "margin-left 0.3s",
+      }}
+    >
+      {isNavBarVisible && <AdminNavBar />}
       <Box
         component="main"
         sx={{
           flexGrow: 1,
           p: 3,
-          
         }}
       >
         <Button
           variant="contained"
-          onClick={toggleNavbar}
+          onClick={toggleNavBar}
           sx={{
             position: "fixed",
             top: 10,
-            left: isNavbarVisible ? "180px" : "10px",
+            left: isNavBarVisible ? "180px" : "10px",
             transition: "left 0.3s",
 
             zIndex: 2000,
@@ -40,7 +45,7 @@ const AdminLayout = ({ children }) => {
             },
           }}
         >
-          {isNavbarVisible ? <ChevronLeft /> : <ChevronRight />}
+          {isNavBarVisible ? <ChevronLeft /> : <ChevronRight />}
         </Button>
         {children}
       </Box>
