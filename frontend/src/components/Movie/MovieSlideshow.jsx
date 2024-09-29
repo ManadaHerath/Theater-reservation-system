@@ -129,17 +129,17 @@ function MovieSlideshow({ movies }) {
           alt={activeMovie.title}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[rgba(0,0,0,1)]  to-transparent"></div>
-        <h1 className="absolute z-20 text-white text-8xl bottom-40 left-20 cursor-default">
+        <h1 className="absolute z-20 text-white lg:text-8xl text-3xl md:text-6xl lg:bottom-40 bottom-32 md:left-20 left-8 cursor-default">
           {activeMovie.title}
         </h1>
-        <div className="absolute flex gap-6 bottom-16 left-20">
-          <button className="block px-6 py-3 text-2xl text-left  text-white bg-transparent border rounded-2xl  hover:text-black hover:bg-white font-semibold">
+        <div className="absolute flex gap-6 lg:bottom-20 bottom-16 md:left-20 left-8">
+          <button className="block lg:px-6 lg:py-3 px-3 py-2 lg:text-2xl text-lg text-left  text-white bg-transparent border rounded-2xl  hover:text-black hover:bg-white font-semibold">
             Buy
             
             Tickets
           </button>
           <button
-            className="block px-4 py-2 text-2xl text-left text-white bg-transparent border rounded-2xl  hover:text-black hover:bg-white font-semibold"
+            className="block lg:px-6 lg:py-3 px-3 py-2 lg:text-2xl text-lg text-left text-white bg-transparent border rounded-2xl  hover:text-black hover:bg-white font-semibold"
             onClick={handleUrlClick}
           >
             Watch
@@ -148,7 +148,7 @@ function MovieSlideshow({ movies }) {
           </button>
         </div>
 
-        <div className="items-center text-white side-bar cursor-default">
+        <div className="items-center text-white side-bar cursor-default lg:block hidden ">
           <h1
             className="w-full font-bold text-center text-7xl"
             style={{ paddingTop: "15vh" }}
@@ -164,23 +164,23 @@ function MovieSlideshow({ movies }) {
         </div>
       </div>
 
-      <div className="relative pt-8 movie-slider-container">
+      <div className="relative lg:pt-16 pt-8 movie-slider-container">
         <div className="absolute inset-0 bg-gradient-to-b from-[rgba(0,0,0,1)]  to-transparent"></div>
 
-        <h1 className="absolute top-0 flex pt-4 pr-20 text-3xl text-white right-20">
+        <h1 className="absolute top-0 flex pt-3 pr-20 lg:text-3xl text-xl text-white right-20">
           Now Showing
         </h1>
 
-        <div className="absolute top-0 right-0 flex gap-4 pt-4 pr-20">
+        <div className="absolute top-0 right-0 flex gap-4 pt-3 pr-20">
           <button
             onClick={() => dispatch({ type: "PREV" })}
-            className="px-2 py-2 pt-2 text-white text-2xl hover:bg-red-500 rounded-3xl "
+            className="px-2 py-2 pt-2 text-white lg:text-2xl hover:bg-red-500 rounded-3xl "
           >
             <FontAwesomeIcon icon={faChevronLeft} />
           </button>
           <button
             onClick={() => dispatch({ type: "NEXT" })}
-            className="px-2 py-2 pt-2 text-white text-2xl hover:bg-red-500 rounded-3xl "
+            className="px-2 py-2 pt-2 text-white lg:text-2xl hover:bg-red-500 rounded-3xl "
           >
             <FontAwesomeIcon icon={faChevronRight} />
           </button>
