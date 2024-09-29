@@ -198,7 +198,6 @@ body {
       }
 }
 
-/* Styles only applied to large screens (1024px and above) */
 @media (min-width: 1024px) {
     .front-image {
       width: 92vw;
