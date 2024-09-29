@@ -46,7 +46,7 @@ export default function () {
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-900 flex-col">
-      <div className="flex justify-center items-center flex-col w-1/2 lg:w-1/4 h-1/4 bg-gray-800 border-gray-700 rounded-md pb-3">
+      <div className="flex justify-center items-center flex-col w-1/2 lg:w-1/4 h-1/4 bg-[#181826] border-gray-700 rounded-md pb-3">
         <h1
           className="text-md py-3 md:text-xl sm:text-lg lg:text-2xl font-semibold 
           text-white px-2"

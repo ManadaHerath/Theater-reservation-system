@@ -138,7 +138,7 @@ export default function Register_Form() {
     }, 5000);
   };
   return (
-    <div className="flex flex-col justify-center items-center w-full h-full bg-gray-900 px-5">
+    <div className="flex flex-col justify-center items-center w-full h-full bg-[#181826] px-5">
       <div
         className="xl:max-w-3xl bg-gray-800 border-gray-700
       }  w-full py-3 sm:p-10 rounded-md sm:max-w-md my-6"
