@@ -8,10 +8,10 @@ import "./Footer.css";
 const Footer = () => {
   return (
     <div className="footer">
-      <div className="footer-content flex flex-col gap-4 sm:flex-row sm:justify-between">
-        <div className="footer-content-left">
-          <h1 className="md:text-4xl text-lg font-bold">MovieMingle</h1>
-          <p>Book your seat now.</p>
+      <div className="footer-content flex flex-col justify-center items-center gap-4 sm:flex-row sm:justify-between">
+        <div className="flex flex-col justify-center items-center gap-4">
+          <h1 className="md:text-4xl text-xl font-bold text-center">MovieMingle</h1>
+          <p className="text-center">Book your seat now.</p>
           <div className="flex flex-row footer-social-icon">
             <img src={facebook_icon} alt="Facebook" />
             <img src={twitter_icon} alt="Twitter" />
@@ -19,16 +19,16 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="footer-content-center">
+        <div className="flex flex-col justify-center items-center my-4">
           <h2>GET IN TOUCH</h2>
-          <ul>
+          <ul className="mx-auto text-center lg:my-4">
             <li>+94 11556768</li>
             <li>contact@moviemingle.com</li>
           </ul>
         </div>
 
-        <div className="footer-content-right">
-          <ul>
+        <div>
+          <ul className="flex flex-row justify-evenly gap-5 lg:flex-col ">
             <li>
               <Link to="/help">Help & FAQ</Link>
             </li>
