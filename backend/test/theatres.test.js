@@ -61,7 +61,29 @@ describe("POST /theatres/", () => {
   });
 });
   
-  
+
+describe("GET /theatres/:id", () => {
+  // Test: Should return the theatre details for a valid theatre ID
+  test("Should respond with the theatre details for an existing theatre ID", async () => {
+    // Assuming there's a theatre with ID 1 in the database
+    const response = await request(app).get("/theatres/08b1ceea-5f9f-11ef-9b49-f43d55f0b3b2");
+
+    expect(response.statusCode).toBe(200);  // Expect success response
+    expect(response.body).toHaveProperty("id");  // Ensure the response contains the 'id' property
+    expect(response.body.id).toBe("08b1ceea-5f9f-11ef-9b49-f43d55f0b3b2");  // Ensure the ID is the one we queried
+    expect(response.body).toHaveProperty("name");  // Expect the theatre to have a 'name' field
+  });
+
+  // Test: Should return 404 for a non-existing theatre ID
+  test("Should respond with 404 for a non-existing theatre ID", async () => {
+    // Assuming 9999 is an invalid theatre ID (i.e., doesn't exist in the database)
+    const response = await request(app).get("/theatres/9999");
+
+    expect(response.statusCode).toBe(404);  // Expect 404 Not Found
+    expect(response.body).toHaveProperty("message", "Theatre not found");  // Ensure the correct error message is returned
+  });
+
+});
   
 
   
