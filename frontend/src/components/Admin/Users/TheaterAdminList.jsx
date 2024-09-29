@@ -1,31 +1,27 @@
 import React, { useEffect, useState } from "react";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate"; 
-import { useNavigate } from "react-router-dom";
 
-const UsersList = () => {
+const TheaterAdminList = () => {
   const axiosPrivate = useAxiosPrivate(); 
   const [users, setUsers] = useState([]);
-  const navigate = useNavigate();
   
 
   useEffect(()=>{
-    const fetchUsers = async ()=>{
+    const fetchTheaterAdmins = async ()=>{
       try {
         const response = await axiosPrivate.get('/users/allusers');
-        setUsers(response.data.filter(user=>user.role === 'customer'));
+        setUsers(response.data.filter(user=>user.role === 'theaterAdmin'));
       } catch (error){
         console.error('Failed to fetch users:', error);
       }
     }
-    fetchUsers();
+    fetchTheaterAdmins();
   }, [axiosPrivate]);
-
-  
   
 
   return (
     <div className="max-w-4xl mx-auto mt-8">
-      <h2 className="mb-4 text-2xl font-bold">All Users</h2>
+      <h2 className="mb-4 text-2xl font-bold">All Admins</h2>
       <table className="min-w-full bg-white border">
         <thead>
           <tr>
@@ -41,11 +37,7 @@ const UsersList = () => {
             </tr>
           ) : (
             users.map((user) => (
-              
-              <tr key={user.id} 
-                  className="cursor-pointer hover:bg-gray-100"
-                  onClick={()=>navigate(`/admin/users/${user.id}`)}
-                  >
+              <tr key={user.id}>
                 <td className="px-4 py-2 border-b">{user.full_name}</td>
                 <td className="px-4 py-2 border-b">{user.email}</td>
                 <td className="px-4 py-2 border-b">{user.phone_number}</td>
@@ -58,4 +50,4 @@ const UsersList = () => {
   );
 };
 
-export default UsersList;
+export default TheaterAdminList;

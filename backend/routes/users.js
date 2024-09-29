@@ -5,7 +5,7 @@ import {
   verifyAdmin,
   verifyJWT,
 } from "../util/verify_token.js";
-import { getUserbyID } from "../controllers/user.js";
+import { deleteUser, getAnyUser, getUserbyID, updateUser } from "../controllers/user.js";
 import { handleRefreshToken } from "../controllers/refreshTokenController.js";
 import { getIDFromToken } from "../middlewares/getIDFromToken.js";
 import { getAllUsers } from "../controllers/user.js";
@@ -34,7 +34,13 @@ router.put("/:id", verifyUser, (req, res, next) => {
 
 router.get("/getUser", getIDFromToken, getUserbyID);
 
+router.get("/getAnyUser",getAnyUser)
+
 router.get("/allusers", getAllUsers);
+
+router.put('/updateUser/:id', updateUser);
+
+router.delete('/deleteUser/:id', deleteUser);
 
 
 export default router;

@@ -52,6 +52,7 @@ import Chatbot from "../src/components/ChatBot";
 
 import RequestRefund from "./pages/RequestRefund";
 import AdminUser from "./pages/Admin/Admin-User";
+import UserDetails from "./components/Admin/Users/UserDetails";
 
 
 const App = () => {
@@ -102,9 +103,8 @@ const App = () => {
                   element={<PriceCategoriesChange />}
                 ></Route>
 
-                <Route path="/admin/users"
-                       element={<AdminUser/>}
-                ></Route>
+                <Route path="/admin/users" element={<AdminUser/>}></Route>
+                <Route path="/admin/users/:id" element={<UserDetails/>}/>
 
                 <Route path="/admin/add-new-movie" element={<AddNewMovie />} />
                 <Route
