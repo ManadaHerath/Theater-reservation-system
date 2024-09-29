@@ -49,3 +49,36 @@ export const deleteShowTime = async (req, res) => {
     res.status(500).json({ message: 'Error deleting showtime' });
   }
 };
+
+export const addShowTime = async (req, res) => {
+  const { showTimes } = req.body; // Expect an array of showtimes
+
+  if (!Array.isArray(showTimes) || showTimes.length === 0) {
+    return res.status(400).json({ message: 'Invalid input' });
+  }
+
+  // Use a transaction to ensure all showtimes are added atomically
+  const promises = showTimes.map(async (showtime) => {
+    const { theatre_id, movie_id, start_time, end_time } = showtime;
+
+    try {
+      const [result] = await connection.query(
+        `INSERT INTO show_times (theatre_id, movie_id, start_time, end_time) 
+         VALUES (?, ?, ?, ?)`,
+        [theatre_id, movie_id, start_time, end_time]
+      );
+
+      return { id: result.insertId }; // Return the inserted ID
+    } catch (error) {
+      console.error('Error adding showtime:', error);
+      throw new Error('Database error');
+    }
+  });
+
+  try {
+    const results = await Promise.all(promises); // Wait for all insertions to complete
+    res.status(200).json({ message: 'Showtimes added successfully', results });
+  } catch (error) {
+    res.status(500).json({ message: 'Error adding showtimes' });
+  }
+};
