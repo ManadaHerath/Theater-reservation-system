@@ -8,9 +8,9 @@ import "./Footer.css";
 const Footer = () => {
   return (
     <div className="footer">
-      <div className="footer-content">
+      <div className="footer-content flex flex-col gap-4 sm:flex-row sm:justify-between">
         <div className="footer-content-left">
-          <h1 className="text-4xl font-bold">MovieMingle</h1>
+          <h1 className="md:text-4xl text-lg font-bold">MovieMingle</h1>
           <p>Book your seat now.</p>
           <div className="flex flex-row footer-social-icon">
             <img src={facebook_icon} alt="Facebook" />
