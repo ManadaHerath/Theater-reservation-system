@@ -1,6 +1,6 @@
-import NavBar from "../components/NavBar";
+import NavBar from "../components/NavBar/NavBar";
 import MovieTest from "../components/Movie/MovieTest";
-import UpCommingMovies from "../components/UpCommingMovies";
+import UpCommingMovies from "../components/UpCommingMoives/UpCommingMovies";
 const Home = () => (
   <div>
     <NavBar />

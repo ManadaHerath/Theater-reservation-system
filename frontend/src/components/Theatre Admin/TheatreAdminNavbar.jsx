@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 import useLogout from "../../hooks/useLogout";
 import { useNavigate } from "react-router-dom";
 
-const TheatreAdminNavbar = () => {
+const TheatreAdminNavBar = () => {
   const logout = useLogout();
   const navigate = useNavigate();
   const signOut = async () => {
@@ -110,4 +110,4 @@ const TheatreAdminNavbar = () => {
   );
 };
 
-export default TheatreAdminNavbar;
+export default TheatreAdminNavBar;

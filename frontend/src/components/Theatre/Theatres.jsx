@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const TheatreCard = (props) => {
   return (

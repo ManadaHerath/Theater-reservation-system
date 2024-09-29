@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Box, Button } from "@mui/material";
-import TheatreAdminNavbar from "./TheatreAdminNavbar";
+import TheatreAdminNavBar  from "./TheatreAdminNavbar";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
-import Footer from "../Footer";
+import Footer from "../../components/Footer/Footer";
 const TheatreAdminLayout = ({ children }) => {
-  const [isNavbarVisible, setIsNavbarVisible] = useState(false);
+  const [isNavBarVisible, setIsNavBarVisible] = useState(false);
 
-  const toggleNavbar = () => {
-    setIsNavbarVisible((prev) => !prev);
+  const toggleNavBar = () => {
+    setIsNavBarVisible((prev) => !prev);
   };
 
   return (
@@ -15,11 +15,11 @@ const TheatreAdminLayout = ({ children }) => {
       sx={{
         display: "flex",
         flexDirection: "column",
-        marginLeft: isNavbarVisible ? "250px" : "0px",
+        marginLeft: isNavBarVisible ? "250px" : "0px",
         transition: "margin-left 0.3s",
       }}
     >
-      {isNavbarVisible && <TheatreAdminNavbar />}
+      {isNavBarVisible && <TheatreAdminNavBar />}
       <Box
         component="main"
         sx={{
@@ -29,11 +29,11 @@ const TheatreAdminLayout = ({ children }) => {
       >
         <Button
           variant="contained"
-          onClick={toggleNavbar}
+          onClick={toggleNavBar}
           sx={{
             position: "fixed",
             top: 10,
-            left: isNavbarVisible ? "180px" : "10px",
+            left: isNavBarVisible ? "180px" : "10px",
             transition: "left 0.3s",
 
             zIndex: 2000,
@@ -44,7 +44,7 @@ const TheatreAdminLayout = ({ children }) => {
             },
           }}
         >
-          {isNavbarVisible ? <ChevronLeft /> : <ChevronRight />}
+          {isNavBarVisible ? <ChevronLeft /> : <ChevronRight />}
         </Button>
         {children}
       </Box>

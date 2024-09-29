@@ -1,5 +1,5 @@
-import Schedule from "../components/Shedule";
-import NavBar from "../components/NavBar";
+import Schedule from "../components/MovieSchedule/Shedule";
+import NavBar from "../components/NavBar/NavBar";
 
 const SchedulePage = () => (
   <>

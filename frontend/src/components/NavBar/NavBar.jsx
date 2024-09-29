@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import useLogout from "../hooks/useLogout";
-import useAuth from "../hooks/useAuth";
+import useLogout from "../../hooks/useLogout";
+import useAuth from "../../hooks/useAuth";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
-import { axiosPrivate } from "../api/axios";
+import { axiosPrivate } from "../../api/axios";
 
 const NavBar = () => {
   const { user } = useAuth();

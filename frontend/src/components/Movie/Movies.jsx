@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const MovieCard = ({ movie }) => {
   const navigate = useNavigate(); // Hook for navigation

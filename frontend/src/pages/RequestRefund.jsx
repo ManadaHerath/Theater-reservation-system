@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import NavBar from "../components/NavBar";
+import NavBar from "../components/NavBar/NavBar";
 
 const RequestRefund = () => {
   const { token } = useParams();
