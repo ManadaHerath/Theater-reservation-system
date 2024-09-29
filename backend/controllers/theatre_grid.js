@@ -32,7 +32,6 @@ ON DUPLICATE KEY UPDATE
 
 export const getTheatreGrid = async (req, res, next) => {
     const { theatre_id } = req.params;
-    console.log(theatre_id);
 
     if (!theatre_id) {
         return res.status(400).send('Invalid data');
