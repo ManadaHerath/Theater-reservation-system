@@ -41,7 +41,6 @@ import CreateCoupon from "./components/Admin/Discounts/CreateCoupon";
 import SeatGrid from "./components/Admin/SeatGrid/SeatGrid";
 import AddTheatreForm from "./components/Admin/Theatre/AddTheatreAdmin";
 import UpdateTheatreAdmin from "./components/Admin/Theatre/UpdateTheatreAdmin";
-import PriceCategoriesChange from "./components/Admin/Theatre/PriceCategoriesChange";
 import ManageTheatres from "./pages/Admin/Admin-Theatre";
 import AddNewMovie from "./components/Admin/Movies/AddNewMovie";
 import UpdateMovie from "./components/Admin/Movies/UpdateMovie";
@@ -119,10 +118,6 @@ const App = () => {
                 <Route
                   path="/admin/manage-theatres"
                   element={<ManageTheatres />}
-                ></Route>
-                <Route
-                  path="/admin/price-categories/:id"
-                  element={<PriceCategoriesChange />}
                 ></Route>
 
                 <Route path="/admin/add-new-movie" element={<AddNewMovie />} />
