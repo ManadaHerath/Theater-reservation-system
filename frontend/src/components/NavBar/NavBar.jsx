@@ -98,9 +98,8 @@ const NavBar = () => {
         } md:flex flex-grow justify-center items-center relative inset-0 `}
       >
         <ul
-          className={`flex text-white flex-col md:flex-row md:space-x-24 text-lg md:rounded-none rounded-lg md:p-0 p-4 absolute top-6 md:static md:top-16  md:right-0 ${
-            isScrolled ? "bg-black bg-opacity-100" : "bg-black"
-          } transition-colors duration-500 ease-in-out`}
+          className={`flex text-white flex-col md:flex-row md:space-x-24 text-lg md:rounded-none rounded-b-lg md:p-0 absolute top-8 md:static md:top-16  md:right-0 ${isMenuOpen ? "bg-black pt-0 px-4 mt-0" : ""}
+            transition-colors duration-500 ease-in-out`}
         >
           {["Home", "Movies", "Schedule", "Theatres"].map((item) => (
             <li
