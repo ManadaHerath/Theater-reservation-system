@@ -91,14 +91,15 @@ const NavBar = () => {
           : "bg-gradient-to-b from-[rgba(0,0,0,0.8)]  to-transparent "
       } transition-all duration-500 ease-in-out justify-between items-center`}
     >
+
       <div
         className={`${
-          isMenuOpen ? "block" : "hidden"
-        } md:flex flex-grow justify-center items-center relative inset-0`}
+          isMenuOpen ? "block " : "hidden"
+        } md:flex flex-grow justify-center items-center relative inset-0 `}
       >
         <ul
-          className={`flex text-white flex-col md:flex-row md:space-x-24 text-lg md:bg-transparent bg-black md:rounded-none rounded-lg md:p-0 p-4 absolute md:static top-16 right-4 md:right-0 ${
-            isScrolled ? "bg-black bg-opacity-100" : "bg-black bg-opacity-0"
+          className={`flex text-white flex-col md:flex-row md:space-x-24 text-lg md:rounded-none rounded-lg md:p-0 p-4 absolute top-6 md:static md:top-16  md:right-0 ${
+            isScrolled ? "bg-black bg-opacity-100" : "bg-black"
           } transition-colors duration-500 ease-in-out`}
         >
           {["Home", "Movies", "Schedule", "Theatres"].map((item) => (
@@ -115,16 +116,24 @@ const NavBar = () => {
         </ul>
       </div>
 
-      <div className="flex items-center ">
+      <div className="ml-4 md:hidden absolute left-2 top-3">
+          {isMenuOpen ? (
+            <CloseIcon onClick={toggleMenu} className="cursor-pointer" />
+          ) : (
+            <MenuIcon onClick={toggleMenu} className="cursor-pointer" />
+          )}
+        </div>
+
+      <div className="flex items-center absolute right-5 top-2 ">
         {user?.token ? (
-          <div className="flex flex-row gap-3">
+          <div className="flex flex-row gap-3 ">
             <img
               src={userDetails.avatar}
               alt="profile"
               className="w-10 h-10 rounded-full"
             />
             <button className=" cursor-pointer" onClick={signOut}>
-              <div className="px-4 py-2 rounded-xl bg-blue-700 hover:bg-blue-900">
+              <div className="px-4 sm:py-2 py-1 rounded-xl bg-blue-700 hover:bg-blue-900">
                 Logout
               </div>
             </button>
@@ -134,19 +143,13 @@ const NavBar = () => {
             to="/login"
             className="cursor-pointer bg-blue-800 hover:bg-blue-900 rounded-xl"
           >
-            <div className="flex flex-row gap-3 text-white px-4 py-2 rounded-xl  ">
+            <div className="flex flex-row gap-3 text-white px-4 sm:py-2 py-1 rounded-xl  ">
               Login
             </div>
           </Link>
         )}
 
-        <div className="ml-4 md:hidden">
-          {isMenuOpen ? (
-            <CloseIcon onClick={toggleMenu} className="cursor-pointer" />
-          ) : (
-            <MenuIcon onClick={toggleMenu} className="cursor-pointer" />
-          )}
-        </div>
+        
       </div>
     </div>
   );
