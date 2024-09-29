@@ -3,16 +3,53 @@ import {connection} from '../index.js';
 
 
 export const getAllShowTimes = async (req, res) => {
+  const { id } = req.params; // Get the id from request parameters
+
   try {
+    let query = `
+      SELECT 
+        show_times.id,
+        show_times.theatre_id,
+        show_times.start_time,
+        show_times.end_time,
+        m.title,
+        m.poster_url,
+        t.name,
+        t.district 
+      FROM show_times 
+      INNER JOIN movies m ON show_times.movie_id = m.id 
+      INNER JOIN theatres t ON show_times.theatre_id = t.id
+    `;
 
-    const [show_times] = await connection.query('SELECT show_times.id,theatre_id,start_time,end_time,m.title,m.poster_url,t.name,t.district FROM show_times inner join movies m on show_times.movie_id = m.id inner join theatres t on show_times.theatre_id = t.id');
+    // If id is provided, check if it's a valid movie_id or theatre_id
+    if (id) {
+      const [movieCheck] = await connection.query(
+        'SELECT id FROM movies WHERE id = ?',
+        [id]
+      );
 
+      const [theatreCheck] = await connection.query(
+        'SELECT id FROM theatres WHERE id = ?',
+        [id]
+      );
+
+      // Modify the query based on the validation results
+      if (movieCheck.length > 0) {
+        query += ` WHERE show_times.movie_id = ?`;
+      } else if (theatreCheck.length > 0) {
+        query += ` WHERE show_times.theatre_id = ?`;
+      }
+    }
+
+    // Execute the query (passing id if it exists, otherwise it will fetch all)
+    const [show_times] = await connection.query(query, id ? [id] : undefined);
     res.json(show_times);
   } catch (error) {
     console.error('Error fetching show times:', error);
-    res.status(500).json({message: 'Error fetching show times'});
+    res.status(500).json({ message: 'Error fetching show times' });
   }
-}
+};
+
 
 export const getShowTimesByTheatre = async (req, res) => {
   const { theatreId } = req.params; // Assuming you pass the theatreId as a URL param

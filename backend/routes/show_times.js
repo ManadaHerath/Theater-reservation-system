@@ -4,7 +4,7 @@ import {getAllShowTimes, getShowTimesByTheatre, deleteShowTime,addShowTime} from
 
 const router = expresss.Router();
 
-router.get("/", getAllShowTimes);
+router.get("/:id", getAllShowTimes);
 router.get("/theatre/:theatreId", getShowTimesByTheatre);
 router.post("/", addShowTime);
 router.delete("/:id", deleteShowTime);
