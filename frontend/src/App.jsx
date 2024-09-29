@@ -55,6 +55,7 @@ import Chatbot from "../src/components/Chatbot/ChatBot";
 import TheatreAdminDashboard from "./components/Theatre Admin/Home/Dashboard";
 import ManageTheatre from "./components/Theatre Admin/Manage Theatre/ManageTheatre";
 import QRCodeScanner from "./components/Theatre Admin/QR Code Scanner/QRCodeScanner";
+import ShowTimes from "./components/Theatre Admin/ShowTimes Management/ShowTimes";
 
 import RequestRefund from "./pages/RequestRefund";
 
@@ -134,6 +135,10 @@ const App = () => {
                 <Route
                   path="/theatre-admin"
                   element={<TheatreAdminDashboard />}
+                />
+                <Route
+                  path="/theatre-admin/showtimes"
+                  element={<ShowTimes />}
                 />
                 <Route
                   path="/theatre-admin/manage-theatre"

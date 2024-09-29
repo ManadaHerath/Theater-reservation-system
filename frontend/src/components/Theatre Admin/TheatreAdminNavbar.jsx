@@ -74,6 +74,23 @@ const TheatreAdminNavBar = () => {
 
       <Button
         component={NavLink}
+        to="/theatre-admin/showtimes"
+        color="inherit"
+        sx={{
+          color: "white",
+          marginBottom: 2,
+          width: "100%",
+          justifyContent: "flex-start",
+        }}
+        style={({ isActive }) => ({
+          color: isActive ? "green" : "white",
+        })}
+      >
+        Manage ShowTimes
+      </Button>
+
+      <Button
+        component={NavLink}
         to="/theatre-admin/qr-code-scanner"
         color="inherit"
         sx={{
