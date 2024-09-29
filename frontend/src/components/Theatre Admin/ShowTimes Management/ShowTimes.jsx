@@ -6,6 +6,12 @@ import TheatreAdminLayout from "../TheatreAdminLayout";
 const ShowTimes = () => {
   const [theatre, setTheatre] = useState(null);
   const [showTimes, setShowTimes] = useState([]);
+  const [movies, setMovies] = useState([]); // Store the list of movies
+  const [newShowTime, setNewShowTime] = useState({
+    movie_id: "",
+    start_time: "",
+    end_time: ""
+  });
   const axiosPrivate = useAxiosPrivate();
 
   useEffect(() => {
@@ -21,6 +27,10 @@ const ShowTimes = () => {
           );
           setShowTimes(showTimesResponse.data);
         }
+
+        // Fetch the list of movies for the dropdown
+        const moviesResponse = await axiosPrivate.get("/movies");
+        setMovies(moviesResponse.data);
       } catch (error) {
         console.error("Error fetching theatre or showtimes:", error);
       }
@@ -28,6 +38,31 @@ const ShowTimes = () => {
 
     fetchTheatreAndShowTimes();
   }, [axiosPrivate]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewShowTime({
+      ...newShowTime,
+      [name]: value,
+    });
+  };
+
+  const handleAddShowTime = async (e) => {
+    e.preventDefault();
+    try {
+      await axiosPrivate.post("/show_times", {
+        theatre_id: theatre.id,
+        ...newShowTime,
+      });
+      // After successful add, reload showtimes
+      const updatedShowTimes = await axiosPrivate.get(
+        `show_times/theatre/${theatre.id}`
+      );
+      setShowTimes(updatedShowTimes.data);
+    } catch (error) {
+      console.error("Error adding showtime:", error);
+    }
+  };
 
   const handleDelete = async (showtimeId) => {
     if (window.confirm("Are you sure you want to delete this showtime?")) {
@@ -49,6 +84,73 @@ const ShowTimes = () => {
           Showtimes for {theatre?.name}
         </h2>
 
+        {/* Add New Showtime Form */}
+        <div className="mb-8">
+          <h3 className="text-2xl font-bold text-gray-300 mb-4">
+            Add New Showtime
+          </h3>
+          <form
+            onSubmit={handleAddShowTime}
+            className="bg-gray-800 p-4 rounded-lg shadow-lg"
+          >
+            <div className="mb-4">
+              <label className="block text-gray-300 font-bold mb-2">
+                Movie
+              </label>
+              <select
+                name="movie_id"
+                value={newShowTime.movie_id}
+                onChange={handleInputChange}
+                className="w-full p-3 bg-gray-700 text-gray-300 border border-gray-600 rounded-lg"
+                required
+              >
+                <option value="">Select a Movie</option>
+                {movies.map((movie) => (
+                  <option key={movie.id} value={movie.id}>
+                    {movie.title}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="mb-4">
+              <label className="block text-gray-300 font-bold mb-2">
+                Start Time
+              </label>
+              <input
+                type="datetime-local"
+                name="start_time"
+                value={newShowTime.start_time}
+                onChange={handleInputChange}
+                className="w-full p-3 bg-gray-700 text-gray-300 border border-gray-600 rounded-lg"
+                required
+              />
+            </div>
+
+            <div className="mb-4">
+              <label className="block text-gray-300 font-bold mb-2">
+                End Time
+              </label>
+              <input
+                type="datetime-local"
+                name="end_time"
+                value={newShowTime.end_time}
+                onChange={handleInputChange}
+                className="w-full p-3 bg-gray-700 text-gray-300 border border-gray-600 rounded-lg"
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition duration-300"
+            >
+              Add Showtime
+            </button>
+          </form>
+        </div>
+
+        {/* Showtime List */}
         {showTimes.length > 0 ? (
           <div className="overflow-x-auto">
             <table className="min-w-full bg-gray-800 rounded-lg shadow-lg">
@@ -107,9 +209,7 @@ const ShowTimes = () => {
             </table>
           </div>
         ) : (
-          <p className="text-gray-400">
-            No showtimes available for this theatre.
-          </p>
+          <p className="text-gray-400">No showtimes available for this theatre.</p>
         )}
       </div>
     </TheatreAdminLayout>

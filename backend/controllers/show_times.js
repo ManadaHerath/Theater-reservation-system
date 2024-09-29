@@ -49,3 +49,20 @@ export const deleteShowTime = async (req, res) => {
     res.status(500).json({ message: 'Error deleting showtime' });
   }
 };
+
+export const addShowTime = async (req, res) => {
+  const { theatre_id, movie_id, start_time, end_time } = req.body;
+
+  try {
+    const [result] = await connection.query(
+      `INSERT INTO show_times (theatre_id, movie_id, start_time, end_time) 
+       VALUES (?, ?, ?, ?)`,
+      [theatre_id, movie_id, start_time, end_time]
+    );
+
+    res.status(200).json({ message: 'Showtime added successfully', showtimeId: result.insertId });
+  } catch (error) {
+    console.error('Error adding showtime:', error);
+    res.status(500).json({ message: 'Error adding showtime' });
+  }
+};
