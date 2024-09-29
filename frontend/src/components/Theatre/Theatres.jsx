@@ -1,5 +1,4 @@
-// TheatreList.jsx
-import { React, useEffect, useState } from "react";
+import { React, useEffect, useState, useCallback } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import SearchBar from "./Searchbar";
@@ -7,6 +6,8 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import Particles from "react-tsparticles";
+import { loadSlim } from "tsparticles-slim";
 
 const TheatreCard = (props) => {
   return (
@@ -66,6 +67,16 @@ const TheatreList = () => {
 
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
+  const particlesInit = useCallback(async (engine) => {
+    console.log(engine);
+
+    await loadSlim(engine);
+  }, []);
+
+  const particlesLoaded = useCallback(async (container) => {
+    await console.log(container);
+  }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -105,8 +116,72 @@ const TheatreList = () => {
 
   return (
     <div className="py-16 mb-10">
+      <Particles
+        id="tsparticles"
+        init={particlesInit}
+        loaded={particlesLoaded}
+        options={{
+          background: {
+            color: {
+              value: "#000", 
+            },
+          },
+          fpsLimit: 60,
+          interactivity: {
+            events: {
+              onHover: {
+                enable: true,
+                mode: "repulse", // Adds the repulse effect on hover
+              },
+              resize: true, // Adjusts to screen resize
+            },
+            modes: {
+              repulse: {
+                distance: 200, // Distance particles repulse from the cursor
+                duration: 0.4, // Duration of the repulse effect
+              },
+            },
+          },
+          particles: {
+            number: {
+              value: 90, // Number of particles
+              density: {
+                enable: true,
+                value_area: 800, // Density of particles in the canvas
+              },
+            },
+            color: {
+              value: "#ffffff", // Particle color
+            },
+            shape: {
+              type: "circle", // Shape of particles
+            },
+            opacity: {
+              value: 0.5, // Opacity of particles
+              random: true, // Randomize opacity
+            },
+            size: {
+              value: 5, // Size of particles
+              random: true, // Randomize size
+            },
+            move: {
+              enable: true, // Enable particle movement
+              speed: 3, // Speed of movement
+              direction: "none", // No specific direction
+              random: false, // Not random movement
+              straight: false, // Not moving in a straight line
+              out_mode: "bounce", // Particles bounce when reaching canvas edges
+              attract: {
+                enable: false, // Disable particle attraction
+              },
+            },
+          },
+          detectRetina: true, 
+        }}
+      />
+
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static" sx={{ backgroundColor: "transparent" }}>
+        <AppBar position="static" sx={{ backgroundColor: "#111827" }}>
           <Toolbar>
             <Typography
               variant="h6"
