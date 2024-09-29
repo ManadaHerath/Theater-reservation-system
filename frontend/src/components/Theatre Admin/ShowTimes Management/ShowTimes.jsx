@@ -102,7 +102,18 @@ const ShowTimes = () => {
       console.error("Error adding showtime:", error);
     }
   };
-
+  const handleDelete = async (showtimeId) => {
+    if (window.confirm("Are you sure you want to delete this showtime?")) {
+      try {
+        await axiosPrivate.delete(`/show_times/${showtimeId}`);
+        setShowTimes((prevShowTimes) =>
+          prevShowTimes.filter((showtime) => showtime.id !== showtimeId)
+        );
+      } catch (error) {
+        console.error("Error deleting showtime:", error);
+      }
+    }
+  };
   return (
     <TheatreAdminLayout>
       <div className="max-w-5xl mx-auto p-6">
@@ -234,8 +245,13 @@ const ShowTimes = () => {
                         className="h-20 rounded"
                       />
                     </td>
-                    <td className="px-6 py-4 text-gray-300">
-                      {/* Actions for editing/deleting */}
+                    <td className="px-6 py-4">
+                      <button
+                        onClick={() => handleDelete(showtime.id)}
+                        className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition duration-300"
+                      >
+                        Delete
+                      </button>
                     </td>
                   </tr>
                 ))}
