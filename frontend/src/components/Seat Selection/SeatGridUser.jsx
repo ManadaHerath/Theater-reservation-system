@@ -58,8 +58,8 @@ const SeatGridUser = () => {
     } else {
       setSelectedSeats([...selectedSeats, seat.name]);
     }
-    console.log()
   };
+
   useEffect(() => {
     const postSelectedSeats = async () => {
       try {
@@ -70,7 +70,6 @@ const SeatGridUser = () => {
         });
       } catch (error) {
         console.error("Error saving temp purchase:", error);
-        // Handle the error (e.g., offer a retry, notify the user)
       }
     };
 
@@ -78,6 +77,21 @@ const SeatGridUser = () => {
       postSelectedSeats();
     }
   });
+
+  // Calculate total price of selected seats
+  const calculateTotalPrice = () => {
+    return selectedSeats.reduce((total, seatName) => {
+      const seatIndex = gridData.grid.findIndex(row => 
+        row.some(seat => seat.name === seatName)
+      );
+      if (seatIndex !== -1) {
+        const seatType = seatTypes[seatIndex]; // Get the seat type based on row index
+        return total + parseFloat(seatType.price); // Add the price of the seat
+      }
+      return total; // If seat not found, return total
+    }, 0).toFixed(2); // Return total price fixed to 2 decimal places
+  };
+
   // Handle buy click
   const handleBuyClick = async () => {
     setClicked(true);
@@ -151,6 +165,11 @@ const SeatGridUser = () => {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Total Price Display */}
+      <div className="mt-4 text-xl font-bold">
+        Total Price: ${calculateTotalPrice()}
       </div>
 
       {/* Buy Button */}
