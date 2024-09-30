@@ -43,7 +43,7 @@ export const getAllShowTimes = async (req, res) => {
     }
 
     // Execute the query (passing id if it exists, otherwise it will fetch all)
-    const [show_times] = await connection.query(query, id ? [id] : undefined);
+    //const [show_times] = await connection.query(query, id ? [id] : undefined);
     res.json(show_times);
   } catch (error) {
     console.error('Error fetching show times:', error);
