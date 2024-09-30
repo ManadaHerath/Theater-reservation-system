@@ -10,7 +10,7 @@ import { loadSlim } from "tsparticles-slim";
 const MovieScheduleGrid = () => {
   const navigate = useNavigate();
   const { paramId } = useParams();
-  const { data: showTimes, loading, error } = useFetch("/show_times");
+  const { data: showTimes, loading, error } = useFetch(`/show_times/${paramId}`);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [currentIndex, setCurrentIndex] = useState(0);
   const [moviesToShow, setMoviesToShow] = useState({});
@@ -37,6 +37,7 @@ const MovieScheduleGrid = () => {
             (paramId.startsWith("t") && paramId.slice(1) === show.theatre_id) ||
             (paramId.startsWith("m") && paramId.slice(1) === show.movie_id)
           ) {
+
             if (!filteredMovies[show.movie_id]) {
               filteredMovies[show.movie_id] = [];
               console.log("filtered", filteredMovies);
