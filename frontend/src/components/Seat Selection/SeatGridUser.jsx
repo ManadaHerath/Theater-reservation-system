@@ -60,32 +60,27 @@ const SeatGridUser = () => {
     }
     console.log()
   };
-  // useEffect(() => {
-  //   const postSelectedSeats = async () => {
-  //     try {
-  //       const temp = await axios.post("http://localhost:5001/temp_purchase", {
-  //         theatre_id: theatreId,
-  //         show_time_id: showId,
-  //         seats: selectedSeats.join(","),
-  //       });
-  //     } catch (error) {
-  //       console.error("Error saving temp purchase:", error);
-  //       // Handle the error (e.g., offer a retry, notify the user)
-  //     }
-  //   };
-  // });
-  // // Handle buy click
-  const handleBuyClick = async () => {
-    try {
-      const temp = await axios.post("http://localhost:5001/temp_purchase", {
-        theatre_id: theatreId,
-        show_time_id: showId,
-        seats: selectedSeats.join(","),
-      });
-    } catch (error) {
-      console.error("Error saving temp purchase:", error);
-      // Handle the error (e.g., offer a retry, notify the user)
+  useEffect(() => {
+    const postSelectedSeats = async () => {
+      try {
+        const temp = await axios.post("http://localhost:5001/temp_purchase", {
+          theatre_id: theatreId,
+          show_time_id: showId,
+          seats: selectedSeats.join(","),
+        });
+      } catch (error) {
+        console.error("Error saving temp purchase:", error);
+        // Handle the error (e.g., offer a retry, notify the user)
+      }
+    };
+
+    if (clicked) {
+      postSelectedSeats();
     }
+  });
+  // Handle buy click
+  const handleBuyClick = async () => {
+    setClicked(true);
     const seatTypeCounts = selectedSeats.reduce((acc, seatName) => {
       const row = gridData.grid.find((row) => row.some((seat) => seat.name === seatName));
       if (!row) {
