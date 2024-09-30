@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
 import { styled, alpha } from "@mui/material/styles";
@@ -45,6 +45,7 @@ const SearchBar = ({ searchTerm, handleSearch }) => {
         <SearchIcon />
       </SearchIconWrapper>
       <StyledInputBase
+        id="search"
         autoFocus
         type="text"
         placeholder="Search…"
@@ -52,7 +53,6 @@ const SearchBar = ({ searchTerm, handleSearch }) => {
         value={searchTerm}
         onChange={handleSearch}
       />
-      
     </Search>
   );
 };

@@ -40,6 +40,7 @@ export default function Login() {
         setAlertStyle("text-green-600 text-s mt-1 flex justify-center");
 
         const accessToken = data?.token;
+        console.log("dataaaa",data);
         const role = data?.role;
         setUser({ email, accessToken, role });
         setEmail("");

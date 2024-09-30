@@ -44,13 +44,10 @@ export default function MovieDetails() {
 
   const sendReplyReview = async (id, reply) => {
     try {
-      const reviewReply = await axiosPrivate.post(
-        `/movie_reviews/reply`,
-        {
-          id,
-          reply,
-        }
-      );
+      const reviewReply = await axiosPrivate.post(`/movie_reviews/reply`, {
+        id,
+        reply,
+      });
       window.location.reload();
     } catch (error) {
       console.error("Error replying review:", error);
@@ -59,12 +56,9 @@ export default function MovieDetails() {
 
   const updateReviewLikes = async (id) => {
     try {
-      const reviewLikes = await axiosPrivate.patch(
-        `/movie_reviews/like`,
-        {
-          id,
-        }
-      );
+      const reviewLikes = await axiosPrivate.patch(`/movie_reviews/like`, {
+        id,
+      });
     } catch (error) {
       console.error("Error liking review:", error);
     }
@@ -113,18 +107,12 @@ export default function MovieDetails() {
     window.location.href = movie.trailer_video_url;
   };
 
-  const {
-    data: movie,
-    error,
-    isPending,
-  } = useFetch(`/movies/${id}`);
+  const { data: movie, error, isPending } = useFetch(`/movies/${id}`);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axiosPrivate.get(
-          "/users/getUser"
-        );
+        const response = await axiosPrivate.get("/users/getUser");
         setUserDetails(response.data);
       } catch (error) {
         console.error("Error fetching user:", error);
@@ -133,9 +121,7 @@ export default function MovieDetails() {
 
     const fetchReviews = async () => {
       try {
-        const response = await axiosPrivate.get(
-          `/movie_reviews/${id}`
-        );
+        const response = await axiosPrivate.get(`/movie_reviews/${id}`);
         setReviews(response.data);
       } catch (error) {
         console.error("Error fetching reviews:", error);
@@ -144,9 +130,7 @@ export default function MovieDetails() {
 
     const fetchUserRating = async () => {
       try {
-        const response = await axiosPrivate.get(
-          `/movie_reviews/rating/${id}`
-        );
+        const response = await axiosPrivate.get(`/movie_reviews/rating/${id}`);
         setUserRatingValue(response.data.rates);
       } catch (error) {
         console.error("Error fetching user rating:", error);
@@ -204,7 +188,7 @@ export default function MovieDetails() {
             <Box className="my-3 mx-10">
               <Rating
                 name="half-rating-read"
-                value={parseFloat(movie.rating).toFixed(1)}
+                value={parseFloat(movie.rating).toFixed(1) || 0}
                 precision={0.5}
                 readOnly
                 size="large"
@@ -241,8 +225,8 @@ export default function MovieDetails() {
           <div className="text-xl lg:text-5xl font-bold">Cast</div>
           <div>
             {movie.actors &&
-              movie.actors.map((actor) => (
-                <div className="flex flex-row space-x-5 mt-5">
+              movie.actors.map((actor, index) => (
+                <div key={index} className="flex flex-row space-x-5 mt-5">
                   <img
                     src={actor.avatar}
                     alt={actor.name}
@@ -264,7 +248,7 @@ export default function MovieDetails() {
             <Rating
               name="half-rating"
               precision={0.5}
-              value={parseFloat(userRatingvalue).toFixed(1)}
+              value={parseFloat(userRatingvalue).toFixed(1) || 0}
               size="large"
               onChange={(event, newValue) => {
                 if (!disable) {

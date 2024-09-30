@@ -14,7 +14,7 @@ passport.use(
       callbackURL: "http://localhost:5001/auth/google/callback",
       passReqToCallback: true, // This allows us to access `req` in the callback
     },
-    async (req, accessToken, refreshToken, profile, done) => {
+    async (req, res,accessToken, refreshToken, profile, done) => {
       try {
         const email = profile.emails[0].value;
         const fullName = profile.displayName;
@@ -89,6 +89,8 @@ passport.use(
             process.env.JWT_SECRET_KEY,
             { expiresIn: "10s" }
           );
+
+
 
           req.token = token; // Pass token to req for later use
           req.refreshToken = refreshToken;

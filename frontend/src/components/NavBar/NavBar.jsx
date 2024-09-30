@@ -17,6 +17,7 @@ const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -26,13 +27,14 @@ const NavBar = () => {
         console.error("Error fetching user:", error);
       }
     };
-
+    
     if (user?.token) {
       fetchData();
+
     } else {
       setUserDetails({});
     }
-  }, [user?.token]);
+  },[]);
 
   const signOut = async () => {
     await logout();
@@ -83,6 +85,8 @@ const NavBar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  // console.log("userDetails", userDetails.avatar);
+
   return (
     <div
       className={`fixed text-white left-0 top-0 w-full pr-5 z-50 flex ${
@@ -91,14 +95,15 @@ const NavBar = () => {
           : "bg-gradient-to-b from-[rgba(0,0,0,0.8)] h-16  to-transparent "
       } transition-all duration-1000 ease-in-out justify-between items-center`}
     >
-
       <div
         className={`${
           isMenuOpen ? "block " : "hidden"
         } md:flex flex-grow justify-center items-center relative inset-0 `}
       >
         <ul
-          className={`flex text-white flex-col md:flex-row md:space-x-24 text-lg md:rounded-none rounded-b-lg md:p-0 absolute top-8 md:static md:top-16  md:right-0 ${isMenuOpen ? "bg-black pt-0 px-4 mt-0" : ""}
+          className={`flex text-white flex-col md:flex-row md:space-x-24 text-lg md:rounded-none rounded-b-lg md:p-0 absolute top-8 md:static md:top-16  md:right-0 ${
+            isMenuOpen ? "bg-black pt-0 px-4 mt-0" : ""
+          }
             transition-colors duration-500 ease-in-out`}
         >
           {["Home", "Movies", "Schedule", "Theatres"].map((item) => (
@@ -116,12 +121,12 @@ const NavBar = () => {
       </div>
 
       <div className="ml-4 md:hidden absolute left-2 top-3">
-          {isMenuOpen ? (
-            <CloseIcon onClick={toggleMenu} className="cursor-pointer" />
-          ) : (
-            <MenuIcon onClick={toggleMenu} className="cursor-pointer" />
-          )}
-        </div>
+        {isMenuOpen ? (
+          <CloseIcon onClick={toggleMenu} className="cursor-pointer" />
+        ) : (
+          <MenuIcon onClick={toggleMenu} className="cursor-pointer" />
+        )}
+      </div>
 
       <div className="flex items-center absolute right-5 top-2 ">
         {user?.token ? (
@@ -147,8 +152,6 @@ const NavBar = () => {
             </div>
           </Link>
         )}
-
-        
       </div>
     </div>
   );
