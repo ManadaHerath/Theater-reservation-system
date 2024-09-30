@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { format, addDays } from "date-fns";
 import useFetch from "../../hooks/useFetch";
 import { useParams } from "react-router-dom";
@@ -15,7 +15,6 @@ const MovieScheduleGrid = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [moviesToShow, setMoviesToShow] = useState({});
   const particlesInit = useCallback(async (engine) => {
-
     await loadSlim(engine);
   }, []);
 
@@ -28,11 +27,11 @@ const MovieScheduleGrid = () => {
       const filteredMovies = {};
       showTimes.forEach((show) => {
         const showDate = new Date(show.start_time);
-        
+
         if (
           format(showDate, "yyyy-MM-dd") === format(selectedDate, "yyyy-MM-dd")
         ) {
-          console.log("show",show);
+          console.log("show", show);
           if (
             paramId === undefined ||
             (paramId.startsWith("t") && paramId.slice(1) === show.theatre_id) ||
@@ -40,10 +39,10 @@ const MovieScheduleGrid = () => {
           ) {
             if (!filteredMovies[show.movie_id]) {
               filteredMovies[show.movie_id] = [];
-              console.log("filtered",filteredMovies);
+              console.log("filtered", filteredMovies);
             }
             filteredMovies[show.movie_id].push(show);
-            console.log("filtered",filteredMovies);
+            console.log("filtered", filteredMovies);
           }
         }
       });
@@ -101,7 +100,7 @@ const MovieScheduleGrid = () => {
         options={{
           background: {
             color: {
-              value: "#181826",
+              value: "#09081d",
             },
           },
           fpsLimit: 60,

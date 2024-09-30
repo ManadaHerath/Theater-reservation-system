@@ -123,7 +123,7 @@ const TheatreList = () => {
         options={{
           background: {
             color: {
-              value: "#181826", 
+              value: "#09081d", 
             },
           },
           fpsLimit: 60,
