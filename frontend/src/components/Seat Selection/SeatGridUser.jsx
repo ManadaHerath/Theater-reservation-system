@@ -81,55 +81,13 @@ const SeatGridUser = () => {
   // Handle buy click
   const handleBuyClick = async () => {
     setClicked(true);
-    const seatTypeCounts = selectedSeats.reduce((acc, seatName) => {
-      const row = gridData.grid.find((row) => row.some((seat) => seat.name === seatName));
-      if (!row) {
-        console.error(`Row not found for seat: ${seatName}`);
-        return acc;
-      }
-      const seat = row.find((s) => s.name === seatName);
-      const seatType = seatTypes.find((type) => type.id === seat.seat_type_id);
-
-      if (!seatType) {
-        console.error(`Seat type not found for seat: ${seatName}`);
-        return acc;
-      }
-
-      acc[seatType.type] = (acc[seatType.type] || 0) + 1;
-      return acc;
-    }, {});
-
-    const seatTypePrices = seatTypes.reduce((acc, type) => {
-      acc[type.type] = parseFloat(type.price); // Ensure price is a number
-      return acc;
-    }, {});
-
-    const totalPrice = selectedSeats.reduce((total, seatName) => {
-      const row = gridData.grid.find((row) => row.some((seat) => seat.name === seatName));
-      if (!row) {
-        console.error(`Row not found for seat: ${seatName}`);
-        return total;
-      }
-      const seat = row.find((s) => s.name === seatName);
-      const seatType = seatTypes.find((type) => type.id === seat.seat_type_id);
-      return total + (seatTypePrices[seatType.type] || 0);
-    }, 0);
-
-    if (isNaN(totalPrice)) {
-      throw new Error("Total price calculation resulted in NaN");
-    }
 
     const purchaseDetails = {
       selectedSeats: selectedSeats.map((seatName) => {
-        const row = gridData.grid.find((row) => row.some((seat) => seat.name === seatName));
-        const seat = row.find((s) => s.name === seatName);
-        const seatType = seatTypes.find((type) => type.id === seat.seat_type_id);
         return {
           seat_label: seatName,
         };
       }),
-      seatTypeCounts,
-      totalPrice: totalPrice.toFixed(2),
       theatreId,
       showId,
     };
