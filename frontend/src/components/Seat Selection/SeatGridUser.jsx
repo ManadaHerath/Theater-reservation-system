@@ -58,25 +58,34 @@ const SeatGridUser = () => {
     } else {
       setSelectedSeats([...selectedSeats, seat.name]);
     }
+    console.log()
   };
-  useEffect(() => {
-    const postSelectedSeats = async () => {
-      try {
-        const temp = await axios.post("http://localhost:5001/temp_purchase", {
-          theatre_id: theatreId,
-          show_time_id: showId,
-          seats: selectedSeats.join(","),
-        });
-      } catch (error) {
-        console.error("Error saving temp purchase:", error);
-        // Handle the error (e.g., offer a retry, notify the user)
-      }
-    };
-    postSelectedSeats();
-  }, [clicked]);
-  // Handle buy click
+  // useEffect(() => {
+  //   const postSelectedSeats = async () => {
+  //     try {
+  //       const temp = await axios.post("http://localhost:5001/temp_purchase", {
+  //         theatre_id: theatreId,
+  //         show_time_id: showId,
+  //         seats: selectedSeats.join(","),
+  //       });
+  //     } catch (error) {
+  //       console.error("Error saving temp purchase:", error);
+  //       // Handle the error (e.g., offer a retry, notify the user)
+  //     }
+  //   };
+  // });
+  // // Handle buy click
   const handleBuyClick = async () => {
-    setClicked(true);
+    try {
+      const temp = await axios.post("http://localhost:5001/temp_purchase", {
+        theatre_id: theatreId,
+        show_time_id: showId,
+        seats: selectedSeats.join(","),
+      });
+    } catch (error) {
+      console.error("Error saving temp purchase:", error);
+      // Handle the error (e.g., offer a retry, notify the user)
+    }
     const seatTypeCounts = selectedSeats.reduce((acc, seatName) => {
       const row = gridData.grid.find((row) => row.some((seat) => seat.name === seatName));
       if (!row) {
@@ -197,7 +206,6 @@ const SeatGridUser = () => {
       <button
         onClick={handleBuyClick}
         className="mt-4 px-4 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-700"
-        disabled={clicked}
       >
         Buy
       </button>
