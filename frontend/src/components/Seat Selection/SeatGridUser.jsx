@@ -126,8 +126,6 @@ const SeatGridUser = () => {
         const seatType = seatTypes.find((type) => type.id === seat.seat_type_id);
         return {
           seat_label: seatName,
-          seat_type: seatType.type,
-          price: seatTypePrices[seatType.type],
         };
       }),
       seatTypeCounts,
