@@ -10,19 +10,17 @@ import { loadSlim } from "tsparticles-slim";
 const MovieScheduleGrid = () => {
   const navigate = useNavigate();
   const { paramId } = useParams();
-  console.log(paramId);
   const { data: showTimes, loading, error } = useFetch("/show_times");
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [currentIndex, setCurrentIndex] = useState(0);
   const [moviesToShow, setMoviesToShow] = useState({});
   const particlesInit = useCallback(async (engine) => {
-    console.log(engine);
 
     await loadSlim(engine);
   }, []);
 
   const particlesLoaded = useCallback(async (container) => {
-    await console.log(container);
+    //await console.log(container);
   }, []);
 
   useEffect(() => {
@@ -30,9 +28,11 @@ const MovieScheduleGrid = () => {
       const filteredMovies = {};
       showTimes.forEach((show) => {
         const showDate = new Date(show.start_time);
+        
         if (
           format(showDate, "yyyy-MM-dd") === format(selectedDate, "yyyy-MM-dd")
         ) {
+          console.log("show",show);
           if (
             paramId === undefined ||
             (paramId.startsWith("t") && paramId.slice(1) === show.theatre_id) ||
@@ -40,8 +40,10 @@ const MovieScheduleGrid = () => {
           ) {
             if (!filteredMovies[show.movie_id]) {
               filteredMovies[show.movie_id] = [];
+              console.log("filtered",filteredMovies);
             }
             filteredMovies[show.movie_id].push(show);
+            console.log("filtered",filteredMovies);
           }
         }
       });
@@ -206,7 +208,7 @@ const MovieScheduleGrid = () => {
                 }, {})
               ).map(([theatreName, shows]) => (
                 <div key={theatreName} className="mb-6">
-                  <h2 className="text-2xl lg:text-3xl font-bold text-white mb-8 text-center mx-5">
+                  <h2 className="text-2xl lg:text-3xl font-bold text-white mb-8 text-center mx-5 cursor-default">
                     {theatreName} - {shows[0].district}
                   </h2>
 
@@ -214,7 +216,7 @@ const MovieScheduleGrid = () => {
                     {shows.map((show) => (
                       <div
                         key={show.id}
-                        className="border mx-auto p-3 lg:h-32 lg:w-3/4 w-1/2 rounded-md shadow-lg mb-3 bg-gray-300 cursor-pointer transform transition-transform duration-200 hover:scale-105 hover:shadow-xl hover:bg-blue-500 text-black hover:text-white"
+                        className="border-4 hover:border-white mx-auto p-3 lg:h-32 lg:w-3/4 w-1/2 rounded-md shadow-lg mb-3 bg-gray-300 cursor-pointer transform transition-transform duration-200 hover:scale-105 hover:shadow-xl hover:bg-blue-500 text-black hover:text-white border-blue-500"
                         onClick={() =>
                           handleShowtimeClick(show.id, show.theatre_id)
                         }
