@@ -8,7 +8,7 @@ export const getPurchasedSeats = async (req, res, next) => {
       [theatreId, showId]
     );
     const [tempPurchasedSeats] = await connection.query(
-      "SELECT * FROM temp_tickets WHERE theatre_id = ? AND show_time_id = ?",
+      "SELECT * FROM temp_purchases WHERE theatre_id = ? AND show_time_id = ?",
       [theatreId, showId]
     );
     const selectedSeats = [...purchasedSeats, ...tempPurchasedSeats];
