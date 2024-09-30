@@ -119,7 +119,7 @@ export default function Reset() {
 
   return (
     <div>
-      <section className="w-screen bg-[#181826]">
+      <section className="w-screen bg-[#09081d]">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
           <div className="w-full p-6 rounded-lg shadow dark:border md:mt-0 sm:max-w-md bg-gray-800 border-gray-700 sm:p-8">
             <h1 className="mb-1 font-bold leading-tight tracking-tight flex justify-center md:text-2xl text-white text-2xl sm:text-3xl">

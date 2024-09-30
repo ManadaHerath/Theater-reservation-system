@@ -106,7 +106,7 @@ export default function MovieDetails() {
   };
 
   const handleClick = () => {
-    navigate(`/schedule/${id}`);
+    navigate(`/schedule/m${id}`);
   };
 
   const handleUrlClick = () => {
