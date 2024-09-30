@@ -20,7 +20,7 @@ export default function Login() {
   };
 
   const inputStyles =
-    "sm:text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500";
+    "sm:text-sm rounded-lg block w-full p-2.5 bg-[#09081d] border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500";
 
   const onsubmit = async (e) => {
     e.preventDefault();
@@ -40,7 +40,7 @@ export default function Login() {
         setAlertStyle("text-green-600 text-s mt-1 flex justify-center");
 
         const accessToken = data?.token;
-        console.log("dataaaa",data);
+        console.log("dataaaa", data);
         const role = data?.role;
         setUser({ email, accessToken, role });
         setEmail("");
@@ -66,12 +66,22 @@ export default function Login() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 w-screen bg-[#09081d]">
-      <div className="w-full p-6  rounded-lg shadow border md:mt-0 sm:max-w-md bg-gray-800 border-gray-700 sm:p-8">
+    <div
+      className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 w-full"
+      style={{
+        backgroundImage: `
+      linear-gradient(rgba(43, 58, 110, 0.7), rgba(40, 40, 50, 0.7)),
+      url('https://firebasestorage.googleapis.com/v0/b/medilink-5688e.appspot.com/o/images%2Ffetchpik.com-pNEtHoVwlU.jpg?alt=media&token=ef2ae0db-3178-4744-8a23-56c35b7d843d')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundColor: "#433B7C", 
+      }}
+    >
+      <div className="w-full p-6 rounded-lg shadow border md:mt-0 sm:max-w-md bg-black bg-opacity-40 border-gray-700 sm:p-8">
         <h1
           className="flex leading-tight tracking-tight justify-center text-2xl sm:text-3xl font-semibold 
-          text-white
-        "
+          text-white"
         >
           Login Now
         </h1>

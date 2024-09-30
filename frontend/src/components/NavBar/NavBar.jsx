@@ -27,7 +27,6 @@ const NavBar = () => {
         console.error("Error fetching user:", error);
       }
     };
-    
     if (user?.token) {
       fetchData();
 
@@ -35,6 +34,8 @@ const NavBar = () => {
       setUserDetails({});
     }
   },[]);
+
+
 
   const signOut = async () => {
     await logout();
