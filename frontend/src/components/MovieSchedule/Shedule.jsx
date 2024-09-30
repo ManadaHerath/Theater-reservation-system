@@ -211,11 +211,11 @@ const MovieScheduleGrid = () => {
                     {theatreName} - {shows[0].district}
                   </h2>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5 ">
                     {shows.map((show) => (
                       <div
                         key={show.id}
-                        className="border-4 hover:border-white mx-auto p-3 lg:h-32 lg:w-3/4 w-1/2 rounded-md shadow-lg mb-3 bg-gray-300 cursor-pointer transform transition-transform duration-200 hover:scale-105 hover:shadow-xl hover:bg-blue-500 text-black hover:text-white border-blue-500"
+                        className="border-4 hover:border-white mx-auto my-auto p-3 lg:h-32 lg:w-3/4 w-1/2 rounded-md shadow-xl mb-3 bg-transparent  cursor-pointer transform transition-transform duration-200 hover:scale-105 hover:shadow-xl hover:bg-blue-500 text-white hover:text-white border-blue-600"
                         onClick={() =>
                           handleShowtimeClick(show.id, show.theatre_id)
                         }

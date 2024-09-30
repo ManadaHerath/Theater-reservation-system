@@ -190,13 +190,12 @@ const SeatGridUser = () => {
             >
               Screen {screenPosition}
             </div>
-            {/* <div className="flex flex-col items-center mx-5"> */}
-            <div className="">
+            <div>
               {gridData.grid.map((row, rowIndex) => (
                 <div key={rowIndex} className="flex items-center">
                   <div className="relative group flex items-center">
                     <div className="absolute -left-12 flex flex-col items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="text-xs font-bold text-white">
+                      <div className="text-xs font-bold text-white hover:text-white">
                         {seatTypes[rowIndex]?.type}
                       </div>
                       <div className="text-xs font-bold mt-1 text-white">
@@ -206,7 +205,7 @@ const SeatGridUser = () => {
                     {row.map((seat, seatIndex) => (
                       <div
                         key={seatIndex}
-                        className={`w-10 h-10 flex items-center justify-center
+                        className={`w-7 h-7 lg:w-10 lg:h-10 flex items-center justify-center text-xs lg:text-base
                         ${
                           seat.selected
                             ? purchasedSeats.includes(seat.name)
