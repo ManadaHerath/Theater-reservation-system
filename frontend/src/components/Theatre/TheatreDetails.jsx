@@ -150,7 +150,7 @@ export default function Theatre() {
   if (error.length > 0) return <p>error...</p>;
 
   const handleonClick = () => {
-    navigate(`/schedule/${id}`);
+    navigate(`/schedule/t${id}`);
   };
 
   return (

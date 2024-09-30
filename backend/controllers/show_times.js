@@ -21,6 +21,7 @@ export const getAllShowTimes = async (req, res) => {
       INNER JOIN theatres t ON show_times.theatre_id = t.id
     `;
 
+    const [show_times] = await connection.query('SELECT show_times.id,theatre_id,start_time,end_time,movie_id,m.title,m.poster_url,t.name,t.district FROM show_times inner join movies m on show_times.movie_id = m.id inner join theatres t on show_times.theatre_id = t.id');
     // If id is provided, check if it's a valid movie_id or theatre_id
     if (id) {
       const [movieCheck] = await connection.query(

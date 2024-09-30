@@ -65,7 +65,7 @@ export default function Login() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 w-screen bg-[#181826]">
+    <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 w-screen bg-[#09081d]">
       <div className="w-full p-6  rounded-lg shadow border md:mt-0 sm:max-w-md bg-gray-800 border-gray-700 sm:p-8">
         <h1
           className="flex leading-tight tracking-tight justify-center text-2xl sm:text-3xl font-semibold 
