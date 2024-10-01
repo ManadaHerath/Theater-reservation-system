@@ -17,7 +17,9 @@ const TheatreCard = ({ theatre, onUpdate, onDelete }) => {
   const handleSeatGrid = () => {
     navigate(`/admin/seatgrid/${theatre.id}`);
   };
-
+  const handleChildrenPrices = () => {
+    navigate(`/admin/specialprices/${theatre.id}`);
+  };
   const handleDeleteClick = async () => {
     try {
       await axiosPrivate.delete(`/theatres/${theatre.id}`);
@@ -63,6 +65,12 @@ const TheatreCard = ({ theatre, onUpdate, onDelete }) => {
         className="block mt-2 text-yellow-600 hover:underline"
       >
         Add or Update Seat Structure
+      </button>
+      <button
+        onClick={handleChildrenPrices}
+        className="block mt-2 text-purple-600 hover:underline"
+      >
+        Add or Update Special Price Types
       </button>
       <button
         onClick={handleDeleteClick}

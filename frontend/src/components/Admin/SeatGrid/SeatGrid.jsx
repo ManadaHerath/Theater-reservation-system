@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
+import { axiosPrivate } from "../../../api/axios";
 import { useParams,useNavigate } from "react-router-dom";
 const SeatGrid = () => {
   const { theatreId } = useParams();
@@ -21,7 +21,7 @@ const SeatGrid = () => {
   useEffect(() => {
     const fetchGridData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5001/grid/gettheatregrid/${theatreId}`);
+        const response = await axiosPrivate.get(`http://localhost:5001/grid/gettheatregrid/${theatreId}`);
         if (response.data) {
           setRows(response.data.grid.length);
           setColumns(response.data.grid[0]?.length || 0);
@@ -214,7 +214,7 @@ const SeatGrid = () => {
     };
     console.log("Grid Data:", JSON.stringify(gridData, null, 2));
     try {
-      const response = await axios.post('http://localhost:5001/grid/addtheatregrid', gridData);
+      const response = await axiosPrivate.post('http://localhost:5001/grid/addtheatregrid', gridData);
       navigate(`/admin`);
 
     } catch (error) {
