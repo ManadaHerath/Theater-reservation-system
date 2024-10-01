@@ -146,26 +146,7 @@ export default function Theatre() {
     setLoading(false);
   }, [id]);
 
-  useEffect(() => {
-    if (!userDetails || userDetails.length === 0) {
-      const interval = setInterval(() => {
-        console.log("Re-fetching data...");
-
-        axiosPrivate.get("/users/getUser").then((response) => {
-          setUserDetails(response.data);
-        });
-
-        axiosPrivate.get(`/reviews/${id}`).then((response) => {
-          setReviews(response.data);
-        });
-
-        axiosPrivate.get(`/reviews/rating/${id}`).then((response) => {
-          setUserRatingValue(response.data.rates);
-        });
-      }, 5000);
-      return () => clearInterval(interval);
-    }
-  }, [loading, id]);
+  
 
   useEffect(() => {
     console.log("userDetails", userDetails);
