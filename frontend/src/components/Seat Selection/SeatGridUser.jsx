@@ -200,82 +200,89 @@ const SeatGridUser = () => {
         <div className="flex flex-col items-center w-full max-w-3xl">
           {/* Ticket Popup */}
           {popupOpen && (
+          <div className="absolute top-0 left-0 right-0 z-50 flex justify-center">
             <TicketPopup onSubmit={handleTicketSelection} />
-          )}
+          </div>
+        )}
 
-          {/* Screen Indicator */}
-          {screenPosition === "top" && (
-            <div className="flex items-center w-full my-4">
-              <div className="flex-grow border-t-4 border-blue-500"></div>
-              <div className="mx-4 text-white font-bold">Screen</div>
-              <div className="flex-grow border-t-4 border-blue-500"></div>
-            </div>
-          )}
+          {/* Conditionally render the rest of the UI after popup is confirmed */}
+          {!popupOpen && (
+            <>
+              {/* Screen Indicator */}
+              {screenPosition === "top" && (
+                <div className="flex items-center w-full my-4">
+                  <div className="flex-grow border-t-4 border-blue-500"></div>
+                  <div className="mx-4 text-white font-bold">Screen</div>
+                  <div className="flex-grow border-t-4 border-blue-500"></div>
+                </div>
+              )}
 
-          {/* Seat Grid */}
-          {groupedRows.map((group, groupIndex) => (
-            <div key={groupIndex} className="w-full mb-4">
-              {/* Seat Type Header */}
-              <div className="bg-blue-500 text-white text-md lg:text-lg font-bold p-1 rounded-md text-center">
-                {group.seatType} - ${seatTypes[groupIndex]?.price}
-                {seatTypes[groupIndex]?.childrenprice && (
-                  <span className="text-sm ml-2">
-                    (Children Price: ${seatTypes[groupIndex].childrenprice})
-                  </span>
-                )}
-              </div>
+              {/* Seat Grid */}
+              {groupedRows.map((group, groupIndex) => (
+                <div key={groupIndex} className="w-full mb-4">
+                  {/* Seat Type Header */}
+                  <div className="bg-blue-500 text-white text-md lg:text-lg font-bold p-1 rounded-md text-center">
+                    {group.seatType} - ${seatTypes[groupIndex]?.price}
+                    {seatTypes[groupIndex]?.childrenprice && (
+                      <span className="text-sm ml-2">
+                        (Children Price: ${seatTypes[groupIndex].childrenprice})
+                      </span>
+                    )}
+                  </div>
 
-              {/* Seat Rows */}
-              {group.rows.map((row, rowIndex) => (
-                <div key={rowIndex} className="flex items-center justify-center">
-                  {row.map((seat, seatIndex) => (
-                    <div key={seatIndex} className="relative">
-                      <div
-                        className={`w-7 h-7 lg:w-10 lg:h-10 text-xs lg:text-base flex items-center justify-center
-                        ${seat.selected ? purchasedSeats.includes(seat.name)
-                          ? "bg-red-500 text-gray-600"
-                          : selectedSeats.some((s) => s.name === seat.name)
-                          ? "bg-green-500 text-white border-2 border-white"
-                          : "bg-black text-white font-bold border-2 border-blue-600 cursor-pointer"
-                          : "bg-transparent"}
-                        ${purchasedSeats.includes(seat.name) ? "cursor-not-allowed" : "cursor-pointer"}
-                        m-1`}
-                        onClick={() =>
-                          seat.selected &&
-                          !purchasedSeats.includes(seat.name) &&
-                          handleSeatClick(seat)
-                        }
-                      >
-                        {seat.name}
-                      </div>
+                  {/* Seat Rows */}
+                  {group.rows.map((row, rowIndex) => (
+                    <div key={rowIndex} className="flex items-center justify-center">
+                      {row.map((seat, seatIndex) => (
+                        <div key={seatIndex} className="relative">
+                          <div
+                            className={`w-7 h-7 lg:w-10 lg:h-10 text-xs lg:text-base flex items-center justify-center
+                            ${seat.selected ? purchasedSeats.includes(seat.name)
+                              ? "bg-red-500 text-gray-600"
+                              : selectedSeats.some((s) => s.name === seat.name)
+                              ? "bg-green-500 text-white border-2 border-white"
+                              : "bg-black text-white font-bold border-2 border-blue-600 cursor-pointer"
+                              : "bg-transparent"}
+                            ${purchasedSeats.includes(seat.name) ? "cursor-not-allowed" : "cursor-pointer"}
+                            m-1`}
+                            onClick={() =>
+                              seat.selected &&
+                              !purchasedSeats.includes(seat.name) &&
+                              handleSeatClick(seat)
+                            }
+                          >
+                            {seat.name}
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   ))}
                 </div>
               ))}
-            </div>
-          ))}
 
-          {screenPosition === "bottom" && (
-            <div className="flex items-center w-full my-4">
-              <div className="flex-grow border-t-4 border-blue-500"></div>
-              <div className="mx-4 text-white font-bold">Screen</div>
-              <div className="flex-grow border-t-4 border-blue-500"></div>
-            </div>
+              {screenPosition === "bottom" && (
+                <div className="flex items-center w-full my-4">
+                  <div className="flex-grow border-t-4 border-blue-500"></div>
+                  <div className="mx-4 text-white font-bold">Screen</div>
+                  <div className="flex-grow border-t-4 border-blue-500"></div>
+                </div>
+              )}
+
+              {/* Total Price Display */}
+              <div className="mt-4 text-base lg:text-xl font-bold text-white">
+                Total Price: ${calculateTotalPrice()}
+              </div>
+
+              {/* Buy Button */}
+              <button
+                onClick={handleBuyClick}
+                className="mt-5 px-4 lg:px-10 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-700 transition duration-300"
+                disabled={clicked}
+              >
+                Buy
+              </button>
+            </>
           )}
-
-          {/* Total Price Display */}
-          <div className="mt-4 text-base lg:text-xl font-bold text-white">
-            Total Price: ${calculateTotalPrice()}
-          </div>
-
-          {/* Buy Button */}
-          <button
-            onClick={handleBuyClick}
-            className="mt-5 px-4 lg:px-10 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-700 transition duration-300"
-            disabled={clicked}
-          >
-            Buy
-          </button>
         </div>
       </div>
     </div>
