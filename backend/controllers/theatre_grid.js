@@ -51,3 +51,33 @@ export const getTheatreGrid = async (req, res, next) => {
 
 
 };
+
+export const updateSeatTypes = async (req, res, next) => {
+  const { theatreId } = req.params;
+  const { seat_types } = req.body;
+
+  if (!theatreId || !seat_types) {
+    return res.status(400).send('Invalid data');
+  }
+
+  try {
+    // Directly update seat_types for the given theatre_id
+    const query = `
+      UPDATE theater_grids
+      SET seat_types = ?
+      WHERE theatre_id = ?
+    `;
+
+    // Perform the update
+    const [result] = await connection.query(query, [JSON.stringify(seat_types), theatreId]);
+
+    if (result.affectedRows) {
+      res.status(200).json({ message: "Seat types updated successfully" });
+    } else {
+      res.status(404).json({ message: "Theatre grid not found" });
+    }
+  } catch (error) {
+    console.error("Error updating seat types:", error);
+    res.status(500).json({ message: "Error updating seat types" });
+  }
+};

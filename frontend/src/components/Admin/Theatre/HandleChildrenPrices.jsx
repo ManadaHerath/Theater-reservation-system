@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { axiosPrivate } from "../../../api/axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 const HandleChildrenPrices = () => {
   const { theatreId } = useParams();
+  const navigate = useNavigate();
   const [seatTypes, setSeatTypes] = useState([]);
   const [distinctSeatTypes, setDistinctSeatTypes] = useState([]);
 
@@ -16,7 +17,7 @@ const HandleChildrenPrices = () => {
         if (response.data) {
           const seatTypes = response.data.seat_types.map((seat) => ({
             ...seat,
-            childrenprice: seat.childrenprice || "", // Ensure childrenprice is initialized
+            childrenprice: seat.childrenprice || "", // Initialize childrenprice if not present
           }));
 
           // Filter distinct seat types
@@ -57,9 +58,19 @@ const HandleChildrenPrices = () => {
     );
   };
 
-  // Handle console log of the updated seat types
-  const handleLogSeatTypes = () => {
-    console.log(seatTypes);
+  // Handle the submission of updated seat types to the backend
+  const handleUpdateSeatTypes = async () => {
+    try {
+      await axiosPrivate.put(
+        `http://localhost:5001/grid/updateseattypes/${theatreId}`,
+        { seat_types: seatTypes }
+      );
+      alert("Seat types updated successfully!");
+      navigate("/theatres"); // Redirect or update UI as needed
+    } catch (error) {
+      console.error("Error updating seat types:", error);
+      alert("Failed to update seat types");
+    }
   };
 
   return (
@@ -96,10 +107,10 @@ const HandleChildrenPrices = () => {
       </table>
 
       <button
-        onClick={handleLogSeatTypes}
+        onClick={handleUpdateSeatTypes}
         className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6"
       >
-        Log Updated Prices
+        Update Prices
       </button>
     </div>
   );
