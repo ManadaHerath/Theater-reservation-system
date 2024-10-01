@@ -71,7 +71,7 @@ router.post("/create-checkout-session", async (req, res) => {
   const { selectedSeats, seatTypeCounts, totalPrice, theatreId, showId } =
     req.body;
 
-
+  console.log(req.body)
   const seats =await getSeatDetails(theatreId,selectedSeats);
   const line_items = seats.map(seat => ({
     price_data: {
