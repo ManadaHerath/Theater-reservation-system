@@ -133,33 +133,60 @@ const SeatGridUser = () => {
   }
 
   return (
-    <div className="flex flex-col items-center p-4">
-      {/* Screen Position Label */}
-      <div className={`text-xl font-bold mb-4 ${screenPosition === 'top' ? 'mt-4' : 'mb-4'}`}>
-        Screen {screenPosition}
-      </div>
 
-      {/* Seat Grid */}
-      <div className="flex flex-col items-center">
-        {gridData.grid.map((row, rowIndex) => (
-          <div key={rowIndex} className="flex items-center">
-            <div className="relative group flex items-center">
-              <div className="absolute -left-12 flex flex-col items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="text-xs font-bold">{seatTypes[rowIndex]?.type}</div>
-                <div className="text-xs font-bold mt-1">${seatTypes[rowIndex]?.price}</div>
-              </div>
+          <div className="" style={{ width: "80rem" }}>
+            <div 
+              className={`flex justify-center text-xl lg:text-3xl text-white font-bold mb-4 ${
+                screenPosition === "top" ? "mt-4" : "mb-4"
+              }`}
+            >
+              Screen {screenPosition}
+            </div>
+            <div>
+              {gridData.grid.map((row, rowIndex) => (
+                <div key={rowIndex} className="flex items-center">
+                  <div className="relative group flex items-center">
+                    <div className="absolute -left-12 flex flex-col items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="text-xs font-bold text-white hover:text-white">
+                        {seatTypes[rowIndex]?.type}
+                      </div>
+                      <div className="text-xs font-bold mt-1 text-white">
+                        ${seatTypes[rowIndex]?.price}
+                      </div>
+                    </div>
+                    {row.map((seat, seatIndex) => (
+                      <div
+                        key={seatIndex}
+                        className={`w-7 h-7 lg:w-10 lg:h-10 flex items-center justify-center text-xs lg:text-base
+                        ${
+                          seat.selected
+                            ? purchasedSeats.includes(seat.name)
+                              ? "bg-red-500 text-gray-600"
+                              : selectedSeats.includes(seat.name)
+                              ? "bg-green-500 text-white border-2 border-white"
+                              : "bg-black text-white font-bold border-2 border-blue-600 cursor-pointer"
+                            : "bg-transparent"
+                        }
+                        ${
+                          purchasedSeats.includes(seat.name)
+                            ? "cursor-not-allowed"
+                            : seat.selected
+                            ? "cursor-pointer"
+                            : "cursor-default"
+                        }
+                        ${seat.selected ? "border border-black" : "border-0"}
+                        m-1`}
+                        onClick={() =>
+                          seat.selected &&
+                          !purchasedSeats.includes(seat.name) &&
+                          handleSeatClick(seat)
+                        }
+                      >
+                        {seat.name}
+                      </div>
+                    ))}
+                  </div>
 
-              {row.map((seat, seatIndex) => (
-                <div
-                  key={seatIndex}
-                  className={`w-10 h-10 flex items-center justify-center 
-                    ${seat.selected ? (purchasedSeats.includes(seat.name) ? 'bg-red-300 text-gray-600' : (selectedSeats.includes(seat.name) ? 'bg-green-500 text-white' : 'bg-gray-500 text-white')) : 'bg-transparent'}
-                    ${purchasedSeats.includes(seat.name) ? 'cursor-not-allowed' : (seat.selected ? 'cursor-pointer' : 'cursor-default')}
-                    ${seat.selected ? 'border border-black' : 'border-0'}
-                    m-1`}
-                  onClick={() => seat.selected && !purchasedSeats.includes(seat.name) && handleSeatClick(seat)}
-                >
-                  {seat.name}
                 </div>
               ))}
             </div>

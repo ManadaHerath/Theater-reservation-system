@@ -201,10 +201,10 @@ export default function Theatre() {
           <p className="lg:text-4xl mt-5 ml-12 text-xl text-white font-bold">
             {details.rating}/5
           </p>
-          <Box className="my-auto justify-items-center items-center">
+          <Box className="my-auto justify-items-center items-center mt-3">
             <Rating
               name="half-rating-read"
-              value={parseFloat(details.rating)}
+              value={parseFloat(details.rating).toFixed(1) || 0}
               precision={0.5}
               readOnly
               size="large"
@@ -234,12 +234,11 @@ export default function Theatre() {
           {disable ? "Please login to rate" : "Rate Now"}
         </h1>
         <Box className="ml-10">
-          <Typography component="legend">Controlled</Typography>
           <Rating
             name="half-rating"
             precision={0.5}
-            value={parseFloat(userRatingvalue).toFixed(1)}
             size="large"
+            value={parseFloat(userRatingvalue).toFixed(1) || 0}
             onChange={(event, newValue) => {
               if (!disable) {
                 setUserRatingValue(newValue);

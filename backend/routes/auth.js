@@ -31,12 +31,14 @@ router.get(
       httpOnly: true,
       sameSite: "Strict",
       secure: true,
-      maxAge: 10 * 1000,
+      maxAge: 2592000,
     });
     if (req.user.role == "customer") {
       res.redirect("http://localhost:3000");
     } else if (req.user.role == "admin") {
       res.redirect("http://localhost:3000/admin");
+    } else if (req.user.role == "theatreAdmin") {
+      res.redirect("http://localhost:3000/theatre-admin");
     }
   }
 );
