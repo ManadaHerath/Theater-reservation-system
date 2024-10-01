@@ -105,7 +105,23 @@ const SeatGridUser = () => {
       }, 0)
       .toFixed(2); // Return total price fixed to 2 decimal places
   };
+  useEffect(() => {
+    const postSelectedSeats = async () => {
+      try {
+        const temp = await axios.post("http://localhost:5001/temp_purchase", {
+          theatre_id: theatreId,
+          show_time_id: showId,
+          seats: selectedSeats.join(","),
+        });
+      } catch (error) {
+        console.error("Error saving temp purchase:", error);
+      }
+    };
 
+    if (clicked) {
+      postSelectedSeats();
+    }
+  });
   // Handle buy click
   const handleBuyClick = async () => {
     setClicked(true);
@@ -175,6 +191,11 @@ const SeatGridUser = () => {
               {/* Section Header for Seat Type */}
               <div className="bg-blue-500 text-white text-md lg:text-lg font-bold p-1 rounded-md text-center">
                 {group.seatType} - ${seatTypes[groupIndex]?.price}
+                {seatTypes[groupIndex]?.childrenprice && (
+                  <span className="text-sm ml-2">
+                    (Children Price: ${seatTypes[groupIndex].childrenprice})
+                  </span>
+                )}
               </div>
 
               {/* Display the Rows for this Seat Type */}
