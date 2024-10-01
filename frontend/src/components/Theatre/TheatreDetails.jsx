@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import AddReview from "../Reviews/AddReviews";
 import ReviewList from "../Reviews/ShowReviewList";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import CircularProgress from "@mui/material/CircularProgress"; // Import CircularProgress
+import CircularProgress from "@mui/material/CircularProgress"; 
 
 export default function Theatre() {
   const axiosPrivate = useAxiosPrivate();

@@ -1,6 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Alert from "@mui/material/Alert";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function () {
   const [email, setEmail] = useState("");
@@ -23,7 +25,7 @@ export default function () {
         }
       );
       const data = await response.json();
-      setAlert(data);
+      setAlert(response.status);
       if (response.status === 200) {
         setAlertStyle("text-green-600 text-s my-1 flex justify-center");
         setLoading("");
@@ -45,16 +47,18 @@ export default function () {
   };
 
   return (
-    <div  className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 w-full"
-    style={{
-      backgroundImage: `
+    <div
+      className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 w-full"
+      style={{
+        backgroundImage: `
     linear-gradient(rgba(43, 58, 110, 0.7), rgba(40, 40, 50, 0.7)),
     url('https://firebasestorage.googleapis.com/v0/b/medilink-5688e.appspot.com/o/images%2Falexander-andrews-A545KXf87jE-unsplash.jpg?alt=media&token=cc367a90-2066-4632-9b01-fd65861b6f51')`,
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      backgroundRepeat: "no-repeat",
-      backgroundColor: "#433B7C", 
-    }}>
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundColor: "#433B7C",
+      }}
+    >
       <div className="flex justify-around items-center flex-col w-1/2 lg:w-1/4 h-1/2 bg-black bg-opacity-40 border-gray-700 rounded-md pb-3">
         <h1
           className="text-md py-3 md:text-xl sm:text-lg lg:text-2xl font-semibold 
@@ -81,12 +85,14 @@ export default function () {
           >
             Send Email
           </button>
-          {alert && <p className={alertStyle}>{alert}</p>}
-          {loading && (
-            <p className="text-white text-s my-1 flex justify-center">
-              {loading}
-            </p>
+          {alert === 200 ? (
+            <Alert severity="success">Email Sent Successfully</Alert>
+          ) : (
+            (alert === 400 || alert === 500 || alert === 201) && (
+              <Alert severity="error">Failed to send email</Alert>
+            )
           )}
+          {loading && <CircularProgress />}
         </form>
       </div>
     </div>

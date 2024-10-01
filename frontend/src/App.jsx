@@ -4,11 +4,11 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
+import UnauthorizedPage from "./components/Errors/Unauthorized";
 import Home from "./pages/Home";
 import Movies from "./pages/MoviePage";
 import Theatres from "./pages/TheatrePage";
 import Schedule from "./pages/SchedulePage";
-import Unauthorized from "./components/Errors/Unauthorized";
 import Help from "./pages/HelpPage";
 import Terms from "./pages/TermsPage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
@@ -66,7 +66,7 @@ const App = () => {
       <Router>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route path="/unauthorized" element={<Unauthorized />}></Route>
+            <Route path="/unauthorized" element={<UnauthorizedPage />}></Route>
             <Route path="/schedule" element={<Schedule />} />
             <Route
               path="/seatgrid/:showId/:theatreId"
