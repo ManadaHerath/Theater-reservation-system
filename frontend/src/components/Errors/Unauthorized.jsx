@@ -1,25 +1,30 @@
+import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const Unauthorized = () => {
+const UnauthorizedPage = () => {
   const navigate = useNavigate();
-  const goBack = () => navigate(-1);
+
+  const handleGoHome = () => {
+    navigate("/");
+  };
 
   return (
-    <section className="flex items-center justify-center h-screen bg-gray-900">
-      <div className="max-w-md w-full px-6 py-12 bg-gray-800 rounded-lg shadow-lg text-white">
-        <h1 className="text-3xl font-bold mb-4 text-center">Unauthorized</h1>
-        <p className="text-lg text-center mb-6">You do not have access.</p>
-        <div className="flex justify-center">
-          <button
-            onClick={goBack}
-            className="px-6 py-3 bg-[#E9522C] text-white rounded-lg hover:bg-[#E9522C]/90 transition duration-300 ease-in-out focus:outline-none"
-          >
-            Go Back
-          </button>
-        </div>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-[#433B7C] to-[#2C497F]">
+      <div className="text-center p-10 rounded-lg shadow-lg bg-white max-w-md">
+        <h1 className="text-4xl font-bold text-red-500 mb-4">403</h1>
+        <h2 className="text-2xl font-semibold text-gray-700 mb-2">Unauthorized Access</h2>
+        <p className="text-gray-500 mb-6">
+          Oops! It seems like you don't have permission to view this page.
+        </p>
+        <button
+          onClick={handleGoHome}
+          className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition duration-300 ease-in-out"
+        >
+          Go to Home
+        </button>
       </div>
-    </section>
+    </div>
   );
 };
 
-export default Unauthorized;
+export default UnauthorizedPage;

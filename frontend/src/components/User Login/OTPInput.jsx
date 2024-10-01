@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
+import Alert from '@mui/material/Alert';
+
 
 export default function OTPInput() {
   const location = useLocation();
@@ -46,9 +48,10 @@ export default function OTPInput() {
           OTP: otp,
         })
         .then((response) => {
+
+          setAlert(response.status);
           if (response.status === 200) {
             setAlertStyle("text-green-500 text-center mt-1");
-            setAlert("OTP is correct");
 
             setTimeout(() => {
               setAlert("");
@@ -56,7 +59,6 @@ export default function OTPInput() {
             }, 4000);
           } else {
             setAlertStyle("text-red-500 text-center mt-1");
-            setAlert("OTP is incorrect");
           }
         });
       setTimeout(() => {
@@ -199,7 +201,13 @@ export default function OTPInput() {
                       {disable ? `Resend OTP in ${timerCount}s` : "Resend OTP"}
                     </a>
                   </div>
-                  {alert && <p className={alertStyle}>{alert}</p>}
+                  {alert === 200 ? (
+            <Alert severity="success">OTP Matched</Alert>
+          ) : (
+            ( alert === 201) && (
+              <Alert severity="error">OTP didn't matched</Alert>
+            )
+          )}
                   {resendOTPAlert && (
                     <p className={alertStyle}>{resendOTPAlert}</p>
                   )}
