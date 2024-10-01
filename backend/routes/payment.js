@@ -1,7 +1,67 @@
-import express from "express";
-import Stripe from "stripe";
-import "dotenv/config";
-import { discountCalculator } from "../controllers/discountCalculator.js";
+
+import express from 'express';
+import Stripe from 'stripe';
+import 'dotenv/config';
+import {discountCalculator} from '../controllers/discountCalculator.js';
+import { connection } from '../index.js';
+
+const getSeatDetails = async (theatreId, selectedSeats) => {
+  try {
+    // Query the theater_grids table to get grid and seat_types for the given theatreId
+    const query = `
+      SELECT grid, seat_types FROM theater_grids WHERE theatre_id = ?`;
+
+    const [theatreGrid] = await connection.query(query, [theatreId]);
+
+    // Check if the result has rows
+    if (!theatreGrid || theatreGrid.length === 0) {
+      throw new Error("Theatre not found or no grid data available");
+    }
+
+    // Access the first row from the query result
+    const { grid, seat_types } = theatreGrid[0];
+
+    // Since the data is in JSON format, you can access it directly
+    const parsedGrid = grid;           // Access grid JSON
+    const parsedSeatTypes = seat_types; // Access seat_types JSON
+
+    // Helper function to get seat type and price based on the seat's row
+    const getSeatTypeAndPrice = (seatLabel) => {
+      for (let rowIndex = 0; rowIndex < parsedGrid.length; rowIndex++) {
+        const row = parsedGrid[rowIndex];
+        const seat = row.find((s) => s.name === seatLabel);
+
+        if (seat) {
+          const seatType = parsedSeatTypes[rowIndex]; // The seat type corresponds to the row index
+          return { seat_type: seatType.type, price: seatType.price };
+        }
+      }
+      return null; // If the seat is not found
+    };
+
+    // Map through selectedSeats to create the detailed object
+    const seatDetails = selectedSeats.map((seat) => {
+      const seatTypeInfo = getSeatTypeAndPrice(seat.seat_label);
+
+      if (!seatTypeInfo) {
+        throw new Error(`Seat ${seat.seat_label} not found in grid.`);
+      }
+
+      return {
+        seat_label: seat.seat_label,
+        seat_type: seatTypeInfo.seat_type,
+        price: seatTypeInfo.price,
+      };
+    });
+
+    return seatDetails; // Return the seat details for use in another function
+
+  } catch (error) {
+    console.error("Error getting seat details:", error.message);
+    throw error; // Rethrow the error for the calling function to handle
+  }
+};
+
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -11,11 +71,14 @@ router.post("/create-checkout-session", async (req, res) => {
   const { selectedSeats, seatTypeCounts, totalPrice, theatreId, showId } =
     req.body;
 
-  const line_items = selectedSeats.map((seat) => ({
+
+  const seats =await getSeatDetails(theatreId,selectedSeats);
+  const line_items = seats.map(seat => ({
     price_data: {
       currency: "usd",
       product_data: {
-        name: seat.seat_type,
+        name: seat.seat_label,
+
       },
       unit_amount: Math.round(seat.price * 100),
     },
