@@ -47,6 +47,7 @@ import UpdateMovie from "./components/Admin/Movies/UpdateMovie";
 import AdminMovie from "./pages/Admin/Admin-Movie";
 import Dashboard from "./components/Admin/Dashboard/Dashboard";
 import AdminRefundPage from "./components/Admin/Refund/RefundReq";
+import HandleChildrenPrices from "./components/Admin/Theatre/HandleChildrenPrices";
 // chatbot
 import Chatbot from "../src/components/Chatbot/ChatBot";
 
@@ -111,6 +112,10 @@ const App = () => {
                 <Route
                   path="/admin/seatgrid/:theatreId"
                   element={<SeatGrid />}
+                ></Route>
+                <Route
+                  path="/admin/specialprices/:theatreId"
+                  element={<HandleChildrenPrices />}
                 ></Route>
 
                 <Route
