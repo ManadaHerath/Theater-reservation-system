@@ -33,7 +33,11 @@ const getSeatDetails = async (theatreId, selectedSeats) => {
 
         if (seat) {
           const seatType = parsedSeatTypes[rowIndex]; // The seat type corresponds to the row index
-          return { seat_type: seatType.type, price: seatType.price };
+          return {
+            seat_type: seatType.type,
+            price: seatType.price,
+            childrenPrice: seatType.childrenprice // Include children price
+          };
         }
       }
       return null; // If the seat is not found
@@ -47,10 +51,15 @@ const getSeatDetails = async (theatreId, selectedSeats) => {
         throw new Error(`Seat ${seat.seat_label} not found in grid.`);
       }
 
+      const price =
+        seat.price_type === "child" && seatTypeInfo.childrenPrice !== undefined
+          ? seatTypeInfo.childrenPrice
+          : seatTypeInfo.price; // Use child price if applicable
+
       return {
         seat_label: seat.seat_label,
-        seat_type: seatTypeInfo.seat_type,
-        price: seatTypeInfo.price,
+        seat_type: `${seatTypeInfo.seat_type} - ${seat.price_type.charAt(0).toUpperCase() + seat.price_type.slice(1)}`,
+        price: price,
       };
     });
 
@@ -73,11 +82,12 @@ router.post("/create-checkout-session", async (req, res) => {
 
   console.log(req.body)
   const seats =await getSeatDetails(theatreId,selectedSeats);
+  console.log(seats)
   const line_items = seats.map(seat => ({
     price_data: {
       currency: "usd",
       product_data: {
-        name: seat.seat_label,
+        name: seat.seat_label+" - "+seat.seat_type,
 
       },
       unit_amount: Math.round(seat.price * 100),
