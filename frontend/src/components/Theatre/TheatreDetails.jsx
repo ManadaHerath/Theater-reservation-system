@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import AddReview from "../Reviews/AddReviews";
 import ReviewList from "../Reviews/ShowReviewList";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import CircularProgress from "@mui/material/CircularProgress"; // Import CircularProgress
 
 export default function Theatre() {
   const axiosPrivate = useAxiosPrivate();
@@ -17,6 +18,7 @@ export default function Theatre() {
   const [reviews, setReviews] = useState([]);
   const { id } = useParams();
   const [theatre_id, setTheatre_id] = useState(id);
+  const [loading, setLoading] = useState(true); // Add loading state
 
   const handleAddReview = (review) => {
     sendReview(review);
@@ -103,7 +105,11 @@ export default function Theatre() {
 
   const navigate = useNavigate();
 
-  const { data: details, loading, error } = useFetch(`/theatres/${id}`);
+  const {
+    data: details,
+    loading: isFetching,
+    error,
+  } = useFetch(`/theatres/${id}`);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -137,21 +143,50 @@ export default function Theatre() {
     fetchData();
     fetchReviews();
     fetchUserRating();
-  }, []);
+    setLoading(false);
+  }, [id]);
 
   useEffect(() => {
+    if (!userDetails || userDetails.length === 0) {
+      const interval = setInterval(() => {
+        console.log("Re-fetching data...");
+
+        axiosPrivate.get("/users/getUser").then((response) => {
+          setUserDetails(response.data);
+        });
+
+        axiosPrivate.get(`/reviews/${id}`).then((response) => {
+          setReviews(response.data);
+        });
+
+        axiosPrivate.get(`/reviews/rating/${id}`).then((response) => {
+          setUserRatingValue(response.data.rates);
+        });
+      }, 5000);
+      return () => clearInterval(interval);
+    }
+  }, [loading, id]);
+
+  useEffect(() => {
+    console.log("userDetails", userDetails);
     if (userDetails && userDetails.length > 0 && userDetails[0] !== null) {
       setDisable(false);
     } else {
       setDisable(true);
     }
   }, [userDetails]);
-  if (loading) return <p>Loading...</p>;
-  if (error.length > 0) return <p>error...</p>;
 
   const handleonClick = () => {
     navigate(`/schedule/t${id}`);
   };
+
+  if (loading || isFetching) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <CircularProgress color="secondary" /> {/* Loading spinner */}
+      </div>
+    );
+  }
 
   return (
     <div className="max-h-full pb-10 bg-black">

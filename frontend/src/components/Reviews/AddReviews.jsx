@@ -112,7 +112,7 @@ const AddReview = ({ onSubmit, disable, photo }) => {
           }}
           sx={{
             backgroundColor: disable ? "grey" : "#007BFF",
-            color: disable ? "white" : "inherit",
+            color: disable ? "white" : "white",
             "&:hover": {
               backgroundColor: disable ? "grey" : "#0056b3",
             },
