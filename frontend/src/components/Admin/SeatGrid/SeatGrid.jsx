@@ -215,7 +215,7 @@ const SeatGrid = () => {
     console.log("Grid Data:", JSON.stringify(gridData, null, 2));
     try {
       const response = await axiosPrivate.post('http://localhost:5001/grid/addtheatregrid', gridData);
-      navigate(`/admin`);
+      navigate(`/admin/specialprices/${theatreId}`);
 
     } catch (error) {
       console.error('Error saving grid data:', error);
