@@ -66,7 +66,7 @@ const HandleChildrenPrices = () => {
         { seat_types: seatTypes }
       );
       alert("Seat types updated successfully!");
-      navigate("/theatres"); // Redirect or update UI as needed
+      navigate("/admin"); // Redirect or update UI as needed
     } catch (error) {
       console.error("Error updating seat types:", error);
       alert("Failed to update seat types");
