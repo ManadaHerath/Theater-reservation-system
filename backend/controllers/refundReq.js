@@ -58,6 +58,13 @@ export const acceptRefund = async (req, res, next) => {
         });
         console.log('Refund:', refund);
         const [result] = await connection.query("UPDATE refund_request SET status = ? WHERE id = ?", ['accepted', id]);
+        const { pi} = refundRequest[0];
+
+        // Delete the corresponding row from the purchases table
+        const [result2] = await connection.query(
+        "DELETE FROM purchases WHERE pi = ?",
+        [pi]
+        );
         refundRequest.status = 'Accepted';
         refundRequest.stripeRefundId = refund.id;
         res.status(200).json({ message: "Refund request accepted." });
