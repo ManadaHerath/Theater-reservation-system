@@ -43,6 +43,7 @@ export const getAllShowTimes = async (req, res) => {
     }
 
     // Execute the query (passing id if it exists, otherwise it will fetch all)
+
     res.json(show_times);
   } catch (error) {
     console.error("Error fetching show times:", error);

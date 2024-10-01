@@ -34,7 +34,7 @@ const Review = ({ review, onLike, onReply }) => {
           {review.name}
         </Typography>
         <Rating
-        value={parseFloat(review.rating).toFixed(1)}
+        value={parseFloat(review.rating).toFixed(1) || 0}
         precision={0.5}
         readOnly
         sx={{

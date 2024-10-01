@@ -8,7 +8,7 @@ import GoogleSignInButton from "../User Login/SignInButton";
 
 export default function Register_Form() {
   const inputStyles =
-    "sm:text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500";
+    "sm:text-sm rounded-lg block w-full p-2.5 bg-[#09081d] border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500";
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
@@ -138,9 +138,20 @@ export default function Register_Form() {
     }, 5000);
   };
   return (
-    <div className="flex flex-col justify-center items-center w-full h-full bg-[#09081d] px-5">
+    <div
+      className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 w-full"
+      style={{
+        backgroundImage: `
+    linear-gradient(rgba(43, 58, 110, 0.7), rgba(40, 40, 50, 0.7)),
+    url('https://firebasestorage.googleapis.com/v0/b/medilink-5688e.appspot.com/o/images%2Ffetchpik.com-mhl9Ow2rpT.jpg?alt=media&token=33d9f4bf-a3b3-48ad-9717-7c4810bc7adf')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundColor: "#2C497F",
+      }}
+    >
       <div
-        className="xl:max-w-3xl bg-gray-800 border-gray-700
+        className="xl:max-w-3xl  bg-black bg-opacity-40 border-gray-700 mt-8 mb-8
       }  w-full py-3 sm:p-10 rounded-md sm:max-w-md my-6"
       >
         <h1
@@ -148,7 +159,7 @@ export default function Register_Form() {
           text-white
         "
         >
-          Register for a free account
+          Register Now
         </h1>
         <form onSubmit={onsubmit}>
           <div className="w-full mt-8">

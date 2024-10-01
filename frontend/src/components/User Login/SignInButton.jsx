@@ -10,7 +10,7 @@ const GoogleSignInButton = ({ word }) => {
   return (
     <button
       onClick={handleGoogleSignIn}
-      className="text-white bg-gray-900 p-3 rounded-md hover:bg-gray-600"
+      className="text-white bg-blue-800 p-3 rounded-md hover:bg-blue-900"
     >
       <FontAwesomeIcon icon={faGoogle} className="mr-3" />
       Sign {word} with Google
