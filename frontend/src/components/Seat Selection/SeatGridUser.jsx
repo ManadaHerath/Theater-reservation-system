@@ -9,7 +9,7 @@ const SeatGridUser = () => {
   const [gridData, setGridData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedSeats, setSelectedSeats] = useState([]);
-  const [purchasedSeats, setPurchasedSeats] = useState([]); // To track seats already purchased
+  const [purchasedSeats, setPurchasedSeats] = useState([]);
   const [seatTypes, setSeatTypes] = useState([]);
   const [screenPosition, setScreenPosition] = useState("");
   const [clicked, setClicked] = useState(false);
@@ -63,23 +63,32 @@ const SeatGridUser = () => {
     }
   };
 
-  useEffect(() => {
-    const postSelectedSeats = async () => {
-      try {
-        const temp = await axios.post("http://localhost:5001/temp_purchase", {
-          theatre_id: theatreId,
-          show_time_id: showId,
-          seats: selectedSeats.join(","),
-        });
-      } catch (error) {
-        console.error("Error saving temp purchase:", error);
-      }
-    };
+  // Function to group rows by seat type
+  const groupRowsBySeatType = () => {
+    const grouped = [];
+    let currentSeatType = null;
+    let currentGroup = [];
 
-    if (clicked) {
-      postSelectedSeats();
+    gridData.grid.forEach((row, index) => {
+      const seatType = seatTypes[index]; // Assuming row index maps to seat type index
+      if (seatType.type !== currentSeatType) {
+        if (currentGroup.length) {
+          grouped.push({ seatType: currentSeatType, rows: currentGroup });
+        }
+        currentSeatType = seatType.type;
+        currentGroup = [row];
+      } else {
+        currentGroup.push(row);
+      }
+    });
+
+    // Add the last group
+    if (currentGroup.length) {
+      grouped.push({ seatType: currentSeatType, rows: currentGroup });
     }
-  });
+
+    return grouped;
+  };
 
   // Calculate total price of selected seats
   const calculateTotalPrice = () => {
@@ -142,13 +151,81 @@ const SeatGridUser = () => {
     return <p className="text-center">Loading...</p>;
   }
 
+  const groupedRows = groupRowsBySeatType();
+
   return (
     <div>
       <NavBar />
 
-      <div className="flex justify-center p-4 lg:my-16  my-8">
-        {/* Total Price Display */}
-        <div className=" ">
+      <div className="flex flex-col items-center p-4 lg:my-16 my-8">
+        <div className="flex flex-col items-center w-full max-w-3xl">
+          {/* Screen Indicator Line */}
+          {screenPosition === "top" && (
+              <div className="flex items-center w-full my-4">
+                <div className="flex-grow border-t-4 border-blue-500"></div>
+                <div className="mx-4 text-white font-bold">Screen</div>
+                <div className="flex-grow border-t-4 border-blue-500"></div>
+              </div>
+            )}
+          
+
+          {/* Display Seat Type Sections */}
+          {groupedRows.map((group, groupIndex) => (
+            <div key={groupIndex} className="w-full mb-4">
+              {/* Section Header for Seat Type */}
+              <div className="bg-blue-500 text-white text-md lg:text-lg font-bold p-1 rounded-md text-center">
+                {group.seatType} - ${seatTypes[groupIndex]?.price}
+              </div>
+
+              {/* Display the Rows for this Seat Type */}
+              {group.rows.map((row, rowIndex) => (
+                <div key={rowIndex} className="flex items-center justify-center">
+                  {row.map((seat, seatIndex) => (
+                    <div key={seatIndex} className="relative">
+                      <div
+                        className={`w-7 h-7 lg:w-10 lg:h-10 hover:text-white hover:bg-blue-300 text-xs lg:text-base flex items-center justify-center
+            ${
+              seat.selected
+                ? purchasedSeats.includes(seat.name)
+                  ? "bg-red-500 text-gray-600 hover:bg-red-500"
+                  : selectedSeats.includes(seat.name)
+                  ? "bg-green-500 text-white border-2 hover:bg-green-500 border-white"
+                  : "bg-black text-white font-bold border-2 border-blue-600 cursor-pointer"
+                : "bg-transparent hover:bg-inherit"
+            }
+            ${
+              purchasedSeats.includes(seat.name)
+                ? "cursor-not-allowed"
+                : seat.selected
+                ? "cursor-pointer"
+                : "cursor-default"
+            }
+            ${seat.selected ? "border border-black" : "border-0"}
+            m-1 relative`}
+                        onClick={() =>
+                          seat.selected &&
+                          !purchasedSeats.includes(seat.name) &&
+                          handleSeatClick(seat)
+                        }
+                      >
+                        {seat.name}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          ))}
+
+            {screenPosition === "bottom" && (
+              <div className="flex items-center w-full my-4">
+                <div className="flex-grow border-t-4 border-blue-500"></div>
+                <div className="mx-4 text-white font-bold">Screen</div>
+                <div className="flex-grow border-t-4 border-blue-500"></div>
+              </div>
+            )}
+
+          {/* Total Price Display */}
           <div className="mt-4 text-base lg:text-xl font-bold text-white">
             Total Price: ${calculateTotalPrice()}
           </div>
@@ -156,87 +233,11 @@ const SeatGridUser = () => {
           {/* Buy Button */}
           <button
             onClick={handleBuyClick}
-            className="mt-5 px-4 lg:px-10 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-700"
+            className="mt-5 px-4 lg:px-10 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-700 transition duration-300"
             disabled={clicked}
           >
             Buy
           </button>
-        </div>
-
-        <div className="" style={{ overflow: "auto" }}>
-          <div className="" style={{ width: "80rem" }}>
-            <div
-              className={`flex justify-center text-xl lg:text-3xl text-white font-bold mb-4 ${
-                screenPosition === "top" ? "mt-4" : "mb-4"
-              }`}
-            >
-              Screen {screenPosition}
-            </div>
-            {/* <div className="flex flex-col items-center mx-5"> */}
-            <div className="">
-              {gridData.grid.map((row, rowIndex) => (
-                <div key={rowIndex} className="flex items-center">
-                  <div className="relative group flex items-center">
-                    <div className="absolute -left-12 flex flex-col items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="text-xs font-bold text-white">
-                        {seatTypes[rowIndex]?.type}
-                      </div>
-                      <div className="text-xs font-bold mt-1 text-white">
-                        ${seatTypes[rowIndex]?.price}
-                      </div>
-                    </div>
-                    {row.map((seat, seatIndex) => (
-                      <div key={seatIndex} className="relative">
-                        {/* Seat element */}
-                        <div
-                          className={`w-7 h-7 lg:w-10 lg:h-10 hover:text-white hover:bg-blue-300 text-xs lg:text-base flex items-center justify-center
-      ${
-        seat.selected
-          ? purchasedSeats.includes(seat.name)
-            ? "bg-red-500 text-gray-600 hover:bg-red-500"
-            : selectedSeats.includes(seat.name)
-            ? "bg-green-500 text-white border-2 hover:bg-green-500 border-white"
-            : "bg-black text-white font-bold border-2 border-blue-600 cursor-pointer"
-          : "bg-transparent hover:bg-inherit"
-      }
-      ${
-        purchasedSeats.includes(seat.name)
-          ? "cursor-not-allowed"
-          : seat.selected
-          ? "cursor-pointer"
-          : "cursor-default"
-      }
-      ${seat.selected ? "border border-black" : "border-0"}
-      m-1 relative`}
-                          onClick={() =>
-                            seat.selected &&
-                            !purchasedSeats.includes(seat.name) &&
-                            handleSeatClick(seat)
-                          }
-                        >
-                          {seat.name}
-                        </div>
-
-                        {/* Tooltip for seat type and price */}
-                        <div
-                          className={`absolute left-1/2 transform -translate-x-1/2 -top-10 bg-gray-800 text-white text-xs p-2 rounded-lg opacity-0 transition-opacity duration-300 z-10 pointer-events-none ${
-                            seat.selected ? "group-hover:opacity-100" : ""
-                          }`}
-                        >
-                          <div className="font-bold">
-                            {seatTypes[rowIndex]?.type}
-                          </div>
-                          <div className="mt-1">
-                            ${seatTypes[rowIndex]?.price}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </div>
     </div>
