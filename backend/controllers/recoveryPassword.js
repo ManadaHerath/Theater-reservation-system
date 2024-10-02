@@ -21,12 +21,12 @@ export const send_recovery_email = async (req, res) => {
       const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-          user: process.env.EMAIL,
-          pass: process.env.APP_PASSWORD,
+          user: process.env.SMTP_USER,
+          pass: process.env.SMTP_PASS,
         },
       });
       const mailOptions = {
-        from: process.env.EMAIL,
+        from: `"Movie Mingle" <${process.env.SMTP_USER}>`,
         to: email,
         subject: "Password Recovery",
         html: otpEmailTemplate(OTP),

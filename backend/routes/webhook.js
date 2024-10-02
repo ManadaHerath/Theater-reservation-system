@@ -37,12 +37,14 @@ router.post('/', express.raw({ type: 'application/json' }), async (req, res) => 
   if (event.type === 'checkout.session.completed') {
 
     const session = event.data.object;
+
     const pi = session.payment_intent;
     const theatreId = session.metadata?.theatreId;
     const showId = session.metadata?.showId ||1;
     const seatInfo = session.metadata?.selectedSeats;
     const customerEmail = session.customer_details.email;
     const token = tokenGen();
+
 
     if (!theatreId || !showId) {
       console.error('Missing metadata in session');
