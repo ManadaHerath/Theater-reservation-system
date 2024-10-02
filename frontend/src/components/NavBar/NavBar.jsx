@@ -17,25 +17,22 @@ const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axiosPrivate.get("/users/getUser");
         setUserDetails(response.data[0]);
+        console.log("userDetails", response.data[0]);
       } catch (error) {
         console.error("Error fetching user:", error);
       }
     };
     if (user?.token) {
       fetchData();
-
     } else {
       setUserDetails({});
     }
-  },[]);
-
-
+  }, []);
 
   const signOut = async () => {
     await logout();
@@ -86,7 +83,7 @@ const NavBar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  // console.log("userDetails", userDetails.avatar);
+  console.log("user avatar", userDetails.avatar);
 
   return (
     <div
@@ -134,7 +131,7 @@ const NavBar = () => {
           <div className="flex flex-row gap-3 ">
             <img
               src={userDetails.avatar}
-              alt="profile"
+              alt="P"
               className="w-10 h-10 rounded-full"
             />
             <button className=" cursor-pointer" onClick={signOut}>
