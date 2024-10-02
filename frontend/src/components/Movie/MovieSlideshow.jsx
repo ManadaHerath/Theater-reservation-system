@@ -118,6 +118,10 @@ function MovieSlideshow({ movies }) {
     window.open(activeMovie.trailer_video_url, "_blank");
   };
 
+  const handleBookTicketClick = () => {
+    navigate(`/schedule/m${activeMovie.id}`);
+  };
+
   const activeMovie = state.movies[state.slideIndex];
 
   return (
@@ -133,7 +137,7 @@ function MovieSlideshow({ movies }) {
           {activeMovie.title}
         </h1>
         <div className="absolute flex gap-6 lg:bottom-20 bottom-16 md:left-20 left-8">
-          <button className="block lg:px-6 lg:py-3 px-3 py-2 lg:text-2xl text-lg text-left  text-white bg-transparent border rounded-2xl  hover:text-black hover:bg-white font-semibold">
+          <button onClick={handleBookTicketClick} className="block lg:px-6 lg:py-3 px-3 py-2 lg:text-2xl text-lg text-left  text-white bg-transparent border rounded-2xl  hover:text-black hover:bg-white font-semibold">
             Buy
             
             Tickets
