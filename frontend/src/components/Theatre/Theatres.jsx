@@ -8,6 +8,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Particles from "react-tsparticles";
 import { loadSlim } from "tsparticles-slim";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const TheatreCard = (props) => {
   return (
@@ -84,7 +85,7 @@ const TheatreList = () => {
         setData(response.data);
       } catch (error) {
         setError(error.message);
-        navigate("/login", { state: { from: location }, replace: true });
+        //navigate("/login", { state: { from: location }, replace: true });
       }
       setLoading(false);
     };
@@ -93,7 +94,11 @@ const TheatreList = () => {
   }, []);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <CircularProgress color="secondary" /> {/* Loading spinner */}
+      </div>
+    );
   }
 
   if (error.length > 0) {
@@ -123,7 +128,7 @@ const TheatreList = () => {
         options={{
           background: {
             color: {
-              value: "#09081d", 
+              value: "#09081d",
             },
           },
           fpsLimit: 60,
@@ -176,7 +181,7 @@ const TheatreList = () => {
               },
             },
           },
-          detectRetina: true, 
+          detectRetina: true,
         }}
       />
 

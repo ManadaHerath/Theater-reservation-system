@@ -10,6 +10,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Particles from "react-tsparticles";
 import { loadSlim } from "tsparticles-slim";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const MovieCard = ({ movie }) => {
   const navigate = useNavigate(); // Hook for navigation
@@ -160,7 +161,11 @@ const MovieList = () => {
   }));
 
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <CircularProgress color="secondary" /> {/* Loading spinner */}
+      </div>
+    );
   }
 
   if (error.length > 0) {
