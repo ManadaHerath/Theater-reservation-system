@@ -283,6 +283,7 @@ export default function Theatre() {
           reviews={reviews}
           onLike={handleLikeReview}
           onReply={handleReplyReview}
+          disable={disable}
         />
       </div>
     </div>

@@ -36,7 +36,7 @@ const AddReview = ({ onSubmit, disable, photo }) => {
         }}
         onSubmit={handleSubmit}
       >
-        <Typography variant="h5" sx={{ color: "white", textAlign: "center" }}>
+        <Typography variant="h5" sx={{ color: "white", textAlign: "center",cursor:"default" }}>
           {!disable ? "Share Your Experience" : "Please Login to Review"}
         </Typography>
 
@@ -111,12 +111,12 @@ const AddReview = ({ onSubmit, disable, photo }) => {
             }
           }}
           sx={{
-            backgroundColor: disable ? "grey" : "#007BFF",
+            backgroundColor: (disable || review === "") ? "grey" : "#007BFF",
             color: disable ? "white" : "white",
             "&:hover": {
-              backgroundColor: disable ? "grey" : "#0056b3",
+              backgroundColor: (disable || review === "") ? "grey" : "#0056b3",
             },
-            cursor: disable || review === "" ? "not-allowed" : "pointer",
+            cursor: (disable || review === "") ? "default" : "pointer",
             mt: 2,
           }}
           fullWidth

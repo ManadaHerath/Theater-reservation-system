@@ -1,7 +1,7 @@
 import React from "react";
 import Review from "./ShowReviews.jsx";
 
-const ReviewList = ({ reviews = [], onLike, onReply }) => {
+const ReviewList = ({ reviews = [], onLike, onReply,disable }) => {
   return (
     <div>
       {reviews.length > 0 ? (
@@ -12,6 +12,8 @@ const ReviewList = ({ reviews = [], onLike, onReply }) => {
               review={review}
               onLike={onLike}
               onReply={onReply}
+              disable={disable}
+              
             />
           </div>
         ))
