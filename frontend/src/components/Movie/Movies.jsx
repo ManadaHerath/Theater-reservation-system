@@ -15,8 +15,10 @@ import CircularProgress from "@mui/material/CircularProgress";
 const MovieCard = ({ movie }) => {
   const navigate = useNavigate(); // Hook for navigation
 
+
+
   const handleClick = () => {
-    navigate(`/movie/${movie.id}`); // Navigate to the schedule page
+    navigate(`/schedule/m${movie.id}`); // Navigate to the schedule page
   };
 
   const handleUrlClick = () => {
