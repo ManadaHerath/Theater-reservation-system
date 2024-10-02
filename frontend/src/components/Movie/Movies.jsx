@@ -15,7 +15,9 @@ import CircularProgress from "@mui/material/CircularProgress";
 const MovieCard = ({ movie }) => {
   const navigate = useNavigate(); // Hook for navigation
 
-
+  const handleMovieViewClick = () => {
+    navigate(`/movie/${movie.id}`); // Navigate to the Movie details page
+  };
 
   const handleClick = () => {
     navigate(`/schedule/m${movie.id}`); // Navigate to the schedule page
@@ -28,7 +30,7 @@ const MovieCard = ({ movie }) => {
   return (
     <div
       className="group relative w-80 h-96 cursor-pointer bg-gray-900 rounded-lg overflow-hidden shadow-xl transition-transform duration-300 hover:scale-105 mt-5"
-      onClick={handleClick}
+      onClick={handleMovieViewClick}
     >
       <div className="absolute inset-0">
         <img
