@@ -278,6 +278,7 @@ export default function MovieDetails() {
             reviews={reviews}
             onLike={handleLikeReview}
             onReply={handleReplyReview}
+            disable={disable}
           />
         </div>
       </div>

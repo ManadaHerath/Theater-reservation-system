@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { Rating } from "@mui/material";
 
-const Review = ({ review, onLike, onReply }) => {
+const Review = ({ review, onLike, onReply,disable }) => {
   const [reply, setReply] = useState("");
   const [showReplyField, setShowReplyField] = useState(false);
 
@@ -49,13 +49,14 @@ const Review = ({ review, onLike, onReply }) => {
         {review.text}
       </Typography>
       
-      <Button variant="text" color="primary" onClick={() => onLike(review.id)}>
+      <Button variant="text" color="primary" onClick={() => onLike(review.id)} disabled={disable}>
         {review.liked ? `Unlike (${review.likes})` : `Like (${review.likes})`}
       </Button>
       <Button
         variant="text"
         color="primary"
         onClick={() => setShowReplyField(!showReplyField)}
+        disabled={disable}  
       >
         Reply
       </Button>
