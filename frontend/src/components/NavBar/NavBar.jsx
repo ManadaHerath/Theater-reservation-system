@@ -128,7 +128,10 @@ const NavBar = () => {
 
       <div className="flex items-center absolute right-5 top-2 ">
         {user?.token ? (
-          <div className="flex flex-row gap-3 ">
+          <div
+            className="flex flex-row gap-3 cursor-pointer"
+            onClick={() => navigate("/profile")}
+          >
             <img
               src={userDetails.avatar}
               alt="P"

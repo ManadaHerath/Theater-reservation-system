@@ -17,6 +17,8 @@ const SeatGridUser = () => {
   const [popupOpen, setPopupOpen] = useState(true); // Popup control
   const [ticketDetails, setTicketDetails] = useState({ adults: 0, children: 0 }); // Track number of tickets
   const [totalTickets, setTotalTickets] = useState(0); // Total number of allowed tickets
+  
+  
 
   // Fetch grid data
   useEffect(() => {
@@ -191,6 +193,13 @@ const SeatGridUser = () => {
   }
 
   const groupedRows = groupRowsBySeatType();
+  const groupedTickets = seatTypes.reduce((acc, current) => {
+    const found = acc.find(item => item.type === current.type);
+    if (!found) {
+      acc.push(current);
+    }
+    return acc;
+  }, []);
 
   return (
     <div>
@@ -222,10 +231,10 @@ const SeatGridUser = () => {
                 <div key={groupIndex} className="w-full mb-4">
                   {/* Seat Type Header */}
                   <div className="bg-blue-500 text-white text-md lg:text-lg font-bold p-1 rounded-md text-center">
-                    {group.seatType} - ${seatTypes[groupIndex]?.price}
-                    {seatTypes[groupIndex]?.childrenprice && (
+                    {group.seatType} - ${groupedTickets[groupIndex]?.price}
+                    {groupedTickets[groupIndex]?.childrenprice && (
                       <span className="text-sm ml-2">
-                        (Children Price: ${seatTypes[groupIndex].childrenprice})
+                        (Children Price: ${groupedTickets[groupIndex].childrenprice})
                       </span>
                     )}
                   </div>

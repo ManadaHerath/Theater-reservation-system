@@ -33,6 +33,8 @@ import Layout from "./layout/layout";
 import RequireAuth from "./components/Errors/RequireAuth";
 import PersistLogin from "./components/Persist Login/PersistLogin";
 
+import Profile from "./components/User Profile/Profile";
+
 // seat grid user side
 import SeatGridUser from "./components/Seat Selection/SeatGridUser";
 
@@ -72,6 +74,7 @@ const App = () => {
               path="/seatgrid/:showId/:theatreId"
               element={<SeatGridUser />}
             />
+            <Route path="/profile" element={<Profile />} />
             <Route path="forgot-password" element={<Forgotpassword />} />
             <Route path="/otp" element={<OTPInput />} />
             <Route path="/help" element={<Help />} />
