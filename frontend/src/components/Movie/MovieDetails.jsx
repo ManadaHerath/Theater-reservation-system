@@ -9,6 +9,7 @@ import { Typography } from "@mui/material";
 import { axiosPrivate } from "../../api/axios";
 import AddReview from "../Reviews/AddReviews";
 import ReviewList from "../Reviews/ShowReviewList";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function MovieDetails() {
   const { id } = useParams();
@@ -150,7 +151,12 @@ export default function MovieDetails() {
     }
   }, [userDetails]);
 
-  if (isPending) return <div>Loading...</div>;
+  if (isPending)
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <CircularProgress color="secondary" /> {/* Loading spinner */}
+      </div>
+    );
 
   return (
     <div className="">
