@@ -59,7 +59,7 @@ export default function () {
         backgroundColor: "#433B7C",
       }}
     >
-      <div className="flex justify-around items-center flex-col w-1/2 lg:w-1/4 h-1/2 bg-black bg-opacity-40 border-gray-700 rounded-md pb-3">
+      <div className="flex justify-around items-center flex-col w-3/4 lg:w-1/4 h-1/2 bg-black bg-opacity-40 border-gray-700 rounded-md pb-3">
         <h1
           className="text-md py-3 md:text-xl sm:text-lg lg:text-2xl font-semibold 
           text-white px-2"

@@ -1,4 +1,4 @@
-import { React, useEffect, useState,useCallback } from "react";
+import { React, useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import SearchIcon from "@mui/icons-material/Search";
@@ -77,7 +77,7 @@ const MovieList = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [searchTerm, setSearchTerm] = useState(""); 
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -156,7 +156,6 @@ const MovieList = () => {
     "& .MuiInputBase-input": {
       padding: theme.spacing(1, 1, 1, 0),
       paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-      
     },
   }));
 
@@ -170,78 +169,84 @@ const MovieList = () => {
 
   return (
     <div className="py-16 mb-10">
-    <Particles
-  id="tsparticles"
-  init={particlesInit}
-  loaded={particlesLoaded}
-  options={{
-    background: {
-      color: {
-        value: "#09081d", // Adjust to your preferred background color
-      },
-    },
-    fpsLimit: 60,
-    interactivity: {
-      events: {
-        onHover: {
-          enable: true,
-          mode: "repulse", // Adds the repulse effect on hover
-        },
-        resize: true, // Adjusts to screen resize
-      },
-      modes: {
-        repulse: {
-          distance: 200, // Distance particles repulse from the cursor
-          duration: 0.4,  // Duration of the repulse effect
-        },
-      },
-    },
-    particles: {
-      number: {
-        value: 90,  // Number of particles
-        density: {
-          enable: true,
-          value_area: 800,  // Density of particles in the canvas
-        },
-      },
-      color: {
-        value: "#ffffff",  // Particle color
-      },
-      shape: {
-        type: "circle",  // Shape of particles
-      },
-      opacity: {
-        value: 0.5,  // Opacity of particles
-        random: true,  // Randomize opacity
-      },
-      size: {
-        value: 5,  // Size of particles
-        random: true,  // Randomize size
-      },
-      move: {
-        enable: true,  // Enable particle movement
-        speed: 3,  // Speed of movement
-        direction: "none",  // No specific direction
-        random: false,  // Not random movement
-        straight: false,  // Not moving in a straight line
-        out_mode: "bounce",  // Particles bounce when reaching canvas edges
-        attract: {
-          enable: false,  // Disable particle attraction
-        },
-      },
-    },
-    detectRetina: true,  // High-resolution rendering support
-  }}
-/>
+      <Particles
+        id="tsparticles"
+        init={particlesInit}
+        loaded={particlesLoaded}
+        options={{
+          background: {
+            color: {
+              value: "#09081d", // Adjust to your preferred background color
+            },
+          },
+          fpsLimit: 60,
+          interactivity: {
+            events: {
+              onHover: {
+                enable: true,
+                mode: "repulse", // Adds the repulse effect on hover
+              },
+              resize: true, // Adjusts to screen resize
+            },
+            modes: {
+              repulse: {
+                distance: 200, // Distance particles repulse from the cursor
+                duration: 0.4, // Duration of the repulse effect
+              },
+            },
+          },
+          particles: {
+            number: {
+              value: 90, // Number of particles
+              density: {
+                enable: true,
+                value_area: 800, // Density of particles in the canvas
+              },
+            },
+            color: {
+              value: "#ffffff", // Particle color
+            },
+            shape: {
+              type: "circle", // Shape of particles
+            },
+            opacity: {
+              value: 0.5, // Opacity of particles
+              random: true, // Randomize opacity
+            },
+            size: {
+              value: 5, // Size of particles
+              random: true, // Randomize size
+            },
+            move: {
+              enable: true, // Enable particle movement
+              speed: 3, // Speed of movement
+              direction: "none", // No specific direction
+              random: false, // Not random movement
+              straight: false, // Not moving in a straight line
+              out_mode: "bounce", // Particles bounce when reaching canvas edges
+              attract: {
+                enable: false, // Disable particle attraction
+              },
+            },
+          },
+          detectRetina: true, // High-resolution rendering support
+        }}
+      />
 
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static" sx={{ backgroundColor: '#111827' }}>
+        <AppBar position="static" sx={{ backgroundColor: "#111827" }}>
           <Toolbar>
             <Typography
               variant="h6"
               noWrap
               component="div"
-              sx={{ flexGrow: 5,marginLeft: 10 }}
+              sx={{
+                flexGrow: 5,
+                marginLeft: {
+                  xs: 2,
+                  sm: 10,
+                },
+              }}
             >
               Movies
             </Typography>
