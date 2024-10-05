@@ -1,9 +1,9 @@
 import * as React from "react";
-import { LineChart } from "@mui/x-charts/LineChart";
+import { BarChart } from '@mui/x-charts/BarChart';
 
 export default function Chart({ xAxis, series, colour }) {
   return (
-    <LineChart
+    <BarChart 
       xAxis={[
         {
           data: xAxis, 
