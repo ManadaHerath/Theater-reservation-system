@@ -8,9 +8,11 @@ import Typography from "@mui/material/Typography";
 import AddReview from "../Reviews/AddReviews";
 import ReviewList from "../Reviews/ShowReviewList";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import CircularProgress from "@mui/material/CircularProgress"; 
+import CircularProgress from "@mui/material/CircularProgress";
+import useAuth from "../../hooks/useAuth";
 
 export default function Theatre() {
+  const { user } = useAuth();
   const axiosPrivate = useAxiosPrivate();
   const [userDetails, setUserDetails] = useState([]);
   const [disable, setDisable] = useState(true);
@@ -19,6 +21,12 @@ export default function Theatre() {
   const { id } = useParams();
   const [theatre_id, setTheatre_id] = useState(id);
   const [loading, setLoading] = useState(true); // Add loading state
+
+  const {
+    data: details,
+    loading: isFetching,
+    error,
+  } = useFetch(`/theatres/${id}`);
 
   const handleAddReview = (review) => {
     sendReview(review);
@@ -84,7 +92,9 @@ export default function Theatre() {
   };
 
   useEffect(() => {
-    sendUserRating(userRatingvalue);
+    if (userRatingvalue !== 0.0) {
+      sendUserRating(userRatingvalue);
+    }
   }, [userRatingvalue]);
 
   const sendUserRating = async (rating) => {
@@ -105,17 +115,12 @@ export default function Theatre() {
 
   const navigate = useNavigate();
 
-  const {
-    data: details,
-    loading: isFetching,
-    error,
-  } = useFetch(`/theatres/${id}`);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axiosPrivate.get("/users/getUser");
         setUserDetails(response.data);
+        setDisable(false);
       } catch (error) {
         console.error("Error fetching user:", error);
       }
@@ -139,23 +144,25 @@ export default function Theatre() {
         console.error("Error fetching user rating:", error);
       }
     };
-
     fetchData();
     fetchReviews();
     fetchUserRating();
     setLoading(false);
-  }, [id]);
-
-  
-
-  useEffect(() => {
-    console.log("userDetails", userDetails);
-    if (userDetails && userDetails.length > 0 && userDetails[0] !== null) {
-      setDisable(false);
-    } else {
-      setDisable(true);
+    if (user.token) {
+      fetchData();
+      fetchReviews();
+      fetchUserRating();
     }
-  }, [userDetails]);
+  }, []);
+
+  // useEffect(() => {
+  //   console.log("userDetails", userDetails);
+  //   if (userDetails && userDetails.length > 0 && userDetails[0] !== null) {
+  //     setDisable(false);
+  //   } else {
+  //     setDisable(true);
+  //   }
+  // }, [userDetails]);
 
   const handleonClick = () => {
     navigate(`/schedule/t${id}`);

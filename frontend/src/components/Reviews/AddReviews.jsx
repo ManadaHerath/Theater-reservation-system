@@ -5,6 +5,7 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import Paper from "@mui/material/Paper";
+import useAuth from "../../hooks/useAuth";
 
 const AddReview = ({ onSubmit, disable, photo }) => {
   const [review, setReview] = useState("");
@@ -36,7 +37,10 @@ const AddReview = ({ onSubmit, disable, photo }) => {
         }}
         onSubmit={handleSubmit}
       >
-        <Typography variant="h5" sx={{ color: "white", textAlign: "center",cursor:"default" }}>
+        <Typography
+          variant="h5"
+          sx={{ color: "white", textAlign: "center", cursor: "default" }}
+        >
           {!disable ? "Share Your Experience" : "Please Login to Review"}
         </Typography>
 
@@ -61,43 +65,43 @@ const AddReview = ({ onSubmit, disable, photo }) => {
         )}
 
         <TextField
-  label="Write your review..."
-  variant="outlined"
-  value={review}
-  onChange={(e) => setReview(e.target.value)}
-  multiline
-  rows={4}
-  disabled={disable}
-  required
-  InputLabelProps={{
-    sx: {
-      color: "white",
-      "&.Mui-focused": {
-        color: "white", // Label color when focused
-      },
-      "&.Mui-disabled": {
-        color: "rgba(255, 255, 255, 0.5)", // Label color when disabled (slightly lighter white)
-      },
-    },
-  }}
-  InputProps={{
-    sx: {
-      color: "white", // Text color inside input
-      "& .MuiOutlinedInput-notchedOutline": {
-        borderColor: "blue", // Normal border color
-      },
-      "&:hover .MuiOutlinedInput-notchedOutline": {
-        borderColor: "blue", // Border color on hover
-      },
-      "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-        borderColor: "blue", // Border color when focused
-      },
-      "&.Mui-disabled .MuiOutlinedInput-notchedOutline": {
-        borderColor: "red", // Border color when disabled
-      },
-    },
-  }}
-/>
+          label="Write your review..."
+          variant="outlined"
+          value={review}
+          onChange={(e) => setReview(e.target.value)}
+          multiline
+          rows={4}
+          disabled={disable}
+          required
+          InputLabelProps={{
+            sx: {
+              color: "white",
+              "&.Mui-focused": {
+                color: "white", // Label color when focused
+              },
+              "&.Mui-disabled": {
+                color: "rgba(255, 255, 255, 0.5)", // Label color when disabled (slightly lighter white)
+              },
+            },
+          }}
+          InputProps={{
+            sx: {
+              color: "white", // Text color inside input
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: "blue", // Normal border color
+              },
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "blue", // Border color on hover
+              },
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: "blue", // Border color when focused
+              },
+              "&.Mui-disabled .MuiOutlinedInput-notchedOutline": {
+                borderColor: "red", // Border color when disabled
+              },
+            },
+          }}
+        />
 
         <Button
           variant="contained"
@@ -111,12 +115,12 @@ const AddReview = ({ onSubmit, disable, photo }) => {
             }
           }}
           sx={{
-            backgroundColor: (disable || review === "") ? "grey" : "#007BFF",
+            backgroundColor: disable || review === "" ? "grey" : "#007BFF",
             color: disable ? "white" : "white",
             "&:hover": {
-              backgroundColor: (disable || review === "") ? "grey" : "#0056b3",
+              backgroundColor: disable || review === "" ? "grey" : "#0056b3",
             },
-            cursor: (disable || review === "") ? "default" : "pointer",
+            cursor: disable || review === "" ? "default" : "pointer",
             mt: 2,
           }}
           fullWidth

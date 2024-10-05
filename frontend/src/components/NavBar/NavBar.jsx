@@ -36,7 +36,7 @@ const NavBar = () => {
 
   const signOut = async () => {
     await logout();
-    navigate("/");
+    navigate("/login");
   };
 
   const routes = {
@@ -48,6 +48,7 @@ const NavBar = () => {
 
   const getSelectedItem = () => {
     const currentPath = location.pathname;
+    console.log(userDetails);
 
     if (currentPath.includes("/movie")) {
       return "Movies";
@@ -83,7 +84,6 @@ const NavBar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  console.log("user avatar", userDetails.avatar);
 
   return (
     <div
@@ -127,7 +127,7 @@ const NavBar = () => {
       </div>
 
       <div className="flex items-center absolute right-5 top-2 ">
-        {user?.token ? (
+        {userDetails && userDetails.avatar ? (
           <div
             className="flex flex-row gap-3 cursor-pointer"
             onClick={() => navigate("/profile")}

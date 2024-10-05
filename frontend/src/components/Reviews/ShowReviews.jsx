@@ -33,7 +33,7 @@ const Review = ({ review, onLike, onReply,disable }) => {
         <Typography variant="h6" sx={{ color: "white" }}>
           {review.name}
         </Typography>
-        <Rating
+        {/* <Rating
         value={parseFloat(review.rating).toFixed(1) || 0}
         precision={0.5}
         readOnly
@@ -42,7 +42,7 @@ const Review = ({ review, onLike, onReply,disable }) => {
             color: "white",
           },
         }}
-      />
+      /> */}
       </div>
       </div>
       <Typography variant="body1" sx={{ color: "white" }}>
