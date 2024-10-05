@@ -149,9 +149,9 @@ const sendEmailWithAttachment = async (toEmail, pdfBytes, refundLink) => {
       color: #ffffff; /* White text for paragraphs */
     }
     a {
-      color: #ffffff;
+      color: #000000;
       text-decoration: none;
-      background-color: #00008B; /* Accent color for the button */
+      background-color: #102db0; /* Accent color for the button */
       padding: 12px 20px;
       border-radius: 5px;
       display: inline-block;
@@ -159,7 +159,7 @@ const sendEmailWithAttachment = async (toEmail, pdfBytes, refundLink) => {
       text-align: center;
     }
     a:hover {
-      background-color: #f58677; /* Lighter shade on hover */
+      background-color: #081138; /* Lighter shade on hover */
     }
     .footer {
       text-align: center;
