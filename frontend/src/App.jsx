@@ -62,6 +62,12 @@ import ShowTimes from "./components/Theatre Admin/ShowTimes Management/ShowTimes
 
 import RequestRefund from "./pages/RequestRefund";
 
+
+// Animation
+import Scene from "./components/Animation/Scene";
+
+
+
 const App = () => {
   return (
     <div>
@@ -94,6 +100,7 @@ const App = () => {
             <Route element={<PersistLogin />}>
               <Route index element={<Home />} />
               <Route path="/home" element={<Home />} />
+              <Route path="/animation" element={<Scene/>} />
               <Route path="/movies" element={<Movies />} />
               <Route path="/theatres" element={<Theatres />} />
               <Route path="/refund/:token" element={<RequestRefund />}></Route>
