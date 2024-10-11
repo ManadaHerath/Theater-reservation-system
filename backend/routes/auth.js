@@ -29,7 +29,8 @@ router.get(
     // });
     res.cookie("access_token", req.refreshToken, {
       httpOnly: true,
-      sameSite: "Strict",
+      sameSite: "None",
+      domain: ".railway.app",
       secure: true,
       maxAge: 2592000,
     });
