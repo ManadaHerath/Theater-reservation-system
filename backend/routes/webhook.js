@@ -149,7 +149,7 @@ const sendEmailWithAttachment = async (toEmail, pdfBytes, refundLink) => {
       color: #ffffff; /* White text for paragraphs */
     }
     a {
-      color: #000000;
+      color: #ffffff;
       text-decoration: none;
       background-color: #102db0; /* Accent color for the button */
       padding: 12px 20px;

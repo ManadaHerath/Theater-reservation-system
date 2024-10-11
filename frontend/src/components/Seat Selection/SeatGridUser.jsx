@@ -247,7 +247,7 @@ const SeatGridUser = () => {
                           <div
                             className={`w-7 h-7 lg:w-10 lg:h-10 text-xs lg:text-base flex items-center justify-center
                             ${seat.selected ? purchasedSeats.includes(seat.name)
-                              ? "bg-red-500 text-gray-600"
+                              ? "bg-red-500 text-gray-200 font-bold"
                               : selectedSeats.some((s) => s.name === seat.name)
                               ? "bg-green-500 text-white border-2 border-white"
                               : "bg-black text-white font-bold border-2 border-blue-600 cursor-pointer"

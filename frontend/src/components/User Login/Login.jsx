@@ -5,6 +5,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import GoogleSignInButton from "./SignInButton";
 import useAuth from "../../hooks/useAuth";
 import axios from "../../api/axios";
+import Alert from "@mui/material/Alert";
 
 export default function Login() {
   const { setUser } = useAuth();
@@ -35,7 +36,7 @@ export default function Login() {
       );
       const data = response.data;
       if (response.status === 200) {
-        setAlert("Successfullly Logged In");
+        setAlert(response.status);
 
         setAlertStyle("text-green-600 text-s mt-1 flex justify-center");
 
@@ -43,16 +44,23 @@ export default function Login() {
         console.log("dataaaa", data);
         const role = data?.role;
         setUser({ email, accessToken, role });
+        //wait for 3s
         setEmail("");
         setPassword("");
-        if (role === "customer") {
-          navigate("/", { replace: true });
-        }
-        if (role === "admin") navigate("/admin", { replace: true });
-        if (role === "theatreAdmin")
-          navigate("/theatre-admin", { replace: true });
-        if (role === "systemManager")
-          navigate("/system-manager", { replace: true });
+        setTimeout(() => {
+          if (role === "customer") {
+            navigate("/", { replace: true });
+          }
+          if (role === "admin") {
+            navigate("/admin", { replace: true });
+          }
+          if (role === "theatreAdmin") {
+            navigate("/theatre-admin", { replace: true });
+          }
+          if (role === "systemManager") {
+            navigate("/system-manager", { replace: true });
+          }
+        }, 3000);
       } else {
         setAlert(data.message);
         setAlertStyle("text-red-600 text-s mt-1 flex justify-center");
@@ -75,7 +83,7 @@ export default function Login() {
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        backgroundColor: "#433B7C", 
+        backgroundColor: "#433B7C",
       }}
     >
       <div className="w-full p-6 rounded-lg shadow border md:mt-0 sm:max-w-md bg-black bg-opacity-40 border-gray-700 sm:p-8">
@@ -150,7 +158,6 @@ export default function Login() {
 
                 <span className="ml-3">Login</span>
               </button>
-              {alert && <p className={alertStyle}>{alert}</p>}
               <p className="mt-2 text-xs text-gray-200 text-center">
                 Haven't Registered Yet?{" "}
                 <Link to={"/register"}>
@@ -164,6 +171,15 @@ export default function Login() {
           </div>
         </form>
       </div>
+      {alert === 200 ? (
+        <Alert severity="success" style={{ position: "absolute", bottom: "20px", left: "20px" }}>
+          Login Successful
+        </Alert>
+      ) : alert ? (
+        <Alert severity="error" style={{ position: "absolute", bottom: "20px", left: "20px" }}>
+          {alert}
+        </Alert>
+      ) : null}
     </div>
   );
 }
