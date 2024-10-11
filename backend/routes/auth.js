@@ -17,7 +17,7 @@ router.get(
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    failureRedirect: "http://localhost:3000/login",
+    failureRedirect: "https://theater-reservation-system.vercel.app/login",
   }),
   (req, res) => {
     // Successful authentication
@@ -35,11 +35,13 @@ router.get(
       maxAge: 2592000,
     });
     if (req.user.role == "customer") {
-      res.redirect("http://localhost:3000");
+      res.redirect("https://theater-reservation-system.vercel.app");
     } else if (req.user.role == "admin") {
-      res.redirect("http://localhost:3000/admin");
+      res.redirect("https://theater-reservation-system.vercel.app/admin");
     } else if (req.user.role == "theatreAdmin") {
-      res.redirect("http://localhost:3000/theatre-admin");
+      res.redirect(
+        "https://theater-reservation-system.vercel.app/theatre-admin"
+      );
     }
   }
 );
