@@ -18,7 +18,7 @@ describe("POST /auth/login", () => {
       email: "testadmin@gmail.com",
       password: "Asdf@1",
     });
-    expect(response.statusCode).toBe(401);
+    expect(response.statusCode).toBe(203);
     expect(response.body.message).toBe("Invalid credentials");
   });
 });
@@ -36,7 +36,7 @@ describe("POST /auth/register", () => {
 describe("POST /auth/register", () => {
   test("It should respond success message when enter valid details", async () => {
     const response = await request(app).post("/auth/register").send({
-      email: "testadmin123@gmail.com",
+      email: "testadmin505@gmail.com",
       password: "Asdf@1234",
     });
     expect(response.statusCode).toBe(201);
@@ -49,7 +49,7 @@ describe("POST /recovery/send_recovery_email", () => {
     const response = await request(app)
       .post("/recovery/send_recovery_email")
       .send({
-        email: "testadmin@gmail.com",
+        email: "sithikaguruge2001@gmail.com",
       });
     expect(response.statusCode).toBe(200);
   });

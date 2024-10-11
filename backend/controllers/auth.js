@@ -159,7 +159,7 @@ export const forgotPassword = async (req, res, next) => {
     const user = users[0];
 
     // Return the user
-    res.status(201).json({
+    res.status(200).json({
       message: "The password reset OTP has been sent to your email",
     });
   } catch (error) {

@@ -66,9 +66,9 @@ const pool = mysql.createPool({
 
 export const connection = pool.promise();
 
-app.listen(5001, () => {
-  console.log("Server is running on port 5001");
-});
+// app.listen(5001, () => {
+//   console.log("Server is running on port 5001");
+// });
 
 // middlewares
 app.use("/webhook", webHookRoute);
