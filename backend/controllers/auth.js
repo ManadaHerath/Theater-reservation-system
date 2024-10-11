@@ -128,7 +128,8 @@ export const login = async (req, res, next) => {
     // Set the cookie and send the response
     res.cookie("access_token", refreshToken, {
       httpOnly: true,
-      sameSite: "Strict",
+      sameSite: "None",
+      domain:".railway.app",
       secure: true,
       maxAge: 24 * 60 * 60 * 1000,
     });
