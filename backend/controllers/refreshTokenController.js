@@ -5,6 +5,7 @@ dotenv.config();
 
 export const handleRefreshToken = async (req, res, next) => {
   const cookies = req.cookies;
+  console.log("Cookies: refresh token ", cookies);
 
   if (!cookies?.access_token) return res.sendStatus(401);
 

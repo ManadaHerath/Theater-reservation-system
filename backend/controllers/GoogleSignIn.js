@@ -11,7 +11,7 @@ passport.use(
     {
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: "http://localhost:5001/auth/google/callback",
+      callbackURL: "https://theater-reservation-system-production.up.railway.app/auth/google/callback",
       passReqToCallback: true, // This allows us to access `req` in the callback
     },
     async (req, res,accessToken, refreshToken, profile, done) => {
