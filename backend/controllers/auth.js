@@ -85,20 +85,20 @@ export const login = async (req, res, next) => {
     );
 
     if (users.length === 0) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(203).json({ message: "Invalid credentials" });
     }
 
     const user = users[0];
 
     if (!user.password) {
-      return res.status(401).json({ message: "Please sign in with Google" });
+      return res.status(203).json({ message: "Please sign in with Google" });
     }
 
     // Check if the password is correct
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
     if (!isPasswordCorrect) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(203).json({ message: "Invalid credentials" });
     }
     console.log(user);
     const role = user.role;

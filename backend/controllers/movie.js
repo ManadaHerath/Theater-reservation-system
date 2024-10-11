@@ -10,6 +10,19 @@ export const getMovies = async (req, res, next) => {
   }
 };
 
+
+export const getUpcommingMovies = async (req, res, next) => {
+  try {
+    const [movies] = await connection.query(
+      "SELECT * FROM upcomingmovie"
+    );
+    res.status(200).json(movies);
+  } catch (error) {
+    next(error);
+  }
+};
+
+
 export const addMovies = async (req, res, next) => {
   const movie = req.body.movie;
   const actors = req.body.actors;

@@ -23,7 +23,10 @@ export const MovieCard = ({ movie, colorClass }) => {
   return (
     <div className="pb-20 transform w-[25%] transition-all duration-300 hover:scale-105">
       {/* Movie Poster */}
-      <div className="relative w-full h-96 overflow-hidden rounded-lg shadow-lg cursor-pointer" onClick={handleClick}>
+      <div
+        className="relative w-full h-96 overflow-hidden rounded-lg shadow-lg cursor-pointer"
+        onClick={handleClick}
+      >
         <img
           className="object-cover w-full h-full transform transition-all duration-300 hover:scale-110"
           src={movie.poster_url}
@@ -45,22 +48,24 @@ export const MovieCard = ({ movie, colorClass }) => {
       </div>
 
       {/* Description Box */}
-      <div className={`p-4 mt-4 rounded-lg shadow-lg transition-all duration-300 ${colorClass}`}>
+      <div
+        className={`p-4 mt-4 rounded-lg shadow-lg transition-all duration-300 ${colorClass}`}
+      >
         {/* Movie Title */}
         <h3 className="text-xl font-semibold text-white mb-2">{movie.title}</h3>
         {/* Movie Overview */}
         <div className="mt-2 text-sm text-gray-300">
-          {movie.overview && <p className="line-clamp-3 mb-2">{movie.overview}</p>}
-          <p className="mt-1 text-gray-400">Released: {new Date(movie.released_date).toDateString()}</p>
-          <p className="text-gray-400">Duration: {movie.duration} min</p>
+          {movie.overview && (
+            <p className="line-clamp-3 mb-2">{movie.overview}</p>
+          )}
           <p className="text-gray-400">Language: {movie.original_language}</p>
-          <p className="text-gray-400">Rating: {movie.age_type}</p>
+          <p className="text-gray-400">Director: {movie.movie_director} </p>
+          <p className="text-gray-400">Writer: {movie.movie_writter} </p>
         </div>
       </div>
     </div>
   );
 };
-
 
 const UpCommingMovies = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -71,7 +76,7 @@ const UpCommingMovies = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axiosPrivate.get("/movies");
+        const response = await axiosPrivate.get("/movies/upcomming");
         setData(response.data);
       } catch (error) {
         setError(error.message);
@@ -91,15 +96,18 @@ const UpCommingMovies = () => {
   }
 
   return (
-    <div className="relative pt-8" style={{
-      backgroundImage: `
+    <div
+      className="relative pt-8"
+      style={{
+        backgroundImage: `
     linear-gradient(rgba(43, 58, 110, 0.7), rgba(40, 40, 50, 0.7)),
     url('https://firebasestorage.googleapis.com/v0/b/medilink-5688e.appspot.com/o/images%2Ffetchpik.com-pNEtHoVwlU.jpg?alt=media&token=ef2ae0db-3178-4744-8a23-56c35b7d843d')`,
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      backgroundRepeat: "no-repeat",
-      backgroundColor: "#433B7C", 
-    }} >
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundColor: "#433B7C",
+      }}
+    >
       <h1 className="absolute top-0 flex pt-4 pb-20 pr-20 lg:text-3xl text-xl text-white left-20">
         Upcoming Movies
       </h1>

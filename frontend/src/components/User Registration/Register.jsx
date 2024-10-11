@@ -5,6 +5,8 @@ import validator from "validator";
 import axios from "../../api/axios";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import GoogleSignInButton from "../User Login/SignInButton";
+import Alert from '@mui/material/Alert';
+
 
 export default function Register_Form() {
   const inputStyles =
@@ -105,10 +107,10 @@ export default function Register_Form() {
         password: password,
       });
       if (response.status === 400) {
-        setAlert("Email already registered");
+        setAlert(response.status);
         setAlertStyle("text-red-600 text-s mt-1 flex justify-center");
       } else {
-        setAlert("User added successfully");
+        setAlert("Registered Successfully");
         setAlertStyle("text-green-600 text-s mt-1 flex justify-center");
         setTimeout(() => {
           setAlert("");
@@ -117,7 +119,7 @@ export default function Register_Form() {
       }
     } catch (err) {
       if (err.response && err.response.status === 400) {
-        setAlert("Email already registered");
+        setAlert(err.response.status);
         setAlertStyle("text-red-600 text-s mt-1 flex justify-center");
       } else {
         console.error("Error registering user:", err);
@@ -222,9 +224,9 @@ export default function Register_Form() {
                 autoComplete="address"
               />
               <div className="flex flex-col sm:flex-row gap-3">
-                <div className="relative w-full">
+                <div className="relative w-full text-white">
                   <input
-                    className={inputStyles}
+                    className= {inputStyles}
                     id="date"
                     name="date"
                     type="date"
@@ -356,7 +358,6 @@ export default function Register_Form() {
                 </svg>
                 <span className="ml-3">Register</span>
               </button>
-              {alert && <p className={alertStyle}>{alert}</p>}
               <p className="mt-2 text-xs text-gray-200 text-center">
                 Already have an account?{" "}
                 <Link to={"/login"}>
@@ -370,6 +371,15 @@ export default function Register_Form() {
           </div>
         </form>
       </div>
+      {alert === 201 ? (
+        <Alert severity="success" style={{ position: "absolute", bottom: "20px", left: "20px" }}>
+         {alert}
+        </Alert>
+      ) : alert ? (
+        <Alert severity="error" style={{ position: "absolute", bottom: "20px", left: "20px" }}>
+          {alert}
+        </Alert>
+      ) : null}
     </div>
   );
 }
