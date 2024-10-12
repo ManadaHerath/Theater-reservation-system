@@ -18,7 +18,7 @@ const RequestRefund = () => {
     try {
       // Make the API call to request a refund using the token from URL
       const response = await axios.post(
-        `http://localhost:5001/refund/${token}`
+        `/refund/${token}`
       );
 
       // Assuming a successful response contains a success message
