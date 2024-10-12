@@ -39,7 +39,7 @@ router.post(
       return res.sendStatus(400);
     }
 
-    if (event.type === "checkout.session.completed") {
+    if (event.type === "payment_intent.succeeded") {
       const session = event.data.object;
 
       const pi = session.payment_intent;
