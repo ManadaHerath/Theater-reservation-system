@@ -45,7 +45,7 @@ app.use(
 );
 
 const corsOptions = {
-  origin: process.env.FRONTEND_URL, // Frontend URL
+  origin: "https://theater-reservation-system-ebon.vercel.app", // Frontend URL
   credentials: true, // Allow credentials (cookies, authorization headers, etc.)
   optionsSuccessStatus: 200,
 };

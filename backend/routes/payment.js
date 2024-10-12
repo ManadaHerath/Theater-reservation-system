@@ -102,8 +102,8 @@ router.post("/create-checkout-session", async (req, res) => {
       line_items,
       mode: "payment",
       discounts: discounts,
-      success_url: `http://localhost:3000/payment-success`,
-      cancel_url: `http://localhost:3000/payment-failure/${showId}/${theatreId}`,
+      success_url: `https://theater-reservation-system-ebon.vercel.app/payment-success`,
+      cancel_url: `https://theater-reservation-system-ebon.vercel.app/payment-failure/${showId}/${theatreId}`,
       metadata: {
         theatreId,
         showId,
