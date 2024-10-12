@@ -133,6 +133,7 @@ export const login = async (req, res, next) => {
       secure: true,
       maxAge: 24 * 60 * 60 * 1000,
     });
+    console.log("Cookie set");
     return res.status(200).json({
       role: user.role,
       token,
