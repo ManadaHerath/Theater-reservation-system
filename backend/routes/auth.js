@@ -40,7 +40,7 @@ router.get(
       maxAge: 2592000,
     });
     if (req.user.role == "customer") {
-      res.redirect({ frontendURL });
+      res.redirect(frontendURL);
     } else if (req.user.role == "admin") {
       res.redirect(`${frontendURL}/admin`);
     } else if (req.user.role == "theatreAdmin") {
