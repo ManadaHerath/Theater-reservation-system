@@ -12,7 +12,7 @@ const HandleChildrenPrices = () => {
     const fetchGridData = async () => {
       try {
         const response = await axiosPrivate.get(
-          `http://localhost:5001/grid/gettheatregrid/${theatreId}`
+          `/grid/gettheatregrid/${theatreId}`
         );
         if (response.data) {
           const seatTypes = response.data.seat_types.map((seat) => ({
@@ -62,7 +62,7 @@ const HandleChildrenPrices = () => {
   const handleUpdateSeatTypes = async () => {
     try {
       await axiosPrivate.put(
-        `http://localhost:5001/grid/updateseattypes/${theatreId}`,
+        `/grid/updateseattypes/${theatreId}`,
         { seat_types: seatTypes }
       );
       alert("Seat types updated successfully!");

@@ -24,7 +24,7 @@ const AdminRefundPage = () => {
   // Handle accepting a refund request
   const handleAccept = async (id) => {
     try {
-      const res = await axios.post(`http://localhost:5001/refund/admin/accept/${id}`);
+      const res = await axios.post(`/refund/admin/accept/${id}`);
 
       if (res.status === 200) {
         setRefundRequests(refundRequests.map(req => (req.refund_id === id ? { ...req, status: 'Accepted' } : req)));
@@ -37,7 +37,7 @@ const AdminRefundPage = () => {
   // Handle denying a refund request
   const handleDeny = async (id) => {
     try {
-      const res = await axios.post(`http://localhost:5001/refund/admin/deny/${id}`);
+      const res = await axios.post(`/refund/admin/deny/${id}`);
       if (res.status === 200) {
         setRefundRequests(refundRequests.map(req => (req.refund_id === id ? { ...req, status: 'Denied' } : req)));
       }

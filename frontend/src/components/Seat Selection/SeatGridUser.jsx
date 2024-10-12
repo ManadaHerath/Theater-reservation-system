@@ -25,7 +25,7 @@ const SeatGridUser = () => {
     const fetchGridData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5001/grid/gettheatregrid/${theatreId}`
+          `/grid/gettheatregrid/${theatreId}`
         );
         if (response.data) {
           setGridData(response.data);
@@ -46,7 +46,7 @@ const SeatGridUser = () => {
     const fetchPurchasedSeats = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5001/purchased_seats/${theatreId}/${showId}`
+          `/purchased_seats/${theatreId}/${showId}`
         );
         const purchasedSeats = response.data
           .map((purchase) => purchase.seats.split(","))
@@ -128,7 +128,7 @@ const SeatGridUser = () => {
   useEffect(() => {
     const postSelectedSeats = async () => {
       try {
-        const temp = await axios.post("http://localhost:5001/temp_purchase", {
+        const temp = await axios.post("/temp_purchase", {
           theatre_id: theatreId,
           show_time_id: showId,
           seats: selectedSeats.map(seat => seat.name).join(","),
@@ -161,7 +161,7 @@ const SeatGridUser = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5001/stripe/create-checkout-session",
+        "/stripe/create-checkout-session",
         {
           ...purchaseDetails,
           metadata: {

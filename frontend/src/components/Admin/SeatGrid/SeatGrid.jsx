@@ -21,7 +21,7 @@ const SeatGrid = () => {
   useEffect(() => {
     const fetchGridData = async () => {
       try {
-        const response = await axiosPrivate.get(`http://localhost:5001/grid/gettheatregrid/${theatreId}`);
+        const response = await axiosPrivate.get(`/grid/gettheatregrid/${theatreId}`);
         if (response.data) {
           setRows(response.data.grid.length);
           setColumns(response.data.grid[0]?.length || 0);
@@ -214,7 +214,7 @@ const SeatGrid = () => {
     };
     console.log("Grid Data:", JSON.stringify(gridData, null, 2));
     try {
-      const response = await axiosPrivate.post('http://localhost:5001/grid/addtheatregrid', gridData);
+      const response = await axiosPrivate.post('/grid/addtheatregrid', gridData);
       navigate(`/admin/specialprices/${theatreId}`);
 
     } catch (error) {
