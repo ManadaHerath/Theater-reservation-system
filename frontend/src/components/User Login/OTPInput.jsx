@@ -28,7 +28,7 @@ export default function OTPInput() {
     setDisable(true);
     setTimer(60);
     axios
-      .post("http://localhost:5001/recovery/send_recovery_email", {
+      .post("/recovery/send_recovery_email", {
         email: email,
       })
       .then(() => setResendOTPAlert(`New OTP sent to ${email}`))
@@ -44,7 +44,7 @@ export default function OTPInput() {
     console.log(otp);
     try {
       const response = await axios
-        .post("http://localhost:5001/recovery/verify-otp", {
+        .post("/recovery/verify-otp", {
           OTP: otp,
         })
         .then((response) => {
