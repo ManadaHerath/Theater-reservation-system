@@ -129,7 +129,7 @@ export const login = async (req, res, next) => {
     res.cookie("access_token", refreshToken, {
       httpOnly: true,
       sameSite: "None",
-      domain:".railway.app",
+      domain:process.env.COOKIE_DOMAIN,
       secure: true,
       maxAge: 24 * 60 * 60 * 1000,
     });

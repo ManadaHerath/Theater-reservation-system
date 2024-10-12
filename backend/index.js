@@ -28,6 +28,9 @@ import theatreGrid from "./routes/theatre_grid.js";
 import registrationRouter from "./routes/Admin_Panel/AdminDash.js";
 import discountRouter from "./routes/discounts.js";
 import theatreAdminRouter from "./routes/Theatre_admin/Theatre_Admin.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 //for usage of google sign in
@@ -42,7 +45,7 @@ app.use(
 );
 
 const corsOptions = {
-  origin: "https://theater-reservation-system-ebon.vercel.app", // Frontend URL
+  origin: process.env.FRONTEND_URL, // Frontend URL
   credentials: true, // Allow credentials (cookies, authorization headers, etc.)
   optionsSuccessStatus: 200,
 };

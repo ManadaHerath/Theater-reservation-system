@@ -2,6 +2,11 @@ import expresss from "express";
 const router = expresss.Router();
 import { register, login, forgotPassword } from "../controllers/auth.js";
 import passport from "../controllers/GoogleSignIn.js";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const frontendURL = process.env.FRONTEND_URL;
 
 const app = expresss();
 
@@ -17,7 +22,7 @@ router.get(
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    failureRedirect: "https://theater-reservation-system-ebon.vercel.app/login",
+    failureRedirect: `${frontendURL}/login`,
   }),
   (req, res) => {
     // Successful authentication
@@ -30,17 +35,17 @@ router.get(
     res.cookie("access_token", req.refreshToken, {
       httpOnly: true,
       sameSite: "None",
-      domain: ".railway.app",
+      domain: process.env.COOKIE_DOMAIN,
       secure: true,
       maxAge: 2592000,
     });
     if (req.user.role == "customer") {
-      res.redirect("https://theater-reservation-system-ebon.vercel.app");
+      res.redirect({frontendURL});
     } else if (req.user.role == "admin") {
-      res.redirect("https://theater-reservation-system-ebon.vercel.app/admin");
+      res.redirect(`${frontendURL}/admin`);
     } else if (req.user.role == "theatreAdmin") {
       res.redirect(
-        "https://theater-reservation-system-ebon.vercel.app/theatre-admin"
+        `${frontendURL}/theatre-admin`
       );
     }
   }
