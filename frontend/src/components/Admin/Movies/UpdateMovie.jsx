@@ -96,7 +96,7 @@ const UpdateMovie = () => {
   const movieData = async () => {
     try {
       const response = await axiosPrivate.get(
-        `http://localhost:5001/movies/${movie_id}`
+        `/movies/${movie_id}`
       );
       setMovie(response.data);
       setActors(response.data.actors);
@@ -142,7 +142,7 @@ const UpdateMovie = () => {
         setMovie(updatedMovie);
 
         const response = await axiosPrivate.patch(
-          `http://localhost:5001/movies/${movie_id}`,
+          `/movies/${movie_id}`,
           {
             movie: updatedMovie,
             actors,
@@ -153,7 +153,7 @@ const UpdateMovie = () => {
         }
       } else {
         const response = await axiosPrivate.patch(
-          `http://localhost:5001/movies/${movie_id}`,
+          `/movies/${movie_id}`,
           {
             movie: movie,
             actors,
