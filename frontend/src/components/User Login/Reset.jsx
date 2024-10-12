@@ -94,7 +94,7 @@ export default function Reset() {
     e.preventDefault();
     if (password === confirmPassword) {
       const response = await axios.post(
-        "http://localhost:5001/recovery/reset",
+        "/recovery/reset",
         {
           email,
           password,
