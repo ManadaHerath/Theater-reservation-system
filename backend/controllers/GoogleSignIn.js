@@ -11,10 +11,10 @@ passport.use(
     {
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: "https://theater-reservation-system-production.up.railway.app/auth/google/callback",
+      callbackURL: `${process.env.BACKEND_URL}/auth/google/callback`,
       passReqToCallback: true, // This allows us to access `req` in the callback
     },
-    async (req, res,accessToken, refreshToken, profile, done) => {
+    async (req, res, accessToken, refreshToken, profile, done) => {
       try {
         const email = profile.emails[0].value;
         const fullName = profile.displayName;
@@ -89,8 +89,6 @@ passport.use(
             process.env.JWT_SECRET_KEY,
             { expiresIn: "10s" }
           );
-
-
 
           req.token = token; // Pass token to req for later use
           req.refreshToken = refreshToken;
