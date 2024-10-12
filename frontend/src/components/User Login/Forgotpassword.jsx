@@ -17,7 +17,7 @@ export default function () {
     e.preventDefault();
     try {
       const response = await fetch(
-        "http://localhost:5001/recovery/send_recovery_email",
+        "/recovery/send_recovery_email",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

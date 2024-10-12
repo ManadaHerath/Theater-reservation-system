@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE_URL = "https://theater-reservation-system-production.up.railway.app";
+const BASE_URL = "https://localhost:5001"
 
 export default axios.create({
   baseURL: BASE_URL,

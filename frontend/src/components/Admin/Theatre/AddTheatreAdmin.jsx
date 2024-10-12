@@ -27,7 +27,7 @@ export default function AddTheatreForm() {
     e.preventDefault();
     try {
       const response = await axiosPrivate.post(
-        "http://localhost:5001/theatres",
+        "/theatres",
         {
           name,
           address,

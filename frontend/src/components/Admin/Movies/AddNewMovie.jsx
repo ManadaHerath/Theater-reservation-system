@@ -114,7 +114,7 @@ const AddNewMovie = () => {
       console.log("movie_poster:", photoResponse.data[1]);
       setMovie(updatedMovie);
 
-      const response = await axiosPrivate.post("http://localhost:5001/movies", {
+      const response = await axiosPrivate.post("/movies", {
         movie: updatedMovie,
         actors,
       });

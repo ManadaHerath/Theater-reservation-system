@@ -21,7 +21,7 @@ const CreateCoupon = () => {
   useEffect(() => {
     const fetchTheatres = async () => {
       try {
-        const response = await axios.get('http://localhost:5001/theatres');
+        const response = await axios.get('/theatres');
         setTheatres(response.data);
       } catch (error) {
         console.error('Error fetching theatres:', error);
@@ -34,7 +34,7 @@ const CreateCoupon = () => {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const response = await axios.get('http://localhost:5001/movies');
+        const response = await axios.get('/movies');
         setMovies(response.data);
       } catch (error) {
         console.error('Error fetching movies:', error);
@@ -68,7 +68,7 @@ const CreateCoupon = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5001/coupons/create-coupon', {
+      const response = await axios.post('/coupons/create-coupon', {
         duration,
         id: couponId,
         percent_off: percentOff,
