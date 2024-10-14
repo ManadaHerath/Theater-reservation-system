@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Alert from "@mui/material/Alert";
 import CircularProgress from "@mui/material/CircularProgress";
+import axios from "../../api/axios";
 
 export default function () {
   const [email, setEmail] = useState("");
@@ -16,15 +17,9 @@ export default function () {
     setLoading("Loading...");
     e.preventDefault();
     try {
-      const response = await fetch(
-        "/recovery/send_recovery_email",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email }),
-        }
-      );
-      const data = await response.json();
+      const response = await axios.post("/recovery/send_recovery_email", {
+        email,
+      });
       setAlert(response.status);
       if (response.status === 200) {
         setAlertStyle("text-green-600 text-s my-1 flex justify-center");

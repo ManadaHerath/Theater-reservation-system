@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import validator from "validator";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "../../api/axios";
 
 export default function Reset() {
   const location = useLocation();

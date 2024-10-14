@@ -1,9 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "../../api/axios";
 import { useLocation, useNavigate } from "react-router-dom";
-import Alert from '@mui/material/Alert';
-
+import Alert from "@mui/material/Alert";
 
 export default function OTPInput() {
   const location = useLocation();
@@ -48,7 +47,6 @@ export default function OTPInput() {
           OTP: otp,
         })
         .then((response) => {
-
           setAlert(response.status);
           if (response.status === 200) {
             setAlertStyle("text-green-500 text-center mt-1");
@@ -202,12 +200,12 @@ export default function OTPInput() {
                     </a>
                   </div>
                   {alert === 200 ? (
-            <Alert severity="success">OTP Matched</Alert>
-          ) : (
-            ( alert === 201) && (
-              <Alert severity="error">OTP didn't matched</Alert>
-            )
-          )}
+                    <Alert severity="success">OTP Matched</Alert>
+                  ) : (
+                    alert === 201 && (
+                      <Alert severity="error">OTP didn't matched</Alert>
+                    )
+                  )}
                   {resendOTPAlert && (
                     <p className={alertStyle}>{resendOTPAlert}</p>
                   )}
