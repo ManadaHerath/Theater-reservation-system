@@ -5,8 +5,7 @@ import validator from "validator";
 import axios from "../../api/axios";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import GoogleSignInButton from "../User Login/SignInButton";
-import Alert from '@mui/material/Alert';
-
+import Alert from "@mui/material/Alert";
 
 export default function Register_Form() {
   const inputStyles =
@@ -106,6 +105,7 @@ export default function Register_Form() {
         stripe_customer_id: "",
         password: password,
       });
+      console.log(response);
       if (response.status === 400) {
         setAlert(response.status);
         setAlertStyle("text-red-600 text-s mt-1 flex justify-center");
@@ -226,7 +226,7 @@ export default function Register_Form() {
               <div className="flex flex-col sm:flex-row gap-3">
                 <div className="relative w-full text-white">
                   <input
-                    className= {inputStyles}
+                    className={inputStyles}
                     id="date"
                     name="date"
                     type="date"
@@ -371,12 +371,18 @@ export default function Register_Form() {
           </div>
         </form>
       </div>
-      {alert === 201 ? (
-        <Alert severity="success" style={{ position: "absolute", bottom: "20px", left: "20px" }}>
-         {alert}
+      {alert === 400 ? (
+        <Alert
+          severity="error"
+          style={{ position: "absolute", bottom: "20px", left: "20px" }}
+        >
+          {alert}
         </Alert>
       ) : alert ? (
-        <Alert severity="error" style={{ position: "absolute", bottom: "20px", left: "20px" }}>
+        <Alert
+          severity="success"
+          style={{ position: "absolute", bottom: "20px", left: "20px" }}
+        >
           {alert}
         </Alert>
       ) : null}

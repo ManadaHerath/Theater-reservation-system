@@ -34,7 +34,7 @@ export const register = async (req, res, next) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const defaultAvatar =
-      "https://firebasestorage.googleapis.com/v0/b/medilink-812fc.appspot.com/o/person.png?alt=media&token=510412a5-bfd5-423d-b65d-f3b2a206e88d";
+      "https://firebasestorage.googleapis.com/v0/b/movie-mingle-2ec48.appspot.com/o/person.png?alt=media&token=7874017f-e709-4c8c-830a-ed2573ec0808";
 
     const [result] = await connection.query(
       "INSERT INTO users (email, phone_number, full_name, gender, avatar, address, birthday, role, is_completed, is_active, stripe_customer_id, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
