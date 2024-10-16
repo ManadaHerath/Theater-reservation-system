@@ -15,26 +15,34 @@ const ChatBot = ({ chatbotId }) => {
   }, [chatbotId]);
 
   return (
-    <div style={{ position: "fixed", bottom: "50px", right: "30px" }}>
+    <div className="fixed bottom-12 right-8 z-50">
+      {/* Glowing and Floating Button */}
       <button
         onClick={handleChatBubbleClick}
-        className="bg-[#3d4654] text-white rounded-full px-4 py-2 hover:bg-blue-800 transition duration-300 
-      background-image: url('path/to/your/logo.png');
-      background-size: contain;
-      background-position: center;"
+        className="relative w-12 h-8 sm:w-24 sm:h-12 text-lg hover:text-white bg-white text-black font-bold rounded-2xl hover:bg-blue-800 transition duration-300 flex justify-center items-center shadow-xl animate-bounce-slow"
+        style={{
+          boxShadow: "0 0 30px rgba(0, 150, 255, 0.7)", // Glowing effect
+          //backgroundImage: "url(https://firebasestorage.googleapis.com/v0/b/movie-mingle-2ec48.appspot.com/o/vecteezy_robot-chatbot-aesthetic_25271424.png?alt=media&token=1b54f33a-3f9a-451d-be88-16fb07a84521)", // Add logo if needed
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
       >
-        Ask me
+      <h1>Ask Me</h1>
+        {/* Floating Glow Effect */}
+        <div
+          className=""
+          style={{
+            background:
+              "radial-gradient(circle, rgba(0, 150, 255, 0.3) 0%, rgba(0, 150, 255, 0) 70%)",
+          }}
+        />
+        
       </button>
+
       {chatBubbleVisible && (
         <iframe
           src={`https://www.chatbase.co/chatbot-iframe/${chatbotId}`}
-          style={{
-            width: "350px",
-            height: "400px",
-            position: "absolute",
-            bottom: "50px",
-            right: "20px",
-          }}
+          className="w-80 h-96 absolute bottom-16 right-0 bg-white shadow-lg rounded-lg"
         />
       )}
     </div>
