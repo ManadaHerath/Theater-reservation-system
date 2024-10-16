@@ -4,7 +4,7 @@ import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 
 const GoogleSignInButton = ({ word }) => {
   const handleGoogleSignIn = () => {
-    window.location.href = `${process.env.REACT_APP_BASE_URL}/auth/google`;
+    window.location.href = `https://theater-reservation-system-production.up.railway.app/auth/google`;
   };
 
   return (
