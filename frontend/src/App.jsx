@@ -33,7 +33,7 @@ import Layout from "./layout/layout";
 import RequireAuth from "./components/Errors/RequireAuth";
 import PersistLogin from "./components/Persist Login/PersistLogin";
 
-import Profile from "./components/User Profile/Profile";
+import UserProfile from "./pages/UserProfile";
 
 // seat grid user side
 import SeatGridUser from "./components/Seat Selection/SeatGridUser";
@@ -74,7 +74,7 @@ const App = () => {
               path="/seatgrid/:showId/:theatreId"
               element={<SeatGridUser />}
             />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile" element={<UserProfile />} />
             <Route path="forgot-password" element={<Forgotpassword />} />
             <Route path="/otp" element={<OTPInput />} />
             <Route path="/help" element={<Help />} />
@@ -154,9 +154,8 @@ const App = () => {
                 />
                 <Route
                   path="/theatre-admin/qr-code-scanner"
-                  element={<QRCodeScanner />} 
+                  element={<QRCodeScanner />}
                 />
-
               </Route>
 
               <Route element={<RequireAuth allowedRoles={["systemManager"]} />}>

@@ -27,7 +27,7 @@ export const photoUpload = async (req, res, next) => {
   try {
     const files = req.files;
     if (!files || Object.keys(files).length === 0) {
-      return res.status(400).send("No files uploaded.");
+      return res.send("No files uploaded.");
     }
 
     const uploadPromises = Object.keys(files).map(async (key) => {
