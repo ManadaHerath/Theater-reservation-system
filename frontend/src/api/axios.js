@@ -1,6 +1,7 @@
 import axios from "axios";
 
 
+
 const BASE_URL = "https://theater-reservation-system-production.up.railway.app";  ;
 
 export default axios.create({

@@ -12,5 +12,6 @@ router.post(
   upload.fields([{ name: "cover_photo" }, { name: "movie_poster" }]),
   photoUpload
 );
+router.post('/user-profile',  upload.fields([{ name: "avatar" }]), photoUpload);
 
 export default router;
