@@ -5,7 +5,11 @@ import {
   verifyAdmin,
   verifyJWT,
 } from "../util/verify_token.js";
-import { getUserbyID, updateUser } from "../controllers/user.js";
+import {
+  getUserbyID,
+  updateUser,
+  changePassword,
+} from "../controllers/user.js";
 import { handleRefreshToken } from "../controllers/refreshTokenController.js";
 import { getIDFromToken } from "../middlewares/getIDFromToken.js";
 
@@ -34,5 +38,6 @@ router.put("/:id", verifyUser, (req, res, next) => {
 router.get("/getUser", getIDFromToken, getUserbyID);
 
 router.patch("/updateProfile", getIDFromToken, updateUser);
+router.post("/changePassword", getIDFromToken, changePassword);
 
 export default router;

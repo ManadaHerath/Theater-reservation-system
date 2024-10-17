@@ -203,7 +203,11 @@ export default function Profile() {
               style={styles.input}
             />
           </div>
-          <button type="submit" className="bg-blue-700 hover:bg-blue-800" style={styles.submitButton}>
+          <button
+            type="submit"
+            className="bg-blue-700 hover:bg-blue-800"
+            style={styles.submitButton}
+          >
             Save Changes
           </button>
           {uploading && <GradientCircularProgress />}
@@ -234,7 +238,7 @@ const styles = {
   container: {
     backgroundColor: "#0D1117",
     color: "#C9D1D9",
-    minHeight: "100vh",
+    minHeight: "90vh",
     padding: "30px",
     display: "flex",
     flexDirection: "column",
@@ -244,6 +248,7 @@ const styles = {
   title: {
     fontSize: "2rem",
     marginTop: "50px",
+    font: "bold",
 
     marginBottom: "20px",
   },
@@ -255,7 +260,6 @@ const styles = {
     padding: "20px",
     borderRadius: "10px",
     boxShadow: "0 0 15px rgba(0, 0, 0, 0.5)",
-    
   },
   avatarContainer: {
     display: "flex",
