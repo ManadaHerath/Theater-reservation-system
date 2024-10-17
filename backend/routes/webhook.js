@@ -39,9 +39,9 @@ router.post(
       return res.sendStatus(400);
     }
 
-    if (event.type === "payment_intent.succeeded") {
+    if (event.type === "checkout.session.completed") {
       const session = event.data.object;
-
+      console.log("this is session yo -> ",session)
       const pi = session.payment_intent;
       const theatreId = session.metadata?.theatreId;
       const showId = session.metadata?.showId || 1;
