@@ -82,7 +82,9 @@ export default function MovieDetails() {
   };
 
   useEffect(() => {
-    sendUserRating(userRatingvalue);
+    if (userRatingvalue !== 0.0 && userRatingvalue !== undefined) {
+      sendUserRating(userRatingvalue);
+    }
   }, [userRatingvalue]);
 
   const sendUserRating = async (rating) => {
@@ -192,7 +194,7 @@ export default function MovieDetails() {
               {movie.duration}
             </h1>
             <Box className="my-3 mx-10">
-              <Rating
+              {/* <Rating
                 name="half-rating-read"
                 value={parseFloat(movie.rating).toFixed(1) || 0}
                 precision={0.5}
@@ -203,7 +205,7 @@ export default function MovieDetails() {
                     color: "white",
                   },
                 }}
-              />
+              /> */}
             </Box>
           </div>
           <div>
@@ -251,7 +253,7 @@ export default function MovieDetails() {
           </h1>
           <Box className="flex items-end mt-5 ml-10">
             <Typography component="legend"></Typography>
-            <Rating
+            {/* <Rating
               name="half-rating"
               precision={0.5}
               value={parseFloat(userRatingvalue).toFixed(1) || 0}
@@ -267,7 +269,7 @@ export default function MovieDetails() {
                   color: "white",
                 },
               }}
-            />
+            /> */}
           </Box>
         </div>
         <h1 className="lg:text-5xl text-xl font-bold mt-5 ml-10 text-white">
