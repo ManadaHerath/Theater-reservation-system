@@ -24,7 +24,7 @@ const AddReview = ({ onSubmit, disable, photo }) => {
         maxWidth: "450px",
         maxHeight: "400px",
         backgroundColor: "#1E1E1E",
-        borderRadius: "10px",
+        borderRadius: "10px",fontFamily: "inherit" 
       }}
     >
       <Box
@@ -32,11 +32,11 @@ const AddReview = ({ onSubmit, disable, photo }) => {
         sx={{
           display: "flex",
           flexDirection: "column",
-          gap: 2,
+          gap: 2,fontFamily: "inherit" ,
         }}
         onSubmit={handleSubmit}
       >
-        <Typography variant="h5" sx={{ color: "white", textAlign: "center",cursor:"default" }}>
+        <Typography variant="h5" sx={{ color: "white", textAlign: "center",cursor:"default",fontFamily: "inherit"  }}>
           {!disable ? "Share Your Experience" : "Please Login to Review"}
         </Typography>
 
@@ -82,7 +82,7 @@ const AddReview = ({ onSubmit, disable, photo }) => {
   }}
   InputProps={{
     sx: {
-      color: "white", // Text color inside input
+      color: "white",fontFamily: "inherit" , // Text color inside input
       "& .MuiOutlinedInput-notchedOutline": {
         borderColor: "blue", // Normal border color
       },
@@ -110,7 +110,7 @@ const AddReview = ({ onSubmit, disable, photo }) => {
               handleSubmit(e);
             }
           }}
-          sx={{
+          sx={{fontFamily: "inherit" ,
             backgroundColor: (disable || review === "") ? "grey" : "#007BFF",
             color: disable ? "white" : "white",
             "&:hover": {

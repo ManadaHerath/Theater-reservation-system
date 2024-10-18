@@ -30,7 +30,7 @@ const Review = ({ review, onLike, onReply, disable, admin }) => {
           }}
         />
         <div>
-          <Typography variant="h6" sx={{ color: "white" }}>
+          <Typography variant="h6" sx={{ color: "white", fontFamily: "inherit" }}>
             {review.name}
           </Typography>
           <Rating
@@ -45,7 +45,7 @@ const Review = ({ review, onLike, onReply, disable, admin }) => {
           />
         </div>
       </div>
-      <Typography variant="body1" sx={{ color: "white" }}>
+      <Typography variant="body1" sx={{ color: "white",fontFamily: "inherit"  }}>
         {review.text}
       </Typography>
       {!admin && (
@@ -88,12 +88,12 @@ const Review = ({ review, onLike, onReply, disable, admin }) => {
             rows={2}
             InputLabelProps={{
               sx: {
-                color: "white", // Label color
+                color: "white",fontFamily: "inherit"  // Label color
               },
             }}
             InputProps={{
               sx: {
-                color: "white", // Text color
+                color: "white", fontFamily: "inherit" , // Text color
                 "& .MuiOutlinedInput-notchedOutline": {
                   borderColor: "blue", // Initial border color
                 },
