@@ -24,6 +24,7 @@ const ChatBot = ({ chatbotId }) => {
           boxShadow: "0 0 30px rgba(0, 150, 255, 0.7)", // Glowing effect
           //backgroundImage: "url(https://firebasestorage.googleapis.com/v0/b/movie-mingle-2ec48.appspot.com/o/vecteezy_robot-chatbot-aesthetic_25271424.png?alt=media&token=1b54f33a-3f9a-451d-be88-16fb07a84521)", // Add logo if needed
           backgroundSize: "cover",
+          border: "1px solid darkblue",
           backgroundPosition: "center",
         }}
       >

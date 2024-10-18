@@ -83,14 +83,13 @@ const NavBar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  console.log("user avatar", userDetails.avatar);
 
   return (
     <div
       className={`fixed text-white left-0 top-0 w-full pr-5 z-50 flex ${
         isScrolled
-          ? "bg-black bg-opacity-100 h-16"
-          : "bg-gradient-to-b from-[rgba(0,0,0,0.8)] h-16  to-transparent "
+          ? "bg-black bg-opacity-100 h-16 border-b-2 border-blue-800"
+          : "bg-gradient-to-b from-black h-16  to-transparent "
       } transition-all duration-1000 ease-in-out justify-between items-center`}
     >
       <div
@@ -99,7 +98,7 @@ const NavBar = () => {
         } md:flex flex-grow justify-center items-center relative inset-0 `}
       >
         <ul
-          className={`flex text-white flex-col md:flex-row md:space-x-24 text-lg md:rounded-none rounded-b-lg md:p-0 absolute top-8 md:static md:top-16  md:right-0 ${
+          className={`flex text-white font-bold flex-col md:flex-row md:space-x-24 text-lg md:text-xl md:rounded-none rounded-b-lg md:p-0 absolute top-8 md:static md:top-16  md:right-0 ${
             isMenuOpen ? "bg-black pt-0 px-4 mt-0" : ""
           }
             transition-colors duration-500 ease-in-out`}
@@ -108,7 +107,7 @@ const NavBar = () => {
             <li
               key={item}
               className={`${
-                selectedItem === item ? "text-blue-500 font-semibold" : ""
+                selectedItem === item ? "text-blue-500 font-bold" : ""
               } hover:text-blue-700 cursor-pointer p-2`}
               onClick={() => handleItemClick(item)}
             >
@@ -135,10 +134,10 @@ const NavBar = () => {
             <img
               src={userDetails.avatar}
               alt="P"
-              className="w-10 h-10 rounded-full"
+              className="w-12 h-12 rounded-full border-2 border-blue-500"
             />
             <button className=" cursor-pointer" onClick={signOut}>
-              <div className="px-4 sm:py-2 py-1 rounded-xl bg-blue-700 hover:bg-blue-900">
+              <div className="px-4 sm:py-2 py-1 rounded-xl bg-blue-700 hover:bg-blue-900 text-lg">
                 Logout
               </div>
             </button>
@@ -148,7 +147,7 @@ const NavBar = () => {
             to="/login"
             className="cursor-pointer bg-blue-800 hover:bg-blue-900 rounded-xl"
           >
-            <div className="flex flex-row gap-3 text-white px-4 sm:py-2 py-1 rounded-xl  ">
+            <div className="flex flex-row gap-3 text-white px-4 sm:py-2 py-1 rounded-xl text-lg ">
               Login
             </div>
           </Link>

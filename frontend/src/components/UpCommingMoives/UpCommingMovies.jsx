@@ -2,7 +2,8 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-
+import CircularProgress from "@mui/material/CircularProgress";
+import Backdrop from "@mui/material/Backdrop";
 const colorClasses = [
   "bg-blue-950", // Dark blue
   "bg-blue-950", // Light blue
@@ -21,7 +22,7 @@ export const MovieCard = ({ movie, colorClass }) => {
   };
 
   return (
-    <div className="pb-20 transform w-[25%] transition-all duration-300 hover:scale-105">
+    <div className="pb-20 transform w-[25%] transition-all duration-300 hover:scale-105 cursor-default">
       {/* Movie Poster */}
       <div
         className="relative w-full h-96 overflow-hidden rounded-lg shadow-lg cursor-pointer"
@@ -73,6 +74,29 @@ const UpCommingMovies = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  function GradientCircularProgress() {
+    return (
+      <React.Fragment>
+        <svg width={0} height={0}>
+          <defs>
+            <linearGradient id="my_gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#e01cd5" />
+              <stop offset="100%" stopColor="#1CB5E0" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <Backdrop
+          sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
+          open={loading}
+        >
+          <CircularProgress
+            sx={{ "svg circle": { stroke: "url(#my_gradient)" } }}
+          />
+        </Backdrop>
+      </React.Fragment>
+    );
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -88,7 +112,7 @@ const UpCommingMovies = () => {
   }, []);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <GradientCircularProgress />;
   }
 
   if (error.length > 0) {
@@ -108,10 +132,10 @@ const UpCommingMovies = () => {
         backgroundColor: "#433B7C",
       }}
     >
-      <h1 className="absolute top-0 flex pt-4 pb-20 pr-20 lg:text-3xl text-xl text-white left-20">
+      <h1 className="absolute top-2 flex pt-4  pr-20 lg:text-4xl font-bold text-xl text-white left-20">
         Upcoming Movies
       </h1>
-      <div className="flex pt-10 px-8 gap-10">
+      <div className="flex pt-16 px-8 gap-10">
         {data.map((movie, index) =>
           index < 4 ? (
             <MovieCard

@@ -178,13 +178,13 @@ function MovieSlideshow({ movies }) {
         <div className="absolute top-0 right-0 flex gap-4 pt-3 pr-20">
           <button
             onClick={() => dispatch({ type: "PREV" })}
-            className="px-2 py-2 pt-2 text-white lg:text-2xl hover:bg-red-500 rounded-3xl "
+            className="px-2 py-2 pt-2 text-white lg:text-2xl hover:bg-blue-500 rounded-3xl "
           >
             <FontAwesomeIcon icon={faChevronLeft} />
           </button>
           <button
             onClick={() => dispatch({ type: "NEXT" })}
-            className="px-2 py-2 pt-2 text-white lg:text-2xl hover:bg-red-500 rounded-3xl "
+            className="px-2 py-2 pt-2 text-white lg:text-2xl hover:bg-blue-500 rounded-3xl "
           >
             <FontAwesomeIcon icon={faChevronRight} />
           </button>
