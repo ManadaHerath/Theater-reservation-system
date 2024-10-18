@@ -8,8 +8,8 @@ import Typography from "@mui/material/Typography";
 import AddReview from "../Reviews/AddReviews";
 import ReviewList from "../Reviews/ShowReviewList";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import CircularProgress from "@mui/material/CircularProgress"; 
-
+import CircularProgress from "@mui/material/CircularProgress";
+import Backdrop from "@mui/material/Backdrop";
 export default function Theatre() {
   const axiosPrivate = useAxiosPrivate();
   const [userDetails, setUserDetails] = useState([]);
@@ -19,6 +19,29 @@ export default function Theatre() {
   const { id } = useParams();
   const [theatre_id, setTheatre_id] = useState(id);
   const [loading, setLoading] = useState(true); // Add loading state
+
+  function GradientCircularProgress() {
+    return (
+      <React.Fragment>
+        <svg width={0} height={0}>
+          <defs>
+            <linearGradient id="my_gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#e01cd5" />
+              <stop offset="100%" stopColor="#1CB5E0" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <Backdrop
+          sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
+          open={loading}
+        >
+          <CircularProgress
+            sx={{ "svg circle": { stroke: "url(#my_gradient)" } }}
+          />
+        </Backdrop>
+      </React.Fragment>
+    );
+  }
 
   const handleAddReview = (review) => {
     sendReview(review);
@@ -164,7 +187,7 @@ export default function Theatre() {
   if (loading || isFetching) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <CircularProgress color="secondary" /> {/* Loading spinner */}
+        <GradientCircularProgress /> {/* Loading spinner */}
       </div>
     );
   }

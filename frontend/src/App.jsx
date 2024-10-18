@@ -59,6 +59,7 @@ import TheatreAdminDashboard from "./components/Theatre Admin/Home/Dashboard";
 import ManageTheatre from "./components/Theatre Admin/Manage Theatre/ManageTheatre";
 import QRCodeScanner from "./components/Theatre Admin/QR Code Scanner/QRCodeScanner";
 import ShowTimes from "./components/Theatre Admin/ShowTimes Management/ShowTimes";
+import Reviews from "./components/Theatre Admin/ReviewsManagement/Reviews";
 
 import RequestRefund from "./pages/RequestRefund";
 
@@ -156,6 +157,12 @@ const App = () => {
                   path="/theatre-admin/qr-code-scanner"
                   element={<QRCodeScanner />}
                 />
+
+                <Route
+                  path="/theatre-admin/view-reviews"
+                  element={<Reviews />}
+                />
+
               </Route>
 
               <Route element={<RequireAuth allowedRoles={["systemManager"]} />}>
