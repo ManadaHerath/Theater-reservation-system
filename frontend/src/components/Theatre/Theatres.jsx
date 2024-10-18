@@ -1,4 +1,4 @@
-import { React, useEffect, useState, useCallback } from "react";
+import  React,{ useEffect, useState, useCallback } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import SearchBar from "./Searchbar";
@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import Particles from "react-tsparticles";
 import { loadSlim } from "tsparticles-slim";
 import CircularProgress from "@mui/material/CircularProgress";
-
+import Backdrop from "@mui/material/Backdrop";
 const TheatreCard = (props) => {
   return (
     <div>
@@ -93,10 +93,33 @@ const TheatreList = () => {
     fetchData();
   }, []);
 
+  function GradientCircularProgress() {
+    return (
+      <React.Fragment>
+        <svg width={0} height={0}>
+          <defs>
+            <linearGradient id="my_gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#e01cd5" />
+              <stop offset="100%" stopColor="#1CB5E0" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <Backdrop
+          sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
+          open={loading}
+        >
+          <CircularProgress
+            sx={{ "svg circle": { stroke: "url(#my_gradient)" } }}
+          />
+        </Backdrop>
+      </React.Fragment>
+    );
+  }
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <CircularProgress color="secondary" /> {/* Loading spinner */}
+        <GradientCircularProgress /> {/* Loading spinner */}
       </div>
     );
   }

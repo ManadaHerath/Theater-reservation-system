@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { Rating } from "@mui/material";
 
-const Review = ({ review, onLike, onReply,disable }) => {
+const Review = ({ review, onLike, onReply, disable, admin }) => {
   const [reply, setReply] = useState("");
   const [showReplyField, setShowReplyField] = useState(false);
 
@@ -30,36 +30,47 @@ const Review = ({ review, onLike, onReply,disable }) => {
           }}
         />
         <div>
-        <Typography variant="h6" sx={{ color: "white" }}>
-          {review.name}
-        </Typography>
-        <Rating
-        value={parseFloat(review.rating).toFixed(1) || 0}
-        precision={0.5}
-        readOnly
-        sx={{
-          "& .MuiRating-iconEmpty": {
-            color: "white",
-          },
-        }}
-      />
-      </div>
+          <Typography variant="h6" sx={{ color: "white" }}>
+            {review.name}
+          </Typography>
+          <Rating
+            value={parseFloat(review.rating).toFixed(1) || 0}
+            precision={0.5}
+            readOnly
+            sx={{
+              "& .MuiRating-iconEmpty": {
+                color: "white",
+              },
+            }}
+          />
+        </div>
       </div>
       <Typography variant="body1" sx={{ color: "white" }}>
         {review.text}
       </Typography>
-      
-      <Button variant="text" color="primary" onClick={() => onLike(review.id)} disabled={disable}>
-        {review.liked ? `Unlike (${review.likes})` : `Like (${review.likes})`}
-      </Button>
-      <Button
-        variant="text"
-        color="primary"
-        onClick={() => setShowReplyField(!showReplyField)}
-        disabled={disable}  
-      >
-        Reply
-      </Button>
+      {!admin && (
+        <>
+          <Button
+            variant="text"
+            color="primary"
+            onClick={() => onLike(review.id)}
+            disabled={disable}
+          >
+            {review.liked
+              ? `Unlike (${review.likes})`
+              : `Like (${review.likes})`}
+          </Button>
+          <Button
+            variant="text"
+            color="primary"
+            onClick={() => setShowReplyField(!showReplyField)}
+            disabled={disable}
+          >
+            Reply
+          </Button>
+        </>
+      )}
+
       {showReplyField && (
         <Box
           component="form"
@@ -125,7 +136,6 @@ const Review = ({ review, onLike, onReply,disable }) => {
                   width: "50px",
                   height: "50px",
                   borderRadius: "50%",
-                  border: "1px solid white",
                   border: "1px solid white",
                 }}
               />{" "}

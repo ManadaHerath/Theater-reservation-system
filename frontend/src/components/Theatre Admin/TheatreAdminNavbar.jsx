@@ -108,6 +108,23 @@ const TheatreAdminNavBar = () => {
 
       <Button
         component={NavLink}
+        to="/theatre-admin/view-reviews"
+        color="inherit"
+        sx={{
+          color: "white",
+          marginBottom: 2,
+          width: "100%",
+          justifyContent: "flex-start",
+        }}
+        style={({ isActive }) => ({
+          color: isActive ? "green" : "white",
+        })}
+      >
+        View Reviews
+      </Button>
+
+      <Button
+        component={NavLink}
         onClick={signOut}
         color="inherit"
         sx={{
