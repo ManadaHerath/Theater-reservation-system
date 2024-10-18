@@ -137,8 +137,10 @@ export default function Theatre() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const response = await axiosPrivate.get("/users/getUser");
         setUserDetails(response.data);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching user:", error);
       }
@@ -146,8 +148,10 @@ export default function Theatre() {
 
     const fetchReviews = async () => {
       try {
+        setLoading(true);
         const response = await axiosPrivate.get(`/reviews/${id}`);
         setReviews(response.data);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching reviews:", error);
       }
@@ -155,8 +159,10 @@ export default function Theatre() {
 
     const fetchUserRating = async () => {
       try {
+        setLoading(true);
         const response = await axiosPrivate.get(`/reviews/rating/${id}`);
         setUserRatingValue(response.data.rates);
+        setLoading(false);
         console.log("user Rating Value", response.data.rates);
       } catch (error) {
         console.error("Error fetching user rating:", error);

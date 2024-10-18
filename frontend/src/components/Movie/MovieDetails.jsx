@@ -18,6 +18,7 @@ export default function MovieDetails() {
   const [userRatingvalue, setUserRatingValue] = useState(0.0);
   const [userDetails, setUserDetails] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const[loading,setLoading]=useState(false);
   const navigate = useNavigate();
 
   function GradientCircularProgress() {
@@ -33,7 +34,7 @@ export default function MovieDetails() {
         </svg>
         <Backdrop
           sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
-          open={isPending}
+          open={isPending||loading}
         >
           <CircularProgress
             sx={{ "svg circle": { stroke: "url(#my_gradient)" } }}
@@ -136,8 +137,10 @@ export default function MovieDetails() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const response = await axiosPrivate.get("/users/getUser");
         setUserDetails(response.data);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching user:", error);
       }
@@ -145,8 +148,10 @@ export default function MovieDetails() {
 
     const fetchReviews = async () => {
       try {
+        setLoading(true);
         const response = await axiosPrivate.get(`/movie_reviews/${id}`);
         setReviews(response.data);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching reviews:", error);
       }
@@ -154,8 +159,10 @@ export default function MovieDetails() {
 
     const fetchUserRating = async () => {
       try {
+        setLoading(true);
         const response = await axiosPrivate.get(`/movie_reviews/rating/${id}`);
         setUserRatingValue(response.data.rates);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching user rating:", error);
       }
@@ -174,7 +181,7 @@ export default function MovieDetails() {
     }
   }, [userDetails]);
 
-  if (isPending)
+  if (isPending || loading)
     return (
       <div className="flex justify-center items-center h-screen">
         <GradientCircularProgress/> {/* Loading spinner */}
