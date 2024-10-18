@@ -33,7 +33,7 @@ export default function Theatre() {
         </svg>
         <Backdrop
           sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
-          open={loading}
+          open={loading||isFetching}
         >
           <CircularProgress
             sx={{ "svg circle": { stroke: "url(#my_gradient)" } }}
