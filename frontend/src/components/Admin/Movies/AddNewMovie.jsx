@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 import AlertDialog from "./DialogBox";
+import AdminLayout from "../AdminLayout";
+import AddNewMovieViaIMDB from "./AddNewMovieViaIMDB";
 import {
   Button,
   TextField,
@@ -128,174 +130,182 @@ const AddNewMovie = () => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Box
-        sx={{
-          bgcolor: "#f0f4f8",
-          borderRadius: 3,
-          boxShadow: 3,
-          p: 4,
-          mt: 5,
-          mb: 5,
-        }}
-      >
-        <Typography variant="h5" sx={{ mb: 3, color: "#1976d2" }}>
-          Add New Movie
+    <AdminLayout>
+      <Container maxWidth="sm">
+        <Typography variant="h4" sx={{ mt: 5, mb: 3, color: "#1976d2",mx:"auto" }}>
+          Add New Movie Via IMDB
         </Typography>
-        <form onSubmit={handleSubmit}>
-          <BlueTextField
-            fullWidth
-            label="Movie Name"
-            name="title"
-            margin="normal"
-            onChange={handleChange}
-            required
-          />
-          <BlueTextField
-            fullWidth
-            label="Description"
-            name="overview"
-            margin="normal"
-            required
-            multiline
-            onChange={handleChange}
-            rows={3}
-          />
-          <BlueTextField
-            fullWidth
-            label="Writer"
-            name="movie_writer"
-            margin="normal"
-            onChange={handleChange}
-            required
-          />
-          <BlueTextField
-            fullWidth
-            label="Director"
-            name="movie_director"
-            margin="normal"
-            onChange={handleChange}
-            required
-          />
-          <BlueTextField
-            fullWidth
-            label="Released Date"
-            name="released_date"
-            type="date"
-            InputLabelProps={{ shrink: true }}
-            margin="normal"
-            onChange={handleChange}
-            required
-          />
+        <AddNewMovieViaIMDB />
+        <hr style={{ border: "1px solid #1976d2" }} />
 
-          <BlueTextField
-            fullWidth
-            label="Trailer Video Url"
-            name="trailer_video_url"
-            margin="normal"
-            onChange={handleChange}
-            required
-          />
-          <BlueTextField
-            fullWidth
-            label="Original Language"
-            name="original_language"
-            margin="normal"
-            onChange={handleChange}
-            required
-          />
-          <BlueTextField
-            fullWidth
-            label="Duration"
-            name="duration"
-            margin="normal"
-            onChange={handleChange}
-            required
-          />
-          <BlueTextField
-            fullWidth
-            label="Rating"
-            name="rating"
-            margin="normal"
-            onChange={handleChange}
-            required
-          />
-          <BlueTextField
-            fullWidth
-            label="Movie Cover"
-            name="coverPhoto"
-            type="file"
-            InputLabelProps={{ shrink: true }}
-            margin="normal"
-            onChange={handleCoverPhotoChange}
-            required
-          />
-          <BlueTextField
-            fullWidth
-            label="Movie Poster"
-            name="moviePoster"
-            type="file"
-            InputLabelProps={{ shrink: true }}
-            margin="normal"
-            onChange={handleMoviePosterChange}
-            required
-          />
-          <Typography variant="h6" sx={{ mt: 2, color: "#1976d2" }}>
-            Actors
+        <Box
+          sx={{
+            bgcolor: "#f0f4f8",
+            borderRadius: 3,
+            boxShadow: 3,
+            p: 4,
+            mt: 5,
+            mb: 5,
+          }}
+        >
+          <Typography variant="h5" sx={{ mb: 3, color: "#1976d2" }}>
+            Add Manually
           </Typography>
-          {actors.map((actor, index) => (
-            <Box
-              key={index}
-              sx={{ display: "flex", alignItems: "center", mt: 1 }}
-            >
-              <div className="flex flex-col md:flex-row items-center justify-center">
-                <BlueTextField
-                  label={`Actor Name ${index + 1}`}
-                  value={actor.name}
-                  onChange={(e) =>
-                    handleActorChange(index, "name", e.target.value)
-                  }
-                  margin="normal"
-                  required
-                  sx={{ flexGrow: 1, mr: 1 }}
-                />
-                <BlueTextField
-                  label={`Actor Photo URL ${index + 1}`}
-                  value={actor.photo_url}
-                  onChange={(e) =>
-                    handleActorChange(index, "photo_url", e.target.value)
-                  }
-                  margin="normal"
-                  required
-                  sx={{ flexGrow: 1, mr: 1 }}
-                />
-                <IconButton
-                  onClick={() => handleRemoveActor(index)}
-                  sx={{ color: "#d32f2f" }}
-                >
-                  <RemoveCircleIcon />
-                </IconButton>
-              </div>
+          <form onSubmit={handleSubmit}>
+            <BlueTextField
+              fullWidth
+              label="Movie Name"
+              name="title"
+              margin="normal"
+              onChange={handleChange}
+              required
+            />
+            <BlueTextField
+              fullWidth
+              label="Description"
+              name="overview"
+              margin="normal"
+              required
+              multiline
+              onChange={handleChange}
+              rows={3}
+            />
+            <BlueTextField
+              fullWidth
+              label="Writer"
+              name="movie_writer"
+              margin="normal"
+              onChange={handleChange}
+              required
+            />
+            <BlueTextField
+              fullWidth
+              label="Director"
+              name="movie_director"
+              margin="normal"
+              onChange={handleChange}
+              required
+            />
+            <BlueTextField
+              fullWidth
+              label="Released Date"
+              name="released_date"
+              type="date"
+              InputLabelProps={{ shrink: true }}
+              margin="normal"
+              onChange={handleChange}
+              required
+            />
+
+            <BlueTextField
+              fullWidth
+              label="Trailer Video Url"
+              name="trailer_video_url"
+              margin="normal"
+              onChange={handleChange}
+              required
+            />
+            <BlueTextField
+              fullWidth
+              label="Original Language"
+              name="original_language"
+              margin="normal"
+              onChange={handleChange}
+              required
+            />
+            <BlueTextField
+              fullWidth
+              label="Duration"
+              name="duration"
+              margin="normal"
+              onChange={handleChange}
+              required
+            />
+            <BlueTextField
+              fullWidth
+              label="Rating"
+              name="rating"
+              margin="normal"
+              onChange={handleChange}
+              required
+            />
+            <BlueTextField
+              fullWidth
+              label="Movie Cover"
+              name="coverPhoto"
+              type="file"
+              InputLabelProps={{ shrink: true }}
+              margin="normal"
+              onChange={handleCoverPhotoChange}
+              required
+            />
+            <BlueTextField
+              fullWidth
+              label="Movie Poster"
+              name="moviePoster"
+              type="file"
+              InputLabelProps={{ shrink: true }}
+              margin="normal"
+              onChange={handleMoviePosterChange}
+              required
+            />
+            <Typography variant="h6" sx={{ mt: 2, color: "#1976d2" }}>
+              Actors
+            </Typography>
+            {actors.map((actor, index) => (
+              <Box
+                key={index}
+                sx={{ display: "flex", alignItems: "center", mt: 1 }}
+              >
+                <div className="flex flex-col md:flex-row items-center justify-center">
+                  <BlueTextField
+                    label={`Actor Name ${index + 1}`}
+                    value={actor.name}
+                    onChange={(e) =>
+                      handleActorChange(index, "name", e.target.value)
+                    }
+                    margin="normal"
+                    required
+                    sx={{ flexGrow: 1, mr: 1 }}
+                  />
+                  <BlueTextField
+                    label={`Actor Photo URL ${index + 1}`}
+                    value={actor.photo_url}
+                    onChange={(e) =>
+                      handleActorChange(index, "photo_url", e.target.value)
+                    }
+                    margin="normal"
+                    required
+                    sx={{ flexGrow: 1, mr: 1 }}
+                  />
+                  <IconButton
+                    onClick={() => handleRemoveActor(index)}
+                    sx={{ color: "#d32f2f" }}
+                  >
+                    <RemoveCircleIcon />
+                  </IconButton>
+                </div>
+              </Box>
+            ))}
+            <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+              <IconButton onClick={handleAddActor} sx={{ color: "#1976d2" }}>
+                <AddCircleIcon fontSize="large" />
+              </IconButton>
             </Box>
-          ))}
-          <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
-            <IconButton onClick={handleAddActor} sx={{ color: "#1976d2" }}>
-              <AddCircleIcon fontSize="large" />
-            </IconButton>
-          </Box>
 
-          <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
-            <BlueButton type="submit" variant="contained" disabled={submitted}>
-              Submit
-            </BlueButton>
-          </Box>
-        </form>
+            <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
+              <BlueButton type="submit" variant="contained" disabled={submitted}>
+                Submit
+              </BlueButton>
+            </Box>
+          </form>
 
-        {showDialog && (
-          <AlertDialog message={"Movie Added Successfully!"} reload={true} />
-        )}
-      </Box>
-    </Container>
+          {showDialog && (
+            <AlertDialog message={"Movie Added Successfully!"} reload={true} />
+          )}
+        </Box>
+      </Container>
+    </AdminLayout>
   );
 };
 

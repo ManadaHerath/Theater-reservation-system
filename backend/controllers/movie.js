@@ -10,23 +10,21 @@ export const getMovies = async (req, res, next) => {
   }
 };
 
-
 export const getUpcommingMovies = async (req, res, next) => {
   try {
-    const [movies] = await connection.query(
-      "SELECT * FROM upcomingmovie"
-    );
+    const [movies] = await connection.query("SELECT * FROM upcomingmovie");
     res.status(200).json(movies);
   } catch (error) {
     next(error);
   }
 };
 
-
 export const addMovies = async (req, res, next) => {
   const movie = req.body.movie;
   const actors = req.body.actors;
   try {
+    console.log("Adding movie:", movie);
+    console.log("Actors:", actors);
     const [result] = await connection.query(
       "INSERT INTO movies (title, trailer_video_url, poster_url, overview, released_date, duration, original_language,movie_director,movie_writter,cover_photo,rating ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
       [
@@ -60,6 +58,7 @@ export const addMovies = async (req, res, next) => {
 
     res.status(201).json({ message: "Movie added successfully" });
   } catch (error) {
+    res.status(500).json({ message: "Error adding movie" });
     console.log(error);
   }
 };
@@ -72,7 +71,7 @@ export const getMovieById = async (req, res, next) => {
     const [movie] = await connection.query(dbquery, [id]);
 
     if (movie.length === 0) {
-      return res.status(200).json([]); 
+      return res.status(200).json([]);
     }
 
     res.status(200).json(movie[0]);

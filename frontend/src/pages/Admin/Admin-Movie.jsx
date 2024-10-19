@@ -9,6 +9,8 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import AdminLayout from "../../components/Admin/AdminLayout";
+import CircularProgress from "@mui/material/CircularProgress";
+import Backdrop from "@mui/material/Backdrop";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -58,19 +60,20 @@ const MovieCard = ({ movie }) => {
         </div>
 
         {/* Card Content */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-gray-900 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
-          <h3 className="text-white font-semibold text-lg mb-2 line-clamp-2">
-            {movie.title}
-          </h3>
+        <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent group-hover:opacity-100 transition-all duration-300">
+          
           <div
             className="hidden group-hover:block text-gray-300 text-sm line-clamp-3"
             onClick={handleViewClick}
           >
+          <h3 className="text-white font-semibold text-lg mb-2 line-clamp-2">
+            {movie.title}
+          </h3>
             {movie.overview}
             <p>Released: {new Date(movie.released_date).toDateString()}</p>
-            <p>Duration: {movie.duration} min</p>
+            <p>Duration: {movie.duration}</p>
             <p>Language: {movie.original_language}</p>
-            <p>Rating: {movie.age_type}</p>
+            <p>Rating: {movie.rating}</p>
           </div>
           <div className="flex space-x-2 mt-2">
             <button
@@ -119,14 +122,38 @@ const MovieCard = ({ movie }) => {
 export default function AdminMovie() {
   const axiosPrivate = useAxiosPrivate();
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showAll, setShowAll] = useState(false);
   const navigate = useNavigate();
 
+  function GradientCircularProgress() {
+    return (
+      <React.Fragment>
+        <svg width={0} height={0}>
+          <defs>
+            <linearGradient id="my_gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#e01cd5" />
+              <stop offset="100%" stopColor="#1CB5E0" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <Backdrop
+          sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
+          open={loading}
+        >
+          <CircularProgress
+            sx={{ "svg circle": { stroke: "url(#my_gradient)" } }}
+          />
+        </Backdrop>
+      </React.Fragment>
+    );
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const response = await axiosPrivate.get("/movies");
         setData(response.data);
       } catch (error) {
@@ -139,7 +166,7 @@ export default function AdminMovie() {
   }, []);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <GradientCircularProgress />;
   }
 
   if (error.length > 0) {
@@ -157,9 +184,9 @@ export default function AdminMovie() {
           onClick={() => {
             navigate("/admin/add-new-movie");
           }}
-          className="mt-4 text-sm md:text-base bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-all"
+          className="mt-4 text-sm md:text-base bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800 transition-all"
         >
-          Add Movie
+          Add New Movie
         </button>
         <div className="mt-8 grid grid-cols-1  md:grid-cols-2 lg:grid-cols-4 justify-center items-center sm:space-x-4">
           {moviesToShow.map((movie) => (

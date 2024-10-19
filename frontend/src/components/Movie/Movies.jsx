@@ -54,7 +54,7 @@ const MovieCard = ({ movie }) => {
         <div className="hidden group-hover:block text-gray-300 text-sm line-clamp-3">
           {movie.overview}
           <p>Released: {new Date(movie.released_date).toDateString()}</p>
-          <p>Duration: {movie.duration} min</p>
+          <p>Duration: {movie.duration}</p>
           <p>Language: {movie.original_language}</p>
           <p>Rating: {movie.rating}</p>
         </div>
