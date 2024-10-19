@@ -43,13 +43,14 @@ const AdminNavBar = () => {
         end
         color="inherit"
         sx={{
+          fontWeight: "bold",
           color: "white",
           marginBottom: 2,
           width: "100%",
           justifyContent: "flex-start",
         }}
         style={({ isActive }) => ({
-          color: isActive ? "green" : "white",
+          color: isActive ? "blue" : "white",
         })}
       >
         Home
@@ -60,13 +61,15 @@ const AdminNavBar = () => {
         to="/admin/manage-theatres"
         color="inherit"
         sx={{
+          fontWeight: "bold",
+
           color: "white",
           marginBottom: 2,
           width: "100%",
           justifyContent: "flex-start",
         }}
         style={({ isActive }) => ({
-          color: isActive ? "green" : "white",
+          color: isActive ? "blue" : "white",
         })}
       >
         Manage Theatres
@@ -77,13 +80,15 @@ const AdminNavBar = () => {
         to="/admin/movie"
         color="inherit"
         sx={{
+          fontWeight: "bold",
+
           color: "white",
           marginBottom: 2,
           width: "100%",
           justifyContent: "flex-start",
         }}
         style={({ isActive }) => ({
-          color: isActive ? "green" : "white",
+          color: isActive ? "blue" : "white",
         })}
       >
         Manage Movies
@@ -94,13 +99,15 @@ const AdminNavBar = () => {
         to="/admin/refunds"
         color="inherit"
         sx={{
+          fontWeight: "bold",
+
           color: "white",
           marginBottom: 2,
           width: "100%",
           justifyContent: "flex-start",
         }}
         style={({ isActive }) => ({
-          color: isActive ? "green" : "white",
+          color: isActive ? "blue" : "white",
         })}
       >
         Refund Requests
@@ -110,13 +117,15 @@ const AdminNavBar = () => {
         to="/admin/discounts"
         color="inherit"
         sx={{
+          fontWeight: "bold",
+
           color: "white",
           marginBottom: 2,
           width: "100%",
           justifyContent: "flex-start",
         }}
         style={({ isActive }) => ({
-          color: isActive ? "green" : "white",
+          color: isActive ? "blue" : "white",
         })}
       >
         Create Discounts
@@ -127,13 +136,15 @@ const AdminNavBar = () => {
         to="/admin/users"
         color="inherit"
         sx={{
+          fontWeight: "bold",
+
           color: "white",
           marginBottom: 2,
           width: "100%",
           justifyContent: "flex-start",
         }}
         style={({ isActive }) => ({
-          color: isActive ? "green" : "white",
+          color: isActive ? "blue" : "white",
         })}
       >
         Manage Users
@@ -144,9 +155,11 @@ const AdminNavBar = () => {
         onClick={signOut}
         color="inherit"
         sx={{
+          fontWeight: "bold",
           color: "white",
           marginBottom: 2,
           position: "absolute",
+          padding: 1,
           bottom: 5,
           marginX: "auto",
           backgroundColor: "red",

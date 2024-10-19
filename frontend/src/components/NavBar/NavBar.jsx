@@ -98,7 +98,7 @@ const NavBar = () => {
         } md:flex flex-grow justify-center items-center relative inset-0 `}
       >
         <ul
-          className={`flex text-white font-bold flex-col md:flex-row md:space-x-24 text-lg md:text-xl md:rounded-none rounded-b-lg md:p-0 absolute top-8 md:static md:top-16  md:right-0 ${
+          className={`flex text-white font-bold flex-col md:flex-row md:space-x-24 text-lg md:text-[19px] md:rounded-none rounded-b-lg md:p-0 absolute top-8 md:static md:top-16  md:right-0 ${
             isMenuOpen ? "bg-black pt-0 px-4 mt-0" : ""
           }
             transition-colors duration-500 ease-in-out`}

@@ -9,7 +9,7 @@ import Alert from "@mui/material/Alert";
 
 export default function Register_Form() {
   const inputStyles =
-    "sm:text-sm rounded-lg block w-full p-2.5 bg-[#09081d] border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500";
+    "sm:text-base rounded-lg block w-full p-2.5 bg-[#09081d] border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500";
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
@@ -141,7 +141,7 @@ export default function Register_Form() {
   };
   return (
     <div
-      className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 w-full"
+      className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen  w-full"
       style={{
         backgroundImage: `
     linear-gradient(rgba(43, 58, 110, 0.7), rgba(40, 40, 50, 0.7)),
@@ -150,11 +150,11 @@ export default function Register_Form() {
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         backgroundColor: "#2C497F",
+        padding: "0 1rem",
       }}
     >
       <div
-        className="xl:max-w-3xl  bg-black bg-opacity-40 border-gray-700 mt-8 mb-8
-      }  w-full py-3 sm:p-10 rounded-md sm:max-w-md my-6"
+        className="xl:max-w-3xl bg-black bg-opacity-40 border-gray-700 mt-8 mb-8 w-full py-3 sm:p-10 rounded-md  my-6"
       >
         <h1
           className="flex justify-center text-xl sm:text-3xl font-semibold 
@@ -337,7 +337,7 @@ export default function Register_Form() {
                 </span>
               </div>
               {passwordError && (
-                <p className="text-red-500 text-xs mt-1">{passwordError}</p>
+                <p className="text-red-500 text-sm mt-1">{passwordError}</p>
               )}
               <button
                 type="submit"
@@ -358,7 +358,7 @@ export default function Register_Form() {
                 </svg>
                 <span className="ml-3">Register</span>
               </button>
-              <p className="mt-2 text-xs text-gray-200 text-center">
+              <p className="mt-2 text-md cursor-default text-gray-200 text-center">
                 Already have an account?{" "}
                 <Link to={"/login"}>
                   <span className="text-[#E9522C] font-semibold">Login</span>

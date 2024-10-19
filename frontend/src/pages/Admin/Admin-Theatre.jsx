@@ -18,7 +18,7 @@ const ManageTheatres = () => {
         </h1>
         <button
           onClick={handleAddTheatreClick}
-          className="mt-4 text-sm md:text-base bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-all"
+          className="mt-4 text-sm md:text-base bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800 transition-all"
         >
           Add Theatre
         </button>

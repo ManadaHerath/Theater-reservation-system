@@ -21,7 +21,7 @@ export default function Login() {
   };
 
   const inputStyles =
-    "sm:text-sm rounded-lg block w-full p-2.5 bg-[#09081d] border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500";
+    "sm:text-base rounded-lg block w-full p-2.5 bg-[#09081d] border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500";
 
   const onsubmit = async (e) => {
     e.preventDefault();
@@ -94,7 +94,7 @@ export default function Login() {
           Login Now
         </h1>
         <form onSubmit={onsubmit}>
-          <div className="w-full mt-8">
+          <div className="w-full mt-8 text-lg">
             <div className="mx-auto max-w-xs sm:max-w-md md:max-w-lg flex flex-col gap-4">
               <input
                 className={inputStyles}
@@ -133,7 +133,7 @@ export default function Login() {
                 </span>
               </div>
               <Link to={"/forgot-password"}>
-                <p className="text-xs text-gray-200 text-right mr-3">
+                <p className="text-sm font-semibold text-gray-200 text-right mr-3 hover:text-red-500">
                   Forgot Password?
                 </p>
               </Link>
@@ -158,7 +158,7 @@ export default function Login() {
 
                 <span className="ml-3">Login</span>
               </button>
-              <p className="mt-2 text-xs text-gray-200 text-center">
+              <p className="mt-2 text-sm text-gray-200 text-center cursor-default">
                 Haven't Registered Yet?{" "}
                 <Link to={"/register"}>
                   <span className="text-[#E9522C] font-semibold">Register</span>
