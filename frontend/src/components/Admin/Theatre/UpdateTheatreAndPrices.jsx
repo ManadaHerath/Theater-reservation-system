@@ -57,31 +57,29 @@ const TheatreCard = ({ theatre, onUpdate, onDelete }) => {
         </div>
       </div>
       <button
-  onClick={handleUpdateClick}
-  className="block mt-2 px-4 py-2 w-full bg-green-900 text-white rounded-lg hover:bg-green-600 transition duration-300 ease-in-out shadow-lg"
->
-  Update
-</button>
-<button
-  onClick={handleSeatGrid}
-  className="block mt-2 px-4 py-2 w-full bg-yellow-900 text-white rounded-lg hover:bg-yellow-600 transition duration-300 ease-in-out shadow-lg"
->
-  Add or Update Seat Structure
-</button>
-<button
-  onClick={handleChildrenPrices}
-  className="block mt-2 px-4 py-2 w-full bg-purple-900 text-white rounded-lg hover:bg-purple-600 transition duration-300 ease-in-out shadow-lg"
->
-  Add Children Prices
-</button>
-<button
-  onClick={handleDeleteClick}
-  className="block mt-2 px-4 py-2 w-full bg-red-900 text-white rounded-lg hover:bg-red-600 transition duration-300 ease-in-out shadow-lg"
->
-  Delete
-</button>
-
-
+        onClick={handleUpdateClick}
+        className="block mt-2 px-4 py-2 w-full bg-green-900 text-white rounded-lg hover:bg-green-600 transition duration-300 ease-in-out shadow-lg"
+      >
+        Update
+      </button>
+      <button
+        onClick={handleSeatGrid}
+        className="block mt-2 px-4 py-2 w-full bg-yellow-900 text-white rounded-lg hover:bg-yellow-600 transition duration-300 ease-in-out shadow-lg"
+      >
+        Add or Update Seat Structure
+      </button>
+      <button
+        onClick={handleChildrenPrices}
+        className="block mt-2 px-4 py-2 w-full bg-purple-900 text-white rounded-lg hover:bg-purple-600 transition duration-300 ease-in-out shadow-lg"
+      >
+        Add Children Prices
+      </button>
+      <button
+        onClick={handleDeleteClick}
+        className="block mt-2 px-4 py-2 w-full bg-red-900 text-white rounded-lg hover:bg-red-600 transition duration-300 ease-in-out shadow-lg"
+      >
+        Delete
+      </button>
     </div>
   );
 };
@@ -141,8 +139,6 @@ const TheatreList = () => {
       </React.Fragment>
     );
   }
-
-
 
   if (loading) {
     return <GradientCircularProgress />;

@@ -83,7 +83,6 @@ const NavBar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-
   return (
     <div
       className={`fixed text-white left-0 top-0 w-full pr-5 z-50 flex ${

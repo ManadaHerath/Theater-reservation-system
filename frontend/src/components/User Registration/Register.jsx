@@ -153,9 +153,7 @@ export default function Register_Form() {
         padding: "0 1rem",
       }}
     >
-      <div
-        className="xl:max-w-3xl bg-black bg-opacity-40 border-gray-700 mt-8 mb-8 w-full py-3 sm:p-10 rounded-md  my-6"
-      >
+      <div className="xl:max-w-3xl bg-black bg-opacity-40 border-gray-700 mt-8 mb-8 w-full py-3 sm:p-10 rounded-md  my-6">
         <h1
           className="flex justify-center text-xl sm:text-3xl font-semibold 
           text-white

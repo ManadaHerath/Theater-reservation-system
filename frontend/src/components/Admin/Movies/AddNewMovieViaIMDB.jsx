@@ -167,24 +167,24 @@ export default function AddNewMovieViaIMDB() {
             className="w-64 mb-4"
           />
           <div className="text-lg mb-4">
-          <p>Released: {selectedMovie.released_date}</p>
-          <p>Original Language: {selectedMovie.original_language}</p>
-        <p>Duration: {selectedMovie.duration}</p>
-        <p>Rating: {selectedMovie.rating}</p>
-        </div>
-        <div>
-          <button
-            className="bg-green-500 py-2 px-3 rounded-md mr-4"
-            onClick={handleAddMovie}
-          >
-            Add
-          </button>
-          <button
-            className="bg-red-500 p-2 rounded-md"
-            onClick={() => setSelectedMovie(null)}
-          >
-            Cancel
-          </button>
+            <p>Released: {selectedMovie.released_date}</p>
+            <p>Original Language: {selectedMovie.original_language}</p>
+            <p>Duration: {selectedMovie.duration}</p>
+            <p>Rating: {selectedMovie.rating}</p>
+          </div>
+          <div>
+            <button
+              className="bg-green-500 py-2 px-3 rounded-md mr-4"
+              onClick={handleAddMovie}
+            >
+              Add
+            </button>
+            <button
+              className="bg-red-500 p-2 rounded-md"
+              onClick={() => setSelectedMovie(null)}
+            >
+              Cancel
+            </button>
           </div>
         </div>
       ) : (

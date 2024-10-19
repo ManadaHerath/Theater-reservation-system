@@ -172,11 +172,17 @@ export default function Login() {
         </form>
       </div>
       {alert === 200 ? (
-        <Alert severity="success" style={{ position: "absolute", bottom: "20px", left: "20px" }}>
+        <Alert
+          severity="success"
+          style={{ position: "absolute", bottom: "20px", left: "20px" }}
+        >
           Login Successful
         </Alert>
       ) : alert ? (
-        <Alert severity="error" style={{ position: "absolute", bottom: "20px", left: "20px" }}>
+        <Alert
+          severity="error"
+          style={{ position: "absolute", bottom: "20px", left: "20px" }}
+        >
           {alert}
         </Alert>
       ) : null}

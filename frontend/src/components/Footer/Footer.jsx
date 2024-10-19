@@ -10,7 +10,9 @@ const Footer = () => {
     <div className="footer">
       <div className="footer-content flex flex-col justify-center items-center gap-4 sm:flex-row sm:justify-between">
         <div className="flex flex-col justify-center items-center gap-4">
-          <h1 className="md:text-4xl text-xl font-bold text-center">MovieMingle</h1>
+          <h1 className="md:text-4xl text-xl font-bold text-center">
+            MovieMingle
+          </h1>
           <p className="text-center">Book your seat now.</p>
           <div className="flex flex-row footer-social-icon">
             <img src={facebook_icon} alt="Facebook" />

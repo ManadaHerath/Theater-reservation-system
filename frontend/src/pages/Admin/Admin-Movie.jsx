@@ -61,14 +61,13 @@ const MovieCard = ({ movie }) => {
 
         {/* Card Content */}
         <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent group-hover:opacity-100 transition-all duration-300">
-          
           <div
             className="hidden group-hover:block text-gray-300 text-sm line-clamp-3"
             onClick={handleViewClick}
           >
-          <h3 className="text-white font-semibold text-lg mb-2 line-clamp-2">
-            {movie.title}
-          </h3>
+            <h3 className="text-white font-semibold text-lg mb-2 line-clamp-2">
+              {movie.title}
+            </h3>
             {movie.overview}
             <p>Released: {new Date(movie.released_date).toDateString()}</p>
             <p>Duration: {movie.duration}</p>

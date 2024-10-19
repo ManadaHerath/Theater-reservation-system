@@ -1,4 +1,4 @@
-import React,{  useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import SearchIcon from "@mui/icons-material/Search";
@@ -190,7 +190,7 @@ const MovieList = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <GradientCircularProgress/> {/* Loading spinner */}
+        <GradientCircularProgress /> {/* Loading spinner */}
       </div>
     );
   }
