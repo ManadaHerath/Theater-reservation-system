@@ -40,18 +40,28 @@ Ensure you have the following installed:
 
 2. **Install dependencies:**
 
-    ```bash
-    npm install
-    ```
     For the **backend**:
     ```bash
     cd backend
     npm install
     nodemon
+    ```
+
+    For the **frontend**:
+    ```bash
+    cd frontend
+    npm install
+    ```
 
 3. **Start the server:**
 
     ```bash
+    cd frontend
+    npm start
+    ```
+
+    ```bash
+    cd backend
     npm start
     ```
 
