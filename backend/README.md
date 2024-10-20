@@ -1,6 +1,6 @@
 
 
-Project Overview
+## Project Overview
 The Movie Theater Reservation System is a web application that allows users to browse movies, select theaters, book tickets, and manage their reservations. It features user authentication, seat selection, payment integration, and an admin panel for managing movie schedules. The backend is powered by Node.js/Express, while MySQL (deployed on AWS RDS Free Tier) serves as the database.
 
 Features
