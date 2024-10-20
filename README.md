@@ -57,17 +57,15 @@ Ensure you have the following installed:
 
 3.  **Start the server:**
 
-        ```bash
-        cd frontend
-        npm start
-        ```
+    ```bash
+    cd frontend
+    npm start
+    ```
 
-        ```bash
-        cd backend
-        npm start
-        ```
-
-    **env files are included**
+    ```bash
+    cd backend
+    npm start
+    ```
 
 5.  **For unit testing:**
 
