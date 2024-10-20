@@ -43,6 +43,11 @@ Ensure you have the following installed:
     ```bash
     npm install
     ```
+    For the **backend**:
+    ```bash
+    cd backend
+    npm install
+    nodemon
 
 3. **Start the server:**
 
