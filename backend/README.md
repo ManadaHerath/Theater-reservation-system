@@ -61,3 +61,35 @@ Contributors
 Sithika Guruge
 Manada Herath
 Pramod Hasaranga
+
+# Orphanage Management System - Data Privacy MIS for Child Protection Authority
+## Local Installation
+
+
+### Navigate to backend and install dependencies
+```bash
+cd backend
+npm install
+nodemon
+```
+### Navigate to adminfrontend and install dependencies
+```bash
+cd ../adminfrontend
+npm install
+npm run start
+```
+**env files are included**
+
+## unit tests
+```bash
+cd backend
+npm run test
+```
+
+## Visit
+[OrphanCare](http://51.21.150.105:3000/)
+
+## Instructions
+[YouTube](https://www.youtube.com/watch?v=dXaw9w06IsE&t=2s&ab_channel=savindugunasekara)
+
+
