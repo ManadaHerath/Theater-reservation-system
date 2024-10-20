@@ -61,6 +61,7 @@ Ensure you have the following installed:
         cd frontend
         npm start
         ```
+
         ```bash
         cd backend
         npm start
@@ -68,7 +69,7 @@ Ensure you have the following installed:
 
     **env files are included**
 
-4.  **For unit testing:**
+5.  **For unit testing:**
 
 ```bash
 cd backend
@@ -84,7 +85,7 @@ npm run test
 
 ## Visit
 
-[MovieMingle] (https://theater-reservation-system-ebon.vercel.app/)
+[MovieMingle](https://theater-reservation-system-ebon.vercel.app/)
 
 ## Instructions
 
