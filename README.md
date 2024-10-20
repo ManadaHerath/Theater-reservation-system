@@ -127,6 +127,7 @@ Explore the code: [MovieMingle Repository](https://github.com/ManadaHerath/Theat
 Meet the team behind MovieMingle:
 
 | **Sithika Guruge** | **Manada Herath** | **Pramod Hasaranga** |
+|:--:|:--:|:--:|
 | [GitHub](https://github.com/SithikaGuruge) | [GitHub](https://github.com/ManadaHerath) | [GitHub](https://github.com/Hasarangakgnp) |
 | sithika.21@cse.mrt.ac.lk | manada.21@cse.mrt.ac.lk | nimna.21@cse.mrt.ac.lk |
 
