@@ -133,11 +133,11 @@ function MovieSlideshow({ movies }) {
           alt={activeMovie.title}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[rgba(0,0,0,1)]  to-transparent"></div>
-        <h1 className="absolute z-20 text-white lg:text-8xl text-3xl md:text-6xl lg:bottom-40 bottom-32 md:left-20 left-8 cursor-default">
+        <h1 className="absolute z-20 text-white lg:text-8xl text-3xl md:text-6xl lg:bottom-40 bottom-[105px] md:left-20 left-4 cursor-default">
           {activeMovie.title}
         </h1>
-        <div className="absolute flex gap-6 lg:bottom-20 bottom-16 md:left-20 left-8">
-          <button onClick={handleBookTicketClick} className="block lg:px-6 lg:py-3 px-3 py-2 lg:text-2xl text-lg text-left  text-white bg-transparent border rounded-2xl  hover:text-black hover:bg-white font-semibold">
+        <div className="absolute flex gap-6 lg:bottom-20 bottom-[50px] md:left-20 left-4">
+          <button onClick={handleBookTicketClick} className="block lg:px-6 lg:py-3 px-2 py-1 lg:text-2xl text-lg text-left  text-white bg-transparent border rounded-2xl  hover:text-black hover:bg-white font-semibold">
             Buy
             
             Tickets
@@ -171,16 +171,16 @@ function MovieSlideshow({ movies }) {
       <div className="relative lg:pt-16 pt-8 movie-slider-container">
         <div className="absolute inset-0 bg-gradient-to-b from-[rgba(0,0,0,1)]  to-transparent"></div>
 
-        <h1 className="absolute top-0 flex pt-3 pr-20 lg:text-3xl text-xl text-white right-20">
+        <h1 className="absolute top-0 flex pt-3 pr-20 font-bold lg:text-3xl text-xl text-white md:right-24 right-20">
           Now Showing
         </h1>
 
-        <div className="absolute top-0 right-0 flex gap-4 pt-3 pr-20">
+        <div className="absolute top-0 right-0 flex gap-4 pt-3 pr-20 ">
           <button
             onClick={() => dispatch({ type: "PREV" })}
-            className="px-2 py-2 pt-2 text-white lg:text-2xl hover:bg-blue-500 rounded-3xl "
+            className="px-2 py-2 pt-2 text-white lg:text-2xl hover:bg-blue-500 rounded-3xl"
           >
-            <FontAwesomeIcon icon={faChevronLeft} />
+            <FontAwesomeIcon icon={faChevronLeft}/>
           </button>
           <button
             onClick={() => dispatch({ type: "NEXT" })}

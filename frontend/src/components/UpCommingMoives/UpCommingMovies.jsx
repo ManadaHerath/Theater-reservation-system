@@ -1,16 +1,15 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import CircularProgress from "@mui/material/CircularProgress";
 import Backdrop from "@mui/material/Backdrop";
+
 const colorClasses = [
   "bg-blue-950", // Dark blue
   "bg-blue-950", // Light blue
 ];
 
 export const MovieCard = ({ movie, colorClass }) => {
-  const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate(); // Hook for navigation
 
   const handleClick = () => {
@@ -22,7 +21,7 @@ export const MovieCard = ({ movie, colorClass }) => {
   };
 
   return (
-    <div className="pb-20 transform w-[25%] transition-all duration-300 hover:scale-105 cursor-default">
+    <div className="pb-20 transform w-full sm:w-[25%] transition-all duration-300 hover:scale-105 cursor-default">
       {/* Movie Poster */}
       <div
         className="relative w-full h-96 overflow-hidden rounded-lg shadow-lg cursor-pointer"
@@ -73,6 +72,7 @@ const UpCommingMovies = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [currentMovieIndex, setCurrentMovieIndex] = useState(0);
 
   function GradientCircularProgress() {
     return (
@@ -111,6 +111,15 @@ const UpCommingMovies = () => {
     fetchData();
   }, []);
 
+  // Cycle through movies every 10 seconds for mobile view
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentMovieIndex((prevIndex) => (prevIndex + 1) % data.length);
+    }, 10000); // 10 seconds interval
+
+    return () => clearInterval(interval);
+  }, [data.length]);
+
   if (loading) {
     return <GradientCircularProgress />;
   }
@@ -124,27 +133,40 @@ const UpCommingMovies = () => {
       className="relative pt-8"
       style={{
         backgroundImage: `
-    linear-gradient(rgba(43, 58, 110, 0.7), rgba(40, 40, 50, 0.7)),
-    url('https://firebasestorage.googleapis.com/v0/b/medilink-5688e.appspot.com/o/images%2Ffetchpik.com-pNEtHoVwlU.jpg?alt=media&token=ef2ae0db-3178-4744-8a23-56c35b7d843d')`,
+        linear-gradient(rgba(43, 58, 110, 0.7), rgba(40, 40, 50, 0.7)),
+        url('https://firebasestorage.googleapis.com/v0/b/medilink-5688e.appspot.com/o/images%2Ffetchpik.com-pNEtHoVwlU.jpg?alt=media&token=ef2ae0db-3178-4744-8a23-56c35b7d843d')`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         backgroundColor: "#433B7C",
       }}
     >
-      <h1 className="absolute top-2 flex pt-4  pr-20 lg:text-4xl font-bold text-xl text-white left-20">
+      <h1 className="absolute top-2 flex pt-4 pr-20 lg:text-4xl font-bold text-xl text-white left-20 animate-fadeSlideDown">
         Upcoming Movies
       </h1>
+
       <div className="flex pt-16 px-8 gap-10">
-        {data.map((movie, index) =>
-          index < 4 ? (
+        {/* For larger screens show 4 movies */}
+        <div className="hidden sm:flex gap-10">
+          {data.slice(0, 4).map((movie, index) => (
             <MovieCard
               key={movie.id}
               movie={movie}
               colorClass={colorClasses[index % colorClasses.length]}
             />
-          ) : null
-        )}
+          ))}
+        </div>
+
+        {/* For mobile screens show one movie and cycle every 10 seconds */}
+        <div className="sm:hidden">
+          {data.length > 0 && (
+            <MovieCard
+              key={data[currentMovieIndex].id}
+              movie={data[currentMovieIndex]}
+              colorClass={colorClasses[currentMovieIndex % colorClasses.length]}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
