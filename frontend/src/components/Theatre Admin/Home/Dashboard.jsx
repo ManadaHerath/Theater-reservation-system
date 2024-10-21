@@ -38,7 +38,7 @@ export default function Dashboard() {
   }, [theatre]);
 
   return (
-    <TheatreAdminLayout>
+    <TheatreAdminLayout theatreId={theatre?.id}>
       <div className="flex justify-center flex-col items-center text-xl md:text-2xl lg:text-3xl text-white font-bold">
         <h1 className="p-6">{theatre.name}</h1>
         <h1 className="text-base md:text-xl lg:text-2xl pb-5">
