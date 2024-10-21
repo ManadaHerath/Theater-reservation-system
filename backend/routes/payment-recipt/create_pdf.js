@@ -6,13 +6,13 @@ const fetchTicketDetails = async (show_time_id, theatre_id) => {
   try {
     const [rows] = await connection.query(
       `SELECT st.movie_id, st.start_time, st.end_time, 
-              m.name AS movie_name, t.name AS theatre_name 
+              m.title AS movie_name, t.name AS theatre_name 
        FROM show_times st
        JOIN movies m ON st.movie_id = m.id
        JOIN theatres t ON st.theatre_id = t.id
        WHERE st.id = ? AND t.id = ?`,
       [show_time_id, theatre_id]
-      
+
     );
 
     if (rows.length === 0) {
@@ -83,7 +83,7 @@ export const createPDF = async (data, qrCodeDataUrl) => {
     });
 
     // Add the seats information
-    page.drawText(`Seats: ${seats.join(', ')}`, {
+    page.drawText(`Seats: ${seats}`, {
       x: 50,
       y: 260,
       size: 16,
