@@ -6,7 +6,7 @@ body {
 
 .homepage-front-view {
   max-width: 100vw;
-  height: 55vh;
+  height: 45vh;
   overflow: hidden;
   margin: 0;
   padding: 0;
@@ -15,7 +15,7 @@ body {
 }
 .front-image {
   width: 100vw;
-  height: 50vh;
+  height: 40vh;
   display: block;
   overflow: hidden;
   padding: 0;
@@ -27,7 +27,7 @@ body {
 .movie-slider-container {
     max-width: 100vw;
     overflow: hidden;
-    height: 45vh;
+    height: 40vh;
   }
   
 
@@ -83,8 +83,8 @@ body {
 }
 
 .slideContent {
-  width: 40vw;
-  height: 30vw;
+  width: 55vw;
+  height: 40vw;
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -227,6 +227,22 @@ body {
       padding: 0;
       display: flex;
       position: relative;
+    }
+    .slideContent {
+      width: 40vw;
+      height: 30vw;
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      transition: transform 0.5s ease-in-out;
+      opacity: 0.7;
+    
+      display: grid;
+      align-content: center;
+    
+      transform-style: preserve-3d;
+      transform: perspective(1000px) translateX(calc(100% * var(--offset)))
+        rotateY(calc(-45deg * var(--dir)));
     }
   }
 

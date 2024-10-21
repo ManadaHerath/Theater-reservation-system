@@ -13,7 +13,7 @@ const Footer = () => {
           <h1 className="md:text-4xl text-xl font-bold text-center">
             MovieMingle
           </h1>
-          <p className="text-center">Book your seat now.</p>
+          <p className="text-center md:text-lg">Book your seat now.</p>
           <div className="flex flex-row footer-social-icon">
             <img src={facebook_icon} alt="Facebook" />
             <img src={twitter_icon} alt="Twitter" />
@@ -21,31 +21,33 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="flex flex-col justify-center items-center my-4">
-          <h2>GET IN TOUCH</h2>
+        <div className="flex flex-col justify-center items-center my-2 md:my-4">
+          <h2 className="md:text-lg">GET IN TOUCH</h2>
           <ul className="mx-auto text-center lg:my-4">
             <li>+94 11556768</li>
             <li>contact@moviemingle.com</li>
           </ul>
         </div>
 
-        <div>
-          <ul className="flex flex-row justify-evenly gap-5 lg:flex-col ">
-            <li>
+        <div className=" justify-center items-center text-center ">
+          <ul className="flex flex-col md:gap-3">
+            <li className="hover:text-blue-400 text-sm md:text-md mr-3">
               <Link to="/help">Help & FAQ</Link>
             </li>
-            <li>
+            <li className="hover:text-blue-400 text-sm md:text-md mr-3">
               <Link to="/terms">Terms of Use</Link>
             </li>
-            <li>
-              <Link to="/privacyPolicy">Privacy Policy</Link>
+            <li className="hover:text-blue-400 text-sm md:text-md">
+              <Link to="/privacyPolicy">Privacy & Policy</Link>
             </li>
           </ul>
         </div>
       </div>
       <hr />
-      <p className="footer-copyright">
-        Copyright 2024 © MovieMingle.com - All Rights Reserved.
+      <p className=" md:gap-96 cursor-default gap-4 text-[10px] md:text-lg flex flex-row justify-between items-center">
+      <div>Copyright 2024</div>
+      <div>© MovieMingle</div>
+      <div>All Rights Reserved.</div>
       </p>
     </div>
   );

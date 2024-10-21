@@ -1,4 +1,3 @@
-import React from "react";
 import Review from "./ShowReviews.jsx";
 
 const ReviewList = ({ reviews = [], onLike, onReply,disable,admin }) => {
