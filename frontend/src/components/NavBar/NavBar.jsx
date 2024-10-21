@@ -146,7 +146,7 @@ const NavBar = () => {
             to="/login"
             className="cursor-pointer bg-blue-800 hover:bg-blue-900 rounded-xl"
           >
-            <div className="flex flex-row gap-3 text-white px-4 sm:py-2 py-1 rounded-xl text-lg ">
+            <div className="flex flex-row gap-3 text-white px-3 sm:py-2 py-2 rounded-xl text-lg ">
               Login
             </div>
           </Link>
