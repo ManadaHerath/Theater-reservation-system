@@ -83,6 +83,8 @@ const MovieList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [showAll, setShowAll] = useState(false);
+
 
   function GradientCircularProgress() {
     return (
@@ -152,6 +154,9 @@ const MovieList = () => {
   const filteredMovies = data.filter((movie) =>
     movie.title.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
   );
+  const moviesToShow = showAll
+  ? filteredMovies
+  : filteredMovies.slice(0, 8);
 
   const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -300,14 +305,24 @@ const MovieList = () => {
       </Box>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-items-center mx-auto">
-        {filteredMovies.length > 0 ? (
-          filteredMovies.map((movie) => (
+        {moviesToShow.length > 0 ? (
+          moviesToShow.map((movie) => (
             <MovieCard key={movie.id} movie={movie} />
           ))
         ) : (
           <p className="text-white">No movies found.</p>
         )}
       </div>
+      {!showAll && filteredMovies.length > 8 && (
+        <div className="flex justify-center mt-8">
+          <button
+            onClick={() => setShowAll(true)}
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300 mb-10"
+          >
+            Show More
+          </button>
+        </div>
+      )}
     </div>
   );
 };

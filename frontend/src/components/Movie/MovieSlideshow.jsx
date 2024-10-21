@@ -137,13 +137,13 @@ function MovieSlideshow({ movies }) {
           {activeMovie.title}
         </h1>
         <div className="absolute flex gap-6 lg:bottom-20 bottom-[50px] md:left-20 left-4">
-          <button onClick={handleBookTicketClick} className="block lg:px-6 lg:py-3 px-2 py-1 lg:text-2xl text-lg text-left  text-white bg-transparent border rounded-2xl  hover:text-black hover:bg-white font-semibold">
+          <button onClick={handleBookTicketClick} className="block lg:px-6 lg:py-3 px-2 py-1 lg:text-2xl text-base text-left  text-white bg-transparent border rounded-2xl  hover:text-black hover:bg-white font-semibold">
             Buy
             
             Tickets
           </button>
           <button
-            className="block lg:px-6 lg:py-3 px-3 py-2 lg:text-2xl text-lg text-left text-white bg-transparent border rounded-2xl  hover:text-black hover:bg-white font-semibold"
+            className="block lg:px-6 lg:py-3 px-3 py-2 lg:text-2xl text-base text-left text-white bg-transparent border rounded-2xl  hover:text-black hover:bg-white font-semibold"
             onClick={handleUrlClick}
           >
             Watch

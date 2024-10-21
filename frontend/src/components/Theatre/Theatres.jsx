@@ -1,4 +1,4 @@
-import  React,{ useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import SearchBar from "./Searchbar";
@@ -215,7 +215,17 @@ const TheatreList = () => {
               variant="h6"
               noWrap
               component="div"
-              sx={{ flexGrow: 5, marginLeft: 10 }}
+              sx={{
+                flexGrow: 5,
+                marginLeft: {
+                  xs: 1, // Margin for extra small screens
+                  sm: 10, // Margin for small screens and up
+                },
+                fontSize: {
+                  xs: "12px", // Font size for extra small screens
+                  sm: "20px", // Default font size for small screens and up
+                },
+              }}
             >
               Theatres
             </Typography>

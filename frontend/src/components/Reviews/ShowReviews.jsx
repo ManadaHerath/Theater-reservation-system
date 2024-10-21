@@ -17,7 +17,15 @@ const Review = ({ review, onLike, onReply, disable, admin }) => {
   };
 
   return (
-    <Box sx={{ mt: 3, ml: 5 }}>
+    <Box
+      sx={{
+        mt: 3,
+        ml: {
+          xs: 2,
+          sm: 5,
+        },
+      }}
+    >
       <div className="flex flex-row space-x-3">
         <img
           src={review.avatar}
@@ -30,7 +38,10 @@ const Review = ({ review, onLike, onReply, disable, admin }) => {
           }}
         />
         <div>
-          <Typography variant="h6" sx={{ color: "white", fontFamily: "inherit" }}>
+          <Typography
+            variant="h6"
+            sx={{ color: "white", fontFamily: "inherit" }}
+          >
             {review.name}
           </Typography>
           <Rating
@@ -45,7 +56,17 @@ const Review = ({ review, onLike, onReply, disable, admin }) => {
           />
         </div>
       </div>
-      <Typography variant="body1" sx={{ color: "white",fontFamily: "inherit"  }}>
+      <Typography
+        variant="body1"
+        sx={{
+          color: "white",
+          marginLeft: "60px",
+          fontSize: {
+            xs: "14px", // Font size for extra small screens
+            sm: "18px", // Font size for small screens and up
+          },
+        }}
+      >
         {review.text}
       </Typography>
       {!admin && (
@@ -88,12 +109,14 @@ const Review = ({ review, onLike, onReply, disable, admin }) => {
             rows={2}
             InputLabelProps={{
               sx: {
-                color: "white",fontFamily: "inherit"  // Label color
+                color: "white",
+                fontFamily: "inherit", // Label color
               },
             }}
             InputProps={{
               sx: {
-                color: "white", fontFamily: "inherit" , // Text color
+                color: "white",
+                fontFamily: "inherit", // Text color
                 "& .MuiOutlinedInput-notchedOutline": {
                   borderColor: "blue", // Initial border color
                 },
@@ -121,7 +144,7 @@ const Review = ({ review, onLike, onReply, disable, admin }) => {
           </Button>
         </Box>
       )}
-      <Box sx={{ mt: 2, ml: 5 }}>
+      <Box sx={{ mt: 1, ml: 5 }}>
         {review.replies.map((reply, index) => (
           <div key={index} style={{ marginBottom: "30px" }}>
             <Typography
@@ -143,7 +166,14 @@ const Review = ({ review, onLike, onReply, disable, admin }) => {
             </Typography>
             <Typography
               variant="body2"
-              style={{ color: "white", marginLeft: "60px" }}
+              sx={{
+                color: "white",
+                marginLeft: "60px",
+                fontSize: {
+                  xs: "12px", // Font size for extra small screens
+                  sm: "18px", // Font size for small screens and up
+                },
+              }}
             >
               {reply.text}
             </Typography>

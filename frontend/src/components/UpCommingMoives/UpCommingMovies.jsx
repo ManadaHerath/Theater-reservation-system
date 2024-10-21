@@ -115,7 +115,7 @@ const UpCommingMovies = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentMovieIndex((prevIndex) => (prevIndex + 1) % data.length);
-    }, 10000); // 10 seconds interval
+    }, 5000); // 5 seconds interval
 
     return () => clearInterval(interval);
   }, [data.length]);
