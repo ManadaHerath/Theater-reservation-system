@@ -45,7 +45,7 @@ app.use(
 );
 
 const corsOptions = {
-  origin: process.env.FRONTEND_URL, // Frontend URL
+  origin: true, // Frontend URL
   credentials: true, // Allow credentials (cookies, authorization headers, etc.)
   optionsSuccessStatus: 200,
 };
