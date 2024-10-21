@@ -12,6 +12,7 @@ const fetchTicketDetails = async (show_time_id, theatre_id) => {
        JOIN theatres t ON st.theatre_id = t.id
        WHERE st.id = ? AND t.id = ?`,
       [show_time_id, theatre_id]
+      
     );
 
     if (rows.length === 0) {
