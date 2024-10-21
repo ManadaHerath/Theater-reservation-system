@@ -87,8 +87,8 @@ const NavBar = () => {
     <div
       className={`fixed text-white left-0 top-0 w-full pr-5 z-50 flex ${
         isScrolled
-          ? "bg-black bg-opacity-100 h-16 border-b-2 border-blue-800"
-          : "bg-gradient-to-b from-black h-16  to-transparent "
+          ? "bg-black bg-opacity-100 md:h-16 h-12 border-b-2 border-blue-800"
+          : "bg-gradient-to-b from-black h-16 md:h-20  to-transparent "
       } transition-all duration-1000 ease-in-out justify-between items-center`}
     >
       <div
@@ -146,7 +146,7 @@ const NavBar = () => {
             to="/login"
             className="cursor-pointer bg-blue-800 hover:bg-blue-900 rounded-xl"
           >
-            <div className="flex flex-row gap-3 text-white px-3 sm:py-2 py-2 rounded-xl text-lg ">
+            <div className="flex flex-row gap-3 text-white px-2 md:px-4 sm:py-2 py-1 rounded-xl md:text-lg text-md ">
               Login
             </div>
           </Link>
