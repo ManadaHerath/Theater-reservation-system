@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import QRScanner from "qr-scanner"; // Ensure QRScanner can access the camera
 import TheatreAdminLayout from "../TheatreAdminLayout";
 import Alert from "@mui/material/Alert";
-import axios from 'axios'; // Make sure to install axios
+import axios from "../../../api/axios"; // Make sure to install axios
 import jsQR from "jsqr"; // Import jsQR
 
 // Scanner component for QR code scanning
@@ -17,7 +17,6 @@ export const Scanner = () => {
   // Handle the scanning logic
   const handleScan = async (result) => {
     if (result) {
-      console.log("Scanned data from video feed:", result.text);
       setScannedData(result.text);
       verifyScannedData(result.text);
     }
@@ -28,6 +27,7 @@ export const Scanner = () => {
     if (data) {
       try {
         const parsedData = JSON.parse(data); // Assuming the scanned data is a JSON string
+        console.log("Parsed data:", parsedData);
         const response = await axios.post('/purchased_seats/verify-ticket', {
           theatre_id: parsedData.theatre_id,
           show_time_id: parsedData.show_time_id,
@@ -81,6 +81,33 @@ export const Scanner = () => {
     }
   };
 
+  // Capture image from video feed and decode it
+  const captureImageAndDecode = async () => {
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    const video = videoRef.current;
+
+    if (video) {
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      // Get image data and decode QR code using jsQR
+      const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+      const code = jsQR(imageData.data, canvas.width, canvas.height);
+
+      if (code) {
+        console.log("Scanned data from camera:", code.data);
+        setScannedData(code.data);
+        verifyScannedData(code.data); // Optionally verify the scanned data
+      } else {
+        console.error("No QR code found.");
+        setError("No QR code found in the camera image.");
+        setScannedData(null);
+      }
+    }
+  };
+
   // UseEffect to start scanning
   useEffect(() => {
     if (isScanning) {
@@ -113,7 +140,7 @@ export const Scanner = () => {
       {isScanning && (
         <button
           className="bg-green-500 hover:bg-green-700 text-white font-bold px-6 py-3 rounded-lg mb-4"
-          onClick={() => scannerRef.current.scanImage(videoRef.current).then(handleScan)}
+          onClick={captureImageAndDecode} // Capture image and decode
         >
           Scan QR Code
         </button>
