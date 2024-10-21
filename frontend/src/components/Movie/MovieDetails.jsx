@@ -190,7 +190,7 @@ export default function MovieDetails() {
 
   return (
     <div className="">
-      <div className="max-h-full bg-black">
+      <div className=" bg-black">
         <div className="relative">
           <img
             src={movie.cover_photo}
@@ -202,9 +202,9 @@ export default function MovieDetails() {
           <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
 
           {/* Text content */}
-          <div className="absolute bottom-3 left-5 md:bottom-10 md:left-10 flex flex-col md:space-y-4 space-y-3 text-white">
-            <h1 className="text-2xl lg:text-6xl font-bold">{movie.title}</h1>
-            <span className="text-xl">{movie.overview}</span>
+          <div className="absolute bottom-3 left-3 md:bottom-10 md:left-10 flex flex-col md:space-y-4 space-y-3 text-white">
+            <h1 className="text-lg lg:text-6xl font-bold">{movie.title}</h1>
+            <span className=" hidden md:block md:text-xl">{movie.overview}</span>
             <div className="flex flex-row lg:space-x-8 space-x-3">
               <Button variant="contained" onClick={handleUrlClick}>
                 Watch Trailer
@@ -216,12 +216,12 @@ export default function MovieDetails() {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 grid-cols-1">
+        <div className="grid md:grid-cols-2">
           <div>
-            <h1 className="lg:text-5xl text-xl font-bold ml-10 mt-5 text-white">
+            <h1 className="lg:text-5xl text-lg font-bold md:ml-10 ml-3 mt-5 text-white">
               {movie.duration}
             </h1>
-            <Box className="my-3 mx-10">
+            <Box className="my-3 md:ml-10 ml-3">
               <Rating
                 name="half-rating-read"
                 value={parseFloat(movie.rating).toFixed(1) || 0}
@@ -237,29 +237,29 @@ export default function MovieDetails() {
             </Box>
           </div>
           <div>
-            <h1 className="lg:text-xl text-lg font-bold ml-10 mt-5 text-white flex flex-col">
+            <h1 className="lg:text-xl text-lg font-bold md:ml-10 ml-3 mt-5 text-white flex flex-col">
               <span>Released Date: </span>
-              <span className="text-md lg:text-base font-thin">
+              <span className="text-sm lg:text-base font-thin">
                 {new Date(movie.released_date).toDateString()}
               </span>
             </h1>
-            <h1 className="lg:text-xl text-lg font-bold ml-10 mt-5 text-white flex flex-col">
+            <h1 className="lg:text-xl text-lg font-bold md:ml-10 ml-3 mt-5 text-white flex flex-col">
               <span>Directed By: </span>
-              <span className="text-md lg:text-base font-thin">
+              <span className="text-sm lg:text-base font-thin">
                 {movie.movie_director}
               </span>
             </h1>
-            <h1 className="lg:text-xl text-lg font-bold ml-10 mt-5 text-white flex flex-col">
+            <h1 className="lg:text-xl text-lg font-bold md:ml-10 ml-3 mt-5 text-white flex flex-col">
               <span>Written By: </span>
-              <span className="text-md lg:text-base font-thin">
+              <span className="text-sm lg:text-base font-thin">
                 {movie.movie_writter}
               </span>
             </h1>
           </div>
         </div>
-        <div className="grid md:grid-cols-2 grid-cols-1 text-white ml-10 lg:mt-10 mt-5">
+        <div className="grid md:grid-cols-2 grid-cols-1 text-white md:ml-10 ml-3 lg:mt-10 mt-5">
           <div className="text-xl lg:text-5xl font-bold">Cast</div>
-          <div>
+          <div className="ml-2">
             {movie.actors &&
               movie.actors.map((actor, index) => (
                 <div key={index} className="flex flex-row space-x-5 mt-5">
@@ -276,10 +276,10 @@ export default function MovieDetails() {
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 mt-5 ">
-          <h1 className="lg:text-5xl text-xl font-bold mt-5 ml-10 text-white">
+          <h1 className="lg:text-5xl text-xl font-bold mt-5 md:ml-10 ml-3 text-white">
             {disable ? "Please login to rate" : "Rate Now"}
           </h1>
-          <Box className="flex items-end mt-5 ml-10">
+          <Box className="flex items-end mt-5 md:ml-10 ml-3">
             <Typography component="legend"></Typography>
             <Rating
               name="half-rating"
@@ -300,7 +300,7 @@ export default function MovieDetails() {
             />
           </Box>
         </div>
-        <h1 className="lg:text-5xl text-xl font-bold mt-5 ml-10 text-white">
+        <h1 className="lg:text-5xl text-xl font-bold mt-5 md:ml-10 ml-3 text-white">
           Reviews
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-2 md:mt-5 pb-8">
