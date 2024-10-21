@@ -60,10 +60,10 @@ const Review = ({ review, onLike, onReply, disable, admin }) => {
         variant="body1"
         sx={{
           color: "white",
-          fontFamily: "inherit",
+          marginLeft: "60px",
           fontSize: {
-            xs: "14px", // Margin for extra small screens
-            sm: "18px", // Margin for small screens and up
+            xs: "14px", // Font size for extra small screens
+            sm: "18px", // Font size for small screens and up
           },
         }}
       >
@@ -144,7 +144,7 @@ const Review = ({ review, onLike, onReply, disable, admin }) => {
           </Button>
         </Box>
       )}
-      <Box sx={{ mt: 2, ml: 5 }}>
+      <Box sx={{ mt: 1, ml: 5 }}>
         {review.replies.map((reply, index) => (
           <div key={index} style={{ marginBottom: "30px" }}>
             <Typography
@@ -166,12 +166,12 @@ const Review = ({ review, onLike, onReply, disable, admin }) => {
             </Typography>
             <Typography
               variant="body2"
-              style={{
+              sx={{
                 color: "white",
                 marginLeft: "60px",
                 fontSize: {
-                  xs: "12px", // Margin for extra small screens
-                  sm: "15px", // Margin for small screens and up
+                  xs: "12px", // Font size for extra small screens
+                  sm: "18px", // Font size for small screens and up
                 },
               }}
             >
