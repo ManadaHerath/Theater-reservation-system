@@ -136,6 +136,39 @@ export const addUser = async (req, res, next) => {
   }
 };
 
+
+export const getUserRequests = async (req, res, next) => {
+  const id= req.user.id;
+  const dbquery = 
+    "SELECT rfa.*, u.* FROM request_for_theatre_admin rfa JOIN users u ON rfa.user_id = u.id;";
+  try {
+    const [users] = await connection.query(dbquery);
+    res.json(users);
+  } catch (error){
+    console.log("Error fetching all users from user.js:", error);
+    res.status(500).json({ message: "Error fetching all user requests" });
+  }};
+
+  export const updateRequestStatus = async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  const updateQuery = `UPDATE request_for_theatre_admin SET status = ? WHERE id = ?`;
+
+  try {
+    const [result] = await connection.query(updateQuery, [status, id]);
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'Request not found' });
+    }
+
+    res.json({ message: 'Status updated successfully' });
+  } catch (error) {
+    console.error('Error updating request status:', error);
+    res.status(500).json({ message: 'Server error while updating status' });
+  }
+};
+
 export const changePassword = async (req, res) => {
   const updateDbquery = "UPDATE users SET password = ? WHERE id = ?";
   const getPasswordDbquery = "SELECT password from users where id = ?";
@@ -164,3 +197,4 @@ export const changePassword = async (req, res) => {
     console.log("Error updating password", error);
   }
 };
+

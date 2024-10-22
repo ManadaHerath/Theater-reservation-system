@@ -6,12 +6,13 @@ import {
   verifyJWT,
 } from "../util/verify_token.js";
 
+
 import {
   getUserbyID,
   updateUser,
   deleteUser,
   addUser,changePassword,
-  requestTheatreAdmin,
+  requestTheatreAdmin,getUserRequests, updateRequestStatus
 } from "../controllers/user.js";
 import { handleRefreshToken } from "../controllers/refreshTokenController.js";
 import { getIDFromToken } from "../middlewares/getIDFromToken.js";
@@ -55,5 +56,9 @@ router.patch("/updateProfile", getIDFromToken, updateUser);
 router.post("/changePassword", getIDFromToken, changePassword);
 
 router.post("/requestTheatreAdmin", getIDFromToken, requestTheatreAdmin);
+
+router.get('/userRequest', getIDFromToken,getUserRequests);
+
+// router.put('/userRequest/updateStatus/:id', updateRequestStatus);
 
 export default router;
