@@ -1,11 +1,14 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom"; 
 import { Box, Button } from "@mui/material";
 import TheatreAdminNavBar  from "./TheatreAdminNavbar";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import Footer from "../../components/Footer/Footer";
 const TheatreAdminLayout = ({ children }) => {
+  const location = useLocation();
+  const theatreId = location.state?.theatreId;
   const [isNavBarVisible, setIsNavBarVisible] = useState(false);
-
+  
   const toggleNavBar = () => {
     setIsNavBarVisible((prev) => !prev);
   };
@@ -19,7 +22,7 @@ const TheatreAdminLayout = ({ children }) => {
         transition: "margin-left 0.3s",
       }}
     >
-      {isNavBarVisible && <TheatreAdminNavBar />}
+      {isNavBarVisible && <TheatreAdminNavBar theatreId={theatreId} />}
       <Box
         component="main"
         sx={{
