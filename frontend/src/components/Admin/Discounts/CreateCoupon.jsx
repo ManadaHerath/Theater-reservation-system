@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosPrivate from "../../../api/axios";
 import {useNavigate } from 'react-router-dom';
 
 const CreateCoupon = () => {
@@ -21,7 +21,7 @@ const CreateCoupon = () => {
   useEffect(() => {
     const fetchTheatres = async () => {
       try {
-        const response = await axios.get('/theatres');
+        const response = await axiosPrivate.get('/theatres');
         setTheatres(response.data);
       } catch (error) {
         console.error('Error fetching theatres:', error);
@@ -34,7 +34,7 @@ const CreateCoupon = () => {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const response = await axios.get('/movies');
+        const response = await axiosPrivate.get('/movies');
         setMovies(response.data);
       } catch (error) {
         console.error('Error fetching movies:', error);
@@ -68,7 +68,7 @@ const CreateCoupon = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('/coupons/create-coupon', {
+      const response = await axiosPrivate.post('/coupons/create-coupon', {
         duration,
         id: couponId,
         percent_off: percentOff,
