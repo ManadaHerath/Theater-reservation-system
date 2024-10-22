@@ -41,12 +41,14 @@ router.post(
 
     if (event.type === "checkout.session.completed") {
       const session = event.data.object;
-      console.log("this is session yo -> ",session)
       const pi = session.payment_intent;
       const theatreId = session.metadata?.theatreId;
       const showId = session.metadata?.showId || 1;
       const seatInfo = session.metadata?.selectedSeats;
+      const price = session.metadata?.total_price;
+      const discount = session.metadata?.discount;
       const customerEmail = session.customer_details.email;
+
       const token = tokenGen();
 
       if (!theatreId || !showId) {
@@ -79,8 +81,11 @@ router.post(
           seats: seats,
           pi: pi,
           token: token,
+          price: price,
+          discount: discount,
         },
       };
+      console.log("webhook", reqForCreatePurchase);
 
       try {
         await createPurchaseFromSession(reqForCreatePurchase);
