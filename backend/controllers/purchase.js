@@ -25,7 +25,6 @@ export const getPurchasedSeats = async (req, res, next) => {
 export const verifyTicket = async (req, res) => {
   const { theatre_id, show_time_id, seats, pi, token } = req.body;
 
-  console.log("req.body:", req.body);
 
   try {
 
@@ -49,9 +48,24 @@ export const verifyTicket = async (req, res) => {
       purchase.show_time_id !== show_time_id ||
       purchase.seats !== seats
     ) {
-      return res.status(400).json({ valid: false, message: "Ticket details do not match." });
+      console.log("Ticket details do not match");
+      return res.status(200).json({ valid: false, message: "Ticket details do not match." });
+    }
+    if (purchase.is_refunded ===1) {
+      console.log("Ticket has been refunded");
+      return res.status(200).json({ valid: false, message: "Ticket has been refunded" });
+    }
+    if (purchase.checked_out ===1) {
+      console.log("Ticket has already been checked Out");
+      return res.status(200).json({ valid: false, message: "Ticket has already been checked Out" });
     }
 
+    console.log("before update");
+    const [change ] = await connection.query(
+      'UPDATE purchases SET checked_out = 1 WHERE pi = ? AND token = ?',
+      [pi, token]
+    );
+    console.log("after update");
     // If ticket is valid
     return res.json({ valid: true, message: "Ticket is valid.", purchase });
   } catch (error) {
