@@ -70,7 +70,7 @@ export default function Login() {
     }
     setTimeout(() => {
       setAlert("");
-    }, 5000);
+    }, 2000);
   };
 
   return (

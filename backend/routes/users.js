@@ -9,6 +9,7 @@ import {
   getUserbyID,
   updateUser,
   changePassword,
+  requestTheatreAdmin,
 } from "../controllers/user.js";
 import { handleRefreshToken } from "../controllers/refreshTokenController.js";
 import { getIDFromToken } from "../middlewares/getIDFromToken.js";
@@ -39,5 +40,7 @@ router.get("/getUser", getIDFromToken, getUserbyID);
 
 router.patch("/updateProfile", getIDFromToken, updateUser);
 router.post("/changePassword", getIDFromToken, changePassword);
+
+router.post("/requestTheatreAdmin", getIDFromToken, requestTheatreAdmin);
 
 export default router;

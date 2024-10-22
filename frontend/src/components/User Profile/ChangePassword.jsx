@@ -190,7 +190,7 @@ const styles = {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    paddingBottom: "60px",
+    paddingBottom: "0px",
   },
   title: {
     fontSize: "2rem",
@@ -205,6 +205,8 @@ const styles = {
     padding: "20px",
     borderRadius: "10px",
     boxShadow: "0 0 15px rgba(0, 0, 0, 0.5)",
+    width: "100%", // Full width on mobile
+    maxWidth: "500px",
   },
   form: {
     width: "100%",
