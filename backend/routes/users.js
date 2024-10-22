@@ -6,8 +6,13 @@ import {
   verifyJWT,
 } from "../util/verify_token.js";
 
-import { getUserbyID, updateUser, deleteUser, addUser , changePassword,
-  requestTheatreAdmin, } from "../controllers/user.js";
+import {
+  getUserbyID,
+  updateUser,
+  deleteUser,
+  addUser,changePassword,
+  requestTheatreAdmin,
+} from "../controllers/user.js";
 import { handleRefreshToken } from "../controllers/refreshTokenController.js";
 import { getIDFromToken } from "../middlewares/getIDFromToken.js";
 import { getAllUsers } from "../controllers/user.js";
@@ -37,15 +42,17 @@ router.put("/:id", verifyUser, (req, res, next) => {
 
 router.get("/getUser", getIDFromToken, getUserbyID);
 
-router.get("/getAnyUser",getAnyUser)
+router.get("/getAnyUser", getAnyUser);
 
 router.get("/allusers", getAllUsers);
 
-router.put('/updateUser/:id', updateUser);
+router.put("/updateUser/:id", updateUser);
 
-router.delete('/deleteUser/:id', deleteUser);
+router.delete("/deleteUser/:id", deleteUser);
 
-router.post('/adduser', addUser);
+router.post("/adduser", addUser);
+router.patch("/updateProfile", getIDFromToken, updateUser);
+router.post("/changePassword", getIDFromToken, changePassword);
 
 router.post("/requestTheatreAdmin", getIDFromToken, requestTheatreAdmin);
 
