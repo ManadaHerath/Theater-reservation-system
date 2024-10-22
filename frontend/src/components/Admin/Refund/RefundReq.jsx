@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-
+import { axiosPrivate } from "../../../api/axios";
 const AdminRefundPage = () => {
   const [refundRequests, setRefundRequests] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -9,7 +8,7 @@ const AdminRefundPage = () => {
   useEffect(() => {
     const fetchRefundRequests = async () => {
       try {
-        const response = await axios.get('http://localhost:5001/refund');
+        const response = await axiosPrivate.get('/refund');
         setRefundRequests(response.data);
       } catch (error) {
         console.error('Error fetching refund requests:', error);
@@ -24,7 +23,7 @@ const AdminRefundPage = () => {
   // Handle accepting a refund request
   const handleAccept = async (id) => {
     try {
-      const res = await axios.post(`/refund/admin/accept/${id}`);
+      const res = await axiosPrivate.post(`/refund/admin/accept/${id}`);
 
       if (res.status === 200) {
         setRefundRequests(refundRequests.map(req => (req.refund_id === id ? { ...req, status: 'Accepted' } : req)));
@@ -37,7 +36,7 @@ const AdminRefundPage = () => {
   // Handle denying a refund request
   const handleDeny = async (id) => {
     try {
-      const res = await axios.post(`/refund/admin/deny/${id}`);
+      const res = await axiosPrivate.post(`/refund/admin/deny/${id}`);
       if (res.status === 200) {
         setRefundRequests(refundRequests.map(req => (req.refund_id === id ? { ...req, status: 'Denied' } : req)));
       }
