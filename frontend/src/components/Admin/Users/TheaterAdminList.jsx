@@ -12,7 +12,7 @@ const TheaterAdminList = () => {
     const fetchTheaterAdmins = async ()=>{
       try {
         const response = await axiosPrivate.get('/users/allusers');
-        setUsers(response.data.filter(user=>user.role === 'theaterAdmin'));
+        setUsers(response.data.filter(user=>user.role === 'theatreAdmin'));
       } catch (error){
         console.error('Failed to fetch users:', error);
       }
