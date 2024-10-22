@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import QRScanner from "qr-scanner"; 
+import QRScanner from "qr-scanner";
 import TheatreAdminLayout from "../TheatreAdminLayout";
 import Alert from "@mui/material/Alert";
-import axios from "../../../api/axios"; 
-import jsQR from "jsqr"; 
+import axios from "../../../api/axios";
+import jsQR from "jsqr";
 
 export const Scanner = () => {
   const location = useLocation();
@@ -17,38 +17,59 @@ export const Scanner = () => {
   const scannerRef = useRef(null);
 
   const handleScan = async (result) => {
-    if (result) {
-      setScannedData(JSON.parse(result.text)); // Parse scanned data directly
-      verifyScannedData(result.text);
+    try {
+      if (result?.text) {
+        console.log("Raw scanned text:", result.text);
+        const parsedData = safelyParseJSON(result.text);
+        if (parsedData) {
+          setScannedData(parsedData);
+          await verifyScannedData(parsedData);
+        } else {
+          setError("Invalid QR code data.");
+        }
+      }
+    } catch (err) {
+      console.error("Error handling scan result:", err);
+      setError("An error occurred while processing the QR code.");
+    }
+  };
+
+  const safelyParseJSON = (data) => {
+    try {
+      return JSON.parse(data);
+    } catch (err) {
+      console.error("JSON parsing error:", err);
+      return null;
     }
   };
 
   const verifyScannedData = async (data) => {
-    if (data) {
-      try {
-        const parsedData = JSON.parse(data);
-        console.log("Parsed data:", parsedData);
+    try {
+      const response = await axios.post("/purchased_seats/verify-ticket", {
+        theatre_id: data.theatre_id,
+        show_time_id: data.show_time_id,
+        seats: data.seats,
+        pi: data.pi,
+        token: data.token,
+      });
 
-        const response = await axios.post("/purchased_seats/verify-ticket", {
-          theatre_id: parsedData.theatre_id,
-          show_time_id: parsedData.show_time_id,
-          seats: parsedData.seats,
-          pi: parsedData.pi,
-          token: parsedData.token,
+      if (response.data.valid) {
+        setVerificationResult({
+          valid: true,
+          message: response.data.message,
         });
-
-        if (response.data.valid) {
-          setVerificationResult({ valid: true, message: response.data.message });
-          setError(null);
-        } else {
-          setVerificationResult({ valid: false, message: response.data.message });
-          setError(response.data.message);
-        }
-      } catch (err) {
-        console.error("Error verifying ticket:", err);
-        setError("Verification failed. Please try again.");
-        setVerificationResult(null);
+        setError(null);
+      } else {
+        setVerificationResult({
+          valid: false,
+          message: response.data.message,
+        });
+        setError(response.data.message);
       }
+    } catch (err) {
+      console.error("Verification failed:", err);
+      setError("Verification failed. Please try again.");
+      setVerificationResult(null);
     }
   };
 
@@ -59,25 +80,31 @@ export const Scanner = () => {
       const image = new Image();
       image.src = imageUrl;
 
-      image.onload = () => {
-        const canvas = document.createElement("canvas");
-        const context = canvas.getContext("2d");
-        canvas.width = image.width;
-        canvas.height = image.height;
-        context.drawImage(image, 0, 0, image.width, image.height);
-        const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-        const code = jsQR(imageData.data, canvas.width, canvas.height);
+      image.onload = () => processImage(image);
+    }
+  };
 
-        if (code) {
-          console.log("Scanned data from uploaded image:", code.data);
-          setScannedData(JSON.parse(code.data));
-          verifyScannedData(code.data);
-        } else {
-          console.error("No QR code found.");
-          setError("No QR code found in the uploaded image.");
-          setScannedData(null);
-        }
-      };
+  const processImage = (image) => {
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    canvas.width = image.width;
+    canvas.height = image.height;
+    context.drawImage(image, 0, 0, image.width, image.height);
+    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    const code = jsQR(imageData.data, canvas.width, canvas.height);
+
+    if (code?.data) {
+      console.log("Scanned data from image:", code.data);
+      const parsedData = safelyParseJSON(code.data);
+      if (parsedData) {
+        setScannedData(parsedData);
+        verifyScannedData(parsedData);
+      } else {
+        setError("Invalid QR code data.");
+      }
+    } else {
+      console.error("No QR code found.");
+      setError("No QR code found in the uploaded image.");
     }
   };
 
@@ -93,14 +120,18 @@ export const Scanner = () => {
       const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
       const code = jsQR(imageData.data, canvas.width, canvas.height);
 
-      if (code) {
+      if (code?.data) {
         console.log("Scanned data from camera:", code.data);
-        setScannedData(JSON.parse(code.data));
-        verifyScannedData(code.data);
+        const parsedData = safelyParseJSON(code.data);
+        if (parsedData) {
+          setScannedData(parsedData);
+          verifyScannedData(parsedData);
+        } else {
+          setError("Invalid QR code data.");
+        }
       } else {
         console.error("No QR code found.");
         setError("No QR code found in the camera image.");
-        setScannedData(null);
       }
     }
   };
@@ -166,7 +197,10 @@ export const Scanner = () => {
 
       {error && <Alert variant="filled" severity="error">{error}</Alert>}
       {verificationResult && (
-        <Alert variant="filled" severity={verificationResult.valid ? "success" : "error"}>
+        <Alert
+          variant="filled"
+          severity={verificationResult.valid ? "success" : "error"}
+        >
           {verificationResult.message}
         </Alert>
       )}
