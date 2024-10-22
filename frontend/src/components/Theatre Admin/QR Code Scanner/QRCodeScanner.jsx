@@ -1,34 +1,35 @@
 import React, { useState, useEffect, useRef } from "react";
-import QRScanner from "qr-scanner"; // Ensure QRScanner can access the camera
+import { useLocation } from "react-router-dom";
+import QRScanner from "qr-scanner"; 
 import TheatreAdminLayout from "../TheatreAdminLayout";
 import Alert from "@mui/material/Alert";
-import axios from 'axios'; // Make sure to install axios
-import jsQR from "jsqr"; // Import jsQR
+import axios from "../../../api/axios"; 
+import jsQR from "jsqr"; 
 
-// Scanner component for QR code scanning
 export const Scanner = () => {
+  const location = useLocation();
+  const theatreId = location.state?.theatreId;
   const [scannedData, setScannedData] = useState(null);
   const [verificationResult, setVerificationResult] = useState(null);
   const [error, setError] = useState(null);
   const [isScanning, setIsScanning] = useState(false);
-  const videoRef = useRef(null); // Reference for the video element
-  const scannerRef = useRef(null); // Reference for the QRScanner instance
+  const videoRef = useRef(null);
+  const scannerRef = useRef(null);
 
-  // Handle the scanning logic
   const handleScan = async (result) => {
     if (result) {
-      console.log("Scanned data from video feed:", result.text);
-      setScannedData(result.text);
+      setScannedData(JSON.parse(result.text)); // Parse scanned data directly
       verifyScannedData(result.text);
     }
   };
 
-  // Verify the scanned data
   const verifyScannedData = async (data) => {
     if (data) {
       try {
-        const parsedData = JSON.parse(data); // Assuming the scanned data is a JSON string
-        const response = await axios.post('/purchased_seats/verify-ticket', {
+        const parsedData = JSON.parse(data);
+        console.log("Parsed data:", parsedData);
+
+        const response = await axios.post("/purchased_seats/verify-ticket", {
           theatre_id: parsedData.theatre_id,
           show_time_id: parsedData.show_time_id,
           seats: parsedData.seats,
@@ -51,11 +52,10 @@ export const Scanner = () => {
     }
   };
 
-  // Handle image upload and QR code decoding
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      const imageUrl = URL.createObjectURL(file); // Create a URL for the uploaded image
+      const imageUrl = URL.createObjectURL(file);
       const image = new Image();
       image.src = imageUrl;
 
@@ -66,12 +66,12 @@ export const Scanner = () => {
         canvas.height = image.height;
         context.drawImage(image, 0, 0, image.width, image.height);
         const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-        const code = jsQR(imageData.data, canvas.width, canvas.height); // Use jsQR to decode
+        const code = jsQR(imageData.data, canvas.width, canvas.height);
 
         if (code) {
           console.log("Scanned data from uploaded image:", code.data);
-          setScannedData(code.data);
-          verifyScannedData(code.data); // Optionally verify the scanned data
+          setScannedData(JSON.parse(code.data));
+          verifyScannedData(code.data);
         } else {
           console.error("No QR code found.");
           setError("No QR code found in the uploaded image.");
@@ -81,22 +81,50 @@ export const Scanner = () => {
     }
   };
 
-  // UseEffect to start scanning
+  const captureImageAndDecode = async () => {
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    const video = videoRef.current;
+
+    if (video) {
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+      const code = jsQR(imageData.data, canvas.width, canvas.height);
+
+      if (code) {
+        console.log("Scanned data from camera:", code.data);
+        setScannedData(JSON.parse(code.data));
+        verifyScannedData(code.data);
+      } else {
+        console.error("No QR code found.");
+        setError("No QR code found in the camera image.");
+        setScannedData(null);
+      }
+    }
+  };
+
   useEffect(() => {
     if (isScanning) {
-      // Initialize the QRScanner with the video element reference
       scannerRef.current = new QRScanner(videoRef.current, handleScan);
       scannerRef.current.start();
 
       return () => {
-        scannerRef.current.stop(); // Cleanup on unmount
+        scannerRef.current.stop();
       };
     }
   }, [isScanning]);
 
+  const resetScanner = () => {
+    setScannedData(null);
+    setVerificationResult(null);
+    setError(null);
+    setIsScanning(false);
+  };
+
   return (
     <div className="flex flex-col items-center p-6">
-      {/* Button to start scanning */}
       <button
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-lg mb-4"
         onClick={() => setIsScanning(true)}
@@ -104,22 +132,22 @@ export const Scanner = () => {
         Start Camera
       </button>
 
-      {/* Video element for QR scanning */}
       {isScanning && (
-        <video ref={videoRef} className="w-full h-80 border border-gray-400 rounded-lg mb-4" />
+        <video
+          ref={videoRef}
+          className="w-full h-80 border border-gray-400 rounded-lg mb-4"
+        />
       )}
 
-      {/* Button to scan the QR code */}
       {isScanning && (
         <button
           className="bg-green-500 hover:bg-green-700 text-white font-bold px-6 py-3 rounded-lg mb-4"
-          onClick={() => scannerRef.current.scanImage(videoRef.current).then(handleScan)}
+          onClick={captureImageAndDecode}
         >
           Scan QR Code
         </button>
       )}
 
-      {/* Upload input for QR code image */}
       <input
         type="file"
         accept="image/*"
@@ -128,7 +156,12 @@ export const Scanner = () => {
       />
 
       {scannedData && (
-        <p className="text-green-600 mt-4">Scanned Data: {scannedData}</p>
+        <div className="bg-gray-100 p-4 rounded-lg shadow-md mb-4">
+          <h2 className="text-lg font-semibold text-gray-800 mb-2">Scanned Details</h2>
+          <p className="text-sm text-gray-700">Theatre ID: {scannedData.theatre_id}</p>
+          <p className="text-sm text-gray-700">Show Time ID: {scannedData.show_time_id}</p>
+          <p className="text-sm text-gray-700">Seats: {scannedData.seats}</p>
+        </div>
       )}
 
       {error && <Alert variant="filled" severity="error">{error}</Alert>}
@@ -136,6 +169,15 @@ export const Scanner = () => {
         <Alert variant="filled" severity={verificationResult.valid ? "success" : "error"}>
           {verificationResult.message}
         </Alert>
+      )}
+
+      {scannedData && (
+        <button
+          className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold px-6 py-3 rounded-lg mt-4"
+          onClick={resetScanner}
+        >
+          Next User
+        </button>
       )}
     </div>
   );
