@@ -87,6 +87,25 @@ export const deleteUser = async (req, res) => {
   }
 };
 
+
+export const requestTheatreAdmin = async (req, res) => {
+  const dbquery =
+    "INSERT INTO request_for_theatre_admin (user_id, description,requested_date) VALUES (?, ?,?)";
+  const { description } = req.body;
+  const id = req.user.id;
+  try {
+    await connection.query(dbquery, [
+      id,
+      description,
+      new Date().toISOString().split("T")[0],
+    ]);
+    res.status(201).send("Request submitted successfully");
+  } catch (error) {
+    res.status(500).send("Error submitting request");
+    console.log("Error submitting request", error);
+  }
+};
+
 export const addUser = async (req, res, next) => {
   const { full_name, email, phone_number, address, gender, birthday, role, password} = req.body;
   const insertQuery = `

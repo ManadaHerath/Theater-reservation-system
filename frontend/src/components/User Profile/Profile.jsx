@@ -27,13 +27,16 @@ export default function Profile() {
   const [uploading, setUploading] = useState(false);
   const axiosPrivate = useAxiosPrivate();
   const [response, setResponse] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
+        setLoading(true);
         const response = await axiosPrivate.get("/users/getUser");
         console.log("Profile:", response.data[0].full_name);
         setProfile(response.data[0]);
+        setLoading(false);
       } catch (error) {
         console.error("API error:", error);
       }
@@ -210,6 +213,7 @@ export default function Profile() {
           >
             Save Changes
           </button>
+          {loading && <GradientCircularProgress />}
           {uploading && <GradientCircularProgress />}
         </form>
       </div>
@@ -260,6 +264,8 @@ const styles = {
     padding: "20px",
     borderRadius: "10px",
     boxShadow: "0 0 15px rgba(0, 0, 0, 0.5)",
+    width: "100%", // Full width on mobile
+    maxWidth: "500px",
   },
   avatarContainer: {
     display: "flex",
