@@ -94,8 +94,11 @@ router.post("/create-checkout-session", async (req, res) => {
     },
     quantity: 1,
   }));
-
+  const calculatedTotalPrice = line_items.reduce((sum, item) => sum + item.price_data.unit_amount / 100, 0);
+  
+  
   const discounts = await discountCalculator(theatreId, showId);
+
   try {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -107,6 +110,8 @@ router.post("/create-checkout-session", async (req, res) => {
       metadata: {
         theatreId,
         showId,
+        total_price: calculatedTotalPrice,
+        discount: discounts[0]?.coupon,
         selectedSeats: JSON.stringify(selectedSeats),
       },
     });
