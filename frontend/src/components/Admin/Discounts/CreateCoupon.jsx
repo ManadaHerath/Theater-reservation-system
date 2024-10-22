@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axiosPrivate from "../../../api/axios";
 import {useNavigate } from 'react-router-dom';
 
+
 const CreateCoupon = () => {
   const navigate = useNavigate();
   const [duration, setDuration] = useState('once');
