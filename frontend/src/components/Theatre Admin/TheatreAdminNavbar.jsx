@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 const TheatreAdminNavBar = () => {
   const logout = useLogout();
   const navigate = useNavigate();
+  const location = useLocation();
+  const theatreId = location.state?.theatreId;
   const signOut = async () => {
     await logout();
     navigate("/");
@@ -92,6 +94,7 @@ const TheatreAdminNavBar = () => {
       <Button
         component={NavLink}
         to="/theatre-admin/qr-code-scanner"
+        state={{ theatreId }}
         color="inherit"
         sx={{
           color: "white",

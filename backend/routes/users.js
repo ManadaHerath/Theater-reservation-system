@@ -5,13 +5,11 @@ import {
   verifyAdmin,
   verifyJWT,
 } from "../util/verify_token.js";
-import {
-  getUserbyID,
-  updateUser,
-  changePassword,
-} from "../controllers/user.js";
+import { getUserbyID, updateUser, deleteUser, addUser } from "../controllers/user.js";
 import { handleRefreshToken } from "../controllers/refreshTokenController.js";
 import { getIDFromToken } from "../middlewares/getIDFromToken.js";
+import { getAllUsers } from "../controllers/user.js";
+import { getAnyUser } from "../controllers/user.js";
 
 const router = expresss.Router();
 
@@ -37,7 +35,14 @@ router.put("/:id", verifyUser, (req, res, next) => {
 
 router.get("/getUser", getIDFromToken, getUserbyID);
 
-router.patch("/updateProfile", getIDFromToken, updateUser);
-router.post("/changePassword", getIDFromToken, changePassword);
+router.get("/getAnyUser",getAnyUser)
+
+router.get("/allusers", getAllUsers);
+
+router.put('/updateUser/:id', updateUser);
+
+router.delete('/deleteUser/:id', deleteUser);
+
+router.post('/adduser', addUser);
 
 export default router;

@@ -62,6 +62,9 @@ import ShowTimes from "./components/Theatre Admin/ShowTimes Management/ShowTimes
 import Reviews from "./components/Theatre Admin/ReviewsManagement/Reviews";
 
 import RequestRefund from "./pages/RequestRefund";
+import AdminUser from "./pages/Admin/Admin-User";
+import UserDetails from "./components/Admin/Users/UserDetails";
+
 
 const App = () => {
   return (
@@ -130,6 +133,9 @@ const App = () => {
                   path="/admin/manage-theatres"
                   element={<ManageTheatres />}
                 ></Route>
+
+                <Route path="/admin/users" element={<AdminUser/>}></Route>
+                <Route path="/admin/users/:id" element={<UserDetails/>}/>
 
                 <Route path="/admin/add-new-movie" element={<AddNewMovie />} />
                 <Route
